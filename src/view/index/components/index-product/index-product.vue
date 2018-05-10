@@ -27,7 +27,7 @@
 		</van-tabs>
 		<div class="r-more">
 			<span>查看全部</span>
-			<van-icon name="more-o" />
+			<van-icon name="more" />
 		</div>
 	</div>
 </template>
