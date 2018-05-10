@@ -6,13 +6,25 @@ import {router} from './router/index';
 
 //有赞
 import Vant from 'vant';
+import { Lazyload } from 'vant';
 import 'vant/lib/vant-css/index.css';
 import { Lazyload } from 'vant';
 
+//VueAwesomeSwiper
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
+
+//VueVideoPlayer
+import VueVideoPlayer from 'vue-video-player'
+import 'video.js/dist/video-js.css'
 
 //use custom
 Vue.use(Vant);
+
+Vue.use(VueAwesomeSwiper)
 Vue.use(Lazyload);
+Vue.use(VueVideoPlayer)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
