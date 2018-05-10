@@ -7,10 +7,12 @@ import {router} from './router/index';
 //有赞
 import Vant from 'vant';
 import 'vant/lib/vant-css/index.css';
+import { Lazyload } from 'vant';
 
 
 //use custom
 Vue.use(Vant);
+Vue.use(Lazyload);
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

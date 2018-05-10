@@ -8,7 +8,6 @@ export const appRouter = {
 		{ path: 'index', title: 'index', name: 'index', component: resolve => { require(['@/view/index/index.vue'], resolve); } },
     ]
 }
-
 export const routers = [
 	appRouter,
 ]
