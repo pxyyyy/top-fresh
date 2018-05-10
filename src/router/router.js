@@ -6,6 +6,7 @@ export const appRouter = {
 	component: Main,
 	children: [
 		{ path: 'index', title: 'index', name: 'index', component: resolve => { require(['@/view/index/index.vue'], resolve); } },
+		{ path: 'event', title: 'event', name: 'event', component: resolve => { require(['@/view/index/index.vue'], resolve); } },
     ]
 }
 export const routers = [

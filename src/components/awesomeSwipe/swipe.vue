@@ -8,31 +8,33 @@
 	}
 </style>
 <template>
-	<!-- <swiper :options="swiperOption">
-		<swiper-slide v-for="item in dataSwipe" :key="item.id" v-bind:style="{backgroundImage: 'url(' + item.src + ')'}" @click.native="toTeacher(item)">
+	<swiper :options="swiperOption">
+		<swiper-slide v-for="item in dataSwipe" :key="item.id" @click.native="toTeacher(item)">
+			<img :src="item.img" alt="">
 		</swiper-slide>
-		<div class="swiper-pagination" slot="pagination"></div>
-	</swiper> -->
-	<van-swipe :autoplay="3000" :show-indicators="false" class="index-swipe">
-		<van-swipe-item v-for="(image, index) in images" :key="index">
-			<img v-lazy="image" />
-		</van-swipe-item>
-	</van-swipe>
+	</swiper>
 </template>
 
 <script>
-	// import banner1 from '../../assets/indexBanner/2091017367.png'
-	// import banner2 from '../../assets/indexBanner/2088702585.png'
-	// import banner3 from '../../assets/indexBanner/1456697552.png'
-	// import banner4 from '../../assets/indexBanner/1355392551.png'
-	// import banner5 from '../../assets/indexBanner/948805895.png'
-	// import banner6 from '../../assets/indexBanner/576433252.png'
 	export default {
 		data() {
 			return {
-				images: [
-				'https://img.yzcdn.cn/2.jpg',
-				// 'https://img.yzcdn.cn/2.jpg',
+				swiperOption: {
+					loop: true,
+					effect: 'fade',
+					// autoplay: {
+						// delay: 6000,
+						// disableOnInteraction: false
+					// },
+					// pagination: {
+					// 	el: '.swiper-pagination',
+					// 	clickable: true
+					// }
+				},
+				dataSwipe: [
+					{
+						id: 1, img: 'https://yanxuan.nosdn.127.net/5b018f61184d52a03bd3d00a74b5c14f.jpg?imageView&thumbnail=750x0&quality=75'
+					},
 				],
 			}
 		},
