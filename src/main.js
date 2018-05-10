@@ -8,7 +8,6 @@ import {router} from './router/index';
 import Vant from 'vant';
 import { Lazyload } from 'vant';
 import 'vant/lib/vant-css/index.css';
-import { Lazyload } from 'vant';
 
 //VueAwesomeSwiper
 import VueAwesomeSwiper from 'vue-awesome-swiper'
