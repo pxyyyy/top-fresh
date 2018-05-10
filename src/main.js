@@ -8,6 +8,7 @@ import {router} from './router/index';
 import Vant from 'vant';
 import { Lazyload } from 'vant';
 import 'vant/lib/vant-css/index.css';
+import { Lazyload } from 'vant';
 
 //VueAwesomeSwiper
 import VueAwesomeSwiper from 'vue-awesome-swiper'
@@ -19,9 +20,11 @@ import 'video.js/dist/video-js.css'
 
 //use custom
 Vue.use(Vant);
+
 Vue.use(VueAwesomeSwiper)
 Vue.use(Lazyload);
 Vue.use(VueVideoPlayer)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
