@@ -24,7 +24,7 @@
 				<span>购物车</span>
 			</div>
 		</router-link>
-		<router-link class="index-bottom-bar__item" v-bind:class="{index_bottom_bar__active : router == 'personal'}" to="/personal">
+		<router-link class="index-bottom-bar__item" v-bind:class="{index_bottom_bar__active : router == 'profile'}" to="/profile">
 			<div class="index-bottom-bar__icon"><img src="//img.yzcdn.cn/2.png">
 			</div>
 			<div>
