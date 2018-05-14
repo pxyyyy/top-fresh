@@ -4,28 +4,28 @@
 <template>
 	<div class="index-bottom-bar">
 		<router-link class="index-bottom-bar__item" v-bind:class="{index_bottom_bar__active : router == 'index'}" to="/">
-			<div class="index-bottom-bar__icon"><img src="//img.yzcdn.cn/2.png">
+			<div class="index-bottom-bar__icon"><img src="../../assets/icon/home.png">
 			</div>
 			<div>
 				<span>首页</span>
 			</div>
 		</router-link>
 		<router-link class="index-bottom-bar__item" v-bind:class="{index_bottom_bar__active : router == 'event'}" to="/event">
-			<div class="index-bottom-bar__icon"><img src="//img.yzcdn.cn/2.png">
+			<div class="index-bottom-bar__icon"><img src="../../assets/icon/active.png">
 			</div>
 			<div>
 				<span>活动</span>
 			</div>
 		</router-link>
 		<router-link class="index-bottom-bar__item" v-bind:class="{index_bottom_bar__active : router == 'cart'}" to="/cart">
-			<div class="index-bottom-bar__icon"><img src="//img.yzcdn.cn/2.png">
+			<div class="index-bottom-bar__icon"><img src="../../assets/icon/cart.png">
 			</div>
 			<div>
 				<span>购物车</span>
 			</div>
 		</router-link>
 		<router-link class="index-bottom-bar__item" v-bind:class="{index_bottom_bar__active : router == 'profile'}" to="/profile">
-			<div class="index-bottom-bar__icon"><img src="//img.yzcdn.cn/2.png">
+			<div class="index-bottom-bar__icon"><img src="../../assets/icon/profile.png">
 			</div>
 			<div>
 				<span>个人</span>
