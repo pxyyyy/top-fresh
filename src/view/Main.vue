@@ -1,3 +1,9 @@
+/*
+ * @Author: tarn.tianrun 
+ * @Date: 2018-05-14 11:08:35 
+ * @Last Modified by: tarn.tianrun
+ * @Last Modified time: 2018-05-14 11:15:40
+ */
 
 <style scoped lang="less">
 	@import './Main.less';
@@ -12,7 +18,7 @@
 				<span>极味生鲜</span>
 			</div>
 			<div class="index-nav-bar__title" v-if="currentRoute">
-				<span>购物车(2)</span>
+				<span>购物车(3)</span>
 			</div>
 			<div class="index-nav-bar__right"><i class="van-icon van-icon-pending-evaluate index-nav-bar__icon"></i></div>
 		</div>
@@ -62,7 +68,7 @@
 			console.log("from",from)
 			if(from=="IOS"){
 				this.isClient=true;
-				this.marginTop="0px";
+				this.marginTop="0";
 			}
 		},
 		methods: {
