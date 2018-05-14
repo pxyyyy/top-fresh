@@ -1,9 +1,3 @@
-/*
- * @Author: tarn.tianrun 
- * @Date: 2018-05-14 12:02:59 
- * @Last Modified by:   tarn.tianrun 
- * @Last Modified time: 2018-05-14 12:02:59 
- */
 
 <style scoped lang="less">
 	@import './Main.less';
@@ -18,7 +12,7 @@
 				<span>极味生鲜</span>
 			</div>
 			<div class="index-nav-bar__title" v-if="currentRoute">
-				<span>购物车(3)</span>
+				<span>购物车(2)</span>
 			</div>
 			<div class="index-nav-bar__right"><i class="van-icon van-icon-pending-evaluate index-nav-bar__icon"></i></div>
 		</div>
