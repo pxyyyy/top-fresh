@@ -16,6 +16,7 @@
 </template>
 
 <script>
+	import img from "../../assets/img/banner.png"
 	export default {
 		data() {
 			return {
@@ -33,7 +34,7 @@
 				},
 				dataSwipe: [
 					{
-						id: 1, img: 'https://yanxuan.nosdn.127.net/5b018f61184d52a03bd3d00a74b5c14f.jpg?imageView&thumbnail=750x0&quality=75'
+						id: 1, img:img
 					},
 				],
 			}

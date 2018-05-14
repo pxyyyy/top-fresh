@@ -11,14 +11,14 @@
 		<div class="exercise-active">
 
 
-			<div class="left">
+			<div class="left" @click="goActiveInfoVC('1234')">
 				<img src="../../../../assets//img/5a4ae29389f5447f259a48e494da3d92.png">
 			</div>
 			<div class="right">
-				<div class="right-info">
+				<div class="right-info" @click="goYouhuiquanVC()">
 					<img src="../../../../assets/img/a1acfdc9d8086ac36ad9243e8bff1717.png">
 				</div>
-				<div class="right-info">
+				<div class="right-info" @click="goPintuanGoodsVC()">
 					<img src="../../../../assets/img/efa9323abe51f7c2e047739906a2b2c2.png">
 				</div>
 			</div>
@@ -34,6 +34,21 @@
 		beforeMount() {
 		},
 		methods: {
+			goActiveInfoVC(activeId){
+				this.$bridge.callHandler('goPickupVC',{"activeid":activeId} , (data) => {
+					console.log("success")
+				})
+			},
+			goYouhuiquanVC(){
+				this.$bridge.callHandler('goYouhuiquanVC', (data) => {
+					console.log("success")
+				})
+			},
+			goPintuanGoodsVC(){
+				this.$bridge.callHandler('goPintuanGoodsVC', (data) => {
+					console.log("success")
+				})
+			}
 
 		},
 		computed: {

@@ -16,7 +16,8 @@ import 'swiper/dist/css/swiper.css'
 //VueVideoPlayer
 import VueVideoPlayer from 'vue-video-player'
 import 'video.js/dist/video-js.css'
-
+import Bridge from '../config/bridge.js'
+Vue.prototype.$bridge = Bridge
 //use custom
 Vue.use(Vant);
 

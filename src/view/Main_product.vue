@@ -8,11 +8,8 @@
 		<van-icon name="pending-evaluate" slot="right" />
 	</van-nav-bar> -->
 		<div class="index-nav-bar" v-if="!isClient" >
-			<div class="index-nav-bar__left" v-if="!currentRoute">
+			<div class="index-nav-bar__left">
 				<span>极味生鲜</span>
-			</div>
-			<div class="index-nav-bar__title" v-if="currentRoute">
-				<span>购物车(2)</span>
 			</div>
 			<div class="index-nav-bar__right"><i class="van-icon van-icon-pending-evaluate index-nav-bar__icon"></i></div>
 		</div>
@@ -62,7 +59,7 @@
 			console.log("from",from)
 			if(from=="IOS"){
 				this.isClient=true;
-				this.marginTop="0px";
+				this.marginTop="15px";
 			}
 		},
 		methods: {
