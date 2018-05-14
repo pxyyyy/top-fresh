@@ -1,5 +1,9 @@
-/* * @Author: tarn.tianrun * @Date: 2018-05-11 10:47:35 * @Last Modified by: tarn.tianrun * @Last Modified time: 2018-05-11
-16:04:55 */
+/*
+ * @Author: tarn.tianrun 
+ * @Date: 2018-05-14 11:08:35 
+ * @Last Modified by: tarn.tianrun
+ * @Last Modified time: 2018-05-14 11:15:40
+ */
 
 <style scoped lang="less">
 	@import './Main.less';
@@ -60,14 +64,11 @@
 			},
 		},
 		mounted(){
-			// this.$bridge.registerHandler("isCline", () => {
-			// 		this.isClient=true
-			// })
 			let from = this.$route.query.from;
 			console.log("from",from)
 			if(from=="IOS"){
 				this.isClient=true;
-				this.marginTop="0px";
+				this.marginTop="0";
 			}
 		},
 		methods: {
