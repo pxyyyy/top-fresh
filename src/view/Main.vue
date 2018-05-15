@@ -14,11 +14,14 @@
 		<van-icon name="pending-evaluate" slot="right" />
 	</van-nav-bar> -->
 		<div class="index-nav-bar" v-if="!isClient" >
-			<div class="index-nav-bar__left" v-if="!currentRoute">
+			<div class="index-nav-bar__left" v-if="!currentRoute && !eventRouter">
 				<img src="../assets//icon//极味生鲜.png" height="15">
 			</div>
 			<div class="index-nav-bar__title" v-if="currentRoute">
 				<span>购物车(3)</span>
+			</div>
+			<div class="index-nav-bar__title" v-if="eventRouter">
+				<span>活动</span>
 			</div>
 		</div>
 		<router-view></router-view>
@@ -48,6 +51,13 @@
 		computed: {
 			currentRoute() {
 				if (this.$route.name == 'cart') {
+					return true
+				} else {
+					return false
+				}
+			},
+			eventRouter(){
+				if (this.$route.name == 'event') {
 					return true
 				} else {
 					return false
