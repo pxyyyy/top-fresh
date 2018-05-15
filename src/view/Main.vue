@@ -2,7 +2,7 @@
  * @Author: tarn.tianrun 
  * @Date: 2018-05-14 11:08:35 
  * @Last Modified by: tarn.tianrun
- * @Last Modified time: 2018-05-14 11:15:40
+ * @Last Modified time: 2018-05-14 17:30:44
  */
 
 <style scoped lang="less">
@@ -15,14 +15,13 @@
 	</van-nav-bar> -->
 		<div class="index-nav-bar" v-if="!isClient" >
 			<div class="index-nav-bar__left" v-if="!currentRoute">
-				<span>极味生鲜</span>
+				<img src="../assets//icon//极味生鲜.png" height="15">
 			</div>
 			<div class="index-nav-bar__title" v-if="currentRoute">
 				<span>购物车(3)</span>
 			</div>
-			<div class="index-nav-bar__right"><i class="van-icon van-icon-pending-evaluate index-nav-bar__icon"></i></div>
 		</div>
-		<router-view v-bind:style="{marginTop:marginTop}"></router-view>
+		<router-view></router-view>
 		<bottom v-if="!isClient"></bottom>
 	</div>
 </template>

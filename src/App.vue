@@ -16,15 +16,12 @@
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		-webkit-overflow-scrolling:touch;
-		/* text-align: center; */
-		/* color: #2c3e50; */
+		color: #3d3d3d;
 		background-color: #EFEFF7;
-		/* overflow: hidden; */
 	}
 
 	html,
 	body {
-		/* overflow: hidden; */
 		width: 100%;
 		height: 100%;
 		margin: 0;

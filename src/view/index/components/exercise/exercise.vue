@@ -7,19 +7,16 @@
 			<p>极味生鲜活动</p>
 			<span>给您更好的推荐</span>
 		</div>
-		<!-- v-bind:style="{width:viewWeight}" -->
 		<div class="exercise-active">
-
-
 			<div class="left" @click="goActiveInfoVC('1234')">
-				<img src="../../../../assets//img/5a4ae29389f5447f259a48e494da3d92.png">
+				<img src="../../../../assets//img/组9@2x.png">
 			</div>
 			<div class="right">
 				<div class="right-info" @click="goYouhuiquanVC()">
-					<img src="../../../../assets/img/a1acfdc9d8086ac36ad9243e8bff1717.png">
+					<img src="../../../../assets/img/组10@2x.png">
 				</div>
 				<div class="right-info" @click="goPintuanGoodsVC()">
-					<img src="../../../../assets/img/efa9323abe51f7c2e047739906a2b2c2.png">
+					<img src="../../../../assets/img/组11@2x.png">
 				</div>
 			</div>
 		</div>
@@ -34,17 +31,17 @@
 		beforeMount() {
 		},
 		methods: {
-			goActiveInfoVC(activeId){
-				this.$bridge.callHandler('goPickupVC',{"activeid":activeId} , (data) => {
+			goActiveInfoVC(activeId) {
+				this.$bridge.callHandler('goPickupVC', { "activeid": activeId }, (data) => {
 					console.log("success")
 				})
 			},
-			goYouhuiquanVC(){
+			goYouhuiquanVC() {
 				this.$bridge.callHandler('goYouhuiquanVC', (data) => {
 					console.log("success")
 				})
 			},
-			goPintuanGoodsVC(){
+			goPintuanGoodsVC() {
 				this.$bridge.callHandler('goPintuanGoodsVC', (data) => {
 					console.log("success")
 				})
