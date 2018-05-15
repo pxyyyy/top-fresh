@@ -1,5 +1,5 @@
 <template>
 	<div>
-		活动
+		活动1
 	</div>
 </template>
