@@ -18,7 +18,7 @@ export const otherRouter = [
 		name: 'deliveryView',
 		component: Other,
 		children: [
-			{ path: ':id', title: 'delivery', name: 'delivery', component: resolve => { require(['@/view/delivery/delivery.vue'], resolve); } },
+			{ path: 'id', title: 'delivery', name: 'delivery', component: resolve => { require(['@/view/delivery/delivery.vue'], resolve); } },
 		]
 	},
 	{
@@ -36,7 +36,47 @@ export const otherRouter = [
 		children: [
 			{ path: '', title: 'delivery', name: 'delivery', component: resolve => { require(['@/view/delivery/delivery.vue'], resolve); } },
 		]
-	}
+	},
+  {
+    path: '/cartDetermine',
+    name: 'cartDetermine',
+    component: Other,
+    children: [
+      { path: '', title: 'cartDetermine', name: 'cartDetermine', component: resolve => { require(['@/view/cart/components/cartDetermine.vue'], resolve); } },
+    ]
+	},
+	{
+    path: '/cartOut',
+    name: 'cartOut',
+    component: Other,
+    children: [
+      { path: '', title: 'carryOut', name: 'carryOut', component: resolve => { require(['@/view/cart/components/cartOut.vue'], resolve); } },
+    ]
+  },
+  {
+    path: '/eventList',
+    name: 'eventList',
+    component: Other,
+    children: [
+      { path: '', title: 'eventList', name: 'eventList', component: resolve => { require(['@/view/event/eventList/eventList.vue'], resolve); } },
+    ]
+	},
+	{
+    path: '/cartAddress',
+    name: 'cartAddress',
+    component: Other,
+    children: [
+      { path: '', title: 'cartAddress', name: 'cartAddress', component: resolve => { require(['@/view/cart/components/cartAddress.vue'], resolve); } },
+    ]
+  },
+  {
+    path: '/cartAddressEditing',
+    name: 'cartAddressEditing',
+    component: Other,
+    children: [
+      { path: '', title: 'cartAddress', name: 'cartAddress', component: resolve => { require(['@/view/cart/components/cartAddressEditing.vue'], resolve); } },
+    ]
+  },
 ]
 export const routers = [
 	appRouter,

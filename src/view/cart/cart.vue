@@ -11,7 +11,8 @@
 	}
 
 	.van-card {
-		padding: 5px 5px 5px 115px
+		padding: 5px 5px 5px 115px;
+    background: #fff;
 	}
 
 	.van-card__title {
@@ -121,7 +122,7 @@
 					<span data-v-7f845944="">合计：
 						<span class="cart-info__price"> ¥3488 </span>
 					</span>
-					<van-button size="small" class="cart-info__btn">结算</van-button>
+					<van-button size="small" class="cart-info__btn" @click="goDetails()">结算</van-button>
 				</div>
 			</div>
 		</div>
@@ -176,7 +177,12 @@
 						});
 						break;
 				}
-			}
+			},
+      goDetails:function(){
+        this.$router.push(
+          `/cartDetermine`
+        );
+      }
 		}
 	}
 </script>

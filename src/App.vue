@@ -19,7 +19,16 @@
 		color: #3d3d3d;
 		background-color: #EFEFF7;
 	}
-
+  .van-radio .van-icon-checked{
+    color: #f77b17;
+    font-size: 15px;
+    margin-top: 3px;
+  }
+  .van-radio .van-icon-check{
+    font-size: 15px;
+    margin-top: 3px;
+    color: black;
+  }
 	html,
 	body {
 		width: 100%;
