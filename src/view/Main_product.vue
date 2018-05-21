@@ -7,14 +7,14 @@
 		<!-- <van-nav-bar left-text="极味生鲜">
 		<van-icon name="pending-evaluate" slot="right" />
 	</van-nav-bar> -->
-		<div class="index-nav-bar" v-if="!isClient" >
+		<div class="index-nav-bar" v-if="!currentRoute" >
 			<div class="index-nav-bar__left">
 				<span>极味生鲜</span>
 			</div>
 			<div class="index-nav-bar__right"><i class="van-icon van-icon-pending-evaluate index-nav-bar__icon"></i></div>
 		</div>
 		<router-view v-bind:style="{marginTop:marginTop}"></router-view>
-		<bottom v-if="!isClient"></bottom>
+		<bottom v-if="!currentRoute"></bottom>
 	</div>
 </template>
 <script>
@@ -27,9 +27,10 @@
 					normal: '//img.yzcdn.cn/1.png',
 					active: '//img.yzcdn.cn/2.png'
 				},
-				isClient:false,
+				// isClient:false,
+
 				marginTop:"45px",
-				
+
 			}
 		},
 		beforeMount() {
@@ -39,7 +40,7 @@
 		},
 		computed: {
 			currentRoute() {
-				if (this.$route.name == 'cart') {
+				if (this.$route.name == 'eventList' || this.$route.name =='cartAddress' || this.$route.name == 'cartDetermine' || this.$route.name == 'carryOut' ) {
 					return true
 				} else {
 					return false

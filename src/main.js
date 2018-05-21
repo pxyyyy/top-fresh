@@ -18,6 +18,10 @@ import VueVideoPlayer from 'vue-video-player'
 import 'video.js/dist/video-js.css'
 import Bridge from '../config/bridge.js'
 Vue.prototype.$bridge = Bridge
+
+// 字体图标iconfont
+import '@/assets/iconfont/iconfont.css'
+
 //use custom
 Vue.use(Vant);
 
