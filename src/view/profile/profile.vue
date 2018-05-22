@@ -1,6 +1,6 @@
 <style lang="less" scoped>
 .profile{
-  margin-top: 45px;
+  margin: 45px 0;
 }
 .information{
   position: relative;
@@ -114,7 +114,7 @@
           <!--积分和代金卷-->
           <van-row class="info info-one">
             <van-col span="12"><h3>2018</h3><p>积分</p></van-col>
-            <van-col span="12"><h3>8</h3><p>代金卷</p></van-col>
+            <van-col span="12"><h3 @click="goCoupon">8</h3><p @click="goCoupon">代金卷</p></van-col>
           </van-row>
         </div>
       </div>
@@ -209,5 +209,10 @@
         ]
       }
     },
+    methods: {
+      goCoupon () {
+        this.$router.push('/coupon')
+      }
+    }
   };
 </script>
