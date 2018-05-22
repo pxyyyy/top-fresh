@@ -1,7 +1,16 @@
 import Main from '@/view/Main.vue';
 import Other from '@/view/Main_product.vue';
+export const loginRouter = {
+  path: '/login',
+  name: 'login',
+  meta: {
+      title: 'login - 登录'
+  },
+  component: resolve => { require(['@/view/login/login.vue'], resolve); },
+  
+};
 export const appRouter = {
-    path: '/',
+  path: '/',
 	name: 'main',
 	redirect: '/index',
 	component: Main,
@@ -18,9 +27,9 @@ export const otherRouter = [
 		name: 'deliveryView',
 		component: Other,
 		children: [
-			{ path: 'id', title: 'delivery', name: 'delivery', component: resolve => { require(['@/view/delivery/delivery.vue'], resolve); } },
+			{ path: ':id', title: 'delivery', name: 'delivery', component: resolve => { require(['@/view/delivery/delivery.vue'], resolve); } },
 		]
-	},
+  },
 	{
 		path: '/product',
 		name: 'productView',
@@ -79,6 +88,7 @@ export const otherRouter = [
   },
 ]
 export const routers = [
+  loginRouter,
 	appRouter,
 	...otherRouter,
 ]
