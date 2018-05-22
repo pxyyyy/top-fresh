@@ -92,6 +92,14 @@ export const otherRouter = [
     children: [
       { path: '', title: 'shareItOut', name: 'cartAddress', component: resolve => { require(['@/view/cart/components/shareItOut.vue'], resolve); } },
     ]
+  },
+  {
+    path: '/coupon',
+    name: 'coupon',
+    component: Other,
+    children: [
+      { path: '', title: 'coupon', name: 'cartAddress', component: resolve => { require(['@/view/profile/components/coupon.vue'], resolve); } },
+    ]
   }
 ]
 export const routers = [
