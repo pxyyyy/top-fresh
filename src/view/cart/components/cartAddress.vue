@@ -1,71 +1,71 @@
 <style  scoped lang="less" scoped>
-  .evetn-bar{
-    background: #3d3d3d;
-    color: #E1BF8A;
-    margin-top: -45px;
+.evetn-bar{
+  background: #3d3d3d;
+  color: #E1BF8A;
+  margin-top: -45px;
+}
+.evetn-bar .evetn-icon{
+  color: #E1BF8A;
+}
+.address{
+  background: #fff;
+  margin-top: 10px;
+  padding: 15px 10px;
+  font-size: 14px;
+  .address-top{
+    display: flex;
+    justify-content: space-between;
+    .address-top-left{
+      width: 50%;
+    }
+    .address-top-right{
+      width: 50%;
+      text-align: right;
+    }
   }
-  .evetn-bar .evetn-icon{
-    color: #E1BF8A;
+  .address-content{
+    margin-top: 5px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
   }
-  .address{
-    background: #fff;
+  .address-bottom{
     margin-top: 10px;
-    padding: 15px 10px;
-    font-size: 14px;
-    .address-top{
-      display: flex;
-      justify-content: space-between;
-      .address-top-left{
-        width: 50%;
-      }
-      .address-top-right{
-        width: 50%;
-        text-align: right;
-      }
+    display: flex;
+    justify-content:flex-end;
+    .radio-text-active{
+      color: #f77b17;
     }
-    .address-content{
-      margin-top: 5px;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 10px;
+    .address-bottom-icon{
+      display: inline-block;
+      margin: 10px 5px;
+      margin-top: -10px;
     }
-    .address-bottom{
-      margin-top: 10px;
-      display: flex;
-      justify-content:flex-end;
-      .radio-text-active{
-        color: #f77b17;
-      }
-      .address-bottom-icon{
-        display: inline-block;
-        margin: 10px 5px;
-        margin-top: -10px;
-      }
-      p{
-        margin: 3px 5px;
-        text-align: right;
-      }
-      .address-bottom-radio{
-        flex: auto;
-      }
+    p{
+      margin: 3px 5px;
+      text-align: right;
+    }
+    .address-bottom-radio{
+      flex: auto;
     }
   }
-  .Placeholder{
-    background: #EFEFF7;
-    width: 100%;
-    height: 330px;
-  }
-  .address-footer{
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    background: #f77c18;
-    color: #fff;
-    text-align: center;
-    width: 100%;
-    height: 40px;
-    line-height: 40px;
-    font-size: 16px;
-  }
+}
+.Placeholder{
+  background: #EFEFF7;
+  width: 100%;
+  height: 330px;
+}
+.address-footer{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: #f77c18;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  font-size: 16px;
+}
 </style>
 <template>
      <div>
@@ -145,7 +145,6 @@
            </div>
          </div>
        </div>
-       <!--占位-->
        <div class="Placeholder">
          <div class="address-footer"  @click="goEditing()">
            添加新的地址

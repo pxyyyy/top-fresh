@@ -1,29 +1,29 @@
-<style  scoped lang="less" scoped>
-    .topbar{
-      width: 100%;
-      text-align: center;
-      background: #3d3d3d;
-      color: #E1BF8A;
-      line-height: 46px;
-      margin-top: -45px;
-      position: relative;
-      span{
-        position: absolute;
-        top: 0;
-        left: 10px;
-      }
-    }
-    .money{
-        font-size: 14px;
-        color: #f4547d;
-    }
-    .wait{
-        overflow: hidden;
-        background: #fff;
-        padding:5px 0;
-        text-align: right;
-        padding-right: 10px;
-    }
+<style  lang="less" scoped>
+.topbar{
+  width: 100%;
+  text-align: center;
+  background: #3d3d3d;
+  color: #E1BF8A;
+  line-height: 46px;
+  margin-top: -45px;
+  position: relative;
+  span{
+    position: absolute;
+    top: 0;
+    left: 10px;
+  }
+}
+.money{
+   font-size: 14px;
+   color: #f4547d;
+ }
+.wait{
+    overflow: hidden;
+    background: #fff;
+    padding:5px 0;
+    text-align: right;
+    padding-right: 10px;
+}
 .item{
     overflow :hidden;
     display :flex;
@@ -95,8 +95,8 @@
 }
 .info-button{
     width:70px;
-    color:#f8a955;
-    border:1px solid #f8a955;
+    color:#fe0000;
+    border:1px solid #fe0000;
     border-radius:30px;
     height:17px;
     line-height:17px;
@@ -115,6 +115,26 @@
         width: 100%
     }
 }
+.price{
+  background: #fff;
+  font-size: 14px;
+  padding: 0 7px 0 7px;
+  .price_right{
+    text-align: right;
+  }
+  .price-content{
+    padding: 20px 5px;
+  }
+  .price-bottom{
+    margin-top: 20px;
+  }
+}
+.shareIt{
+  margin-top: 10px;
+  img{
+    width: 100%;
+  }
+}
 </style>
 <template>
   <div>
@@ -125,7 +145,6 @@
     <!-- 订单详情 -->
     <div class="order"><span>订单号：2478654763721367</span></div>
     <div>
-        <!-- 商品 -->
         <ul>
             <li class="item">
                 <img src="../../../assets/img/Crab.png" alt="" class="item-img">
@@ -136,7 +155,6 @@
                 </div>
             </li>
        </ul>
-        <!-- 商品 -->
         <ul>
             <li class="item">
                 <img src="../../../assets/img/Crab.png" alt="" class="item-img">
@@ -148,22 +166,32 @@
             </li>
        </ul>
     </div>
-       <!-- 货品形式 -->
-       <van-row class='info'>
-          <div class='info-content'>
-                <van-col span="12" class='info-left'>
-                    <p>货品形式</p>
-                    <p>实付款(含运费)</p>
-                </van-col>
-                <van-col span="12" class='info-right'>
-                    <p>实体卡</p>
-                    <p>¥199.00</p>
-                </van-col>
-          </div>
+    <!-- 货品形式 -->
+    <div class="price">
+      <div class="border-top price-content">
+        <van-row>
+          <van-col span="12">商品总额</van-col>
+          <van-col span="12" class="price_right">￥199.00</van-col>
         </van-row>
-        <div class="wait">
-            <van-button size="mini"  class='info-button'>等待发货</van-button>
-        </div>
+        <van-row>
+          <van-col span="12">代金卷优惠</van-col>
+          <van-col span="12"  class="price_right">-￥10.00</van-col>
+        </van-row>
+        <van-row>
+          <van-col span="12">积分优惠</van-col>
+          <van-col span="12"  class="price_right">-￥10.00</van-col>
+        </van-row>
+        <van-row class="price-bottom">
+          <van-col span="24"  class="price_right">实付款 <strong class="money">￥199.00</strong></van-col>
+        </van-row>
+      </div>
+    </div>
+    <div class="wait">
+        <van-button size="mini"  class='info-button'>等待发货</van-button>
+    </div>
+    <div class="shareIt" @click="goShareIt">
+      <img src="../../../assets/img/shareIt.png" alt="">
+    </div>
         <!-- 继续选购 -->
         <div class="keepOn">
             <p><span>——</span>继续选购<span>——</span></p>
@@ -192,6 +220,11 @@ export default {
       returnDetermine:function () {
         this.$router.push(
           `/cartDetermine`
+        );
+      },
+      goShareIt:function () {
+        this.$router.push(
+          `/shareIt`
         );
       }
     }
