@@ -1,43 +1,43 @@
-<style  scoped lang="less" scoped>
-  .evetn-bar{
-    background: #3d3d3d;
+<style lang="less" scoped>
+.evetn-bar{
+  background: #3d3d3d;
+  color: #E1BF8A;
+  margin-top: -45px;
+  }
+.money{
+    font-size: 14px;
+    color: #f4547d;
+}
+.evetn-bar .evetn-icon{
     color: #E1BF8A;
-    margin-top: -45px;
-    }
-    .money{
-        font-size: 14px;
-        color: #f4547d;
-    }
-    .evetn-bar .evetn-icon{
-        color: #E1BF8A;
-    }
-    .cart_min{
-      width: 100%;
-      background: #EFEFF7;
-      padding-bottom: 150px;
-    }
-    .address {
-      background:  #fff;
-      margin: 5px 0;
-      padding: 3px 8px;
-        .address-content{
-            background: #fff;
-            font-size: 13px;
-            padding: 13px 0;
-            color: #280808;
-            .address-right{
-                text-align: center;
-            }
-            img{
-                width: 20px;
-                 height: 20px;
-                 margin-top: 18px;
-            }
-            span{
-              float: right;
-            }
+}
+.cart_min{
+  width: 100%;
+  background: #EFEFF7;
+  padding-bottom: 150px;
+}
+.address {
+  background:  #fff;
+  margin: 5px 0;
+  padding: 3px 8px;
+    .address-content{
+        background: #fff;
+        font-size: 13px;
+        padding: 13px 0;
+        color: #280808;
+        .address-right{
+            text-align: center;
+        }
+        img{
+            width: 20px;
+             height: 20px;
+             margin-top: 18px;
+        }
+        span{
+          float: right;
         }
     }
+}
 .item{
     overflow :hidden;
     display :flex;
@@ -80,33 +80,31 @@
     color: #777777;
     font-size: 15px;
     overflow: hidden;
-    padding: 30px 0 13px 0;
+    padding: 30px 7px 7px 7px;
     p:nth-child(1){
         float: left;
         margin-left: 10px;
         line-height: 32px;
     }
     p:nth-child(2){
-        width: 170px;
         height: 31px;
         float: right;
         line-height: 31px;
-        padding: 0 3px 0 5px;
-        background: #f2f2f2;
-        border: 1px solid #dcdcdc;
         color: #bdbdbd;
-        margin-right: 10px;
         .arrow-icon{
             float: right;
         }
     }
+}
+.padding_top{
+  padding-top: 7px;
 }
 .Cell{
     background: #fff;
     color: #777777;
     font-size: 15px;
     overflow: hidden;
-    padding: 6px 7px;
+    padding: 2px 7px;
     position: relative;
     p:nth-child(1){
         float: left;
@@ -119,13 +117,13 @@
         line-height: 31px;
         padding: 0 3px 0 5px;
         color: #818181;
-        margin-right: 10px;
         text-align: right;
     }
   .checked{
     position: absolute;
-    top: 5px;
+    top: 10px;
     right: 20px;
+    margin-right: 10px;
   }
 }
 .border-bottom{
@@ -202,12 +200,125 @@
         margin-left: 10px;
     }
 }
+.price{
+  background: #fff;
+  font-size: 14px;
+  padding: 0 7px 0 7px;
+  .price_right{
+    text-align: right;
+  }
+  .price-content{
+    padding: 20px 5px;
+  }
+  .price-bottom{
+    margin-top: 20px;
+  }
+}
+.Mailing{
+  width: 280px;
+  height: 350px;
+  background-color: #fff;
+  text-align: center;
+  padding: 10px;
+  color: #e2bf85;
+  overflow: hidden;
+  strong{
+    border-bottom: 2px solid #e2bf85;
+  }
+  img{
+    width: 20px;
+    height: 20px;
+    margin: 10px;
+  }
+  .Mailing_button{
+    height: 43px;
+    line-height: 43px;
+    margin-top: 60px;
+    border-radius: 0;
+    width: 80%;
+    background: #191919;
+    color: #fff;
+  }
+}
+.Mailing_right,
+.Mailing_left{
+  width: 128px;
+  height: 220px;
+  border: 1px solid #e2bf85;
+  margin: 0 4px;
+  padding: 20px 10px 20px 10px;
+  font-size: 14px;
+  float: left;
+  position: relative;
+  box-sizing: border-box;
+}
+.MailingActive{
+  color: black;
+  border: 1px solid black;
+  strong{
+    border-bottom: 2px solid black;
+  }
+}
+.active_volume{
+  position: absolute;
+  bottom: -25px;
+  left: 35%;
+}
+.Payment {
+  width: 200px;
+  background: #fff;
+  border-radius: 5px;
+  text-align: left;
+  padding: 20px 20px;
+  span{
+    margin-left: 20px;
+  }
+  .Payment-button{
+    border-radius: 0;
+    background: #191919;
+    color: #fff;
+    margin-top: 20px;
+    width: 200px;
+  }
+}
+.away{
+  width: 200px;
+  background: #fff;
+  border-radius: 5px;
+  text-align: left;
+  padding: 20px 20px;
+  text-align: center;
+  span{
+    margin-left: 20px;
+  }
+  .Payment-button{
+    border-radius: 0;
+    background: #191919;
+    color: #fff;
+    margin: 20px 10px 0 10px;
+    width: 80px;
+    float: left;
+    border: 1px solid #191919;
+  }
+  .awayColor{
+    border: 1px solid #e2bf85;
+    background: none;
+    color: #e0c085;
+  }
+}
 </style>
 <template>
   <div>
     <van-nav-bar title="确认订单" class="evetn-bar">
       <van-icon name="arrow-left" slot="left"  class="evetn-icon"  @click="returnCart()"/>
     </van-nav-bar>
+    <!--返回弹出-->
+    <van-popup v-model="away" class="away">
+      <p>正在离开结算页面</p>
+      <p>确定不要了吗</p>
+      <van-button size="small" class="Payment-button awayColor" @click="goaway">去意已决</van-button>
+      <van-button size="small" class="Payment-button" @click="want">朕在想想</van-button>
+    </van-popup>
     <div class="cart_min">
       <!-- 收货地址 -->
       <div class="address" @click="goAddress()">
@@ -226,7 +337,6 @@
       </div>
       <!-- 订单详情 -->
       <div>
-        <!-- 商品 -->
         <ul>
           <li class="item">
             <img src="../../../assets/img/Crab.png" alt="" class="item-img">
@@ -239,28 +349,66 @@
         </ul>
         <!-- 单元格 -->
         <div class="select">
-          <p>货品形式选择</p>
-          <p>请选择<span class="iconfont arrow-icon">&#xe64a;</span></p>
+          <p>是否邮寄提货卷</p>
+          <p @click="showOne">请选择<span class="iconfont arrow-icon">&#xe66b;</span></p>
         </div>
-        <!--货品形式选择弹出-->
-        <van-actionsheet v-model="show" :actions="actions" />
-        <div class="Cell border-top">
-          <p>配送费</p>
-          <p>免配送费</p>
+        <!--是否邮寄提货卷弹出-->
+        <van-popup v-model="Mailing">
+          <van-row class="Mailing">
+            <div :class="{Mailing_left:true, MailingActive:MailingActiveOne}"  @click="MailingOne()">
+              <p><strong>邮寄提货卷</strong></p>
+              <p><img :src="MailingOnePic" alt=""></p>
+              <p>将提货卷实体卡邮寄</p>
+              <p>至你提供的地址</p>
+              <p>可通过实体卡上的密码</p>
+              <p>进行提货操作</p>
+              <p class="active_volume" v-if="MailingActiveOne"><img src="../../../assets/img/active-volume.png" alt=""></p>
+            </div>
+            <div :class="{Mailing_right:true, MailingActive:MailingActiveTwo}" @click="MailingTwo">
+              <p><strong>使用虚拟提货卷</strong></p>
+              <p><img :src="MailingTwoPic" alt=""></p>
+              <p>将提货卷实体卡邮寄</p>
+              <p>至你提供的地址</p>
+              <p>可通过实体卡上的密码</p>
+              <p>进行提货操作</p>
+              <p class="active_volume" v-if="MailingActiveTwo"><img src="../../../assets/img/active-volume.png" alt=""></p>
+            </div>
+            <van-button size="large" class="Mailing_button">确定</van-button>
+          </van-row>
+        </van-popup>
+        <div class="select padding_top">
+          <div class="border-top padding_top">
+            <p>使用代金卷</p>
+            <p>选择代金卷<span class="iconfont arrow-icon">&#xe66b;</span></p>
+          </div>
         </div>
-        <div class="Cell border-top">
-          <p>使用代金卷</p>
-          <p>选择代金卷</p>
+        <div class="Cell">
+          <div class="border-top padding_top">
+            <p>可用200积分抵扣20元</p>
+            <p class="checked">
+              <van-checkbox v-model="checked"></van-checkbox>
+            </p>
+          </div>
         </div>
-        <div class="Cell border-top">
-          <p>积分扣现金,可用200积分</p>
-          <p class="checked">
-            <van-checkbox v-model="checked"></van-checkbox>
-          </p>
-        </div>
-        <div class="Cell border-top">
-          <p>合计</p>
-          <p><strong class="money">￥199.00</strong></p>
+        <!--价格详情-->
+        <div class="price">
+          <div class="border-top price-content">
+            <van-row>
+              <van-col span="12">商品总额</van-col>
+              <van-col span="12" class="price_right">￥199.00</van-col>
+            </van-row>
+            <van-row>
+              <van-col span="12">代金卷优惠</van-col>
+              <van-col span="12"  class="price_right">-￥10.00</van-col>
+            </van-row>
+            <van-row>
+              <van-col span="12">积分优惠</van-col>
+              <van-col span="12"  class="price_right">-￥10.00</van-col>
+            </van-row>
+            <van-row class="price-bottom">
+              <van-col span="24"  class="price_right">实付款 <strong class="money">￥199.00</strong></van-col>
+            </van-row>
+          </div>
         </div>
         <!-- 付款方式 -->
         <div class='payment'>
@@ -286,6 +434,12 @@
         <p>付款 :<span>¥199.00</span></p>
         <p><van-button size="normal" class="btnColor" @click="goDetails()">支付订单</van-button></p>
       </div>
+      <!--付款方式弹出-->
+      <van-popup v-model="Payment" class="Payment">
+        <p>付款金额：<span>￥199</span></p>
+        <p>付款方式：<span>微信支付</span></p>
+        <van-button size="small" class="Payment-button">去支付</van-button>
+      </van-popup>
     </div>
   </div>
 </template>
@@ -295,59 +449,31 @@ import zfbpic from '../../../assets/img/zfb.png'
 import wxpicActive from '../../../assets/img/active_wx.png'
 import zfbpicActive from '../../../assets/img/active_zfb.png'
 import FeaturesIcon5 from '../../../assets/img/product.png'
-const coupon = {
-    available: 1,
-    discount: 0,
-    denominations: 150,
-    origin_condition: 0,
-    reason: '',
-    value: 150,
-    name: '嗯嗯',
-    start_at: 1489104000,
-    end_at: 1514592000
-};
-
+import MailingOnePic from '../../../assets/img/volume-one.png'
+import MailingTwoPic from '../../../assets/img/volume-two.png'
+import ActiveMailingOnePic from '../../../assets/img/active-volume-one.png'
+import ActiveMailingTwoPic from '../../../assets/img/active-volume-two.png'
 export default {
     data () {
         return {
             imageURL: FeaturesIcon5,
-            show: false,
-            showList: false,
-            actions: [
-                {
-                name: '选项',
-                callback: this.onClick
-                },
-                {
-                name: '选项',
-                subname: '描述信息'
-                },
-                {
-                name: '选项',
-                loading: true
-                }
-            ],
-            chosenCoupon: -1,
-            coupons: [coupon],
-            disabledCoupons: [coupon],
             checked:false,
             zfb:false,
-            wx:false,
-            wxPic: wxpic,
+            wx:true,
+            wxPic: wxpicActive,
             zfbPic:zfbpic,
-            checked: false
+            MailingTwoPic:MailingTwoPic,
+            MailingOnePic:ActiveMailingOnePic,
+            Mailing: false,
+            MailingActiveOne:true,
+            MailingActiveTwo:false,
+            Payment:false,
+            away:false
         }
     },
     methods: {
-        onClick(item) {
-            console.log(item)
-        },
-        onChange(index) {
-            this.showList = false;
-            this.chosenCoupon = index;
-        },
-        onExchange(code) {
-        this.coupons.push(coupon);
+        showOne () {
+          this.Mailing = true
         },
         wxActive() {
             this.wx = true;
@@ -361,10 +487,20 @@ export default {
             this.wxPic = wxpic;
             this.zfbPic = zfbpicActive;
         },
+        MailingOne () {
+          this.MailingActiveOne = true
+          this.MailingActiveTwo = false
+          this.MailingOnePic = ActiveMailingOnePic
+          this.MailingTwoPic = MailingTwoPic
+        },
+        MailingTwo () {
+          this.MailingActiveOne = false
+          this.MailingActiveTwo = true
+          this.MailingOnePic = MailingOnePic
+          this.MailingTwoPic = ActiveMailingTwoPic
+        },
         goDetails:function(){
-          this.$router.push(
-            `/cartOut`
-          );
+          this.Payment = true
         },
         goAddress:function(){
           this.$router.push(
@@ -372,9 +508,15 @@ export default {
           );
         },
         returnCart:function() {
+          this.away = true
+        },
+        goaway:function () {
           this.$router.push(
             `/cart`
           );
+        },
+        want:function () {
+          this.away = false
         }
     }
 }

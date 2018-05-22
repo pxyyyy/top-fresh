@@ -1,7 +1,7 @@
 import Main from '@/view/Main.vue';
 import Other from '@/view/Main_product.vue';
 export const appRouter = {
-    path: '/',
+  path: '/',
 	name: 'main',
 	redirect: '/index',
 	component: Main,
@@ -77,6 +77,22 @@ export const otherRouter = [
       { path: '', title: 'cartAddress', name: 'cartAddress', component: resolve => { require(['@/view/cart/components/cartAddressEditing.vue'], resolve); } },
     ]
   },
+  {
+    path: '/shareIt',
+    name: 'shareIt',
+    component: Other,
+    children: [
+      { path: '', title: 'shareIt', name: 'cartAddress', component: resolve => { require(['@/view/cart/components/shareIt.vue'], resolve); } },
+    ]
+  },
+  {
+    path: '/shareItOut',
+    name: 'shareItOut',
+    component: Other,
+    children: [
+      { path: '', title: 'shareItOut', name: 'cartAddress', component: resolve => { require(['@/view/cart/components/shareItOut.vue'], resolve); } },
+    ]
+  }
 ]
 export const routers = [
 	appRouter,
