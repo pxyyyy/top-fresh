@@ -120,9 +120,9 @@
       </div>
       <!--订单详情-->
       <van-row class="user-links">
-        <van-col span="6" v-for="item of informations">
+        <van-col span="6" v-for="(item,index) of informations">
           <van-tabbar class="Nofixed">
-            <van-tabbar-item icon="chat" @click="Orders()">
+            <van-tabbar-item icon="chat" @click="Orders(index)">
               <span>{{item.text}}</span>
               <template slot="icon" slot-scope="props">
                 <img :src="item.Url" />
@@ -213,7 +213,8 @@
       goCoupon () {
         this.$router.push('/coupon')
       },
-      Orders () {
+      Orders (index) {
+		this.$store.commit('setCurrentActiveForProfile', index);
         this.$router.push('/Orders')
       }
     }

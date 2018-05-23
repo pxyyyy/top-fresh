@@ -9,6 +9,9 @@ import Vant from 'vant';
 import { Lazyload } from 'vant';
 import 'vant/lib/vant-css/index.css';
 
+//vuex
+import store from './store';
+
 //VueAwesomeSwiper
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
@@ -34,6 +37,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
