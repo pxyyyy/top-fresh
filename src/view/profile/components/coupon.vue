@@ -1,8 +1,12 @@
 <style scoped lang="less">
 .evetn-bar{
+  width: 100%;
   background: #3d3d3d;
   color: #E1BF8A;
-  margin-top: -45px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
 }
 .evetn-bar .evetn-icon{
   color: #E1BF8A;
@@ -40,6 +44,9 @@
 }
 </style>
 <style>
+.coupon .van-tabs__wrap{
+  z-index: 0;
+}
 .coupon .van-tabs__nav--card .van-tab.van-tab--active{
   background: none!important;
   color: #e2bf85!important;

@@ -1,8 +1,11 @@
 <style  scoped lang="less" scoped>
 .evetn-bar{
+  width: 100%;
   background: #3d3d3d;
   color: #E1BF8A;
-  margin-top: -45px;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 .evetn-bar .evetn-icon{
   color: #E1BF8A;
@@ -66,6 +69,17 @@
   line-height: 40px;
   font-size: 16px;
 }
+</style>
+<style>
+  .address .van-radio .van-icon-checked{
+    color: #f77b17;
+    font-size: 15px;
+    margin-top: 3px;
+  }
+  .address .van-radio .van-icon{
+    font-size: 15px;
+    margin-top: 3px;
+  }
 </style>
 <template>
      <div>

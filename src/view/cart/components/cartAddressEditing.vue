@@ -1,8 +1,11 @@
 <style lang="less" scoped>
 .evetn-bar{
+  width: 100%;
   background: #3d3d3d;
   color: #E1BF8A;
-  margin-top: -45px;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 .evetn-bar .evetn-icon{
   color: #E1BF8A;

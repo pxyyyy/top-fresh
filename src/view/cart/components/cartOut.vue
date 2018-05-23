@@ -5,8 +5,9 @@
   background: #3d3d3d;
   color: #E1BF8A;
   line-height: 46px;
-  margin-top: -45px;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   span{
     position: absolute;
     top: 0;
