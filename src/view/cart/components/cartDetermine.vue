@@ -1,8 +1,11 @@
 <style lang="less" scoped>
 .evetn-bar{
+  width: 100%;
   background: #3d3d3d;
   color: #E1BF8A;
-  margin-top: -45px;
+  position: fixed;
+  top: 0;
+  left: 0;
   }
 .money{
     font-size: 14px;
@@ -306,6 +309,11 @@
     color: #e0c085;
   }
 }
+</style>
+<style>
+  .Cell .van-icon{
+    position: absolute;
+  }
 </style>
 <template>
   <div>

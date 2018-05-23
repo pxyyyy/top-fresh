@@ -2,6 +2,12 @@
 	@import './cart.less';
 </style>
 <style>
+  .cart-main .van-icon{
+    position: absolute;
+  }
+  .cart-main .van-card{
+    background: #fff;
+  }
 	.van-cell {
 		padding: 10px 5px 10px 10px;
 	}

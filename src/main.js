@@ -21,7 +21,6 @@ Vue.prototype.$bridge = Bridge
 
 // 字体图标iconfont
 import '@/assets/iconfont/iconfont.css'
-import 'vue2-animate/dist/vue2-animate.min.css';
 //use custom
 Vue.use(Vant);
 
