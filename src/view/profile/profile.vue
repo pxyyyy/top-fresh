@@ -120,9 +120,9 @@
       </div>
       <!--订单详情-->
       <van-row class="user-links">
-        <van-col span="6" v-for="item of information">
+        <van-col span="6" v-for="item of informations">
           <van-tabbar class="Nofixed">
-            <van-tabbar-item icon="chat">
+            <van-tabbar-item icon="chat" @click="Orders()">
               <span>{{item.text}}</span>
               <template slot="icon" slot-scope="props">
                 <img :src="item.Url" />
@@ -158,7 +158,7 @@
     name: 'profile',
     data () {
       return {
-        information:[
+        informations:[
           {
             id: '001',
             Url: icon1,
@@ -212,6 +212,9 @@
     methods: {
       goCoupon () {
         this.$router.push('/coupon')
+      },
+      Orders () {
+        this.$router.push('/Orders')
       }
     }
   };

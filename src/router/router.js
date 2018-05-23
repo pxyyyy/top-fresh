@@ -100,6 +100,14 @@ export const otherRouter = [
     children: [
       { path: '', title: 'coupon', name: 'cartAddress', component: resolve => { require(['@/view/profile/components/coupon.vue'], resolve); } },
     ]
+  },
+  {
+    path: '/Orders',
+    name: 'Orders',
+    component: Other,
+    children: [
+      { path: '', title: 'Orders', name: 'cartAddress', component: resolve => { require(['@/view/profile/components/Orders.vue'], resolve); } },
+    ]
   }
 ]
 export const routers = [

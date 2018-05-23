@@ -41,19 +41,20 @@
 </style>
 <style>
 .coupon .van-tabs__nav--card .van-tab.van-tab--active{
-  background: none;
-  color: #e2bf85;
+  background: none!important;
+  color: #e2bf85!important;
 }
 .coupon .van-tabs__nav--card .van-tab.van-tab--active span{
-  border-bottom:1px solid #e2bf85;
+  border-bottom:1px solid #e2bf85!important;
 }
 .coupon .van-tabs__nav--card{
-  border:none;
-  border-bottom: 1px solid #ccc;
+  border:none!important;
+  border-bottom: 1px solid #ccc!important;
+  margin: 0 7%;
 }
 .coupon .van-tab{
-  border: none;
-  padding: 0 50px;
+  border: none !important;
+  padding: 0 20px !important;
 }
 </style>
 <template>
