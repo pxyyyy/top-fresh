@@ -2,32 +2,27 @@
 	@import './orders.less';
 </style>
 <style>
-	.orders .van-tabs__nav--card .van-tab.van-tab--active {
-		background: none !important;
-		color: #e2bf85 !important;
-	}
-
-	.orders .van-tabs__nav--card .van-tab.van-tab--active span {
-		border-bottom: 2px solid #e2bf85 !important;
-	}
-
-	.orders .van-tabs__nav--card {
-		border: none !important;
-		border-bottom: 1px solid #ccc !important;
-		margin: 0 7%;
-	}
-
-	.orders .van-tab {
-		border: none !important;
-	}
-
-	.van-tabs--card .van-tabs__wrap {
-		background: #fff;
-	}
-
-	.orders .van-tabs__content {
-		margin: 0;
-	}
+.orders .van-tabs__nav--card .van-tab.van-tab--active {
+  background: none !important;
+  color: #e2bf85 !important;
+}
+.orders .van-tabs__nav--card .van-tab.van-tab--active span {
+  border-bottom: 2px solid #e2bf85 !important;
+}
+.orders .van-tabs__nav--card {
+  border: none !important;
+  border-bottom: 1px solid #ccc !important;
+  margin: 0 7%;
+}
+.orders .van-tab {
+  border: none !important;
+}
+.van-tabs--card .van-tabs__wrap {
+  background: #fff;
+}
+.orders .van-tabs__content {
+  margin: 0;
+}
 </style>
 <template>
 	<div>
