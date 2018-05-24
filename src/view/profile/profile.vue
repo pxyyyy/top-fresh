@@ -1,99 +1,5 @@
-<style lang="less">
-  .profile{
-    margin-top: 45px;
-  }
-
-  .information{
-    position: relative;
-    height: 235px;
-    background: #fff;
-    margin-bottom: 3px;
-    img {
-      width: 100%;
-    }
-    .posi{
-      position: absolute;
-      top: 60%;
-      width: 100%;
-    }
-    .info{
-      width: 100%;
-      text-align: center;
-      .tel{
-        font-size: 12px;
-      }
-      .telicon,.editicon{
-        width: 12px;
-        height: 12px;
-        display: inline-block;
-        background: url("../../assets/img/phone.png");
-        background-size:cover ;
-        margin-top: 2px;
-      }
-      .editicon{
-        background: url("../../assets/img/edit.png");
-        background-size:cover ;
-        margin-left: 5px;
-      }
-    }
-    .info-one{
-      margin-top: 20px;
-      h3{
-        color: #E2BF85;
-      }
-      p{
-        font-size: 12px;
-      }
-    }
-    >p{
-      position: absolute;
-      top: 31%;
-      left: 17%;
-      width: 60px;
-      height: 60px;
-      background: #fff;
-      border: 1px solid #fff;
-      border-radius: 50%;
-    }
-  }
-  .user {
-    &-poster {
-      width: 7.5rem;
-      height: 4rem;
-      display: block;
-    }
-    &-group {
-      margin-bottom: .3rem;
-    }
-    &-links {
-      padding: 15px 0;
-      font-size: 12px;
-      text-align: center;
-      background-color: #fff;
-      .van-icon {
-        display: block;
-        font-size: 24px;
-      }
-    }
-  }
-  .user-links{
-    margin-bottom: 3px;
-  }
-  .Nofixed{
-    position: static;
-  }
-  .user-group-list{
-    float: left;
-    margin-top: 3px;
-    img{
-      width: 17px;
-      height: 17px;
-    }
-  }
-  .van-cell-text{
-    float: left;
-    margin-left: 5px;
-  }
+<style lang="less" scoped>
+  @import "./profile.less";
 </style>
 <template>
 	<div class="profile">
@@ -115,15 +21,15 @@
           <!--积分和代金卷-->
           <van-row class="info info-one">
             <van-col span="12"><h3>2018</h3><p>积分</p></van-col>
-            <van-col span="12"><h3>8</h3><p>代金卷</p></van-col>
+            <van-col span="12"><h3 @click="goCoupon">8</h3><p @click="goCoupon">代金卷</p></van-col>
           </van-row>
         </div>
       </div>
       <!--订单详情-->
       <van-row class="user-links">
-        <van-col span="6" v-for="item of information">
+        <van-col span="6" v-for="(item,index) of informations">
           <van-tabbar class="Nofixed">
-            <van-tabbar-item icon="chat">
+            <van-tabbar-item icon="chat" @click="Orders(index)">
               <span>{{item.text}}</span>
               <template slot="icon" slot-scope="props">
                 <img :src="item.Url" />
@@ -159,7 +65,7 @@
     name: 'profile',
     data () {
       return {
-        information:[
+        informations:[
           {
             id: '001',
             Url: icon1,
@@ -210,5 +116,14 @@
         ]
       }
     },
+    methods: {
+      goCoupon () {
+        this.$router.push('/coupon')
+      },
+      Orders (index) {
+		this.$store.commit('setCurrentActiveForProfile', index);
+        this.$router.push('/Orders')
+      }
+    }
   };
 </script>
