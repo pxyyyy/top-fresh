@@ -6,7 +6,7 @@
     <van-nav-bar title="招募极味道代理" class="evetn-bar">
       <van-icon name="arrow-left" slot="left"  class="evetn-icon" @click="returnevent"/>
     </van-nav-bar>
-    <div class="">
+    <div class="item-img">
       <img src="@/assets/img/介绍.png">
     </div>
     <div class="bottom">
