@@ -24,14 +24,7 @@ export const appRouter = {
 		// { path: 'goodsList', title: 'goodsList', name: 'goodsList', component: resolve => { require(['@/view/goodsList/goodList.vue'], resolve); } },
     ]
 }
-export const loginRouter = {
-	path: '/login',
-	name: 'login',
-	meta: {
-			title: 'login - 登录'
-	},
-	component: resolve => { require(['@/view/login/login.vue'], resolve); }
-};
+
 // 商品详情
 export const productRouter = {
 	path: '/product',
@@ -40,7 +33,7 @@ export const productRouter = {
 	children:[
 		{ path: ':id', title: 'product', name: 'product', component: resolve => { require(['@/view/product/product.vue'], resolve); } },
 	]
-	
+
 };
 export const otherRouter = [
   {
