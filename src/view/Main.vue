@@ -60,7 +60,7 @@
 				if (this.$route.name == 'event') {
 					return true
 				} else {
-					return false
+					return false 
 				}
 			}
 		},
