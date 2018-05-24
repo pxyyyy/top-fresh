@@ -1,14 +1,6 @@
 import Main from '@/view/Main.vue';
 import Other from '@/view/Main_product.vue';
-export const loginRouter = {
-  path: '/login',
-  name: 'login',
-  meta: {
-      title: 'login - 登录'
-  },
-  component: resolve => { require(['@/view/login/login.vue'], resolve); },
-  
-};
+import productDetails from '@/view/productDetails.vue';
 export const appRouter = {
   path: '/',
 	name: 'main',
@@ -19,9 +11,36 @@ export const appRouter = {
 		{ path: 'event', title: 'event', name: 'event', component: resolve => { require(['@/view/event/event.vue'], resolve); } },
 		{ path: 'cart', title: 'cart', name: 'cart', component: resolve => { require(['@/view/cart/cart.vue'], resolve); } },
 		{ path: 'profile', title: 'profile', name: 'profile', component: resolve => { require(['@/view/profile/profile.vue'], resolve); } },
+		// { path: 'goodsList', title: 'goodsList', name: 'goodsList', component: resolve => { require(['@/view/goodsList/goodList.vue'], resolve); } },
     ]
 }
+export const loginRouter = {
+	path: '/login',
+	name: 'login',
+	meta: {
+			title: 'login - 登录'
+	},
+	component: resolve => { require(['@/view/login/login.vue'], resolve); }
+};
+// 商品详情
+export const productRouter = {
+	path: '/product',
+	name: 'product',
+	component:productDetails,
+	children:[
+		{ path: ':id', title: 'product', name: 'product', component: resolve => { require(['@/view/product/product.vue'], resolve); } },
+	]
+	
+};
 export const otherRouter = [
+  {
+		path: '/pick',
+		name: 'pickView',
+		component: Other,
+		children: [
+			{ path: '', title: 'pick', name: 'pick', component: resolve => { require(['@/view/pick/pick.vue'], resolve); } },
+		]
+  },
     {
 		path: '/delivery',
 		name: 'deliveryView',
@@ -31,19 +50,11 @@ export const otherRouter = [
 		]
   },
 	{
-		path: '/product',
-		name: 'productView',
+		path: '/goodsList',
+		name: 'goodsListView',
 		component: Other,
 		children: [
-			{ path: 'details', title: 'product', name: 'product', component: resolve => { require(['@/view/product/product.vue'], resolve); } },
-		]
-	},
-	{
-		path: '/delivery',
-		name: 'deliveryView',
-		component: Other,
-		children: [
-			{ path: '', title: 'delivery', name: 'delivery', component: resolve => { require(['@/view/delivery/delivery.vue'], resolve); } },
+			{ path: ':id', title: 'goodsList', name: 'goodsList', component: resolve => { require(['@/view/goodsList/goodList.vue'], resolve); } },
 		]
 	},
   {
@@ -122,5 +133,6 @@ export const otherRouter = [
 export const routers = [
   loginRouter,
 	appRouter,
+	productRouter,
 	...otherRouter,
 ]
