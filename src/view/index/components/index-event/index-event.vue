@@ -15,28 +15,61 @@
 	export default {
 		data() {
 			return {
+			
 			}
 		},
 		beforeMount() {
 		},
 		methods: {
 			goGoodListVC(name) {
-				console.log("success")
-				this.$bridge.callHandler('goGoodListVC', { 'name': name }, (data) => {
-					console.log("success")
-				})
+				let from = this.$route.query.from;
+				console.log("from",from)
+				if(from=="IOS"){
+					this.$bridge.callHandler('goGoodListVC', { 'name': name }, (data) => {
+						console.log("success")
+					})
+				}else if(from=="Android"){
+
+				}else{
+					this.$router.push(
+				 		`/goodsList/${name}`
+					);
+				}
+				
+				
 			},
 			goPickupVC() {
 				console.log("success")
-				this.$bridge.callHandler('goPickupVC', (data) => {
-					console.log("success")
-				})
+				let from = this.$route.query.from;
+				console.log("from",from)
+				if(from=="IOS"){
+					this.$bridge.callHandler('goPickupVC', (data) => {
+						console.log("success")
+					})
+				}else if(from=="Android"){
+
+				}else{
+					this.$router.push(
+				 		`/pick`
+					);
+				}
+				
 			},
 			goGoodOriginVC() {
-				console.log("success")
-				this.$bridge.callHandler('goGoodOriginVC', (data) => {
-					console.log("success")
-				})
+				let from = this.$route.query.from;
+				console.log("from",from)
+				if(from=="IOS"){
+					this.$bridge.callHandler('goGoodOriginVC', (data) => {
+						console.log("success")
+					})
+				}else if(from=="Android"){
+
+				}else{
+					this.$router.push(
+				 		`/pick`
+					);
+				}
+				
 			}
 		},
 		mounted() {

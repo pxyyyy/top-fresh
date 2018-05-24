@@ -54,14 +54,32 @@
 			<div class="details_content" v-html="info[0].content"></div>
 		</div>
         <!-- 商品图文详情 -->
+		<van-goods-action v-if="show">
+			<van-goods-action-mini-btn icon="like-o" text="收藏" />
+			<van-goods-action-mini-btn icon="cart" text="购物车"/>
+			<van-goods-action-mini-btn icon="chat" text="客服" />			
+			<van-goods-action-big-btn text="加入购物车" @click="openCart(1)"/>
+			<van-goods-action-big-btn text="立即购买" primary  @click="openCart(2)"/>
+		</van-goods-action>
+		<van-actionsheet v-model="show1" title="选择数量">
+			<p>
+				<span>数量</span>
+				<van-stepper></van-stepper>
+			</p>
+			
+		</van-actionsheet>
 	</div>
 </template>
 <script>
 	import img from "../../assets/img/介绍.png"
+import traceabilityVue from '../traceability/traceability.vue';
     export default {
         name:"product_details",
         data(){
             return{
+				show:false,
+				show1:false,
+				type:'',
 				swiperOption: {
 					loop:true,
 					effect:"fade",
@@ -92,7 +110,16 @@
             }
 		},
 		methods: {
-			
+			openCart(type){
+				this.show1=true;
+				this.type=type;
+			}
+		},
+		mounted(){
+			let from = this.$route.query.from;
+			if(!from){
+				this.show=true
+			}
 		}
     }
 </script>
