@@ -104,6 +104,16 @@ export const otherRouter = [
     path: '/Orders',
     name: 'Orders',
     component: resolve => { require(['@/view/profile/components/Orders.vue'], resolve); }
+  },
+  {
+    path: '/LadingRoll',
+    name: 'LadingRoll',
+    component: resolve => { require(['@/view/profile/components/LadingRoll.vue'], resolve); }
+  },
+  {
+    path: '/OrderDetails',
+    name: 'OrderDetails',
+    component: resolve => { require(['@/view/profile/components/OrderDetails.vue'], resolve); }
   }
 ]
 export const routers = [
