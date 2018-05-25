@@ -88,7 +88,7 @@
 <template>
 	<div class="cart-main">
 		<van-checkbox-group class="card-goods" v-model="checkedGoods">
-			<van-cell-swipe :right-width="65" :on-close="onClose" v-for="item in goods">
+			<van-cell-swipe :right-width="65" :on-close="onClose" v-for="item in goods" :key="item">
 				<van-checkbox class="card-goods__item" :name="item.id">
 				</van-checkbox>
 				<div data-v-7f845944="" class="van-cell-group van-hairline--top-bottom">
@@ -139,6 +139,7 @@
 	export default {
 		data() {
 			return {
+				value:1,
 				checked: false,
 				checkedGoods: [],
 				goods: [{

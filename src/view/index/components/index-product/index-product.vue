@@ -47,7 +47,9 @@
 						console.log("success")
 					})
 				}else if(from=="Android"){
-
+					this.$bridge.callHandler('goGoodListVC',{'name':name},(data) => {
+						console.log("success")
+					})
 				}else{
 					this.$router.push(
 				 		`/goodsList/礼卡`
@@ -62,7 +64,9 @@
 						console.log("success")
 					})
 				}else if(from=="Android"){
-
+					this.$bridge.callHandler('goGoodInfoVC',{'productId':productId},(data) => {
+						console.log("success")
+					})
 				}else{
 					this.$router.push(
 				 		`/product/${productId}`

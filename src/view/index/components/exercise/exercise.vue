@@ -32,7 +32,7 @@
 		},
 		methods: {
 			goActiveInfoVC(activeId) {
-				this.$bridge.callHandler('goPickupVC', { "activeid": activeId }, (data) => {
+				this.$bridge.callHandler('goActiveInfoVC', { "activeid": activeId }, (data) => {
 					console.log("success")
 				})
 			},
