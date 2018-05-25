@@ -21,8 +21,9 @@ export default {
     name: "shareIt",
     methods: {
       gocartDetermine: function () {
-        this.$router.push('/cartOut')
+        let date  = this.$route.params.project
+        this.$router.push(`/${date}`)
       }
-    }
+    },
 }
 </script>
