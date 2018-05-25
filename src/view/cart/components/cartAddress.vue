@@ -2,12 +2,12 @@
   @import "./cartAddress.less";
 </style>
 <style>
-.address .van-radio .van-icon-checked{
+ .van-radio .van-icon-checked{
   color: #f77b17;
   font-size: 15px;
   margin-top: 3px;
 }
-.address .van-radio .van-icon{
+ .van-radio .van-icon{
   font-size: 15px;
   margin-top: 3px;
 }
@@ -108,9 +108,11 @@ export default {
     },
     methods: {
       returnDetermine:function () {
-        this.$router.push(
-          `/cartDetermine`
-        );
+        let data  = this.$route.params.project
+        this.$router.push(`/${data}`)
+        // this.$router.push(
+        //   `/cartDetermine`
+        // );
       },
       goEditing:function () {
         this.$router.push(

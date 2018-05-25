@@ -128,6 +128,10 @@
         switch (index) {
           case 0 :
             this.$router.push('/LadingRoll')
+          break;
+          case 2 :
+            this.$router.push('/MyCollage')
+          break;
         }
       }
     }

@@ -4,7 +4,7 @@
 <template>
   <div>
     <van-nav-bar title="拼团成功" class="evetn-bar">
-      <van-icon name="arrow-left" slot="left"  class="evetn-icon"/>
+      <van-icon name="arrow-left" slot="left"  class="evetn-icon" @click="goMyCollage"/>
     </van-nav-bar>
     <div class="collage-success">
       <div class="collage-success-topbar">
@@ -33,6 +33,11 @@
 
 <script>
 export default {
-  name: "CollageSuccess"
+  name: "CollageSuccess",
+  methods: {
+    goMyCollage () {
+      this.$router.push('/MyCollage')
+    }
+  }
 }
 </script>
