@@ -95,10 +95,18 @@
 		methods: {
 			goAddress(){
 				var code=this.$route.params.id;
-				console.log(code)
-				this.$bridge.callHandler('goPickupInfoVC',{'code':code},(data) => {
-					console.log("success")
-				})
+				let from = this.$route.query.from;
+				if(from=="IOS" || from=="Android"){
+					console.log(code)
+					this.$bridge.callHandler('goPickupInfoVC',{'code':code},(data) => {
+						console.log("success")
+					})
+				}else{
+					this.$router.push(
+						`/cartDetermine`
+					)
+				}
+				
 			}
 		}
     }

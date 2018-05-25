@@ -43,6 +43,14 @@ export const otherRouter = [
 		children: [
 			{ path: '', title: 'pick', name: 'pick', component: resolve => { require(['@/view/pick/pick.vue'], resolve); } },
 		]
+	},
+	{
+		path: '/goodsSpecial',
+		name: 'goodsSpecialView',
+		component: Other,
+		children: [
+			{ path: '', title: 'goodsSpecial', name: 'goodsSpecial', component: resolve => { require(['@/view/goodsSpecial/goodsSpecial.vue'], resolve); } },
+		]
   },
     {
 		path: '/delivery',

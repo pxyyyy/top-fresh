@@ -2,7 +2,7 @@
  * @Author: tarn.tianrun 
  * @Date: 2018-05-14 11:08:35 
  * @Last Modified by: By.zhangTeng
- * @Last Modified time: 2018-05-24 09:33:05
+ * @Last Modified time: 2018-05-25 10:37:05
  */
 
 <style scoped lang="less">
@@ -24,7 +24,7 @@
 				<span>活动</span>
 			</div>
 		</div>
-		<router-view></router-view>
+		<router-view v-bind:style="{marginTop:marginTop}"></router-view>
 		<bottom v-if="!isClient"></bottom>
 	</div>
 </template>
@@ -78,6 +78,9 @@
 			if(from=="IOS"){
 				this.isClient=true;
 				this.marginTop="15px";
+			}else if(from=="Android"){
+				this.isClient=true;
+				this.marginTop="0";
 			}
 		},
 		methods: {

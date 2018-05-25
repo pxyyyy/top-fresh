@@ -49,24 +49,24 @@
 				<span>可获得{{info[0].integral}}积分</span>
 			</p>
 		</div>
-		<div class="details">
+		<div class="details" :style="{marginBottom:marginBottom}">
 			<p class="details_title">---- 商品详情 ----</p>
 			<div class="details_content" v-html="info[0].content"></div>
 		</div>
         <!-- 商品图文详情 -->
-		<van-goods-action v-if="show">
+		<van-goods-action v-show="show">
 			<van-goods-action-mini-btn icon="like-o" text="收藏" />
 			<van-goods-action-mini-btn icon="cart" text="购物车"/>
 			<van-goods-action-mini-btn icon="chat" text="客服" />			
-			<van-goods-action-big-btn text="加入购物车" @click="openCart(1)"/>
-			<van-goods-action-big-btn text="立即购买" primary  @click="openCart(2)"/>
+			<van-goods-action-big-btn text="加入购物车" @click="openCart"/>
+			<van-goods-action-big-btn text="立即购买" primary  @click="openPay('123')"/>
 		</van-goods-action>
 		<van-actionsheet v-model="show1" title="选择数量">
-			<p>
-				<span>数量</span>
-				<van-stepper></van-stepper>
+			<p style="display:fixed">
+				<span style="padding-left:1.5rem" >数量</span>
+				<van-stepper v-model="number"></van-stepper>
 			</p>
-			
+			<van-button size="large" style="background-color:#1e1e1e;color:#fff" @click="toCart">加入购物车</van-button>
 		</van-actionsheet>
 	</div>
 </template>
@@ -77,6 +77,8 @@ import traceabilityVue from '../traceability/traceability.vue';
         name:"product_details",
         data(){
             return{
+				marginBottom:'50px',
+				number:1,
 				show:false,
 				show1:false,
 				type:'',
@@ -113,12 +115,20 @@ import traceabilityVue from '../traceability/traceability.vue';
 			openCart(type){
 				this.show1=true;
 				this.type=type;
+			},
+			toCart(){
+				this.$router.push(
+					`/cart?number=`+this.number
+				)
 			}
 		},
 		mounted(){
 			let from = this.$route.query.from;
-			if(!from){
-				this.show=true
+			if(from=='IOS' || from=='Android'){
+				this.show=false;
+				this.marginBottom='0px'
+			}else{
+				this.show=true;
 			}
 		}
     }

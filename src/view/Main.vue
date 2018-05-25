@@ -1,8 +1,8 @@
 /*
  * @Author: tarn.tianrun 
  * @Date: 2018-05-14 11:08:35 
- * @Last Modified by: tarn.tianrun
- * @Last Modified time: 2018-05-14 17:30:44
+ * @Last Modified by: By.zhangTeng
+ * @Last Modified time: 2018-05-25 10:33:39
  */
 
 <style scoped lang="less">
@@ -24,7 +24,7 @@
 				<span>活动</span>
 			</div>
 		</div>
-		<router-view></router-view>
+		<router-view :style="{marginTop:marginTop}"></router-view>
 		<bottom v-if="!isClient"></bottom>
 	</div>
 </template>
@@ -39,7 +39,7 @@
 					active: '//img.yzcdn.cn/2.png'
 				},
 				isClient:false,
-				marginTop:"45px",
+				marginTop:"46px",
 				
 			}
 		},
@@ -76,6 +76,9 @@
 			let from = this.$route.query.from;
 			console.log("from",from)
 			if(from=="IOS"){
+				this.isClient=true;
+				this.marginTop="0";
+			}else if(from=="Android"){
 				this.isClient=true;
 				this.marginTop="0";
 			}

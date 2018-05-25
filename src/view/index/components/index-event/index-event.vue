@@ -29,7 +29,9 @@
 						console.log("success")
 					})
 				}else if(from=="Android"){
-
+					this.$bridge.callHandler('goGoodListVC', { 'name': name }, (data) => {
+						console.log("success")
+					})
 				}else{
 					this.$router.push(
 				 		`/goodsList/${name}`
@@ -47,7 +49,9 @@
 						console.log("success")
 					})
 				}else if(from=="Android"){
-
+					this.$bridge.callHandler('goPickupVC', (data) => {
+						console.log("success")
+					})
 				}else{
 					this.$router.push(
 				 		`/pick`
@@ -63,7 +67,9 @@
 						console.log("success")
 					})
 				}else if(from=="Android"){
-
+					this.$bridge.callHandler('goGoodOriginVC', (data) => {
+						console.log("success")
+					})
 				}else{
 					this.$router.push(
 				 		`/pick`

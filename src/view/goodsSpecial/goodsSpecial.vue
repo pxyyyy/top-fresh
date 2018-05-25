@@ -1,19 +1,15 @@
-/*
- * @Author: By.zhangTeng 
- * @Date: 2018-05-22 17:13:39 
- * @Last Modified by: By.zhangTeng
- * @Last Modified time: 2018-05-25 10:19:45
- */
-
-<style lang="less" scoped>
-@import url("./spotGoods.less");
+<style lang="less">
+    @import './goodsSpecial.less';
 </style>
 
 <template>
     <div>
+        <div>
+            <img src="../../assets/img/special.png" alt="" class="img">
+        </div>
         <div class="gy">
             <div v-for="(product,index) in list" :key="index" class="list" @click="toProductInfo('123')">
-                <img src="../../../assets/img/product.png" alt="" class="img">
+                <img src="../../assets/img/product.png" alt="" class="img">
                 <div class="title">{{product.title}}</div>
                 <div class="gg">{{product.liang}}两 x {{product.number}}只</div>
                 <div class="price">&yen;{{product.price}}</div> 
@@ -23,10 +19,9 @@
 </template>
 <script>
 export default {
-  name: "giftCard",
-  data() {
-    return {
-      list: [
+    data(){
+        return{
+            list: [
         {
           title: "阳澄湖大闸蟹4对现货",
           liang: "4.0",
@@ -52,12 +47,12 @@ export default {
           price: "3299.00"
         }
       ]
-    };
-  },
-  methods: {
+        }
+    },
+    methods: {
     toProductInfo(productId) {
       this.$router.push(`/product/${productId}`);
     }
   }
-};
+}
 </script>
