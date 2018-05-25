@@ -48,9 +48,9 @@
                 </div>
               </div>
               <div class="content-bottom">
-                <p>赠送好友</p>
-                <p>立即提货</p>
-                <p>邮寄实体卡</p>
+                <p><i><img src="../../../assets/img/Gift.png" alt=""></i>赠送好友</p>
+                <p><i><img src="../../../assets/img/immediately.png" alt=""></i>立即提货</p>
+                <p><i><img src="../../../assets/img/Mailing.png" alt=""></i>邮寄实体卡</p>
               </div>
             </div>
             <div class="content-group">
@@ -65,9 +65,9 @@
                 </div>
               </div>
               <div class="content-bottom">
-                <p>赠送好友</p>
-                <p>立即提货</p>
-                <p>邮寄实体卡</p>
+                <p><i><img src="../../../assets/img/Gift.png" alt=""></i>赠送好友</p>
+                <p><i><img src="../../../assets/img/immediately.png" alt=""></i>立即提货</p>
+                <p><i><img src="../../../assets/img/Mailing.png" alt=""></i>邮寄实体卡</p>
               </div>
             </div>
             <div class="content-group">
@@ -82,9 +82,9 @@
                 </div>
               </div>
               <div class="content-bottom">
-                <p>赠送好友</p>
-                <p>立即提货</p>
-                <p>邮寄实体卡</p>
+                <p><i><img src="../../../assets/img/Gift.png" alt=""></i>赠送好友</p>
+                <p><i><img src="../../../assets/img/immediately.png" alt=""></i>立即提货</p>
+                <p><i><img src="../../../assets/img/Mailing.png" alt=""></i>邮寄实体卡</p>
               </div>
             </div>
           </div>

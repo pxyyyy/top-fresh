@@ -111,9 +111,29 @@ export const otherRouter = [
     component: resolve => { require(['@/view/profile/components/LadingRoll.vue'], resolve); }
   },
   {
+    path: '/LadingRollGive',
+    name: 'LadingRollGive',
+    component: resolve => { require(['@/view/profile/components/LadingRollGive.vue'], resolve); }
+  },
+  {
     path: '/OrderDetails',
     name: 'OrderDetails',
     component: resolve => { require(['@/view/profile/components/OrderDetails.vue'], resolve); }
+  },
+  {
+    path: '/MyCollage',
+    name: 'MyCollage',
+    component: resolve => { require(['@/view/profile/components/MyCollage.vue'], resolve); }
+  },
+  {
+    path: '/CollageSuccess',
+    name: 'CollageSuccess',
+    component: resolve => { require(['@/view/profile/components/CollageSuccess.vue'], resolve); }
+  },
+  {
+    path: '/CollageFailure',
+    name: 'CollageFailure',
+    component: resolve => { require(['@/view/profile/components/CollageFailure.vue'], resolve); }
   }
 ]
 export const routers = [
