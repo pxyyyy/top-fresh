@@ -41,7 +41,7 @@
 
       <!--功能-->
       <van-cell-group>
-        <van-cell is-link v-for="item of FeaturesList">
+        <van-cell is-link v-for="(item, index) of FeaturesList"  @click="secondLevel(index)">
           <template slot="title">
             <p class="user-group-list"><img :src="item.Url"></p>
             <p class="van-cell-text">{{item.text}}</p>
@@ -121,8 +121,14 @@
         this.$router.push('/coupon')
       },
       Orders (index) {
-		this.$store.commit('setCurrentActiveForProfile', index);
+		    this.$store.commit('setCurrentActiveForProfile', index);
         this.$router.push('/Orders')
+      },
+      secondLevel (index) {
+        switch (index) {
+          case 0 :
+            this.$router.push('/LadingRoll')
+        }
       }
     }
   };

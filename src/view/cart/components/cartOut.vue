@@ -88,8 +88,12 @@ export default {
         );
       },
       goShareIt:function () {
-        this.$router.push(
-          `/shareIt`
+        this.$router.push({
+            name: 'shareIt',
+            params: {
+              project: 'cartOut'
+            }
+          }
         );
       }
     }
