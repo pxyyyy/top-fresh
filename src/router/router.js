@@ -26,15 +26,32 @@ export const appRouter = {
 }
 
 // 商品详情
-export const productRouter = {
-	path: '/product',
-	name: 'product',
-	component:productDetails,
-	children:[
-		{ path: ':id', title: 'product', name: 'product', component: resolve => { require(['@/view/product/product.vue'], resolve); } },
-	]
-
-};
+export const productRouter = [
+  {
+	  path: '/product',
+	  name: 'product',
+	  component:productDetails,
+	  children:[
+		  { path: ':id', title: 'product', name: 'product', component: resolve => { require(['@/view/product/product.vue'], resolve); } },
+	  ]
+  },
+  {
+	  path: '/collageDetail',
+	  name: 'collageDetail',
+	  component:productDetails,
+	  children:[
+		  { path: ':id', title: 'collageDetail', name: 'collageDetail', component: resolve => { require(['@/view/collageDetail/collageDetail.vue'], resolve); } },
+	  ]
+  },
+  {
+	  path: '/collageShare',
+	  name: 'collageShare',
+	  component:productDetails,
+	  children:[
+		  { path: ':id', title: 'collageShare', name: 'collageShare', component: resolve => { require(['@/view/collageShare/collageShare.vue'], resolve); } },
+	  ]
+  }
+];
 export const otherRouter = [
   {
 		path: '/pick',
@@ -157,6 +174,6 @@ export const otherRouter = [
 export const routers = [
   loginRouter,
 	appRouter,
-	productRouter,
+	...productRouter,
 	...otherRouter,
 ]
