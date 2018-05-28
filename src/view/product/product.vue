@@ -56,7 +56,7 @@
         <!-- 商品图文详情 -->
 		<van-goods-action v-show="show">
 			<van-goods-action-mini-btn icon="like-o" text="收藏" />
-			<van-goods-action-mini-btn icon="cart" text="购物车"/>
+			<van-goods-action-mini-btn icon="cart" text="购物车" @click="toCart"/>
 			<van-goods-action-mini-btn icon="chat" text="客服" />			
 			<van-goods-action-big-btn text="加入购物车" @click="openCart"/>
 			<van-goods-action-big-btn text="立即购买" primary  @click="openPay('123')"/>
@@ -112,6 +112,11 @@ import traceabilityVue from '../traceability/traceability.vue';
             }
 		},
 		methods: {
+			openPay(num){
+				this.$router.push(
+					`/cartDetermine?number=`+this.num
+				)
+			},
 			openCart(type){
 				this.show1=true;
 				this.type=type;

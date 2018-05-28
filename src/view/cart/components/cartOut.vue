@@ -60,16 +60,16 @@
         <!-- 继续选购 -->
         <div class="keepOn">
             <p><span>——</span>继续选购<span>——</span></p>
-            <div class="img-conent">
+            <div class="img-conent" @click="toProductInfo('123')">
                 <img src="../../../assets/img/组7@2x.png" alt="">
             </div>
-            <div class="img-conent">
+            <div class="img-conent" @click="toProductInfo('123')">
                 <img src="../../../assets/img/组7@2x.png" alt="">
             </div>
-            <div class="img-conent">
+            <div class="img-conent" @click="toProductInfo('123')">
                 <img src="../../../assets/img/组7@2x.png" alt="">
             </div>
-            <div class="img-conent">
+            <div class="img-conent" @click="toProductInfo('123')">
                 <img src="../../../assets/img/组7@2x.png" alt="">
             </div>
         </div>
@@ -82,6 +82,9 @@ export default {
         }
     },
     methods: {
+      toProductInfo(productId) {
+        this.$router.push(`/product/${productId}`);
+      },
       returnDetermine:function () {
         this.$router.push(
           `/cartDetermine`

@@ -88,7 +88,7 @@
 <template>
 	<div class="cart-main">
 		<van-checkbox-group class="card-goods" v-model="checkedGoods">
-			<van-cell-swipe :right-width="65" :on-close="onClose" v-for="item in goods" :key="item">
+			<van-cell-swipe :right-width="65" :on-close="onClose" v-for="item in goods" :key="item.id">
 				<van-checkbox class="card-goods__item" :name="item.id">
 				</van-checkbox>
 				<div data-v-7f845944="" class="van-cell-group van-hairline--top-bottom">
@@ -121,7 +121,7 @@
 		</van-checkbox-group>
 		<div class="cart-info">
 			<div data-v-7f845944="" class="van-cell van-hairline">
-				<div data-v-7f845944="" class="van-cell__title cart-info__all">
+				<div data-v-7f845944="" class="van-cell__title cart-info__all"  @click="change">
 					<van-checkbox v-model="checked" class="cart-info-span">全选</van-checkbox>
 				</div>
 				<div data-v-7f845944="" class="van-cell__value">
@@ -140,6 +140,7 @@
 		data() {
 			return {
 				value:1,
+				select:true,
 				checked: false,
 				checkedGoods: [],
 				goods: [{
@@ -183,6 +184,15 @@
 							instance.close();
 						});
 						break;
+				}
+			},
+			change(){
+				if(this.checked){
+					 this.goods.forEach(function (goods) {
+						this.checkedGoods.push(goods.id)
+					}, this)
+				}else{
+					this.checkedGoods=[];
 				}
 			},
       goDetails:function(){

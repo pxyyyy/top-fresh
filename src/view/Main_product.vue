@@ -2,7 +2,7 @@
  * @Author: tarn.tianrun 
  * @Date: 2018-05-14 11:08:35 
  * @Last Modified by: By.zhangTeng
- * @Last Modified time: 2018-05-25 10:37:05
+ * @Last Modified time: 2018-05-28 17:18:18
  */
 
 <style scoped lang="less">
@@ -14,8 +14,11 @@
 		<van-icon name="pending-evaluate" slot="right" />
 	</van-nav-bar> -->
 		<div class="index-nav-bar" v-if="!isClient" >
-			<div class="index-nav-bar__left" v-if="!currentRoute && !eventRouter">
+			<div class="index-nav-bar__left" v-if="!currentRoute && !eventRouter && !goodRouter && !pickRouter">
 				<img src="../assets//icon//极味生鲜.png" height="15">
+			</div>
+			<div @click="shangyiye" class="index-nav-bar__left" v-else  >
+				<van-icon name="arrow-left" />
 			</div>
 			<div class="index-nav-bar__title" v-if="currentRoute">
 				<span>购物车(3)</span>
@@ -23,6 +26,13 @@
 			<div class="index-nav-bar__title" v-if="eventRouter">
 				<span>活动</span>
 			</div>
+			<div class="index-nav-bar__title" v-if="goodRouter">
+				<span>全部商品</span>
+			</div>
+			<div class="index-nav-bar__title" v-if="pickRouter">
+				<span>提货</span>
+			</div>
+			
 		</div>
 		<router-view v-bind:style="{marginTop:marginTop}"></router-view>
 		<bottom v-if="!isClient"></bottom>
@@ -62,7 +72,22 @@
 				} else {
 					return false 
 				}
-			}
+			},
+			goodRouter(){
+				if (this.$route.name == 'goodsList') {
+					return true
+				} else {
+					return false 
+				}
+			},
+			pickRouter(){
+				if (this.$route.name == 'pick') {
+					return true
+				} else {
+					return false 
+				}
+			},
+			
 		},
 		methods: {
 			isActivty(path) {
@@ -71,6 +96,9 @@
 					name: path
 				});
 			},
+			shangyiye(){
+				this.$router.go(-1)
+			}
 		},
 		mounted(){
 			let from = this.$route.query.from;
@@ -82,8 +110,6 @@
 				this.isClient=true;
 				this.marginTop="0";
 			}
-		},
-		methods: {
 		},
 		components: {
 			bottom
