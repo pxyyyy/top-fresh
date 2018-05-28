@@ -32,19 +32,46 @@
 		},
 		methods: {
 			goActiveInfoVC(activeId) {
-				this.$bridge.callHandler('goActiveInfoVC', { "activeid": activeId }, (data) => {
-					console.log("success")
-				})
+				let from = this.$route.query.from;
+				console.log("from",from)
+				if(from == "IOS" || from == "Android"){
+					this.$bridge.callHandler('goActiveInfoVC', { "activeid": activeId }, (data) => {
+						console.log("success")
+					})
+				}else{
+					this.$router.push(
+						`/eventList?id=`+activeId
+					)
+				}
+				
 			},
 			goYouhuiquanVC() {
-				this.$bridge.callHandler('goYouhuiquanVC', (data) => {
-					console.log("success")
-				})
+				let from = this.$route.query.from;
+				console.log("from",from);
+				if(from == "IOS" || from == "Android"){
+					this.$bridge.callHandler('goYouhuiquanVC', (data) => {
+						console.log("success")
+					})
+				}else{
+					this.$router.push(
+						`/coupon`
+					)
+				} 
+				
 			},
 			goPintuanGoodsVC() {
-				this.$bridge.callHandler('goPintuanGoodsVC', (data) => {
-					console.log("success")
-				})
+				let from = this.$route.query.from;
+				console.log("from",from);
+				if(from == "IOS" || from == "Android"){
+					this.$bridge.callHandler('goPintuanGoodsVC', (data) => {
+						console.log("success")
+					})
+				}else{
+					this.$router.push(
+						`/teamwork`
+					)
+				} 
+				
 			}
 
 		},

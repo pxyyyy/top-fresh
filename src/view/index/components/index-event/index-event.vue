@@ -24,13 +24,13 @@
 			goGoodListVC(name) {
 				let from = this.$route.query.from;
 				console.log("from",from)
-				if(from=="IOS"){
+				if(from =="IOS"){
 					this.$bridge.callHandler('goGoodListVC', { 'name': name }, (data) => {
-						console.log("success")
+						console.log("IOS success")
 					})
-				}else if(from=="Android"){
+				}else if(from =="Android"){
 					this.$bridge.callHandler('goGoodListVC', { 'name': name }, (data) => {
-						console.log("success")
+						console.log("Android success")
 					})
 				}else{
 					this.$router.push(
@@ -46,11 +46,11 @@
 				console.log("from",from)
 				if(from=="IOS"){
 					this.$bridge.callHandler('goPickupVC', (data) => {
-						console.log("success")
+						console.log("IOS  success")
 					})
 				}else if(from=="Android"){
 					this.$bridge.callHandler('goPickupVC', (data) => {
-						console.log("success")
+						console.log("Android success")
 					})
 				}else{
 					this.$router.push(

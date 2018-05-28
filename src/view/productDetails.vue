@@ -5,14 +5,20 @@
 <template>
 	<div>
 		<div class="index-nav-bar" v-if="!isClient" >
-			<div class="index-nav-bar__left" v-if="!currentRoute && !eventRouter">
+			<div class="index-nav-bar__left" v-if="!currentRoute && !eventRouter && !goodDetailRouter">
 				<img src="../assets//icon//极味生鲜.png" height="15">
+			</div>
+			<div @click="shangyiye" class="index-nav-bar__left" v-else  >
+				<van-icon name="arrow-left" />
 			</div>
 			<div class="index-nav-bar__title" v-if="currentRoute">
 				<span>购物车(3)</span>
 			</div>
 			<div class="index-nav-bar__title" v-if="eventRouter">
 				<span>活动</span>
+			</div>
+			<div class="index-nav-bar__title" v-if="goodDetailRouter">
+				<span>商品详情</span>
 			</div>
 		</div>
 		<router-view v-bind:style="{marginTop:marginTop}"></router-view>
@@ -45,10 +51,19 @@
 				} else {
 					return false 
 				}
+			},
+			goodDetailRouter(){
+				if (this.$route.name == 'product') {
+					return true
+				} else {
+					return false 
+				}
 			}
 		},
 		methods: {
-			
+			shangyiye(){
+				this.$router.go(-1)
+			}
 		},
 		mounted(){
 			let from = this.$route.query.from;
@@ -60,8 +75,6 @@
 				this.isClient=true;
 				this.marginTop="0";
 			}
-		},
-		methods: {
 		},
 		components: {}
 	}

@@ -50,7 +50,15 @@ export const productRouter = [
 	  children:[
 		  { path: ':id', title: 'collageShare', name: 'collageShare', component: resolve => { require(['@/view/collageShare/collageShare.vue'], resolve); } },
 	  ]
-  }
+  },
+  {
+		path: '/delivery',
+		name: 'deliveryView',
+		component: productDetails,
+		children: [
+			{ path: ':id', title: 'delivery', name: 'delivery', component: resolve => { require(['@/view/delivery/delivery.vue'], resolve); } },
+		]
+  },
 ];
 export const otherRouter = [
   {
@@ -69,14 +77,7 @@ export const otherRouter = [
 			{ path: '', title: 'goodsSpecial', name: 'goodsSpecial', component: resolve => { require(['@/view/goodsSpecial/goodsSpecial.vue'], resolve); } },
 		]
   },
-    {
-		path: '/delivery',
-		name: 'deliveryView',
-		component: Other,
-		children: [
-			{ path: ':id', title: 'delivery', name: 'delivery', component: resolve => { require(['@/view/delivery/delivery.vue'], resolve); } },
-		]
-  },
+    
 	{
 		path: '/goodsList',
 		name: 'goodsListView',

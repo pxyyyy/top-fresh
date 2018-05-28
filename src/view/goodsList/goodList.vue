@@ -2,7 +2,7 @@
  * @Author: By.zhangTeng 
  * @Date: 2018-05-22 17:14:03 
  * @Last Modified by: By.zhangTeng
- * @Last Modified time: 2018-05-23 10:58:14
+ * @Last Modified time: 2018-05-28 16:34:25
  */
 
 <style lang="less" scoped>
@@ -13,23 +13,18 @@
     
 </style>
 <style lang="less">
-    .van-tabs__nav--card .van-tab.van-tab--active {
-        color: #fff;
-        background-color: #000;
+    .van-tab--active {
+		color: #fff!important;
+		background: #000!important;
     }
-    .van-tabs__nav--card .van-tab{
-        height: 35px;
-        line-height: 35px;
-        color:#000;
-    }
-    .van-tabs--card .van-tabs__wrap {
-        height:40px;
+    .van-tabs__nav--card {
+        /* margin: 0 20%; */
         width: 60%;
         margin: 0 auto;
     }
-    .van-tabs__nav--card {
-        height: 37px;
-    }
+	.van-tabs__content{
+		margin: 10px 10px 0 10px;
+	}
 </style>
 
 <template>

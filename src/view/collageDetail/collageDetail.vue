@@ -53,10 +53,10 @@
         <!-- 商品图文详情 -->
 		<van-row>
             <van-col span="12">
-                <van-button bottom-action>单独购买 ￥{{info[0].oldprice}}</van-button>
+                <van-button bottom-action @click="aloneBy('123323')">单独购买 ￥{{info[0].oldprice}}</van-button>
             </van-col>
             <van-col span="12">
-                <van-button type="primary" bottom-action>5人成团 ￥{{info[0].newprice}}</van-button>
+                <van-button type="primary" bottom-action @click="collage('1232321')">5人成团 ￥{{info[0].newprice}}</van-button>
             </van-col>
         </van-row>
 	</div>
@@ -102,24 +102,19 @@ import traceabilityVue from '../traceability/traceability.vue';
             }
 		},
 		methods: {
-			openCart(type){
-				this.show1=true;
-				this.type=type;
-			},
-			toCart(){
+			aloneBy(id){
 				this.$router.push(
-					`/cart?number=`+this.number
+					`/cartDetermine?id=`+id
+				)
+			},
+			collage(id){
+				this.$router.push(
+					`/teamworkPayment?id=`+id
 				)
 			}
 		},
 		mounted(){
-			let from = this.$route.query.from;
-			if(from=='IOS' || from=='Android'){
-				this.show=false;
-				this.marginBottom='0px'
-			}else{
-				this.show=true;
-			}
+			
 		}
     }
 </script>
