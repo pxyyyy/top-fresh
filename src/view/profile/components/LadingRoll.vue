@@ -48,43 +48,9 @@
                 </div>
               </div>
               <div class="content-bottom">
-                <p><i><img src="../../../assets/img/Gift.png" alt=""></i>赠送好友</p>
+                <p @click="goLadingRollGive"><i><img src="../../../assets/img/Gift.png" alt=""></i>赠送好友</p>
                 <p><i><img src="../../../assets/img/immediately.png" alt=""></i>立即提货</p>
-                <p><i><img src="../../../assets/img/Mailing.png" alt=""></i>邮寄实体卡</p>
-              </div>
-            </div>
-            <div class="content-group">
-              <div class="content-top">
-                <div class="content-top-img">
-                  <img src="../../../assets/img/ladingroll.png" alt="">
-                </div>
-                <div class="content-top-info">
-                  <p>阳澄湖大闸蟹四对礼盒装4.0两x8只 四公四母</p>
-                  <p class="margin-top content-top-info-date">提货日期</p>
-                  <p class="content-top-info-date"><strong>2018.7.1-2019.7.1</strong></p>
-                </div>
-              </div>
-              <div class="content-bottom">
-                <p><i><img src="../../../assets/img/Gift.png" alt=""></i>赠送好友</p>
-                <p><i><img src="../../../assets/img/immediately.png" alt=""></i>立即提货</p>
-                <p><i><img src="../../../assets/img/Mailing.png" alt=""></i>邮寄实体卡</p>
-              </div>
-            </div>
-            <div class="content-group">
-              <div class="content-top">
-                <div class="content-top-img">
-                  <img src="../../../assets/img/ladingroll.png" alt="">
-                </div>
-                <div class="content-top-info">
-                  <p>阳澄湖大闸蟹四对礼盒装4.0两x8只 四公四母</p>
-                  <p class="margin-top content-top-info-date">提货日期</p>
-                  <p class="content-top-info-date"><strong>2018.7.1-2019.7.1</strong></p>
-                </div>
-              </div>
-              <div class="content-bottom">
-                <p><i><img src="../../../assets/img/Gift.png" alt=""></i>赠送好友</p>
-                <p><i><img src="../../../assets/img/immediately.png" alt=""></i>立即提货</p>
-                <p><i><img src="../../../assets/img/Mailing.png" alt=""></i>邮寄实体卡</p>
+                <p @click="gocartAddress"><i><img src="../../../assets/img/Mailing.png" alt=""></i>邮寄实体卡</p>
               </div>
             </div>
           </div>
@@ -148,6 +114,17 @@ export default {
   methods: {
     returnProFile () {
       this.$router.push('/profile')
+    },
+    goLadingRollGive () {
+      this.$router.push('/LadingRollGive')
+    },
+    gocartAddress() {
+      this.$router.push({
+        name: 'cartAddress',
+        params: {
+          project: 'LadingRoll'
+        }
+      })
     }
   }
 }

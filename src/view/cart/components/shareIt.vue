@@ -10,7 +10,7 @@
     <div class="shareIt">
       <div class="shareIt-content">
         <p><input type="text" value="" placeholder="请输入手机号"></p>
-        <p class="shareItButton"><input type="button" value="立即抢"></p>
+        <p class="shareItButton"><input type="button" value="立即抢" @click="goshareItOut"></p>
       </div>
     </div>
   </div>
@@ -21,8 +21,11 @@ export default {
     name: "shareIt",
     methods: {
       gocartDetermine: function () {
-        let date  = this.$route.params.project
-        this.$router.push(`/${date}`)
+        let data  = this.$route.params.project
+        this.$router.push(`/${data}`)
+      },
+      goshareItOut () {
+        this.$router.push(`/shareItOut`)
       }
     },
 }

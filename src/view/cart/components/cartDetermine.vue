@@ -137,7 +137,7 @@
       <van-popup v-model="Payment" class="Payment">
         <p>付款金额：<span>￥199</span></p>
         <p>付款方式：<span>微信支付</span></p>
-        <van-button size="small" class="Payment-button">去支付</van-button>
+        <van-button size="small" class="Payment-button" @click="gocartOut">去支付</van-button>
       </van-popup>
     </div>
   </div>
@@ -202,8 +202,12 @@ export default {
           this.Payment = true
         },
         goAddress:function(){
-          this.$router.push(
-            `/cartAddress`
+          this.$router.push({
+              name: 'cartAddress',
+              params: {
+                project: 'cartDetermine'
+              }
+            }
           );
         },
         returnCart:function() {
@@ -216,6 +220,11 @@ export default {
         },
         want:function () {
           this.away = false
+        },
+        gocartOut () {
+          this.$router.push(
+            `/cartOut`
+          );
         }
     }
 }
