@@ -142,6 +142,16 @@ export const otherRouter = [
     path: '/CollageFailure',
     name: 'CollageFailure',
     component: resolve => { require(['@/view/profile/components/CollageFailure.vue'], resolve); }
+  },
+  {
+    path: '/teamwork',
+    name: 'teamwork',
+    component: resolve => { require(['@/view/teamwork/teamwork'], resolve); }
+  },
+  {
+    path: '/teamworkPayment',
+    name: 'teamworkPayment',
+    component: resolve => { require(['@/view/teamwork/teamworkPayment'], resolve); }
   }
 ]
 export const routers = [
