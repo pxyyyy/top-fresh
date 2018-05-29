@@ -103,14 +103,40 @@ import traceabilityVue from '../traceability/traceability.vue';
 		},
 		methods: {
 			aloneBy(id){
-				this.$router.push(
-					`/cartDetermine?id=`+id
-				)
+				let from = this.$route.query.from;
+				console.log("from",from)
+				if(from =="IOS"){
+					this.$bridge.callHandler('goPintuanGoodsAlone', { 'id': id }, (data) => {
+						console.log("IOS success")
+					})
+				}else if(from =="Android"){
+					this.$bridge.callHandler('goPintuanGoodsAlone', { 'id': id }, (data) => {
+						console.log("Android success")
+					})
+				}else{
+					this.$router.push(
+						`/cartDetermine?id=`+id
+					)
+				}
+				
 			},
 			collage(id){
-				this.$router.push(
-					`/teamworkPayment?id=`+id
-				)
+				let from = this.$route.query.from;
+				console.log("from",from)
+				if(from =="IOS"){
+					this.$bridge.callHandler('goPintuanGoodsPayResult', { 'id': id }, (data) => {
+						console.log("IOS success")
+					})
+				}else if(from =="Android"){
+					this.$bridge.callHandler('goPintuanGoodsPayResult', { 'id': id }, (data) => {
+						console.log("Android success")
+					})
+				}else{
+					this.$router.push(
+						`/teamworkPayment?id=`+id
+					)
+				}
+				
 			}
 		},
 		mounted(){
