@@ -10,9 +10,9 @@
 <template>
 	<swiper :options="swiperOption">
 		<swiper-slide v-for="item in sysbanners" :key="item.id" @click.native="toTeacher(item)">
-      <img src="../../assets/img/banner.png" alt="" @click="bannerJump(item.link)">
+      <img src="../../assets/img/banner.png" alt="">
       <!--后台调用数据-->
-      <!--<img :src="item.imgUrl ? item.imgUrl : '../../assets/img/banner.png'" alt="">-->
+      <!--<img :src="item.imgUrl ? item.imgUrl : '../../assets/img/banner.png'">-->
 		</swiper-slide>
 	</swiper>
 </template>
@@ -43,11 +43,9 @@
 			}
 		},
 		methods: {
-			toTeacher() {
-				console.log(1)
-			},
-      bannerJump (item) {
-      }
+			toTeacher(item) {
+        this.$router.push(item.link)
+      },
 		}
 	}
 </script>
