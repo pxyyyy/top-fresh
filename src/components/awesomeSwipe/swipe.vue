@@ -9,8 +9,10 @@
 </style>
 <template>
 	<swiper :options="swiperOption">
-		<swiper-slide v-for="item in dataSwipe" :key="item.id" @click.native="toTeacher(item)">
-			<img :src="item.img" alt="">
+		<swiper-slide v-for="item in sysbanners" :key="item.id" @click.native="toTeacher(item)">
+      <img src="../../assets/img/banner.png" alt="" @click="bannerJump(item.link)">
+      <!--后台调用数据-->
+      <!--<img :src="item.imgUrl ? item.imgUrl : '../../assets/img/banner.png'" alt="">-->
 		</swiper-slide>
 	</swiper>
 </template>
@@ -18,6 +20,7 @@
 <script>
 	import img from "../../assets/img/banner.png"
 	export default {
+	  props:['sysbanners'],
 		data() {
 			return {
 				swiperOption: {
@@ -42,7 +45,9 @@
 		methods: {
 			toTeacher() {
 				console.log(1)
-			}
+			},
+      bannerJump (item) {
+      }
 		}
 	}
 </script>
