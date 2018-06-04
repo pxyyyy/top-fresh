@@ -10,20 +10,24 @@
 		<div class="exercise-active">
 			<div class="left" @click="goActiveInfoVC('1234')">
 				<img src="../../../../assets//img/组9@2x.png">
-			</div>
+        <!--<img :src="activities[0].imgUrl" alt="" @click=''>-->
+      </div>
 			<div class="right">
 				<div class="right-info" @click="goYouhuiquanVC()">
 					<img src="../../../../assets/img/组10@2x.png">
-				</div>
+          <!--<img :src="activities[1].imgUrl" alt="">-->
+        </div>
 				<div class="right-info" @click="goPintuanGoodsVC()">
 					<img src="../../../../assets/img/组11@2x.png">
-				</div>
+          <!--<img :src="activities[2].imgUrl" alt="">-->
+        </div>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
 	export default {
+	  props:['activities'],
 		data() {
 			return {
 			}
@@ -43,7 +47,7 @@
 						`/eventList?id=`+activeId
 					)
 				}
-				
+
 			},
 			goYouhuiquanVC() {
 				let from = this.$route.query.from;
@@ -56,8 +60,8 @@
 					this.$router.push(
 						`/coupon`
 					)
-				} 
-				
+				}
+
 			},
 			goPintuanGoodsVC() {
 				let from = this.$route.query.from;
@@ -70,8 +74,8 @@
 					this.$router.push(
 						`/teamwork`
 					)
-				} 
-				
+				}
+
 			}
 
 		},
