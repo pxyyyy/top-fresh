@@ -2,7 +2,7 @@
  * @Author: By.zhangTeng 
  * @Date: 2018-05-22 17:14:14 
  * @Last Modified by: By.zhangTeng
- * @Last Modified time: 2018-05-23 11:03:23
+ * @Last Modified time: 2018-06-04 14:07:41
  */
 
 <style lang="less" scoped>
@@ -12,52 +12,36 @@
 <template>
     <div>
         <div class="gy">
-            <div v-for="(product,index) in list" :key="index" class="list" @click="toProductInfo('123')">
-                <img src="../../../assets/img/product.png" alt="" class="img">
-                <div class="title">{{product.title}}</div>
-                <div class="gg">{{product.liang}}两 x {{product.number}}只</div>
-                <div class="price">&yen;{{product.price}}</div> 
+            <div v-for="(product,index) in giftCard" :key="index" class="list" @click="toProductInfo(product.id)">
+                <img :src='product.imgUrl ? product.imgUrl : "../../../assets/img/product.png"' alt="" class="img">
             </div>
         </div>
     </div>
 </template>
 <script>
-export default {
+import getGiftCard from '../service/giftCard.js';
+export default {  
   name: "giftCard",
+  mixins:[getGiftCard],
   data() {
     return {
-      list: [
-        {
-          title: "阳澄湖大闸蟹4对装礼品卡",
-          liang: "4.0",
-          number: 12,
-          price: "299.00"
-        },
-        {
-          title: "阳澄湖大闸蟹8对装礼品卡",
-          liang: "4.0",
-          number: 12,
-          price: "1299.00"
-        },
-        {
-          title: "阳澄湖大闸蟹12对装礼品卡",
-          liang: "4.0",
-          number: 12,
-          price: "2299.00"
-        },
-        {
-          title: "阳澄湖大闸蟹12对装礼品卡",
-          liang: "4.0",
-          number: 12,
-          price: "3299.00"
-        }
-      ]
+      giftCard:null,
     };
-  },
+  }, 
   methods: {
     toProductInfo(productId) {
       this.$router.push(`/product/${productId}`);
     }
+  },
+  beforeMount(){
+    var name=this.$route.params.id;
+       this.getGiftCard(1)//获取列表
+       .then(res => {
+         console.log(res,"12321");
+         this.giftCard=res;
+         console.log(this.giftCard[0].imgUrl)
+       })
+    
   }
 };
 </script>
