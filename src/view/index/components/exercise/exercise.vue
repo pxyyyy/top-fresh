@@ -8,22 +8,26 @@
 			<span>给您更好的推荐</span>
 		</div>
 		<div class="exercise-active">
-			<div class="left" @click="goActiveInfoVC('1234')">
+			<div class="left" @click="goActiveInfoVC(activities[0])">
 				<img src="../../../../assets//img/组9@2x.png">
-			</div>
+        <!--<img :src="activities[0].imgUrl" alt="">-->
+      </div>
 			<div class="right">
-				<div class="right-info" @click="goYouhuiquanVC()">
+				<div class="right-info" @click="goYouhuiquanVC(activities[1].link)">
 					<img src="../../../../assets/img/组10@2x.png">
-				</div>
-				<div class="right-info" @click="goPintuanGoodsVC()">
+          <!--<img :src="activities[1].imgUrl" alt="">-->
+        </div>
+				<div class="right-info" @click="goPintuanGoodsVC(activities[2].link)">
 					<img src="../../../../assets/img/组11@2x.png">
-				</div>
+          <!--<img :src="activities[2].imgUrl" alt="">-->
+        </div>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
 	export default {
+	  props:['activities'],
 		data() {
 			return {
 			}
@@ -41,9 +45,10 @@
 				}else{
 					this.$router.push(
 						`/eventList?id=`+activeId
+            // `${activeId.link}?id=${activeId.id}`
 					)
 				}
-				
+
 			},
 			goYouhuiquanVC() {
 				let from = this.$route.query.from;
@@ -55,9 +60,10 @@
 				}else{
 					this.$router.push(
 						`/coupon`
+            // link
 					)
-				} 
-				
+				}
+
 			},
 			goPintuanGoodsVC() {
 				let from = this.$route.query.from;
@@ -69,9 +75,10 @@
 				}else{
 					this.$router.push(
 						`/teamwork`
+            // link
 					)
-				} 
-				
+				}
+
 			}
 
 		},
