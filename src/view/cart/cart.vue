@@ -135,8 +135,10 @@
 	</div>
 </template>
 <script>
+  import service  from './service/index.js'
 	import { Dialog } from 'vant';
 	export default {
+	  mixins:[service],
 		data() {
 			return {
 				value:1,
@@ -169,6 +171,9 @@
 			}
 		},
 		beforeMount() {
+	    const id  = sessionStorage.getItem('staffid');
+      const touck  = sessionStorage.getItem('touck');
+      this.fetchList(id, touck)
 		},
 		methods: {
 			onClose(clickPosition, instance) {
