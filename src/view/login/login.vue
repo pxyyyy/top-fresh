@@ -2,7 +2,7 @@
  * @Author: By.zhangTeng 
  * @Date: 2018-05-21 10:38:47 
  * @Last Modified by: By.zhangTeng
- * @Last Modified time: 2018-05-22 15:45:59
+ * @Last Modified time: 2018-06-04 17:11:14
  */
 <style lang="less" scoped>
 @import "./login.less";
@@ -60,7 +60,9 @@
 	</div>
 </template>
 <script>
+	import login from './service/login.js'
 	export default {
+		mixins:[login],
 		name: "login",
 		props: {
 			number: {
@@ -74,20 +76,20 @@
 	},
 	data() {
 		return {
-		phone: "",
-		height: "",
-		login: true,
-		value: "",
-		show: true,
-		count: "",
-		timer: null,
-		mask:false,
-		popup:"请输入手机号",
+			phone: "",
+			height: "",
+			login: true,
+			value: "",
+			show: true,
+			count: "",
+			timer: null,
+			mask:false,
+			popup:"请输入手机号",
 		};
 	},
 	watch: {
 		login: function() {
-		console.log(this.login);
+			 console.log(this.login);
 		}
 	},
 	methods: {
@@ -105,6 +107,10 @@
 				this.login=false;
 				this.show = false;
 				this.timeout();
+				this.getCode(this.phone)
+				.then(res => {
+					console.log(res);
+				})
 			}
 			
 		},
@@ -112,9 +118,17 @@
 		reset: function() {
 			this.show = false;
 			this.timeout();
+			this.getCode(this.phone)
+			.then(res => {
+				console.log(res);
+			})
 		},
 		sureStep: function() {
-			this.$router.push(`/index`);
+			this.toLogin(this.phone,this.value)
+			.then(res => {
+				this.$router.go(-1)
+			})
+			// this.$router.push(`/index`);
 		},
 		timeout() {
 			const TIME_COUNT = 60;
@@ -153,6 +167,5 @@
 			return window.innerHeight + "px";
 		}
 	},
-	mounted() {}
 	};
 </script>

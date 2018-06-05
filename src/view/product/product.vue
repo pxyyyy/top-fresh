@@ -14,9 +14,14 @@
                 <img v-lazy="image" class="img"/>
             </swiper-slide>
         </swiper>
+		<!-- 调用接口后 -->
+		<!-- <swiper :options="swiperOption">
+            <swiper-slide v-for="(image, index) in product.proImgs" :key="index">
+                <img v-lazy="image.imgSrc" class="img"/>
+            </swiper-slide>
+        </swiper> -->
         <!-- 商品详细信息 -->
         <div class="discript">
-			<!-- 预售图片 -->
 			<img src="" alt="">
 			<p class="title">{{info[0].title}}</p>
         	<p class="subtitle">{{info[0].subtitle}}</p>
@@ -53,6 +58,42 @@
 			<p class="details_title">---- 商品详情 ----</p>
 			<div class="details_content" v-html="info[0].content"></div>
 		</div>
+		<!-- <div class="discript">
+			<img src="" alt="">
+			<p class="title">{{product.productName}}</p>
+        	<p class="subtitle">{{product.productInfo}}</p>
+			<p class="price" v-if="product.productPrice">
+				<span>&yen;{{product.productPrice}}/{{product.productNum}}只</span>
+				<span class="old">&yen;{{product.productOprice}}</span>
+			</p>
+			<p class="price" v-else>
+				<span>&yen;{{product.productOprice}}/{{product.productNum}}只</span>
+			</p>
+		</div>
+		<div class="xinxi">
+			<p>
+				<span>商品类型:</span>
+				<span>
+					<span class="type">{{product.productPtype == 2 ? "大闸蟹 · 现货" : "大闸蟹 · 礼品卡"}}</span>
+				</span>
+			</p>
+			<p>
+				<span>商品产地:</span>
+				<span>{{product.productAddress}}</span>
+			</p>
+			<p>
+				<span>配送方式:</span>
+				<span>{{product.productSendType}}</span>
+			</p>
+			<p>
+				<span>可得积分:</span>
+				<span>可获得{{product.productScore}}积分</span>
+			</p>
+		</div>
+		<div class="details" :style="{marginBottom:marginBottom}">
+			<p class="details_title">---- 商品详情 ----</p>
+			<div class="details_content" v-html="product.productImg"></div>
+		</div> -->
         <!-- 商品图文详情 -->
 		<van-goods-action v-show="show">
 			<van-goods-action-mini-btn icon="like-o" text="收藏" />
@@ -68,63 +109,133 @@
 			</p>
 			<van-button size="large" style="background-color:#1e1e1e;color:#fff" @click="toCart">加入购物车</van-button>
 		</van-actionsheet>
+		<van-popup v-model="show2" position="top" :overlay="false">{{message}}</van-popup>
 	</div>
 </template>
 <script>
-	import img from "../../assets/img/介绍.png"
-import traceabilityVue from '../traceability/traceability.vue';
+	import img from "../../assets/img/介绍.png";
+	import { Dialog } from 'vant';
+	import traceabilityVue from '../traceability/traceability.vue';
+	import productInfo from './service/product.js'
     export default {
-        name:"product_details",
+		name:"product_details",
+		mixins:[productInfo],
         data(){
             return{
 				marginBottom:'50px',
 				number:1,
 				show:false,
 				show1:false,
+				show2:false,
+				message:'',
 				type:'',
 				swiperOption: {
 					loop:true,
 					effect:"fade",
 				},
                 info:[
-                {
-                    id:"1",//商品ID
-                    title:"澄阳湖大闸蟹六对礼盒装AB双套餐可选 2.9-2.9两  12只",//商品标题
-                    subtitle:"澄阳湖大闸蟹 AB双套餐",//商品副标题
-					oldprice:288.00,//商品原价
-					newprice:188.00,
-					discount:"7.0",//折扣
-					number:12,//商品数量
-					type:"0",
-                    productType:["大闸蟹·现货"],//商品类型
-                    images:[
-                        "https://img14.360buyimg.com/popWaterMark/jfs/t17218/268/2177078914/177141/2f4cfd87/5ae920d7N7605a758.jpg",
-                        "https://img13.360buyimg.com/popWaterMark/jfs/t18838/254/2140707395/230948/d2c13ef6/5ae920d4N82d84a7f.jpg",
-                        "https://img14.360buyimg.com/popWaterMark/jfs/t18088/257/2187333638/209669/c11169a0/5ae920d8N05bc65e2.jpg",
-                        "https://img30.360buyimg.com/popWaterMark/jfs/t17695/164/1073632144/214246/a74ac508/5ab8ae48N058b7c22.jpg"
-                    ],//商品主图
-                    content:'<div class="d-content"><img src="'+img+'"></div>',//详情,//详情
-                    distribution:"顺丰空运",//配送方式
-                    integral:"200",//购买可获得的积分数
-                    origin:"阳澄湖",//商品产地
-                }
-                    ]
+					{
+						id:"1",//商品ID
+						title:"澄阳湖大闸蟹六对礼盒装AB双套餐可选 2.9-2.9两  12只",//商品标题
+						subtitle:"澄阳湖大闸蟹 AB双套餐",//商品副标题
+						oldprice:288.00,//商品原价
+						newprice:188.00,
+						discount:"7.0",//折扣
+						number:12,//商品数量
+						type:"0",
+						productType:["大闸蟹·现货"],//商品类型
+						images:[
+							"https://img14.360buyimg.com/popWaterMark/jfs/t17218/268/2177078914/177141/2f4cfd87/5ae920d7N7605a758.jpg",
+							"https://img13.360buyimg.com/popWaterMark/jfs/t18838/254/2140707395/230948/d2c13ef6/5ae920d4N82d84a7f.jpg",
+							"https://img14.360buyimg.com/popWaterMark/jfs/t18088/257/2187333638/209669/c11169a0/5ae920d8N05bc65e2.jpg",
+							"https://img30.360buyimg.com/popWaterMark/jfs/t17695/164/1073632144/214246/a74ac508/5ab8ae48N058b7c22.jpg"
+						],//商品主图
+						content:'<div class="d-content"><img src="'+img+'"></div>',//详情,//详情
+						distribution:"顺丰空运",//配送方式
+						integral:"200",//购买可获得的积分数
+						origin:"阳澄湖",//商品产地
+					}
+				],
+				product:null,
             }
 		},
 		methods: {
+			// 判断用户是否登录
+			isToken(){
+				var token=sessionStorage.getItem("token");
+				if(token){
+					return true
+				}else{
+					return false
+				}
+			},
 			openPay(num){
-				this.$router.push(
-					`/cartDetermine?number=`+this.num
-				)
+				var istoken=this.isToken();
+				if(istoken){
+					this.$router.push(
+						`/cartDetermine?number=`+this.num
+					)
+				}else{
+					Dialog.alert({
+						title: '提示',
+						message: '亲，如需购买，请先登录'
+						})
+					.then(() => {
+						this.$router.push(
+							`/login`
+						)	// on close
+					});
+				}				
 			},
 			openCart(type){
-				this.show1=true;
-				this.type=type;
+				var istoken=this.isToken();
+				if(istoken){
+					this.show1=true;
+					this.type=type;
+					var staffId=sessionStorage.getItem("staffId");
+					var token=sessionStorage.getItem("token");
+					var id= this.$route.params.id;
+					this.addCart(id,staffId,token,this.number)
+					.then(res =>{
+						Dialog.alert({
+							title: '提示',
+							message: '添加成功'
+							}).then(() => {
+							// on close
+						});
+					})	
+
+				}else{
+					Dialog.alert({
+						title: '提示',
+						message: '亲，如需购买，请先登录'
+						})
+					.then(() => {
+						this.$router.push(
+							`/login`
+						)	// on close
+					});
+					
+				}	
 			},
 			toCart(){
-				this.$router.push(
-					`/cart?number=`+this.number
-				)
+				var istoken=this.isToken();
+				if(istoken){
+					this.$router.push(
+						`/cart?number=`+this.number
+					)
+				}else{
+					Dialog.alert({
+						title: '提示',
+						message: '亲，如需购买，请先登录'
+						})
+					.then(() => {
+						this.$router.push(
+							`/login`
+						)	// on close
+					});
+				}	
+				
 			}
 		},
 		mounted(){
@@ -135,6 +246,15 @@ import traceabilityVue from '../traceability/traceability.vue';
 			}else{
 				this.show=true;
 			}
+		},
+		beforeMount(){
+			var id=this.$route.params.id;
+			this.getProductInfo(100001)//获取列表
+			.then(res => {
+				console.log(res,"12321");
+				this.product=res;
+			})
+			
 		}
     }
 </script>

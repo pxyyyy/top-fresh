@@ -21,7 +21,7 @@
 				<span>活动</span>
 			</div>
 		</router-link>
-		<router-link class="index-bottom-bar__item" v-bind:class="{index_bottom_bar__active : router == 'cart'}" to="/cart">
+		<router-link class="index-bottom-bar__item" v-bind:class="{index_bottom_bar__active : router == 'cart'}" :to="token ? '/cart' : '/login'">
 			<div class="index-bottom-bar__icon">
 				<img src="../../assets/icon/购物车@2x.png" v-if="router == 'cart'">
 				<img src="../../assets/icon/cart.png" v-else>
@@ -30,7 +30,7 @@
 				<span>购物车</span>
 			</div>
 		</router-link>
-		<router-link class="index-bottom-bar__item" v-bind:class="{index_bottom_bar__active : router == 'profile'}" to="/profile">
+		<router-link class="index-bottom-bar__item" v-bind:class="{index_bottom_bar__active : router == 'profile'}" :to="token ? '/profile' : '/login' ">
 			<div class="index-bottom-bar__icon">
 				<img src="../../assets/icon/个人@2x.png" v-if="router == 'profile'">
 				<img src="../../assets/icon/profile.png" v-else>
@@ -42,10 +42,12 @@
 	</div>
 </template>
 <script>
+	import {Dialog} from 'vant'
 	export default {
 		data() {
 			return {
 				// router: 'index',
+				token:sessionStorage.getItem('token')
 			}
 		},
 		computed: {
@@ -54,6 +56,25 @@
 			}
 		},
 		methods: {
+			toSecond(path){
+				if(path == "cart" || path == 'profile' ){
+					var token=sessionStorage.getItem("token") || "";
+					if(token == "" || token==undefined || token == null){
+						Dialog.alert({
+						title: '提示',
+						message: '亲，请先登录'
+						})
+						.then(() => {
+							this.$router.push(
+								`/login`
+							)	// on close
+						});
+					}else{
+						return `/${path}`
+					}
+				}
+				
+			},
 			isActivty(path) {
 				this.router = path
 				this.$router.push({
