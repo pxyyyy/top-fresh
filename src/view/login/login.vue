@@ -2,7 +2,7 @@
  * @Author: By.zhangTeng 
  * @Date: 2018-05-21 10:38:47 
  * @Last Modified by: By.zhangTeng
- * @Last Modified time: 2018-06-04 17:11:14
+ * @Last Modified time: 2018-06-05 10:17:37
  */
 <style lang="less" scoped>
 @import "./login.less";
@@ -120,12 +120,15 @@
 			this.timeout();
 			this.getCode(this.phone)
 			.then(res => {
+
 				console.log(res);
 			})
 		},
 		sureStep: function() {
 			this.toLogin(this.phone,this.value)
 			.then(res => {
+				sessionStorage.setItem('token',res.staffToken);
+				sessionStorage.setItem('staffId',res.staffId);
 				this.$router.go(-1)
 			})
 			// this.$router.push(`/index`);
