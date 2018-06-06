@@ -75,13 +75,7 @@ export default {
     name: "OrderDetails",
     methods: {
       goShareIt:function () {
-        this.$router.push({
-            name: 'shareIt',
-            params: {
-              project: 'OrderDetails'
-            }
-          }
-        );
+        this.$router.go(-1)
       }
     }
 }

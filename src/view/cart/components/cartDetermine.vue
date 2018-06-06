@@ -26,8 +26,8 @@
             <img src="../../../assets/img/cartDeteemine.png" alt="">
           </van-col>
           <van-col span="20">
-            <p>收货人: 段小姐<span>15248516731</span> </p>
-            <p>收获地址: 山东省济南市高新区舜泰广场9号南楼1102卧室</p>
+            <p>收货人: {{cartList[0].adName}}<span>{{cartList[0].adPhone}}</span> </p>
+            <p>收获地址: {{cartList[0].adAddress}},{{cartList[0].adAddressInfo}}</p>
           </van-col>
           <van-col span="2" class="address-right">
             <img src="../../../assets/img/Arrow.png" alt="">
@@ -152,8 +152,10 @@ import MailingOnePic from '../../../assets/img/volume-one.png'
 import MailingTwoPic from '../../../assets/img/volume-two.png'
 import ActiveMailingOnePic from '../../../assets/img/active-volume-one.png'
 import ActiveMailingTwoPic from '../../../assets/img/active-volume-two.png'
+import service  from '../service/index.js'
 export default {
-    data () {
+  mixins:[service],
+  data () {
         return {
             imageURL: FeaturesIcon5,
             checked:false,
@@ -167,7 +169,8 @@ export default {
             MailingActiveOne:true,
             MailingActiveTwo:false,
             Payment:false,
-            away:false
+            away:false,
+            cartList: [{}],
         }
     },
     methods: {
@@ -204,9 +207,6 @@ export default {
         goAddress:function(){
           this.$router.push({
               name: 'cartAddress',
-              params: {
-                project: 'cartDetermine'
-              }
             }
           );
         },
@@ -225,7 +225,17 @@ export default {
           this.$router.push(
             `/cartOut`
           );
-        }
+        },
+    },
+    async beforeMount () {
+      const id  = sessionStorage.getItem('staffId');
+      const token  = sessionStorage.getItem('token');
+      await this.getAddress(id,token).then((res)=>{
+        this.cartList = res.filter((item,index,arr)=>{
+          return item.adIsdefault == '1';
+        });
+      })
     }
+
 }
 </script>

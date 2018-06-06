@@ -1,6 +1,6 @@
 /*
- * @Author: By.zhangTeng 
- * @Date: 2018-05-21 10:38:47 
+ * @Author: By.zhangTeng
+ * @Date: 2018-05-21 10:38:47
  * @Last Modified by: By.zhangTeng
  * @Last Modified time: 2018-06-05 10:17:37
  */
@@ -9,7 +9,7 @@
 </style>
 <template>
     <div>
-		<transition name="fade" mode="out-in">	
+		<transition name="fade" mode="out-in">
 			<div v-if="login" class="animated" :key="1" >
 				<div class="container" :style='{"height":viewHeight}'>
 					<div class="title">Hello,极味生鲜</div>
@@ -99,7 +99,7 @@
 			let reg=/^[1][3,4,5,7,8][0-9]{9}$/;
 			if(this.phone==""){
 				this.mask=true;
-			
+
 			}else if( !reg.test(this.phone) || this.phone.length<11){
 				this.mask=true;
 				this.popup="请输入正确的11位手机号"
@@ -112,7 +112,7 @@
 					console.log(res);
 				})
 			}
-			
+
 		},
 		// 重新获取验证码
 		reset: function() {
@@ -127,8 +127,8 @@
 		sureStep: function() {
 			this.toLogin(this.phone,this.value)
 			.then(res => {
-				sessionStorage.setItem('token',res.staffToken);
-				sessionStorage.setItem('staffId',res.staffId);
+				sessionStorage.setItem('token',res[0].staffToken);
+				sessionStorage.setItem('staffId',res[0].staffId);
 				this.$router.go(-1)
 			})
 			// this.$router.push(`/index`);

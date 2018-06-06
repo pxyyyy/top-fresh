@@ -77,7 +77,7 @@ export const otherRouter = [
 			{ path: '', title: 'goodsSpecial', name: 'goodsSpecial', component: resolve => { require(['@/view/goodsSpecial/goodsSpecial.vue'], resolve); } },
 		]
   },
-    
+
 	{
 		path: '/goodsList',
 		name: 'goodsListView',
@@ -110,6 +110,11 @@ export const otherRouter = [
     path: '/cartAddressEditing',
     name: 'cartAddressEditing',
     component: resolve => { require(['@/view/cart/components/cartAddressEditing.vue'], resolve); }
+  },
+  {
+    path: '/editAddress',
+    name: 'editAddress',
+    component: resolve => { require(['@/view/cart/components/editAddress.vue'], resolve); }
   },
   {
     path: '/shareIt',

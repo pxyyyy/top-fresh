@@ -19,75 +19,27 @@
        </van-nav-bar>
        <!--地址列表-->
        <div class="address-group">
-         <div class="address">
+         <div class="address" v-for="(item,index) in selectStaffAddressList" :key="item.id">
            <div class="address-top">
              <div class="address-top-left">
-               收货人 <span>段小姐</span>
+               收货人 <span>{{item.adName}}</span>
              </div>
              <div class="address-top-right">
-               15214861684
+               {{item.adPhone}}
              </div>
            </div>
            <div class="address-content">
-             收货地址: <span>山东省济南市高新区舜泰广场9号南楼1102</span>
+             收货地址: <span>{{item.adAddress}}，{{item.adAddressInfo}}</span>
            </div>
            <div class="address-bottom">
              <van-radio-group v-model="radio" class="address-bottom-radio">
-               <van-radio name="1" class="radio-text">默认地址</van-radio>
+               <van-radio  :name="item.adIsdefault == 1 ? item.adIsdefault : item.adId" class="radio-text" @click="Switching(item.adId)">默认地址</van-radio>
              </van-radio-group>
              <div>
-               <p><van-icon name="records" class="address-bottom-icon"/>编辑</p>
+               <p @click="editAddress(item.adId)"><van-icon name="records" class="address-bottom-icon"/>编辑</p>
              </div>
              <div>
-               <p><van-icon name="delete" class="address-bottom-icon"/>删除</p>
-             </div>
-           </div>
-         </div>
-         <div class="address">
-           <div class="address-top">
-             <div class="address-top-left">
-               收货人 <span>段小姐</span>
-             </div>
-             <div class="address-top-right">
-               15214861684
-             </div>
-           </div>
-           <div class="address-content">
-             收货地址: <span>山东省济南市高新区舜泰广场9号南楼1102</span>
-           </div>
-           <div class="address-bottom">
-             <van-radio-group v-model="radio" class="address-bottom-radio">
-               <van-radio name="2" class="radio-text">默认地址</van-radio>
-             </van-radio-group>
-             <div>
-               <p><van-icon name="records" class="address-bottom-icon"/>编辑</p>
-             </div>
-             <div>
-               <p><van-icon name="delete" class="address-bottom-icon"/>删除</p>
-             </div>
-           </div>
-         </div>
-         <div class="address">
-           <div class="address-top">
-             <div class="address-top-left">
-               收货人 <span>段小姐</span>
-             </div>
-             <div class="address-top-right">
-               15214861684
-             </div>
-           </div>
-           <div class="address-content">
-             收货地址: <span>山东省济南市高新区舜泰广场9号南楼1102</span>
-           </div>
-           <div class="address-bottom">
-             <van-radio-group v-model="radio" class="address-bottom-radio">
-               <van-radio name="3" class="radio-text">默认地址</van-radio>
-             </van-radio-group>
-             <div>
-               <p><van-icon name="records" class="address-bottom-icon"/>编辑</p>
-             </div>
-             <div>
-               <p><van-icon name="delete" class="address-bottom-icon"/>删除</p>
+               <p  @click="delAddress(item.adId)"><van-icon name="delete" class="address-bottom-icon"/>删除</p>
              </div>
            </div>
          </div>
@@ -100,25 +52,59 @@
      </div>
 </template>
 <script>
-export default {
+  import service  from '../service/index.js'
+  export default {
+    mixins:[service],
     data () {
         return {
-          radio: '1'
+          radio: '1',
+          selectStaffAddressList:[],
         }
     },
     methods: {
-      returnDetermine:function () {
-        let data  = this.$route.params.project
-        this.$router.push(`/${data}`)
-        // this.$router.push(
-        //   `/cartDetermine`
-        // );
+      editAddress (id) {
+        this.$router.push({
+          name: 'editAddress',
+          params:{
+            id,
+          }
+        })
+      },
+      async Switching (adId) {
+        const id  = sessionStorage.getItem('staffId');
+        const token  = sessionStorage.getItem('token');
+        await this.updateDefaultAddress({
+          staffId:id,
+          token,
+          adId,
+        })
+      },
+      async returnDetermine (adId) {
+        this.$router.go(-1)
       },
       goEditing:function () {
         this.$router.push(
           `/cartAddressEditing`
         );
+      },
+      delAddress (adId) {
+        const id  = sessionStorage.getItem('staffId');
+        const token  = sessionStorage.getItem('token');
+        this.deleteAddress({
+          staffId:id,
+          token,
+          adId,
+        }).then((res)=>{
+          this.selectStaffAddressList = res
+        })
       }
-    }
+    },
+  beforeMount () {
+    const id  = sessionStorage.getItem('staffId');
+    const token  = sessionStorage.getItem('token');
+    this.getAddress(id,token).then((res)=>{
+      this.selectStaffAddressList = res
+    })
+  }
 }
 </script>
