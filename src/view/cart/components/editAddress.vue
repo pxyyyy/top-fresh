@@ -82,9 +82,7 @@
       this.Area = true
     },
     returnDetermine () {
-      this.$router.push(
-        `/cartDetermine`
-      );
+      this.$router.go(-1)
     },
     determine (type) {
       this.Area = false
@@ -112,18 +110,26 @@
       if(this.from.adName != '' && this.from.adPhone != '' && this.from.area != '' && this.from.adAddressInfo != '' ) {
         const id  = sessionStorage.getItem('staffId');
         const token  = sessionStorage.getItem('token');
-        await this.addStaffAddress({
-          staffId: id,
-          token:token,
-          adName: this.from.adName,
-          adPhone: this.from.adPhone,
-          adAddress:this.from.area,
-          adAddressInfo:this.from.adAddressInfo,
-          adIsdefault:this.radio
-        })
+        try {
+          await this.updateStaffAddress({
+            adId:this.$route.params.id,
+            staffId: id,
+            token:token,
+            adName: this.from.adName,
+            adPhone: this.from.adPhone,
+            adAddress:this.from.area,
+            adAddressInfo:this.from.adAddressInfo,
+            adIsdefault:this.radio
+          })
+        }catch (e) {
+          console.log(e)
+        }
         this.$router.go(-1)
       }
     }
+  },
+  mounted () {
+    console.log(this.$route.params.id)
   }
 }
 </script>

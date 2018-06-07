@@ -87,15 +87,12 @@ export default {
       },
       returnDetermine:function () {
         this.$router.push(
-          `/cartDetermine`
+          `/`
         );
       },
       goShareIt:function () {
         this.$router.push({
             name: 'shareIt',
-            params: {
-              project: 'cartOut'
-            }
           }
         );
       }

@@ -21,8 +21,7 @@ export default {
     name: "shareIt",
     methods: {
       gocartDetermine: function () {
-        let data  = this.$route.params.project
-        this.$router.push(`/${data}`)
+        this.$router.go(-1)
       },
       goshareItOut () {
         this.$router.push(`/shareItOut`)
