@@ -107,7 +107,7 @@
 				<span style="padding-left:1.5rem" >数量</span>
 				<van-stepper v-model="number"></van-stepper>
 			</p>
-			<van-button size="large" style="background-color:#1e1e1e;color:#fff" @click="toCart">加入购物车</van-button>
+			<van-button size="large" style="background-color:#1e1e1e;color:#fff" @click="toCart1">加入购物车</van-button>
 		</van-actionsheet>
 		<van-popup v-model="show2" position="top" :overlay="false">{{message}}</van-popup>
 	</div>
@@ -172,9 +172,15 @@
 			openPay(num){
 				var istoken=this.isToken();
 				if(istoken){
-					this.$router.push(
-						`/cartDetermine?number=`+this.num
-					)
+					var staffId=sessionStorage.getItem("staffId");
+					var token=sessionStorage.getItem("token");
+					var id= this.$route.params.id;
+					this.addOrder(token,staffId,'100001',this.number)
+					.then(res =>{
+						this.$router.push(
+							`/cartDetermine?number=`+this.number
+						)
+					})		
 				}else{
 					Dialog.alert({
 						title: '提示',
@@ -187,24 +193,28 @@
 					});
 				}				
 			},
+			toCart1(){
+				var staffId=sessionStorage.getItem("staffId");
+				var token=sessionStorage.getItem("token");
+				var id= this.$route.params.id;
+				this.addCart(token,staffId,'100001',this.number)
+				.then(res =>{
+					Dialog.alert({
+						title: '提示',
+						message: '添加成功'
+					})
+					.then(() => {
+						this.$router.push(
+							`/cart?number=`+this.number
+						)	// on close
+					});
+				})	
+			},
 			openCart(type){
 				var istoken=this.isToken();
 				if(istoken){
 					this.show1=true;
-					this.type=type;
-					var staffId=sessionStorage.getItem("staffId");
-					var token=sessionStorage.getItem("token");
-					var id= this.$route.params.id;
-					this.addCart(id,staffId,token,this.number)
-					.then(res =>{
-						Dialog.alert({
-							title: '提示',
-							message: '添加成功'
-							}).then(() => {
-							// on close
-						});
-					})	
-
+					this.type=type
 				}else{
 					Dialog.alert({
 						title: '提示',

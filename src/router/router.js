@@ -32,7 +32,7 @@ export const productRouter = [
 	  name: 'product',
 	  component:productDetails,
 	  children:[
-		  { path: ':id', title: 'product', name: 'product', component: resolve => { require(['@/view/product/product.vue'], resolve); } },
+		  { path: ':id', title: 'product', name: '商品详情', component: resolve => { require(['@/view/product/product.vue'], resolve); } },
 	  ]
   },
   {
@@ -40,7 +40,7 @@ export const productRouter = [
 	  name: 'collageDetail',
 	  component:productDetails,
 	  children:[
-		  { path: ':id', title: 'collageDetail', name: 'collageDetail', component: resolve => { require(['@/view/collageDetail/collageDetail.vue'], resolve); } },
+		  { path: ':id', title: 'collageDetail', name: '拼团详情', component: resolve => { require(['@/view/collageDetail/collageDetail.vue'], resolve); } },
 	  ]
   },
   {
@@ -48,7 +48,7 @@ export const productRouter = [
 	  name: 'collageShare',
 	  component:productDetails,
 	  children:[
-		  { path: ':id', title: 'collageShare', name: 'collageShare', component: resolve => { require(['@/view/collageShare/collageShare.vue'], resolve); } },
+		  { path: ':id', title: 'collageShare', name: '拼团分享', component: resolve => { require(['@/view/collageShare/collageShare.vue'], resolve); } },
 	  ]
   },
   {
@@ -56,7 +56,7 @@ export const productRouter = [
 		name: 'deliveryView',
 		component: productDetails,
 		children: [
-			{ path: ':id', title: 'delivery', name: 'delivery', component: resolve => { require(['@/view/delivery/delivery.vue'], resolve); } },
+			{ path: ':id', title: 'delivery', name: '提货详情', component: resolve => { require(['@/view/delivery/delivery.vue'], resolve); } },
 		]
   },
 ];
@@ -66,7 +66,7 @@ export const otherRouter = [
 		name: 'pickView',
 		component: Other,
 		children: [
-			{ path: '', title: 'pick', name: 'pick', component: resolve => { require(['@/view/pick/pick.vue'], resolve); } },
+			{ path: '', title: 'pick', name: '提货', component: resolve => { require(['@/view/pick/pick.vue'], resolve); } },
 		]
 	},
 	{
@@ -83,7 +83,7 @@ export const otherRouter = [
 		name: 'goodsListView',
 		component: Other,
 		children: [
-			{ path: ':id', title: 'goodsList', name: 'goodsList', component: resolve => { require(['@/view/goodsList/goodList.vue'], resolve); } },
+			{ path: ':id', title: 'goodsList', name: '全部商品', component: resolve => { require(['@/view/goodsList/goodList.vue'], resolve); } },
 		]
 	},
   {

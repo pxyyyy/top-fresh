@@ -18,7 +18,7 @@
 				<span>活动</span>
 			</div>
 			<div class="index-nav-bar__title" v-if="goodDetailRouter">
-				<span>商品详情</span>
+				<span>{{name}}</span>
 			</div>
 		</div>
 		<router-view v-bind:style="{marginTop:marginTop}"></router-view>
@@ -30,6 +30,7 @@
 			return {
 				isClient:false,
 				marginTop:"46px",
+				name:""
 			}
 		},
 		beforeMount() {
@@ -53,7 +54,8 @@
 				}
 			},
 			goodDetailRouter(){
-				if (this.$route.name == 'product') {
+				if (this.$route.name) {
+					this.name=this.$route.name;
 					return true
 				} else {
 					return false 
