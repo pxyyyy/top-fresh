@@ -91,26 +91,26 @@
 			<van-cell-swipe :right-width="65" :on-close="onClose" v-for="item in goods" :key="item.id">
 				<van-checkbox class="card-goods__item" :name="item.id">
 				</van-checkbox>
-				<div data-v-7f845944="" class="van-cell-group van-hairline--top-bottom">
-					<div data-v-7f845944="" class="van-cell van-hairline">
+				<div class="van-cell-group van-hairline--top-bottom">
+					<div  class="van-cell van-hairline">
 						<span class="van-checkbox__label">
-							<div data-v-7f845944="" class="van-card">
+							<div class="van-card">
 								<div class="van-card__thumb">
 									<img :src="item.thumb" class="van-card__img">
 								</div>
 								<div class="van-card__content">
 									<div class="van-card__row">
-										<div class="van-card__title">{{item.title}}</div>
+										<div class="van-card__title">{{item.carProductName}}</div>
 									</div>
 									<div class="van-card__row">
-										<div class="van-card__desc cart-card__desc">{{item.desc}}</div>
+										<div class="van-card__desc cart-card__desc">{{item.carProductDes}}</div>
 									</div>
 									<div class="van-card__row">
-										<div class="cart-card__price">¥{{item.price}}</div>
+										<div class="cart-card__price">¥{{item.carProductPprice}}</div>
 									</div>
 								</div>
 								<div class="van-card__footer">
-									<van-stepper v-model="value" />
+									<van-stepper v-model="item.carProductNum" @plus="increase(item.carId)" @minus="decrease(item.carId)"/>
 								</div>
 							</div>
 						</span>
@@ -141,41 +141,33 @@
 	  mixins:[service],
 		data() {
 			return {
-				value:1,
+				value:3,
 				select:true,
 				checked: false,
 				checkedGoods: [],
-				goods: [{
-					id: '1',
-					title: '六月黄大闸蟹 2.0两8只 生鲜鲜活螃蟹',
-					desc: '尝鲜六月黄',
-					price: 208,
-					num: 1,
-					thumb: '//img12.360buyimg.com/n1/jfs/t19426/264/1610686010/451016/9b083eb8/5ad0334bNde6fb162.jpg'
-				}, {
-					id: '2',
-					title: '阳澄湖大闸蟹礼券提货券礼卡 1688型 公4.5两母3.5两4对',
-					desc: '阳澄湖大闸蟹行业协会副会长单位',
-					price: 690,
-					num: 1,
-					thumb: '//img10.360buyimg.com/n1/jfs/t17008/286/1590320824/368612/774836ce/5ad03caaN0df5b894.jpg'
-				},
-				{
-					id: '3',
-					title: '阳澄湖大闸蟹 生鲜鲜活螃蟹 全公4.0两3.0母 8只',
-					desc: '下单发现货',
-					price: 2680,
-					num: 1,
-					thumb: '//img10.360buyimg.com/n1/jfs/t19381/96/1600937983/477283/c6ed7e78/5acf421cNf054a904.jpg'
-				}]
+				goods: []
 			}
 		},
 		beforeMount() {
-	    const id  = sessionStorage.getItem('staffid');
-      const touck  = sessionStorage.getItem('touck');
-      this.fetchList(id, touck)
+	    const id  = sessionStorage.getItem('staffId');
+      const token  = sessionStorage.getItem('token');
+      this.fetchList(id, token).then((res)=>{
+        this.goods  = res
+      })
 		},
 		methods: {
+	    // 购物车加
+      increase (carId) {
+        const id  = sessionStorage.getItem('staffId');
+        const token  = sessionStorage.getItem('token');
+        this.add(id, token,carId)
+      },
+      // 购物车减
+      decrease (carId) {
+        const id  = sessionStorage.getItem('staffId');
+        const token  = sessionStorage.getItem('token');
+        this.cut(id, token,carId)
+      },
 			onClose(clickPosition, instance) {
 				switch (clickPosition) {
 					case 'cell':
@@ -201,8 +193,12 @@
 				}
 			},
       goDetails:function(){
-        this.$router.push(
-          `/cartDetermine`
+        this.$router.push({
+            name: 'cartDetermine',
+            params: {
+              goods:this.goods
+            }
+          }
         );
       }
 		}
