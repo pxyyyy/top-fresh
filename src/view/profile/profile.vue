@@ -129,6 +129,9 @@
           case 0 :
             this.$router.push('/LadingRoll')
           break;
+           case 1 :
+            this.$router.push('/cartAddress')
+          break;
           case 2 :
             this.$router.push('/MyCollage')
           break;
