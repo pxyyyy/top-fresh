@@ -1,13 +1,13 @@
 <style  scoped lang="less" scoped>
-  @import "./cartAddress.less";
+@import "./cartAddress.less";
 </style>
 <style>
- .van-radio .van-icon-checked{
+.van-radio .van-icon-checked {
   color: #f77b17;
   font-size: 15px;
   margin-top: 3px;
 }
- .van-radio .van-icon{
+.van-radio .van-icon {
   font-size: 15px;
   margin-top: 3px;
 }
@@ -19,7 +19,7 @@
        </van-nav-bar>
        <!--地址列表-->
        <div class="address-group">
-         <div class="address" v-for="(item,index) in selectStaffAddressList" :key="item.id">
+         <div class="address" v-for="item in selectStaffAddressList" :key="item.staffId">
            <div class="address-top">
              <div class="address-top-left">
                收货人 <span>{{item.adName}}</span>
@@ -52,59 +52,57 @@
      </div>
 </template>
 <script>
-  import service  from '../service/index.js'
-  export default {
-    mixins:[service],
-    data () {
-        return {
-          radio: '1',
-          selectStaffAddressList:[],
+import service from "../service/index.js";
+export default {
+  mixins: [service],
+  data() {
+    return {
+      radio: "1",
+      selectStaffAddressList: []
+    };
+  },
+  methods: {
+    editAddress(id) {
+      this.$router.push({
+        name: "editAddress",
+        params: {
+          id
         }
+      });
     },
-    methods: {
-      editAddress (id) {
-        this.$router.push({
-          name: 'editAddress',
-          params:{
-            id,
-          }
-        })
-      },
-      async Switching (adId) {
-        const id  = sessionStorage.getItem('staffId');
-        const token  = sessionStorage.getItem('token');
-        await this.updateDefaultAddress({
-          staffId:id,
-          token,
-          adId,
-        })
-      },
-      async returnDetermine (adId) {
-        this.$router.go(-1)
-      },
-      goEditing:function () {
-        this.$router.push(
-          `/cartAddressEditing`
-        );
-      },
-      delAddress (adId) {
-        const id  = sessionStorage.getItem('staffId');
-        const token  = sessionStorage.getItem('token');
-        this.deleteAddress({
-          staffId:id,
-          token,
-          adId,
-        }).then((res)=>{
-          this.selectStaffAddressList = res
-        })
-      }
+    async Switching(adId) {
+      const id = sessionStorage.getItem("staffId");
+      const token = sessionStorage.getItem("token");
+      await this.updateDefaultAddress({
+        staffId: id,
+        token,
+        adId
+      });
     },
-  beforeMount () {
-    const id  = sessionStorage.getItem('staffId');
-    const token  = sessionStorage.getItem('token');
-    this.getAddress(id,token).then((res)=>{
-      this.selectStaffAddressList = res
-    })
-  }
-}
+    async returnDetermine(adId) {
+      this.$router.go(-1);
+    },
+    goEditing: function() {
+      this.$router.push(`/cartAddressEditing`);
+    },
+    delAddress(adId) {
+      const id = sessionStorage.getItem("staffId");
+      const token = sessionStorage.getItem("token");
+      this.deleteAddress({
+        staffId: id,
+        token,
+        adId
+      }).then(res => {
+        this.selectStaffAddressList = res;
+      });
+    }
+  },
+  beforeMount() {
+    const id = sessionStorage.getItem("staffId");
+    const token = sessionStorage.getItem("token");
+    this.getAddress(id, token).then(res => {
+      this.selectStaffAddressList = res;
+    });
+  },
+};
 </script>

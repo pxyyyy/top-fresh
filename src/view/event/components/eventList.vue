@@ -1,5 +1,5 @@
 <style scoped lang="less">
-  @import "./eventList.less";
+@import "./eventList.less";
 </style>
 <template>
   <div>
@@ -15,17 +15,14 @@
   </div>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-      };
-    },
-    methods: {
-      returnevent () {
-        this.$router.push(
-          `/event`
-        );
-      }
+export default {
+  data() {
+    return {};
+  },
+  methods: {
+    returnevent() {
+      this.$router.go(-1);
     }
   }
+};
 </script>

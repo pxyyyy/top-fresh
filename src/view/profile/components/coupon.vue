@@ -1,23 +1,23 @@
 <style scoped lang="less">
-  @import "./coupon.less";
+@import "./coupon.less";
 </style>
 <style>
-.coupon .van-tabs__wrap{
+.coupon .van-tabs__wrap {
   z-index: 0;
 }
-.coupon .van-tabs__nav--card .van-tab.van-tab--active{
-  background: none!important;
-  color: #e2bf85!important;
+.coupon .van-tabs__nav--card .van-tab.van-tab--active {
+  background: none !important;
+  color: #e2bf85 !important;
 }
-.coupon .van-tabs__nav--card .van-tab.van-tab--active span{
-  border-bottom:1px solid #e2bf85!important;
+.coupon .van-tabs__nav--card .van-tab.van-tab--active span {
+  border-bottom: 1px solid #e2bf85 !important;
 }
-.coupon .van-tabs__nav--card{
-  border:none!important;
-  border-bottom: 1px solid #ccc!important;
+.coupon .van-tabs__nav--card {
+  border: none !important;
+  border-bottom: 1px solid #ccc !important;
   margin: 0 7%;
 }
-.coupon .van-tab{
+.coupon .van-tab {
   border: none !important;
   padding: 0 20px !important;
 }
@@ -124,16 +124,16 @@
 </template>
 <script>
 export default {
-    name: "coupon",
-    data () {
-      return {
-        active: 2
-      }
-    },
-    methods: {
-      returnProfile () {
-        this.$router.push('/profile')
-      }
+  name: "coupon",
+  data() {
+    return {
+      active: 2
+    };
+  },
+  methods: {
+    returnProfile() {
+      this.$router.go(-1);
     }
-}
+  }
+};
 </script>

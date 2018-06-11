@@ -88,10 +88,10 @@
 <template>
 	<div class="cart-main">
 		<van-checkbox-group class="card-goods" v-model="checkedGoods">
-			<van-cell-swipe :right-width="65" :on-close="onClose" v-for="item in goods" :key="item.id">
-				<van-checkbox class="card-goods__item" :name="item.id">
+			<van-cell-swipe :right-width="65" :on-close="onClose" v-for="item in goods" :key="item.carId">
+				<van-checkbox class="card-goods__item" :name="item.carId">
 				</van-checkbox>
-				<div class="van-cell-group van-hairline--top-bottom">
+        <div class="van-cell-group van-hairline--top-bottom">
 					<div  class="van-cell van-hairline">
 						<span class="van-checkbox__label">
 							<div class="van-card">
@@ -119,7 +119,7 @@
 				<span slot="right">删除</span>
 			</van-cell-swipe>
 		</van-checkbox-group>
-		<div class="cart-info">
+		<div class="cart-info" v-if="Clearing">
 			<div data-v-7f845944="" class="van-cell van-hairline">
 				<div data-v-7f845944="" class="van-cell__title cart-info__all"  @click="change">
 					<van-checkbox v-model="checked" class="cart-info-span">全选</van-checkbox>
@@ -128,7 +128,7 @@
 					<span data-v-7f845944="">合计：
 						<span class="cart-info__price"> ¥3488 </span>
 					</span>
-					<van-button size="small" class="cart-info__btn" @click="goDetails()">结算</van-button>
+					<van-button size="small" class="cart-info__btn" @click="goDetails">结算</van-button>
 				</div>
 			</div>
 		</div>
@@ -136,7 +136,7 @@
 </template>
 <script>
   import service  from './service/index.js'
-	import { Dialog } from 'vant';
+	import { Dialog, Toast } from 'vant';
 	export default {
 	  mixins:[service],
 		data() {
@@ -145,14 +145,20 @@
 				select:true,
 				checked: false,
 				checkedGoods: [],
-				goods: []
+				goods: [],
+        Clearing:true
 			}
 		},
 		beforeMount() {
 	    const id  = sessionStorage.getItem('staffId');
       const token  = sessionStorage.getItem('token');
       this.fetchList(id, token).then((res)=>{
-        this.goods  = res
+        if(res == '') {
+          this.Clearing = false;
+          Toast('购物车空空~');
+        }else {
+          this.goods  = res
+        }
       })
 		},
 		methods: {
@@ -186,20 +192,32 @@
 			change(){
 				if(this.checked){
 					 this.goods.forEach(function (goods) {
-						this.checkedGoods.push(goods.id)
+						this.checkedGoods.push(goods.carId)
 					}, this)
 				}else{
 					this.checkedGoods=[];
 				}
 			},
+      // 结算
       goDetails:function(){
-        this.$router.push({
-            name: 'cartDetermine',
-            params: {
-              goods:this.goods
-            }
-          }
-        );
+
+        // let carIds = JSON.stringify([...this.checkedGoods])
+        // carIds = carIds.split("[")[1].split("]")[0]
+        // const id  = sessionStorage.getItem('staffId');
+        // const token  = sessionStorage.getItem('token');
+        // this.carToOrder({
+        //   carIds,
+        //   staffId:id,
+        //   token,
+        // })
+
+        // this.$router.push({
+        //     name: 'cartDetermine',
+        //     params: {
+        //       goods:this.goods
+        //     }
+        //   }
+        // );
       }
 		}
 	}

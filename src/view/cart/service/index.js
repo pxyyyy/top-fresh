@@ -4,10 +4,8 @@ export default {
   methods: {
     fetchList (staffId,token) {
       return api.get(`fresh_show/prCar/selectProCarList?staffId=${staffId}&token=${token}`).then((res) => {
-        if (res.data.code == 100000 && res.data.message == 'success'){
             const data = res.data.data;
             return data;
-        }
       }).catch((err)=>{
         console.log(err)
       });
@@ -81,6 +79,17 @@ export default {
     // 修改收货地址
     updateStaffAddress(json) {
       return api.post('fresh_show/staffAddress/updateStaffAddress',json).then((res) => {
+        if (res.data.code == 100000 && res.data.message == 'success'){
+          const data = res.data.data;
+          return data;
+        }
+      }).catch((err)=>{
+        console.log(err)
+      });
+    },
+    //购物车结算
+    carToOrder(json) {
+      return api.post('fresh_show/prCar/carToOrder',json).then((res) => {
         if (res.data.code == 100000 && res.data.message == 'success'){
           const data = res.data.data;
           return data;
