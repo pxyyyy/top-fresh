@@ -21,10 +21,8 @@
 		</div>
 		<van-tabs type="card" class="r-tab"   @click="getInfo">
 			<van-tab v-for="index in 2" :title="index == 1 ? '礼卷' : '现货'" :key="index">
-        <img src="../../../../assets/img/组7@2x.png" v-if="index == 1" v-for="i in 4" @click="goGoodInfoVC('1234')" :key="i">
-        <!--<img v-for="item in imgList" :src="item.imgUrl" v-if="index == 1" @click="goGoodInfoVC(item.id)">-->
-				<img src="../../../../assets/img/组7@2x.png" v-if="index == 2" v-for="i in 4" @click="goGoodInfoVC('1234')" :key="i">
-        <!--<img v-for="item in imgList" alt="" :src="item.imgUrl" v-if="index == 2">-->
+        <img v-for="item in imgList" :src="item.imgUrl" v-if="index == 1" @click="goGoodInfoVC(item.id)">
+        <img v-for="item in imgList" alt="" :src="item.imgUrl" v-if="index == 2">
       </van-tab>
 		</van-tabs>
 		<div class="r-more" @click="goGoodListVC('all')">

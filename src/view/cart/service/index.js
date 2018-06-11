@@ -91,6 +91,17 @@ export default {
     carToOrder(json) {
       return api.post('fresh_show/prCar/carToOrder',json).then((res) => {
         if (res.data.code == 100000 && res.data.message == 'success'){
+          const data = res.data
+          return data;
+        }
+      }).catch((err)=>{
+        console.log(err)
+      });
+    },
+    // 订单详情
+    selectOrderPrimaryKey(json) {
+      return api.post('fresh_show/order/selectOrderPrimaryKey',json).then((res) => {
+        if (res.data.code == 100000 && res.data.message == 'success'){
           const data = res.data.data;
           return data;
         }

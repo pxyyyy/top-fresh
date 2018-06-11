@@ -175,7 +175,7 @@
 					var staffId=sessionStorage.getItem("staffId");
 					var token=sessionStorage.getItem("token");
 					var id= this.$route.params.id;
-					this.addOrder(token,staffId,'100001',this.number)
+					this.addOrder(token,staffId, num ,this.number)
 					.then(res =>{
 						this.$router.push(
 							`/cartDetermine?number=`+this.number
@@ -197,7 +197,7 @@
 				var staffId=sessionStorage.getItem("staffId");
 				var token=sessionStorage.getItem("token");
 				var id= this.$route.params.id;
-				this.addCart(token,staffId,'100001',this.number)
+				this.addCart(token,staffId, id ,this.number)
 				.then(res =>{
 					Dialog.alert({
 						title: '提示',
@@ -259,9 +259,8 @@
 		},
 		beforeMount(){
 			var id=this.$route.params.id;
-			this.getProductInfo(100001)//获取列表
+			this.getProductInfo(id)//获取列表
 			.then(res => {
-				console.log(res,"12321");
 				this.product=res;
 			})
 			
