@@ -1,5 +1,5 @@
 <style scoped lang="less">
-	@import './exercise.less';
+@import "./exercise.less";
 </style>
 <template>
 	<div class="exercise">
@@ -26,66 +26,64 @@
 	</div>
 </template>
 <script>
-	export default {
-	  props:['activities'],
-		data() {
-			return {
-			}
-		},
-		beforeMount() {
-		},
-		methods: {
-			goActiveInfoVC(activeId) {
-				let from = this.$route.query.from;
-				console.log("from",from)
-				if(from == "IOS" || from == "Android"){
-					this.$bridge.callHandler('goActiveInfoVC', { "activeid": activeId }, (data) => {
-						console.log("success")
-					})
-				}else{
-					this.$router.push(
-						`/eventList?id=`+activeId
-            // `${activeId.link}?id=${activeId.id}`
-					)
-				}
-
-			},
-			goYouhuiquanVC() {
-				let from = this.$route.query.from;
-				console.log("from",from);
-				if(from == "IOS" || from == "Android"){
-					this.$bridge.callHandler('goYouhuiquanVC', (data) => {
-						console.log("success")
-					})
-				}else{
-					this.$router.push(
-						`/coupon`
-            // link
-					)
-				}
-
-			},
-			goPintuanGoodsVC() {
-				let from = this.$route.query.from;
-				console.log("from",from);
-				if(from == "IOS" || from == "Android"){
-					this.$bridge.callHandler('goPintuanGoodsVC', (data) => {
-						console.log("success")
-					})
-				}else{
-					this.$router.push(
-						`/teamwork`
-            // link
-					)
-				}
-
-			}
-
-		},
-		computed: {
-			viewWeight: function () {
-				return ((window.innerWidth - 20) / 2) + 'px'
-			},
-		}
-	}
+export default {
+  props: ["activities"],
+  data() {
+    return {};
+  },
+  beforeMount() {},
+  methods: {
+    goActiveInfoVC(activeId) {
+      let from = this.$route.query.from;
+      console.log("from", from);
+      if (from == "IOS" || from == "Android") {
+        this.$bridge.callHandler(
+          "goActiveInfoVC",
+          { activeid: activeId },
+          data => {
+            console.log("success");
+          }
+        );
+      } else {
+        this.$router.push(
+          // `/eventList?id=`+activeId
+          `eventList?id=${activeId.id}`
+        );
+      }
+    },
+    goYouhuiquanVC() {
+      let from = this.$route.query.from;
+      console.log("from", from);
+      if (from == "IOS" || from == "Android") {
+        this.$bridge.callHandler("goYouhuiquanVC", data => {
+          console.log("success");
+        });
+      } else {
+        this.$router.push(
+          `/coupon`
+          // link
+        );
+      }
+    },
+    goPintuanGoodsVC() {
+      let from = this.$route.query.from;
+      console.log("from", from);
+      if (from == "IOS" || from == "Android") {
+        this.$bridge.callHandler("goPintuanGoodsVC", data => {
+          console.log("success");
+        });
+      } else {
+        this.$router.push(
+          `/teamwork`
+          // link
+        );
+      }
+    }
+  },
+  computed: {
+    viewWeight: function() {
+      return (window.innerWidth - 20) / 2 + "px";
+    }
+  }
+};
 </script>
