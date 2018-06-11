@@ -29,92 +29,26 @@
     </van-nav-bar>
     <van-tabs v-model="active" class="coupon"  type="card">
       <van-tab v-for="index in 2" :title="index == 1 ? '未使用' : '已过期'">
-        <div v-if="index == 1" class="coupon-content">
+        <div v-if="index == 1" class="coupon-content" v-for="(item,num) in coupon" :key='num'>
           <div class="coupon-item">
             <div class="coupon-item-left">
-              <p><strong>￥</strong> <strong class="coupon-Large">20</strong> </p>
+              <p><strong>￥</strong> <strong class="coupon-Large">{{item.scCouponValue}}</strong> </p>
             </div>
             <div class="coupon-item-right">
-              <p>满199元使用</p>
-              <p>2018.1.1-2018.1.31</p>
-            </div>
-          </div>
-        </div>
-        <div v-if="index == 1" class="coupon-content">
-          <div class="coupon-item">
-            <div class="coupon-item-left">
-              <p><strong>￥</strong> <strong class="coupon-Large">20</strong> </p>
-            </div>
-            <div class="coupon-item-right">
-              <p>满199元使用</p>
-              <p>2018.1.1-2018.1.31</p>
-            </div>
-          </div>
-        </div>
-        <div v-if="index == 1" class="coupon-content">
-          <div class="coupon-item">
-            <div class="coupon-item-left">
-              <p><strong>￥</strong> <strong class="coupon-Large">20</strong> </p>
-            </div>
-            <div class="coupon-item-right">
-              <p>满199元使用</p>
-              <p>2018.1.1-2018.1.31</p>
-            </div>
-          </div>
-        </div>
-        <div v-if="index == 1" class="coupon-content">
-          <div class="coupon-item">
-            <div class="coupon-item-left">
-              <p><strong>￥</strong> <strong class="coupon-Large">20</strong> </p>
-            </div>
-            <div class="coupon-item-right">
-              <p>满199元使用</p>
-              <p>2018.1.1-2018.1.31</p>
-            </div>
-          </div>
-        </div>
-        <div v-if="index == 1" class="coupon-content">
-          <div class="coupon-item">
-            <div class="coupon-item-left">
-              <p><strong>￥</strong> <strong class="coupon-Large">20</strong> </p>
-            </div>
-            <div class="coupon-item-right">
-              <p>满199元使用</p>
-              <p>2018.1.1-2018.1.31</p>
+              <p>满{{item.coupons.couponsMin ? item.coupons.couponsMin : "0" }}元使用</p>
+              <p>{{item.scCouponStartTime.split(" ")[0]}}-{{item.scCouponEndTime.split(" ")[0]}}</p>
             </div>
           </div>
         </div>
         <!--已过期-->
-        <div v-if="index == 2" class="coupon-content coupon-Expired">
+        <div v-if="index == 2" class="coupon-content coupon-Expired" v-for="(item,num) in coupon1" :key='num'>
           <div class="coupon-item">
             <div class="coupon-item-left">
-              <p><strong>￥</strong> <strong class="coupon-Large">20</strong> </p>
+              <p><strong>￥</strong> <strong class="coupon-Large">{{item.scCouponValue}}</strong> </p>
             </div>
             <div class="coupon-item-right">
-              <p>满199元使用</p>
-              <p>2018.1.1-2018.1.31</p>
-            </div>
-          </div>
-        </div>
-        <div v-if="index == 2" class="coupon-content coupon-Expired">
-          <div class="coupon-item">
-            <div class="coupon-item-left">
-              <p><strong>￥</strong> <strong class="coupon-Large">20</strong> </p>
-            </div>
-            <div class="coupon-item-right">
-              <p>满199元使用</p>
-              <p>2018.1.1-2018.1.31</p>
-            </div>
-          </div>
-        </div>
-        <div v-if="index == 2" class="coupon-content coupon-Expired">
-          <div class="coupon-item">
-            <div class="coupon-item-left">
-              <p><strong>￥</strong> <strong class="coupon-Large">20</strong> </p>
-            </div>
-            <div class="coupon-item-right">
-              <p>满199元使用</p>
-              <p>2018.1.1-2018.1.31</p>
+              <p>满{{item.coupons.couponsMin ? item.coupons.couponsMin : "0" }}元使用</p>
+              <p>{{item.scCouponStartTime.split(" ")[0]}}-{{item.scCouponEndTime.split(" ")[0]}}</p>
             </div>
           </div>
         </div>
@@ -123,16 +57,35 @@
   </div>
 </template>
 <script>
+import coupon from '../service/coupon.js'
 export default {
-  name: "coupon",
-  data() {
-    return {
-      active: 2
-    };
-  },
-  methods: {
-    returnProfile() {
-      this.$router.go(-1);
+    name: "coupon",
+    mixins:[coupon],
+    data () {
+      return {
+        active: 2,
+        coupon:null,
+        coupon1:null,
+      }
+    },
+    methods: {
+      returnProfile () {
+        this.$router.push('/profile')
+      }
+    },
+    beforeMount (){
+      var token=sessionStorage.getItem('token')
+      var staffId=sessionStorage.getItem('staffId')
+      this.getCoupon(staffId,token,0)
+      .then( res => {
+        console.log(res)
+        this.coupon=res;
+      })
+      this.getCoupon(staffId,token,1)
+      .then( res => {
+         console.log(res)
+        this.coupon1=res;
+      })
     }
   }
 };

@@ -26,55 +26,21 @@
 </style>
 <template>
 	<div>
-		<van-nav-bar title="我的优惠券" class="evetn-bar">
+		<van-nav-bar title="我的订单" class="evetn-bar">
 			<van-icon name="arrow-left" slot="left" class="evetn-icon" @click="returnProfile" />
 		</van-nav-bar>
 		<van-tabs v-model="active" class="orders" type="card">
 			<van-tab v-for="item in ordersList" :title="item.text">
 				<div class="coupon-content" v-if="item.id == 1">
-					<ul>
+					<ul v-for="(order,index) in orders" :key="index" v-if="order.orderState=='1'">
 						<li class="item">
 							<div class="item-content">
-								<img src="../../../assets/img/Crab.png" alt="" class="item-img">
+								<img :src="order.orderdetails[0].odProductIcon ? order.orderdetails[0].odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
 								<div class="item-info">
-									<p class="item-title">阳澄湖大闸蟹四对礼盒4.0两8只四公四母</p>
-									<p class="item-desc">精品推荐 送礼佳选</p>
-									<p class="item-button"><strong class="money">￥199.00</strong>
-										<span>x1</span>
-									</p>
-								</div>
-							</div>
-							<div class="item-bottom">
-								<p>取消订单 <button>立即付款</button></p>
-							</div>
-						</li>
-					</ul>
-					<ul>
-						<li class="item">
-							<div class="item-content">
-								<img src="../../../assets/img/Crab.png" alt="" class="item-img">
-								<div class="item-info">
-									<p class="item-title">阳澄湖大闸蟹四对礼盒4.0两8只四公四母</p>
-									<p class="item-desc">精品推荐 送礼佳选</p>
-									<p class="item-button"><strong class="money">￥199.00</strong>
-										<span>x1</span>
-									</p>
-								</div>
-							</div>
-							<div class="item-bottom">
-								<p>取消订单 <button>立即付款</button></p>
-							</div>
-						</li>
-					</ul>
-					<ul>
-						<li class="item">
-							<div class="item-content">
-								<img src="../../../assets/img/Crab.png" alt="" class="item-img">
-								<div class="item-info">
-									<p class="item-title">阳澄湖大闸蟹四对礼盒4.0两8只四公四母</p>
-									<p class="item-desc">精品推荐 送礼佳选</p>
-									<p class="item-button"><strong class="money">￥199.00</strong>
-										<span>x1</span>
+									<p class="item-title">{{order.orderdetails[0].odProductName}}</p>
+									<p class="item-desc">{{order.orderdetails[0].odProductDes}}</p>
+									<p class="item-button"><strong class="money">￥{{order.orderAllmoney}}</strong>
+										<span> x {{order.orderdetails[0].odProductNum}}</span>
 									</p>
 								</div>
 							</div>
@@ -85,15 +51,15 @@
 					</ul>
 				</div>
 				<div class="coupon-content" v-if="item.id == 2">
-					<ul>
+					<ul v-for="(order,index) in orders" :key="index" v-if="order.orderState=='2'">
 						<li class="item">
 							<div class="item-content">
-								<img src="../../../assets/img/Crab.png" alt="" class="item-img">
+								<img :src="order.orderdetails[0].odProductIcon ? order.orderdetails[0].odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
 								<div class="item-info">
-									<p class="item-title">阳澄湖大闸蟹四对礼盒4.0两8只四公四母</p>
-									<p class="item-desc">精品推荐 送礼佳选</p>
-									<p class="item-button"><strong class="money">￥199.00</strong>
-										<span>x1</span>
+									<p class="item-title">{{order.orderdetails[0].odProductName}}</p>
+									<p class="item-desc">{{order.orderdetails[0].odProductDes}}</p>
+									<p class="item-button"><strong class="money">￥{{order.orderAllmoney}}</strong>
+										<span> x {{order.orderdetails[0].odProductNum}}</span>
 									</p>
 								</div>
 							</div>
@@ -102,17 +68,18 @@
 							</div>
 						</li>
 					</ul>
+					
 				</div>
 				<div class="coupon-content" v-if="item.id == 3">
-					<ul>
+					<ul v-for="(order,index) in orders" :key="index" v-if="order.orderState=='3'">
 						<li class="item">
 							<div class="item-content">
-								<img src="../../../assets/img/Crab.png" alt="" class="item-img">
+								<img :src="order.orderdetails[0].odProductIcon ? order.orderdetails[0].odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
 								<div class="item-info">
-									<p class="item-title">阳澄湖大闸蟹四对礼盒4.0两8只四公四母</p>
-									<p class="item-desc">精品推荐 送礼佳选</p>
-									<p class="item-button"><strong class="money">￥199.00</strong>
-										<span>x1</span>
+									<p class="item-title">{{order.orderdetails[0].odProductName}}</p>
+									<p class="item-desc">{{order.orderdetails[0].odProductDes}}</p>
+									<p class="item-button"><strong class="money">￥{{order.orderAllmoney}}</strong>
+										<span> x {{order.orderdetails[0].odProductNum}}</span>
 									</p>
 								</div>
 							</div>
@@ -122,13 +89,67 @@
 						</li>
 					</ul>
 				</div>
-				<div class="coupon-content" v-if="item.id == 4">4</div>
+				<div class="coupon-content" v-if="item.id == 4">
+					<ul v-for="(order,index) in orders" :key="index" v-if="order.orderState=='1'">
+						<li class="item">
+							<div class="item-content">
+								<img :src="order.orderdetails[0].odProductIcon ? order.orderdetails[0].odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
+								<div class="item-info">
+									<p class="item-title">{{order.orderdetails[0].odProductName}}</p>
+									<p class="item-desc">{{order.orderdetails[0].odProductDes}}</p>
+									<p class="item-button"><strong class="money">￥{{order.orderAllmoney}}</strong>
+										<span> x {{order.orderdetails[0].odProductNum}}</span>
+									</p>
+								</div>
+							</div>
+							<div class="item-bottom">
+								<p>取消订单 <button>立即付款</button></p>
+							</div>
+						</li>
+					</ul>
+					<ul v-for="(order,index) in orders" :key="index" v-if="order.orderState=='2'">
+						<li class="item">
+							<div class="item-content">
+								<img :src="order.orderdetails[0].odProductIcon ? order.orderdetails[0].odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
+								<div class="item-info">
+									<p class="item-title">{{order.orderdetails[0].odProductName}}</p>
+									<p class="item-desc">{{order.orderdetails[0].odProductDes}}</p>
+									<p class="item-button"><strong class="money">￥{{order.orderAllmoney}}</strong>
+										<span> x {{order.orderdetails[0].odProductNum}}</span>
+									</p>
+								</div>
+							</div>
+							<div class="item-bottom">
+								<p class="item-bottom-two">等待发货</p>
+							</div>
+						</li>
+					</ul>
+					<ul v-for="(order,index) in orders" :key="index" v-if="order.orderState=='3'">
+						<li class="item">
+							<div class="item-content">
+								<img :src="order.orderdetails[0].odProductIcon ? order.orderdetails[0].odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
+								<div class="item-info">
+									<p class="item-title">{{order.orderdetails[0].odProductName}}</p>
+									<p class="item-desc">{{order.orderdetails[0].odProductDes}}</p>
+									<p class="item-button"><strong class="money">￥{{order.orderAllmoney}}</strong>
+										<span> x {{order.orderdetails[0].odProductNum}}</span>
+									</p>
+								</div>
+							</div>
+							<div class="item-bottom">
+								<p> <button class="item-bottom-three">确认收货</button><button>查看物流</button></p>
+							</div>
+						</li>
+					</ul>
+				</div>
 			</van-tab>
 		</van-tabs>
 	</div>
 </template>
 <script>
+	import order from "../service/order.js"
 	export default {
+		mixins:[order],
 		name: "orders",
 		data() {
 			return {
@@ -138,7 +159,8 @@
 					{ id: 2, text: '待发货' },
 					{ id: 3, text: '待收货' },
 					{ id: 4, text: '全部订单' },
-				]
+				],
+				orders:null,
 			}
 		},
 		computed: {
@@ -156,6 +178,15 @@
 			returnProfile() {
 				this.$router.push('/profile')
 			}
+		},
+		beforeMount(){
+			var token=sessionStorage.getItem('token')
+      		var staffId=sessionStorage.getItem('staffId')
+			this.getOrder(staffId,token,'')
+			.then(res => {
+				console.log(res)
+				this.orders=res;
+			})
 		}
 	}
 </script>
