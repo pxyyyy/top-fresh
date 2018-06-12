@@ -7,6 +7,19 @@
       <img v-bind:src="img.src" alt="">
       <span>{{img.text}}</span>
     </div>
+        <div class="keepOn">
+      <p>
+        <span>——</span>推荐商品
+        <span>——</span></p>
+      <div class="img-conent" @click="toProductInfo('123')">
+        <img src="../../assets/img/组7@2x.png" alt=""></div>
+      <div class="img-conent" @click="toProductInfo('123')">
+        <img src="../../assets/img/组7@2x.png" alt=""></div>
+      <div class="img-conent" @click="toProductInfo('123')">
+        <img src="../../assets/img/组7@2x.png" alt=""></div>
+      <div class="img-conent" @click="toProductInfo('123')">
+        <img src="../../assets/img/组7@2x.png" alt=""></div>
+    </div>
 	</div>
 </template>
 <script>

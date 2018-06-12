@@ -42,12 +42,23 @@
 
 .van-stepper__minus,
 .van-stepper__plus {
-  height: 25px;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
 }
-
+.van-stepper__plus {
+  background: #1e1e1e;
+  color: #fff;
+}
+.van-stepper__plus::after, .van-stepper__plus::before{
+  background: #fff
+}
 .van-stepper__input {
   height: 21px;
-  width: 45px;
+  background: none;
+  border:none;
+  font-size: 20px;  
+  color: #868686;
 }
 
 .van-cell-swipe__right {
@@ -108,7 +119,7 @@
 										<div class="van-card__desc cart-card__desc">{{item.carProductDes}}</div>
 									</div>
 									<div class="van-card__row">
-										<div class="cart-card__price">¥{{item.carProductPprice}}</div>
+										<div class="cart-card__price">¥{{item.carProductPprice}}.00</div>
 									</div>
 								</div>
 								<div class="van-card__footer">
@@ -128,7 +139,7 @@
 				</div>
 				<div data-v-7f845944="" class="van-cell__value">
 					<span data-v-7f845944="">合计：
-						<span class="cart-info__price" v-text='totalPrice'></span>
+						<span class="cart-info__price" v-text=" '￥' + totalPrice + '.00'"></span>
 					</span>
 					<van-button size="small" class="cart-info__btn" @click="goDetails">结算</van-button>
 				</div>
