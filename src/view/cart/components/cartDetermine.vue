@@ -1,8 +1,8 @@
 <style lang="less" scoped>
-  @import "./cartDetermine.less";
+@import "./cartDetermine.less";
 </style>
 <style>
-.Cell .van-icon{
+.Cell .van-icon {
   position: absolute;
 }
 </style>
@@ -36,13 +36,13 @@
       </div>
       <!-- 订单详情 -->
       <div>
-        <ul>
+        <ul v-for="item in infoList" :key="item.odProductId">
           <li class="item">
-            <img src="../../../assets/img/Crab.png" alt="" class="item-img">
+            <img :src="item.odProductIcon" alt="" class="item-img">
             <div class="item-info">
-              <p class="item-title">阳澄湖大闸蟹四对礼盒4.0两8只四公四母</p>
+              <p class="item-title">{{item.odProductName}}</p>
               <p class="item-desc">精品推荐 送礼佳选</p>
-              <p class="item-button"><strong class="money">￥199.00</strong> <span>x1</span></p>
+              <p class="item-button"><strong class="money">{{item.odProductPprice}}</strong> <span>{{item.odProductNum}}</span></p>
             </div>
           </li>
         </ul>
@@ -94,7 +94,7 @@
           <div class="border-top price-content">
             <van-row>
               <van-col span="12">商品总额</van-col>
-              <van-col span="12" class="price_right">￥199.00</van-col>
+              <van-col span="12" class="price_right">{{datas.orderAllmoney}}</van-col>
             </van-row>
             <van-row>
               <van-col span="12">代金卷优惠</van-col>
@@ -105,7 +105,7 @@
               <van-col span="12"  class="price_right">-￥10.00</van-col>
             </van-row>
             <van-row class="price-bottom">
-              <van-col span="24"  class="price_right">实付款 <strong class="money">￥199.00</strong></van-col>
+              <van-col span="24"  class="price_right">实付款 <strong class="money">{{datas.orderAllmoney}}</strong></van-col>
             </van-row>
           </div>
         </div>
@@ -130,112 +130,121 @@
       </div>
       <!-- 支付订单 -->
       <div class="cart-foot">
-        <p>付款 :<span>¥199.00</span></p>
+        <p>付款 :<span>{{datas.orderAllmoney}}</span></p>
         <p><van-button size="normal" class="btnColor" @click="goDetails()">支付订单</van-button></p>
       </div>
       <!--付款方式弹出-->
       <van-popup v-model="Payment" class="Payment">
-        <p>付款金额：<span>￥199</span></p>
-        <p>付款方式：<span>微信支付</span></p>
+        <p>付款金额：<span>{{datas.orderAllmoney}}</span></p>
+        <p>付款方式：<span v-text="PaymentType"></span></p>
         <van-button size="small" class="Payment-button" @click="gocartOut">去支付</van-button>
       </van-popup>
     </div>
   </div>
 </template>
 <script>
-import wxpic from '../../../assets/img/wx.png'
-import zfbpic from '../../../assets/img/zfb.png'
-import wxpicActive from '../../../assets/img/active_wx.png'
-import zfbpicActive from '../../../assets/img/active_zfb.png'
-import FeaturesIcon5 from '../../../assets/img/product.png'
-import MailingOnePic from '../../../assets/img/volume-one.png'
-import MailingTwoPic from '../../../assets/img/volume-two.png'
-import ActiveMailingOnePic from '../../../assets/img/active-volume-one.png'
-import ActiveMailingTwoPic from '../../../assets/img/active-volume-two.png'
-import service  from '../service/index.js'
+import wxpic from "../../../assets/img/wx.png";
+import zfbpic from "../../../assets/img/zfb.png";
+import wxpicActive from "../../../assets/img/active_wx.png";
+import zfbpicActive from "../../../assets/img/active_zfb.png";
+import FeaturesIcon5 from "../../../assets/img/product.png";
+import MailingOnePic from "../../../assets/img/volume-one.png";
+import MailingTwoPic from "../../../assets/img/volume-two.png";
+import ActiveMailingOnePic from "../../../assets/img/active-volume-one.png";
+import ActiveMailingTwoPic from "../../../assets/img/active-volume-two.png";
+import service from "../service/index.js";
 export default {
-  mixins:[service],
-  data () {
-        return {
-            imageURL: FeaturesIcon5,
-            checked:false,
-            zfb:false,
-            wx:true,
-            wxPic: wxpicActive,
-            zfbPic:zfbpic,
-            MailingTwoPic:MailingTwoPic,
-            MailingOnePic:ActiveMailingOnePic,
-            Mailing: false,
-            MailingActiveOne:true,
-            MailingActiveTwo:false,
-            Payment:false,
-            away:false,
-            cartList: [{}],
-        }
+  mixins: [service],
+  data() {
+    return {
+      imageURL: FeaturesIcon5,
+      checked: false,
+      zfb: false,
+      wx: true,
+      wxPic: wxpicActive,
+      zfbPic: zfbpic,
+      MailingTwoPic: MailingTwoPic,
+      MailingOnePic: ActiveMailingOnePic,
+      Mailing: false,
+      MailingActiveOne: true,
+      MailingActiveTwo: false,
+      Payment: false,
+      away: false,
+      cartList: [{}],
+      infoList: [],
+      datas: "",
+      PaymentType: "微信支付"
+    };
+  },
+  methods: {
+    showOne() {
+      this.Mailing = true;
     },
-    methods: {
-        showOne () {
-          this.Mailing = true
-        },
-        wxActive() {
-            this.wx = true;
-            this.zfb = false;
-            this.wxPic = wxpicActive;
-            this.zfbPic = zfbpic;
-        },
-        zfbActive() {
-            this.wx = false;
-            this.zfb = true;
-            this.wxPic = wxpic;
-            this.zfbPic = zfbpicActive;
-        },
-        MailingOne () {
-          this.MailingActiveOne = true
-          this.MailingActiveTwo = false
-          this.MailingOnePic = ActiveMailingOnePic
-          this.MailingTwoPic = MailingTwoPic
-        },
-        MailingTwo () {
-          this.MailingActiveOne = false
-          this.MailingActiveTwo = true
-          this.MailingOnePic = MailingOnePic
-          this.MailingTwoPic = ActiveMailingTwoPic
-        },
-        goDetails:function(){
-          this.Payment = true
-        },
-        goAddress:function(){
-          this.$router.push({
-              name: 'cartAddress',
-            }
-          );
-        },
-        returnCart:function() {
-          this.away = true
-        },
-        goaway:function () {
-          this.$router.push(
-            `/cart`
-          );
-        },
-        want:function () {
-          this.away = false
-        },
-        gocartOut () {
-          this.$router.push(
-            `/cartOut`
-          );
-        },
+    wxActive() {
+      this.wx = true;
+      this.zfb = false;
+      this.wxPic = wxpicActive;
+      this.zfbPic = zfbpic;
+      this.PaymentType = "微信支付";
     },
-    async beforeMount () {
-      const id  = sessionStorage.getItem('staffId');
-      const token  = sessionStorage.getItem('token');
-      await this.getAddress(id,token).then((res)=>{
-        this.cartList = res.filter((item,index,arr)=>{
-          return item.adIsdefault == '1';
-        });
-      })
+    zfbActive() {
+      this.wx = false;
+      this.zfb = true;
+      this.wxPic = wxpic;
+      this.zfbPic = zfbpicActive;
+      this.PaymentType = "支付宝支付";
+    },
+    MailingOne() {
+      this.MailingActiveOne = true;
+      this.MailingActiveTwo = false;
+      this.MailingOnePic = ActiveMailingOnePic;
+      this.MailingTwoPic = MailingTwoPic;
+    },
+    MailingTwo() {
+      this.MailingActiveOne = false;
+      this.MailingActiveTwo = true;
+      this.MailingOnePic = MailingOnePic;
+      this.MailingTwoPic = ActiveMailingTwoPic;
+    },
+    goDetails: function() {
+      this.Payment = true;
+    },
+    goAddress: function() {
+      this.$router.push({
+        name: "cartAddress"
+      });
+    },
+    returnCart: function() {
+      this.away = true;
+    },
+    goaway: function() {
+      this.$router.push(`/cart`);
+    },
+    want: function() {
+      this.away = false;
+    },
+    gocartOut() {
+      this.$router.push(`/cartOut`);
     }
-
-}
+  },
+  async beforeMount() {
+    // 地址、
+    const staffId = sessionStorage.getItem("staffId");
+    const token = sessionStorage.getItem("token");
+    await this.getAddress(staffId, token).then(res => {
+      this.cartList = res.filter((item, index, arr) => {
+        return item.adIsdefault == "1";
+      });
+    });
+    // 订单详情
+    this.selectOrderPrimaryKey({
+      staffId,
+      token,
+      orderId:sessionStorage.getItem('orderId')
+    }).then(res => {
+      this.datas = res;
+      this.infoList = res.orderdetails;
+    });
+  }
+};
 </script>
