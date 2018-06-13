@@ -12,7 +12,6 @@ export default {
         getOrder(staffId,token,state){
             return api.get(`fresh_show/order/selectOrderList?staffId=${staffId}&token=${token}&state=${state}`)
             .then(res => {
-                console.log(res.data)
                 if(res.data.code==100000){
                    return res.data.data;
                 }

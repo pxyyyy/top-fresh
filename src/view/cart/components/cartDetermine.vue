@@ -27,7 +27,7 @@
           </van-col>
           <van-col span="20">
             <p>收货人: {{cartList[0].adName}}<span>{{cartList[0].adPhone}}</span> </p>
-            <p>收获地址: {{cartList[0].adAddress}},{{cartList[0].adAddressInfo}}</p>
+            <p style="margin-top:5px;">收货地址: {{cartList[0].adAddress}},{{cartList[0].adAddressInfo}}</p>
           </van-col>
           <van-col span="2" class="address-right">
             <img src="../../../assets/img/Arrow.png" alt="">
@@ -42,15 +42,11 @@
             <div class="item-info">
               <p class="item-title">{{item.odProductName}}</p>
               <p class="item-desc">精品推荐 送礼佳选</p>
-              <p class="item-button"><strong class="money">{{item.odProductPprice}}</strong> <span>{{item.odProductNum}}</span></p>
+              <p class="item-button"><strong class="money">￥{{item.odProductPprice}}</strong> <span>x{{item.odProductNum}}</span></p>
             </div>
           </li>
         </ul>
         <!-- 单元格 -->
-        <div class="select">
-          <p>是否邮寄提货卷</p>
-          <p @click="showOne">请选择<span class="iconfont arrow-icon">&#xe66b;</span></p>
-        </div>
         <!--是否邮寄提货卷弹出-->
         <van-popup v-model="Mailing">
           <van-row class="Mailing">
@@ -75,26 +71,32 @@
             <van-button size="large" class="Mailing_button">确定</van-button>
           </van-row>
         </van-popup>
-        <div class="select padding_top">
-          <div class="border-top padding_top">
+       <div style="padding-top:30px;background:#fff;">
+          <div class="select">
+          <p>是否邮寄提货卷</p>
+          <p @click="showOne">请选择<span class="iconfont arrow-icon">&#xe66b;</span></p>
+        </div>
+        <div class="select">
+          <div class="border-top" style="padding:2px 0;">
             <p>使用代金卷</p>
             <p>选择代金卷<span class="iconfont arrow-icon">&#xe66b;</span></p>
           </div>
         </div>
         <div class="Cell">
-          <div class="border-top padding_top">
+          <div class="border-top" style="padding:2px 0;">
             <p>可用200积分抵扣20元</p>
             <p class="checked">
               <van-checkbox v-model="checked"></van-checkbox>
             </p>
           </div>
         </div>
+       </div>
         <!--价格详情-->
         <div class="price">
           <div class="border-top price-content">
             <van-row>
               <van-col span="12">商品总额</van-col>
-              <van-col span="12" class="price_right">{{datas.orderAllmoney}}</van-col>
+              <van-col span="12" class="price_right" style="font-wight:300;">￥{{datas.orderAllmoney}}</van-col>
             </van-row>
             <van-row>
               <van-col span="12">代金卷优惠</van-col>
@@ -105,7 +107,7 @@
               <van-col span="12"  class="price_right">-￥10.00</van-col>
             </van-row>
             <van-row class="price-bottom">
-              <van-col span="24"  class="price_right">实付款 <strong class="money">{{datas.orderAllmoney}}</strong></van-col>
+              <van-col span="24"  class="price_right">实付款 <strong class="money">￥{{datas.orderAllmoney}}</strong></van-col>
             </van-row>
           </div>
         </div>
@@ -113,16 +115,22 @@
         <div class='payment'>
           <p>付款方式：</p>
           <van-row>
-            <van-col span="12">
+            <van-col span="8">
               <div :class="{wx: true ,wxactive: wx }" @click='wxActive'>
                 <img :src="wxPic" alt="">
                 <p>微信支付</p>
               </div>
             </van-col>
-            <van-col span="12">
+            <van-col span="8">
               <div :class="{zfb: true, zfbactive: zfb }" @click='zfbActive'>
                 <img :src="zfbPic" alt="">
                 <p>支付宝</p>
+              </div>
+            </van-col>
+            <van-col span="8">
+              <div :class="{yl: true, ylactive: yl }" @click='ylActive'>
+                <img :src="ylpic" alt="">
+                <p>银联支付</p>
               </div>
             </van-col>
           </van-row>
@@ -130,12 +138,12 @@
       </div>
       <!-- 支付订单 -->
       <div class="cart-foot">
-        <p>付款 :<span>{{datas.orderAllmoney}}</span></p>
+        <p>付款 :<span>￥{{datas.orderAllmoney}}</span></p>
         <p><van-button size="normal" class="btnColor" @click="goDetails()">支付订单</van-button></p>
       </div>
       <!--付款方式弹出-->
       <van-popup v-model="Payment" class="Payment">
-        <p>付款金额：<span>{{datas.orderAllmoney}}</span></p>
+        <p>付款金额：<span>￥{{datas.orderAllmoney}}</span></p>
         <p>付款方式：<span v-text="PaymentType"></span></p>
         <van-button size="small" class="Payment-button" @click="gocartOut">去支付</van-button>
       </van-popup>
@@ -145,8 +153,10 @@
 <script>
 import wxpic from "../../../assets/img/wx.png";
 import zfbpic from "../../../assets/img/zfb.png";
+import ylpic from "../../../assets/img/yl.png";
 import wxpicActive from "../../../assets/img/active_wx.png";
 import zfbpicActive from "../../../assets/img/active_zfb.png";
+import ylpicActive from "../../../assets/img/ylActive.png";
 import FeaturesIcon5 from "../../../assets/img/product.png";
 import MailingOnePic from "../../../assets/img/volume-one.png";
 import MailingTwoPic from "../../../assets/img/volume-two.png";
@@ -161,8 +171,10 @@ export default {
       checked: false,
       zfb: false,
       wx: true,
+      yl:false,
       wxPic: wxpicActive,
       zfbPic: zfbpic,
+      ylpic: ylpic,
       MailingTwoPic: MailingTwoPic,
       MailingOnePic: ActiveMailingOnePic,
       Mailing: false,
@@ -183,15 +195,28 @@ export default {
     wxActive() {
       this.wx = true;
       this.zfb = false;
+      this.yl = false;
       this.wxPic = wxpicActive;
       this.zfbPic = zfbpic;
+      this.ylpic = ylpic;
       this.PaymentType = "微信支付";
+    },
+    ylActive() {
+      this.wx = false;
+      this.zfb = false;
+      this.yl = true;
+      this.zfbPic = zfbpic;
+      this.wxPic = wxpic;
+      this.ylpic = ylpicActive;
+      this.PaymentType = "银联支付";
     },
     zfbActive() {
       this.wx = false;
       this.zfb = true;
+      this.yl = false;
       this.wxPic = wxpic;
       this.zfbPic = zfbpicActive;
+      this.ylpic = ylpic;
       this.PaymentType = "支付宝支付";
     },
     MailingOne() {

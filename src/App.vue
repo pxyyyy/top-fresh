@@ -33,4 +33,8 @@
 		padding: 0;
 		border: 0;
 	}
+	.van-checkbox--checked {
+		background:#e1bf82; 
+		border: none;
+	}
 </style>
