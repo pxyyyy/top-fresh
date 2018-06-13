@@ -256,11 +256,14 @@ export default {
     // 地址、
     const staffId = sessionStorage.getItem("staffId");
     const token = sessionStorage.getItem("token");
-    await this.getAddress(staffId, token).then(res => {
-      this.cartList = res.filter((item, index, arr) => {
-        return item.adIsdefault == "1";
+    try {
+        await this.getAddress(staffId, token).then(res => {
+          this.cartList = res.filter((item, index, arr) => {
+          return item.adIsdefault == "1";
+        });
       });
-    });
+    } catch (error) {
+    }
     // 订单详情
     this.selectOrderPrimaryKey({
       staffId,
