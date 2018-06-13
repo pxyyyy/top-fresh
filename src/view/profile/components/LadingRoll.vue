@@ -54,7 +54,7 @@
               </div>
             </div>
           </div>
-          <div class="coupon-content" v-if="item.id == 2">
+          <!-- <div class="coupon-content" v-if="item.id == 2">
             <div class="content-group">
               <div class="content-top">
                 <div class="content-top-img">
@@ -77,19 +77,23 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="coupon-content" v-if="item.id == 3">
-            <div class="content-group">
-              <div class="content-top">
+            <div class="content-group"  v-for="item in 5" :key="item">
+              <div class="content-top" style="border-bottom: 1px solid #d3d3d3;" >
                 <div class="content-top-img">
                   <img src="../../../assets/img/ladingroll.png" alt="">
                 </div>
                 <div class="content-top-info">
                   <p>阳澄湖大闸蟹四对礼盒装4.0两x8只 四公四母</p>
-                  <p class="margin-top content-top-info-date color-ccc">领取人手机号：12384536732</p>
-                  <p class="content-top-info-date color-ccc">领取时间2018.7.1 13.25</p>
+                  <!-- <p class="margin-top content-top-info-date color-ccc">领取人手机号：12384536732</p> -->
+                  <div class="content-top-info-date color-ccc">
+                    <p>使用日期</p>
+                    <p>2018.7.1 13.25</p>  
+                  </div>
                 </div>
               </div>
+              <div style="margin-top:5px;"><van-button disabled size="mini">已用</van-button></div>
             </div>
           </div>
         </van-tab>
@@ -105,9 +109,8 @@ export default {
         return{
           active:0,
           ordersList:[
-            {text:'我的提货卷',id:1},
-            {text:'送出未领取',id:2},
-            {text:'送出已领取',id:3},
+            {text:'未用',id:1},
+            {text:'已用',id:3},
           ]
         }
     },

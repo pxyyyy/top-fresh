@@ -18,7 +18,7 @@
             <van-button size="large" @click="goDetails()">确定提货</van-button>
         </div>
         <div class="gy">
-            <p>---当前供应---</p>
+            <p>—当前供应—</p>
             <div v-for="(product,index) in list" :key="index" class="list" @click="toProductInfo(product.id)">
                 <img src="../../assets/img/product.png" alt="" class="img">
                 <div class="title">{{product.title}}</div>

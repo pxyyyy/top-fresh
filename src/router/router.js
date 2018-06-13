@@ -36,6 +36,11 @@ export const productRouter = [
 	  ]
   },
   {
+	  path: '/evaluation',
+	  name: 'evaluation',
+	  component: resolve => { require(['@/view/product/compomemts/evaluation.vue'], resolve); } ,
+  },
+  {
 	  path: '/collageDetail',
 	  name: 'collageDetail',
 	  component:productDetails,
@@ -112,6 +117,11 @@ export const otherRouter = [
     component: resolve => { require(['@/view/cart/components/cartAddressEditing.vue'], resolve); }
   },
   {
+    path: '/evaluationOrder',
+    name: 'evaluationOrder',
+    component: resolve => { require(['@/view/cart/components/evaluationOrder.vue'], resolve); }
+  },
+  {
     path: '/editAddress',
     name: 'editAddress',
     component: resolve => { require(['@/view/cart/components/editAddress.vue'], resolve); }
@@ -175,6 +185,11 @@ export const otherRouter = [
     path: '/teamworkPayment',
     name: 'teamworkPayment',
     component: resolve => { require(['@/view/teamwork/teamworkPayment'], resolve); }
+  },
+  {
+    path: '/Settings',
+    name: 'Settings',
+    component: resolve => { require(['@/view/profile/components/Settings'], resolve); }
   }
 ]
 export const routers = [

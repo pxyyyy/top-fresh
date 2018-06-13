@@ -2,8 +2,43 @@
 	@import "./product.less";
 </style>
 <style>
-	.details_content img{width: 100%;border: 0;vertical-align: middle}
-
+	.details_content img{
+		width: 100%;
+		border: 0;
+		vertical-align: middle
+	}
+	.details .van-tabs__nav--card .van-tab.van-tab--active {
+		background: #fff ;
+		color: #e2c083 ;
+	}
+	.details .van-tabs__nav--card .van-tab.van-tab--active span{
+		border-bottom: 2px solid #e2c083;
+	}
+	.details .van-tabs__nav--card .van-tab {
+		border: none;
+		font-size: 14px;
+		font-weight: 600;
+		color: black;
+	}
+	.details .van-tabs__nav--card {
+		border: none;
+	}
+	.details .van-tabs__nav--card{
+		margin: 10px 15px;
+	}
+	.details .van-tabs--card{
+		padding-top: 45px;
+	}
+	 .details .van-tabs--card .van-tabs__wrap{
+		height: 45px;
+	}
+	 .details .van-tabs__nav{
+		justify-content: center;
+	}
+	.details .van-tab{
+		flex: inherit;
+		padding: 0 40px;
+	}
 </style>
 <template>
     <!-- 商品详情 页面-->
@@ -55,9 +90,42 @@
 			</p>
 		</div>
 		<div class="details" :style="{marginBottom:marginBottom}">
-			<p class="details_title">---- 商品详情 ----</p>
-			<div class="details_content" v-html="info[0].content"></div>
+			<!-- <p class="details_title">---- 商品详情 ----</p> -->
+			<van-tabs type="card">
+			<van-tab v-for="index in 2" :title="index == 1 ? '详情' : '评价(201)'" :key="index">
+				<div class="details_content" v-html="info[0].content" v-if="index == 1"></div>
+				<div class="evaluation"  v-if="index == 2">
+					<div class="evaluationList" v-for="item in 10" :key="item">
+						<van-row style="margin-top:10px;">
+						<van-col span="3.5" offset="1">
+							<img src="../../assets/img/Avatar.png" alt="">
+						</van-col>
+						<van-col span="7.5">
+							<p class="evaluationName">2018旺旺网</p>
+							<van-rate 
+								v-model="evaluationicon" 
+								disabled :size="16" 
+								disabled-color="#fdd951"
+								/>
+						</van-col>
+						<van-col span="14" class="date">2018-02-28</van-col>
+					</van-row>
+					<van-row>
+  						<van-col span="24" class="evaluationText">
+							  你为人热情,性格开朗,亦能说会道。对待学习态度端正,上课能够专心听讲,课下能够认真完成作业。不用去想能攀多高,即使路途遥远,只要一步一个脚印,目标...
+						  </van-col>
+					</van-row>
+					<van-row  class="evaluationPic">
+  						<van-col span="8" v-for="item in 10" :key="item">
+							  <img src="../../assets/img/评价DEMO.png" alt=""  @click='goEvaluation'>
+						  </van-col>
+					</van-row>
+					</div>
+				</div>
+      		</van-tab>
+		</van-tabs>
 		</div>
+		<!-- 接口定义好用这个 -->
 		<!-- <div class="discript">
 			<img src="" alt="">
 			<p class="title">{{product.productName}}</p>
@@ -114,7 +182,7 @@
 </template>
 <script>
 	import img from "../../assets/img/介绍.png";
-	import { Dialog } from 'vant';
+	import { Dialog,Rate } from 'vant';
 	import traceabilityVue from '../traceability/traceability.vue';
 	import productInfo from './service/product.js'
     export default {
@@ -129,6 +197,7 @@
 				show2:false,
 				message:'',
 				type:'',
+				evaluationicon:3,
 				swiperOption: {
 					loop:true,
 					effect:"fade",
@@ -143,7 +212,7 @@
 						discount:"7.0",//折扣
 						number:12,//商品数量
 						type:"0",
-						productType:["大闸蟹·现货"],//商品类型
+						productType:["大闸蟹·现货","2018.2.10"],//商品类型
 						images:[
 							"https://img14.360buyimg.com/popWaterMark/jfs/t17218/268/2177078914/177141/2f4cfd87/5ae920d7N7605a758.jpg",
 							"https://img13.360buyimg.com/popWaterMark/jfs/t18838/254/2140707395/230948/d2c13ef6/5ae920d4N82d84a7f.jpg",
@@ -246,6 +315,9 @@
 					});
 				}	
 				
+			},
+			goEvaluation () {
+				this.$router.push(`/evaluation`)
 			}
 		},
 		mounted(){

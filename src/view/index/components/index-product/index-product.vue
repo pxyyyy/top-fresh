@@ -2,14 +2,14 @@
 	@import './index-product.less';
 </style>
 <style>
-	.van-tab--active {
+	.commodityList .van-tab--active {
 		color: #fff!important;
 		background: #000!important;
 	}
-	.van-tabs__nav--card{
+	.commodityList .van-tabs__nav--card{
 		margin: 0 20%;
 	}
-	.van-tabs__content{
+	.commodityList .van-tabs__content{
 		margin: 10px 10px 0 10px;
 	}
 </style>
@@ -19,7 +19,7 @@
 			<p>极味生鲜活动</p>
 			<span>给您更好的推荐</span>
 		</div>
-		<van-tabs type="card" class="r-tab"   @click="getInfo">
+		<van-tabs type="card" class="r-tab commodityList"   @click="getInfo">
 			<van-tab v-for="index in 2" :title="index == 1 ? '礼卷' : '现货'" :key="index">
         <img v-for="item in imgList" :src="item.imgUrl" v-if="index == 1" @click="goGoodInfoVC(item.id)">
         <img v-for="item in imgList" alt="" :src="item.imgUrl" v-if="index == 2">
