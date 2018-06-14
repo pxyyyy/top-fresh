@@ -6,7 +6,10 @@ Vue.use(VueRouter)
 
 const RouterConfig = {
 	mode: 'history',
-	routes: routers
+	routes: routers,
+	scrollBehavior (to, from, savedPosition) {
+		return { x: 0, y: 0 }
+	}
 };
 
 export const router = new VueRouter(RouterConfig);

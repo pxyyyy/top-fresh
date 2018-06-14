@@ -60,7 +60,7 @@ export default {
         });
       } else {
         this.$router.push(
-          `/coupon`
+          `/myCoupon`
           // link
         );
       }

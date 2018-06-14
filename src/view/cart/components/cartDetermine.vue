@@ -92,7 +92,7 @@
         </div>
        </div>
         <!--价格详情-->
-        <div class="price">
+        <div class="myInfo">
           <div class="border-top price-content">
             <van-row>
               <van-col span="12">商品总额</van-col>

@@ -20,38 +20,14 @@
           </p>
         </div>
       </div>
-      <div class="teamwork-content">
-        <div class="teamwork-img">
-          <img src="../../assets/img/CollageBg.png" alt="">
-        </div>
-        <div class="teamwork-info">
-          <p class="teamwork-info-title">
-            阳澄湖大闸蟹8对装诸如此类标题
-          </p>
-          <p class="teamwork-info-bottom">
-            ￥199.00<span>单买价￥299.00</span> <button @click="goCollage('12333')">去开团</button>
-          </p>
-        </div>
-      </div>
-      <div class="teamwork-content">
-        <div class="teamwork-img">
-          <img src="../../assets/img/CollageBg.png" alt="">
-        </div>
-        <div class="teamwork-info">
-          <p class="teamwork-info-title">
-            阳澄湖大闸蟹8对装诸如此类标题
-          </p>
-          <p class="teamwork-info-bottom">
-            ￥199.00<span>单买价￥299.00</span> <button @click="goCollage('12333')">去开团</button>
-          </p>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 <script>
+import service from './service/order.js'
 export default {
     name: "teamwork",
+    mixins:[service],
     data(){
       return{
 
@@ -66,6 +42,11 @@ export default {
       last () {
         this.$router.go(-1);
       }
+    },
+    beforeMount () {
+    var staffId = sessionStorage.getItem("staffId");
+    var token = sessionStorage.getItem("token");
+      this.getTogetherOrderList(staffId,token)
     }
 }
 </script>
