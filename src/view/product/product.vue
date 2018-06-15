@@ -1,65 +1,65 @@
 <style lang="less" scoped>
-	@import "./product.less";
+@import "./product.less";
 </style>
 <style>
-	.details_content img{
-		width: 100%;
-		border: 0;
-		vertical-align: middle
-	}
-	.details .van-tabs__nav--card .van-tab.van-tab--active {
-		background: #fff ;
-		color: #e2c083 ;
-	}
-	.details .van-tabs__nav--card .van-tab.van-tab--active span{
-		border-bottom: 2px solid #e2c083;
-	}
-	.details .van-tabs__nav--card .van-tab {
-		border: none;
-		font-size: 14px;
-		font-weight: 600;
-		color: black;
-	}
-	.details .van-tabs__nav--card {
-		border: none;
-	}
-	.details .van-tabs__nav--card{
-		margin: 10px 15px;
-	}
-	.details .van-tabs--card{
-		padding-top: 45px;
-	}
-	 .details .van-tabs--card .van-tabs__wrap{
-		height: 45px;
-	}
-	 .details .van-tabs__nav{
-		justify-content: center;
-	}
-	.details .van-tab{
-		flex: inherit;
-		padding: 0 40px;
-	}
+.details_content img {
+  width: 100%;
+  border: 0;
+  vertical-align: middle;
+}
+.details .van-tabs__nav--card .van-tab.van-tab--active {
+  background: #fff;
+  color: #e2c083;
+}
+.details .van-tabs__nav--card .van-tab.van-tab--active span {
+  border-bottom: 2px solid #e2c083;
+}
+.details .van-tabs__nav--card .van-tab {
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: black;
+}
+.details .van-tabs__nav--card {
+  border: none;
+}
+.details .van-tabs__nav--card {
+  margin: 10px 15px;
+}
+.details .van-tabs--card {
+  padding-top: 45px;
+}
+.details .van-tabs--card .van-tabs__wrap {
+  height: 45px;
+}
+.details .van-tabs__nav {
+  justify-content: center;
+}
+.details .van-tab {
+  flex: inherit;
+  padding: 0 20px;
+}
 </style>
 <template>
-    <!-- 商品详情 页面-->
+	<!-- 商品详情 页面-->
 	<div>
 		<!-- 商品主图  有赞轮播组件-->
-        <swiper :options="swiperOption">
-            <swiper-slide v-for="(image, index) in info[0].images" :key="index">
-                <img v-lazy="image" class="img"/>
-            </swiper-slide>
-        </swiper>
+		<swiper :options="swiperOption">
+			<swiper-slide v-for="(image, index) in info[0].images" :key="index">
+				<img v-lazy="image" class="img" />
+			</swiper-slide>
+		</swiper>
 		<!-- 调用接口后 -->
 		<!-- <swiper :options="swiperOption">
             <swiper-slide v-for="(image, index) in product.proImgs" :key="index">
                 <img v-lazy="image.imgSrc" class="img"/>
             </swiper-slide>
         </swiper> -->
-        <!-- 商品详细信息 -->
-        <div class="discript">
+		<!-- 商品详细信息 -->
+		<div class="discript">
 			<img src="" alt="">
 			<p class="title">{{info[0].title}}</p>
-        	<p class="subtitle">{{info[0].subtitle}}</p>
+			<p class="subtitle">{{info[0].subtitle}}</p>
 			<p class="price" v-if="info[0].discount">
 				<span>&yen;{{info[0].newprice}}/{{info[0].number}}只</span>
 				<span class="old">&yen;{{info[0].oldprice}}</span>
@@ -92,38 +92,55 @@
 		<div class="details" :style="{marginBottom:marginBottom}">
 			<!-- <p class="details_title">---- 商品详情 ----</p> -->
 			<van-tabs type="card">
-			<van-tab v-for="index in 2" :title="index == 1 ? '详情' : '评价(201)'" :key="index">
-				<div class="details_content" v-html="info[0].content" v-if="index == 1"></div>
-				<div class="evaluation"  v-if="index == 2">
-					<div class="evaluationList" v-for="item in 10" :key="item">
-						<van-row style="margin-top:10px;">
-						<van-col span="3.5" offset="1">
-							<img src="../../assets/img/Avatar.png" alt="">
-						</van-col>
-						<van-col span="7.5">
-							<p class="evaluationName">2018旺旺网</p>
-							<van-rate 
-								v-model="evaluationicon" 
-								disabled :size="16" 
-								disabled-color="#fdd951"
-								/>
-						</van-col>
-						<van-col span="14" class="date">2018-02-28</van-col>
-					</van-row>
-					<van-row>
-  						<van-col span="24" class="evaluationText">
-							  你为人热情,性格开朗,亦能说会道。对待学习态度端正,上课能够专心听讲,课下能够认真完成作业。不用去想能攀多高,即使路途遥远,只要一步一个脚印,目标...
-						  </van-col>
-					</van-row>
-					<van-row  class="evaluationPic">
-  						<van-col span="8" v-for="item in 10" :key="item">
-							  <img src="../../assets/img/评价DEMO.png" alt=""  @click='goEvaluation'>
-						  </van-col>
-					</van-row>
+				<van-tab v-for="item in ordersList" :title="item.text" :key="item.id">
+					<div class="details_content" v-html="info[0].content" v-if="item.id == 1"></div>
+					<div class="evaluation" v-if="item.id == 2">
+						<div class="evaluationList" v-for="item in 10" :key="item">
+							<van-row style="margin-top:10px;">
+								<van-col span="3.5" offset="1">
+									<img src="../../assets/img/Avatar.png" alt="">
+								</van-col>
+								<van-col span="7.5">
+									<p class="evaluationName">2018旺旺网</p>
+									<van-rate v-model="evaluationicon" disabled :size="16" disabled-color="#fdd951" />
+								</van-col>
+								<van-col span="14" class="date">2018-02-28</van-col>
+							</van-row>
+							<van-row>
+								<van-col span="24" class="evaluationText">
+									你为人热情,性格开朗,亦能说会道。对待学习态度端正,上课能够专心听讲,课下能够认真完成作业。不用去想能攀多高,即使路途遥远,只要一步一个脚印,目标...
+								</van-col>
+							</van-row>
+							<van-row class="evaluationPic">
+								<van-col span="8" v-for="item in 10" :key="item">
+									<img src="../../assets/img/评价DEMO.png" alt="" @click='goEvaluation'>
+								</van-col>
+							</van-row>
+						</div>
 					</div>
-				</div>
-      		</van-tab>
-		</van-tabs>
+					<div v-if="item.id == 3">
+						<div class="keepOn">
+							<p>
+								<span>——</span>
+								推荐商品
+								<span>——</span>
+							</p>
+							<div class="img-conent" @click="toProductInfo('123')">
+								<img src="../../assets/img/组7@2x.png" alt="">
+							</div>
+							<div class="img-conent" @click="toProductInfo('123')">
+								<img src="../../assets/img/组7@2x.png" alt="">
+							</div>
+							<div class="img-conent" @click="toProductInfo('123')">
+								<img src="../../assets/img/组7@2x.png" alt="">
+							</div>
+							<div class="img-conent" @click="toProductInfo('123')">
+								<img src="../../assets/img/组7@2x.png" alt="">
+							</div>
+						</div>
+					</div>
+				</van-tab>
+			</van-tabs>
 		</div>
 		<!-- 接口定义好用这个 -->
 		<!-- <div class="discript">
@@ -162,17 +179,17 @@
 			<p class="details_title">---- 商品详情 ----</p>
 			<div class="details_content" v-html="product.productImg"></div>
 		</div> -->
-        <!-- 商品图文详情 -->
+		<!-- 商品图文详情 -->
 		<van-goods-action v-show="show">
 			<van-goods-action-mini-btn icon="like-o" text="收藏" />
-			<van-goods-action-mini-btn icon="cart" text="购物车" @click="toCart"/>
-			<van-goods-action-mini-btn icon="chat" text="客服" />			
-			<van-goods-action-big-btn text="加入购物车" @click="openCart"/>
-			<van-goods-action-big-btn text="立即购买" primary  @click="openPay('123')"/>
+			<van-goods-action-mini-btn icon="cart" text="购物车" @click="toCart" />
+			<van-goods-action-mini-btn icon="chat" text="客服" />
+			<van-goods-action-big-btn text="加入购物车" @click="openCart" />
+			<van-goods-action-big-btn text="立即购买" primary @click="openPay('123')" />
 		</van-goods-action>
 		<van-actionsheet v-model="show1" title="选择数量">
 			<p style="display:fixed">
-				<span style="padding-left:1.5rem" >数量</span>
+				<span style="padding-left:1.5rem">数量</span>
 				<van-stepper v-model="number"></van-stepper>
 			</p>
 			<van-button size="large" style="background-color:#1e1e1e;color:#fff" @click="toCart1">加入购物车</van-button>
@@ -181,161 +198,145 @@
 	</div>
 </template>
 <script>
-	import img from "../../assets/img/介绍.png";
-	import { Dialog,Rate } from 'vant';
-	import traceabilityVue from '../traceability/traceability.vue';
-	import productInfo from './service/product.js'
-    export default {
-		name:"product_details",
-		mixins:[productInfo],
-        data(){
-            return{
-				marginBottom:'50px',
-				number:1,
-				show:false,
-				show1:false,
-				show2:false,
-				message:'',
-				type:'',
-				evaluationicon:3,
-				swiperOption: {
-					loop:true,
-					effect:"fade",
-				},
-                info:[
-					{
-						id:"1",//商品ID
-						title:"澄阳湖大闸蟹六对礼盒装AB双套餐可选 2.9-2.9两  12只",//商品标题
-						subtitle:"澄阳湖大闸蟹 AB双套餐",//商品副标题
-						oldprice:288.00,//商品原价
-						newprice:188.00,
-						discount:"7.0",//折扣
-						number:12,//商品数量
-						type:"0",
-						productType:["大闸蟹·现货","2018.2.10"],//商品类型
-						images:[
-							"https://img14.360buyimg.com/popWaterMark/jfs/t17218/268/2177078914/177141/2f4cfd87/5ae920d7N7605a758.jpg",
-							"https://img13.360buyimg.com/popWaterMark/jfs/t18838/254/2140707395/230948/d2c13ef6/5ae920d4N82d84a7f.jpg",
-							"https://img14.360buyimg.com/popWaterMark/jfs/t18088/257/2187333638/209669/c11169a0/5ae920d8N05bc65e2.jpg",
-							"https://img30.360buyimg.com/popWaterMark/jfs/t17695/164/1073632144/214246/a74ac508/5ab8ae48N058b7c22.jpg"
-						],//商品主图
-						content:'<div class="d-content"><img src="'+img+'"></div>',//详情,//详情
-						distribution:"顺丰空运",//配送方式
-						integral:"200",//购买可获得的积分数
-						origin:"阳澄湖",//商品产地
-					}
-				],
-				product:null,
-            }
-		},
-		methods: {
-			// 判断用户是否登录
-			isToken(){
-				var token=sessionStorage.getItem("token");
-				if(token){
-					return true
-				}else{
-					return false
-				}
-			},
-			openPay(num){
-				var istoken=this.isToken();
-				if(istoken){
-					var staffId=sessionStorage.getItem("staffId");
-					var token=sessionStorage.getItem("token");
-					var id= this.$route.params.id;
-					this.addOrder(token,staffId, num ,this.number)
-					.then(res =>{
-						this.$router.push(
-							`/cartDetermine?number=`+this.number
-						)
-					})		
-				}else{
-					Dialog.alert({
-						title: '提示',
-						message: '亲，如需购买，请先登录'
-						})
-					.then(() => {
-						this.$router.push(
-							`/login`
-						)	// on close
-					});
-				}				
-			},
-			toCart1(){
-				var staffId=sessionStorage.getItem("staffId");
-				var token=sessionStorage.getItem("token");
-				var id= this.$route.params.id;
-				this.addCart(token,staffId, id ,this.number)
-				.then(res =>{
-					Dialog.alert({
-						title: '提示',
-						message: '添加成功'
-					})
-					.then(() => {
-						this.$router.push(
-							`/cart?number=`+this.number
-						)	// on close
-					});
-				})	
-			},
-			openCart(type){
-				var istoken=this.isToken();
-				if(istoken){
-					this.show1=true;
-					this.type=type
-				}else{
-					Dialog.alert({
-						title: '提示',
-						message: '亲，如需购买，请先登录'
-						})
-					.then(() => {
-						this.$router.push(
-							`/login`
-						)	// on close
-					});
-					
-				}	
-			},
-			toCart(){
-				var istoken=this.isToken();
-				if(istoken){
-					this.$router.push(
-						`/cart?number=`+this.number
-					)
-				}else{
-					Dialog.alert({
-						title: '提示',
-						message: '亲，如需购买，请先登录'
-						})
-					.then(() => {
-						this.$router.push(
-							`/login`
-						)	// on close
-					});
-				}	
-				
-			},
-			goEvaluation () {
-				this.$router.push(`/evaluation`)
-			}
-		},
-		mounted(){
-			let from = this.$route.query.from;
-			if(from=='IOS' || from=='Android'){
-				this.show=false;
-				this.marginBottom='0px'
-			}else{
-				this.show=true;
-			}
-		},
-		beforeMount(){
-			var id=this.$route.params.id;
-			this.getProductInfo(id)//获取列表
-			.then(res => {
-				this.product=res;
-			})
-			
-		}
+import img from "../../assets/img/介绍.png";
+import { Dialog, Rate } from "vant";
+import traceabilityVue from "../traceability/traceability.vue";
+import productInfo from "./service/product.js";
+export default {
+  name: "product_details",
+  mixins: [productInfo],
+  data() {
+    return {
+      marginBottom: "50px",
+      number: 1,
+      show: false,
+      show1: false,
+      show2: false,
+      message: "",
+      type: "",
+      evaluationicon: 3,
+      swiperOption: {
+        loop: true,
+        effect: "fade"
+      },
+      ordersList: [
+        { id: 1, text: "详情" },
+        { id: 2, text: "评价(201)" },
+        { id: 3, text: "推荐" }
+      ],
+      info: [
+        {
+          id: "1", //商品ID
+          title: "澄阳湖大闸蟹六对礼盒装AB双套餐可选 2.9-2.9两  12只", //商品标题
+          subtitle: "澄阳湖大闸蟹 AB双套餐", //商品副标题
+          oldprice: 288.0, //商品原价
+          newprice: 188.0,
+          discount: "7.0", //折扣
+          number: 12, //商品数量
+          type: "0",
+          productType: ["大闸蟹·现货", "2018.2.10"], //商品类型
+          images: [
+            "https://img14.360buyimg.com/popWaterMark/jfs/t17218/268/2177078914/177141/2f4cfd87/5ae920d7N7605a758.jpg",
+            "https://img13.360buyimg.com/popWaterMark/jfs/t18838/254/2140707395/230948/d2c13ef6/5ae920d4N82d84a7f.jpg",
+            "https://img14.360buyimg.com/popWaterMark/jfs/t18088/257/2187333638/209669/c11169a0/5ae920d8N05bc65e2.jpg",
+            "https://img30.360buyimg.com/popWaterMark/jfs/t17695/164/1073632144/214246/a74ac508/5ab8ae48N058b7c22.jpg"
+          ], //商品主图
+          content: '<div class="d-content"><img src="' + img + '"></div>', //详情,//详情
+          distribution: "顺丰空运", //配送方式
+          integral: "200", //购买可获得的积分数
+          origin: "阳澄湖" //商品产地
+        }
+      ],
+      product: null
+    };
+  },
+  methods: {
+    // 判断用户是否登录
+    isToken() {
+      var token = sessionStorage.getItem("token");
+      if (token) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    openPay(num) {
+      var istoken = this.isToken();
+      if (istoken) {
+        var staffId = sessionStorage.getItem("staffId");
+        var token = sessionStorage.getItem("token");
+        var id = this.$route.params.id;
+        this.addOrder(token, staffId, num, this.number).then(res => {
+          this.$router.push(`/cartDetermine?number=` + this.number);
+        });
+      } else {
+        Dialog.alert({
+          title: "提示",
+          message: "亲，如需购买，请先登录"
+        }).then(() => {
+          this.$router.push(`/login`); // on close
+        });
+      }
+    },
+    toCart1() {
+      var staffId = sessionStorage.getItem("staffId");
+      var token = sessionStorage.getItem("token");
+      var id = this.$route.params.id;
+      this.addCart(token, staffId, id, this.number).then(res => {
+        Dialog.alert({
+          title: "提示",
+          message: "添加成功"
+        }).then(() => {
+          this.$router.push(`/cart?number=` + this.number); // on close
+        });
+      });
+    },
+    openCart(type) {
+      var istoken = this.isToken();
+      if (istoken) {
+        this.show1 = true;
+        this.type = type;
+      } else {
+        Dialog.alert({
+          title: "提示",
+          message: "亲，如需购买，请先登录"
+        }).then(() => {
+          this.$router.push(`/login`); // on close
+        });
+      }
+    },
+    toCart() {
+      var istoken = this.isToken();
+      if (istoken) {
+        this.$router.push(`/cart?number=` + this.number);
+      } else {
+        Dialog.alert({
+          title: "提示",
+          message: "亲，如需购买，请先登录"
+        }).then(() => {
+          this.$router.push(`/login`); // on close
+        });
+      }
+    },
+    goEvaluation() {
+      this.$router.push(`/evaluation`);
     }
+  },
+  mounted() {
+    let from = this.$route.query.from;
+    if (from == "IOS" || from == "Android") {
+      this.show = false;
+      this.marginBottom = "0px";
+    } else {
+      this.show = true;
+    }
+  },
+  beforeMount() {
+    var id = this.$route.params.id;
+    this.getProductInfo(id) //获取列表
+      .then(res => {
+        this.product = res;
+      });
+  }
+};
 </script>

@@ -20,6 +20,18 @@ export default {
             .catch(function (error) {
                 console.log(error);
             });
-        }
+        },
+        selectMyLadingByStaffId(json){
+            return api.post("fresh_show/orderTail/selectMyLadingByStaffId",json)
+            .then(res => {
+                if(res.data.code==100000){
+                   return res.data.data;
+                }
+                
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
     }
 }

@@ -34,7 +34,13 @@
 		border: 0;
 	}
 	.van-checkbox--checked {
-		background:#e1bf82; 
-		border: none;
+		background:#e1bf82 !important; 
+		border: none !important;
+	}
+	.van-radio .van-icon-checked{
+		color: #f77b17 !important;
+	}
+	.van-radio .van-icon{
+		font-size: 15px !important;
 	}
 </style>

@@ -190,6 +190,11 @@ export const otherRouter = [
     path: '/Settings',
     name: 'Settings',
     component: resolve => { require(['@/view/profile/components/Settings'], resolve); }
+  },
+  {
+    path: '/myCoupon',
+    name: 'myCoupon',
+    component: resolve => { require(['@/view/myCoupon/myCoupon'], resolve); }
   }
 ]
 export const routers = [

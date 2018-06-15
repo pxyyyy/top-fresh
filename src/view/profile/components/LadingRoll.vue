@@ -103,8 +103,10 @@
 </template>
 
 <script>
+import service from '../service/order.js'
 export default {
     name: "LadingRoll",
+    mixins:[service],
     data () {
         return{
           active:0,
@@ -129,6 +131,14 @@ export default {
         }
       })
     }
+  },
+  beforeMount () {
+    var staffId = sessionStorage.getItem("staffId");
+    var token = sessionStorage.getItem("token");
+    this.selectMyLadingByStaffId({
+      staffId,
+      token,
+    })
   }
 }
 </script>
