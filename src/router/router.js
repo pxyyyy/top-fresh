@@ -152,6 +152,11 @@ export const otherRouter = [
     component: resolve => { require(['@/view/profile/components/LadingRoll.vue'], resolve); }
   },
   {
+    path: '/giftCard',
+    name: 'giftCard',
+    component: resolve => { require(['@/view/profile/components/giftCard.vue'], resolve); }
+  },
+  {
     path: '/LadingRollGive',
     name: 'LadingRollGive',
     component: resolve => { require(['@/view/profile/components/LadingRollGive.vue'], resolve); }

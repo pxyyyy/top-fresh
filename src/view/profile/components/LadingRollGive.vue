@@ -8,7 +8,7 @@
     </van-nav-bar>
     <div class="Give">
       <p>请填写朋友手机号以便本人验证</p>
-      <p><input type="number" maxlength="11" pattern="[0-9]*" oninput="if(value.length>11)value=value.slice(0,11)"/>  </p>
+      <p style="line-height:30px;"><input type="number" maxlength="11" pattern="[0-9]*" oninput="if(value.length>11)value=value.slice(0,11)"/>  </p>
       <p class="Give-Friends">提货卷赠送好友至</p>
       <div class="Give-type">
         <div class="Give-type-icon">

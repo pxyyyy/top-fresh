@@ -8,8 +8,8 @@
   vertical-align: middle;
 }
 .details .van-tabs__nav--card .van-tab.van-tab--active {
-  background: #fff;
-  color: #e2c083;
+  background: #fff !important;
+  color: #e2c083 !important;
 }
 .details .van-tabs__nav--card .van-tab.van-tab--active span {
   border-bottom: 2px solid #e2c083;
@@ -22,6 +22,7 @@
 }
 .details .van-tabs__nav--card {
   border: none;
+  width: 90%;
 }
 .details .van-tabs__nav--card {
   margin: 10px 15px;

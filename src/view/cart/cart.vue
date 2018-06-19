@@ -163,7 +163,7 @@ export default {
       Clearing: true,
       orderId: "",
       total: 0,
-      price: []
+      price: [],
     };
   },
   beforeMount() {
@@ -247,7 +247,7 @@ export default {
   computed: {
     totalPrice() {
       return this.goods.reduce(
-        (total, item) => total + (this.checkedGoods.indexOf(item.carId) !== -1 ? item.carProductPprice * 1 : 0),0);
+        (total, item) => total + (this.checkedGoods.indexOf(item.carId) !== -1 ? item.carProductPprice * 1 * item.carProductNum : 0),0);
     }
   }
 };

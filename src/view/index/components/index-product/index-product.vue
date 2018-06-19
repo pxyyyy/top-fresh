@@ -21,8 +21,8 @@
 		</div>
 		<van-tabs type="card" class="r-tab commodityList"   @click="getInfo">
 			<van-tab v-for="index in 2" :title="index == 1 ? '礼卷' : '现货'" :key="index">
-        <img v-for="item in imgList" :src="item.imgUrl" v-if="index == 1" @click="goGoodInfoVC(item.id)">
-        <img v-for="item in imgList" alt="" :src="item.imgUrl" v-if="index == 2">
+        <img v-for="item in imgList" :src="item.imgUrl" v-if="index == 1" @click="goGoodInfoVC(item.id)" :key="item.id">
+        <img v-for="item in imgList" alt="" :src="item.imgUrl" v-if="index == 2"  @click="goGoodInfoVC(item.id)" :key="item.id">
       </van-tab>
 		</van-tabs>
 		<div class="r-more" @click="goGoodListVC('all')">

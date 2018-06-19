@@ -41,7 +41,7 @@
             <img :src="item.odProductIcon" alt="" class="item-img">
             <div class="item-info">
               <p class="item-title">{{item.odProductName}}</p>
-              <p class="item-desc">精品推荐 送礼佳选</p>
+              <p class="item-desc">{{item.odProductDes}}</p>
               <p class="item-button"><strong class="money">￥{{item.odProductPprice}}</strong> <span>x{{item.odProductNum}}</span></p>
             </div>
           </li>
