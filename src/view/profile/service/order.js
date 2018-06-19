@@ -9,13 +9,10 @@ const api=new API();
 
 export default {
     methods:{
-        getOrder(staffId,token,state){
-            return api.get(`fresh_show/order/selectOrderList?staffId=${staffId}&token=${token}&state=${state}`)
+        getOrder(staffId,token,state,pageSize,pageNum){
+            return api.get(`fresh_show/order/selectOrderList?staffId=${staffId}&token=${token}&state=${state}&pageSize=${pageSize}&pageNum=${pageNum}`)
             .then(res => {
-                if(res.data.code==100000){
-                   return res.data.data;
-                }
-                
+                   return res.data;
             })
             .catch(function (error) {
                 console.log(error);
@@ -24,14 +21,23 @@ export default {
         selectMyLadingByStaffId(json){
             return api.post("fresh_show/orderTail/selectMyLadingByStaffId",json)
             .then(res => {
-                if(res.data.code==100000){
-                   return res.data.data;
-                }
-                
+                return res.data;
             })
             .catch(function (error) {
                 console.log(error);
             });
         },
+        selectOrderPrimaryKey(json){
+            return api.post("fresh_show/order/selectOrderPrimaryKey",json)
+            .then(res => {
+                if(res.data.code==100000){
+                   return res.data.data;
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+
     }
 }

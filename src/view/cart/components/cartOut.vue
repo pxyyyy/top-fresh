@@ -8,28 +8,18 @@
       <span class="iconfont" @click="returnDetermine()">&#xe65c;</span>
     </div>
     <!-- 订单详情 -->
-    <div class="order"><span>订单号：2478654763721367</span></div>
+    <div class="order"><span>订单号：{{orders.orderCode}}</span></div>
     <div>
-        <ul>
-            <li class="item">
-                <img src="../../../assets/img/Crab.png" alt="" class="item-img">
-                <div class="item-info">
-                    <p class="item-title">阳澄湖大闸蟹四对礼盒4.0两8只四公四母</p>
-                    <p class="item-desc">精品推荐 送礼佳选</p>
-                    <p class="item-button"><strong class="money">￥199.00</strong> <span>x1</span></p>
-                </div>
-            </li>
-       </ul>
-        <ul>
-            <li class="item">
-                <img src="../../../assets/img/Crab.png" alt="" class="item-img">
-                <div class="item-info">
-                    <p class="item-title">阳澄湖大闸蟹四对礼盒4.0两8只四公四母</p>
-                    <p class="item-desc">精品推荐 送礼佳选</p>
-                    <p class="item-button"><strong class="money">￥199.00</strong> <span>x1</span></p>
-                </div>
-            </li>
-       </ul>
+      <ul v-for="item in infoList" :key="item.odId">
+          <li class="item">
+            <img :src="item.odProductIcon" alt="" class="item-img">
+            <div class="item-info">
+                <p class="item-title">{{item.odProductName}}</p>
+                <p class="item-desc">{{item.odProductDes}}</p>
+                <p class="item-button"><strong class="money">￥{{item.odProductPprice}}</strong> <span>x{{item.odProductNum}}</span></p>
+            </div>
+          </li>
+      </ul>
     </div>
     <!-- 货品形式 -->
     <div class="myInfoa">
@@ -47,12 +37,12 @@
           <van-col span="12"  class="price_right">-￥10.00</van-col>
         </van-row>
         <van-row class="price-bottom">
-          <van-col span="24"  class="price_right">实付款 <strong class="money">￥199.00</strong></van-col>
+          <van-col span="24"  class="price_right">实付款 <strong class="money">￥{{orders.orderPmoney}}.00</strong></van-col>
         </van-row>
       </div>
     </div>
     <div class="wait">
-        <van-button size="mini"  class='info-button'>等待发货</van-button>
+      <van-button size="mini"  class='info-button'>等待发货</van-button>
     </div>
     <div class="shareIt" @click="goShareIt">
       <img src="../../../assets/img/shareIt.png" alt="">
@@ -61,26 +51,30 @@
         <div class="keepOn">
             <p><span>——</span>继续选购<span>——</span></p>
             <div class="img-conent" @click="toProductInfo('123')">
-                <img src="../../../assets/img/组7@2x.png" alt="">
+              <img src="../../../assets/img/组7@2x.png" alt="">
             </div>
             <div class="img-conent" @click="toProductInfo('123')">
-                <img src="../../../assets/img/组7@2x.png" alt="">
+              <img src="../../../assets/img/组7@2x.png" alt="">
             </div>
             <div class="img-conent" @click="toProductInfo('123')">
-                <img src="../../../assets/img/组7@2x.png" alt="">
+              <img src="../../../assets/img/组7@2x.png" alt="">
             </div>
             <div class="img-conent" @click="toProductInfo('123')">
-                <img src="../../../assets/img/组7@2x.png" alt="">
+              <img src="../../../assets/img/组7@2x.png" alt="">
             </div>
         </div>
   </div>
 </template>
 <script>
+import service from "../service/index.js";
 export default {
     data () {
         return {
+          infoList: '',
+          orders:  ''
         }
     },
+    mixins: [service],
     methods: {
       toProductInfo(productId) {
         this.$router.push(`/product/${productId}`);
@@ -96,6 +90,19 @@ export default {
           }
         );
       }
+    },
+    beforeMount () {
+    // 订单详情
+    const staffId = sessionStorage.getItem("staffId");
+    const token = sessionStorage.getItem("token");
+    this.selectOrderPrimaryKey({
+      staffId,
+      token,
+      orderId:sessionStorage.getItem('orderId')
+    }).then(res => {
+      this.infoList = res.orderdetails;
+      this.orders = res
+    });
     }
 }
 </script>

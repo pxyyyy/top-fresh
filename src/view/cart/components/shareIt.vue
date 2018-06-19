@@ -15,13 +15,12 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
     name: "shareIt",
     methods: {
       gocartDetermine: function () {
-        this.$router.go(-1)
+        this.$router.push('/')
       },
       goshareItOut () {
         this.$router.push(`/shareItOut`)
