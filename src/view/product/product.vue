@@ -1,45 +1,54 @@
 <style lang="less" scoped>
-@import "./product.less";
+	@import "./product.less";
 </style>
 <style>
-.details_content img {
-  width: 100%;
-  border: 0;
-  vertical-align: middle;
-}
-.details .van-tabs__nav--card .van-tab.van-tab--active {
-  background: #fff !important;
-  color: #e2c083 !important;
-}
-.details .van-tabs__nav--card .van-tab.van-tab--active span {
-  border-bottom: 2px solid #e2c083;
-}
-.details .van-tabs__nav--card .van-tab {
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  color: black;
-}
-.details .van-tabs__nav--card {
-  border: none;
-  width: 90%;
-}
-.details .van-tabs__nav--card {
-  margin: 10px 15px;
-}
-.details .van-tabs--card {
-  padding-top: 45px;
-}
-.details .van-tabs--card .van-tabs__wrap {
-  height: 45px;
-}
-.details .van-tabs__nav {
-  justify-content: center;
-}
-.details .van-tab {
-  flex: inherit;
-  padding: 0 20px;
-}
+	.details_content img {
+		width: 100%;
+		border: 0;
+		vertical-align: middle;
+	}
+	
+	.details .van-tabs__nav--card .van-tab.van-tab--active {
+		background: #fff !important;
+		color: #e2c083 !important;
+	}
+	
+	.details .van-tabs__nav--card .van-tab.van-tab--active span {
+		border-bottom: 2px solid #e2c083;
+	}
+	
+	.details .van-tabs__nav--card .van-tab {
+		border: none;
+		font-size: 14px;
+		font-weight: 600;
+		color: black;
+	}
+	
+	.details .van-tabs__nav--card {
+		border: none;
+		width: 90%;
+	}
+	
+	.details .van-tabs__nav--card {
+		margin: 10px 15px;
+	}
+	
+	.details .van-tabs--card {
+		padding-top: 45px;
+	}
+	
+	.details .van-tabs--card .van-tabs__wrap {
+		height: 45px;
+	}
+	
+	.details .van-tabs__nav {
+		justify-content: center;
+	}
+	
+	.details .van-tab {
+		flex: inherit;
+		padding: 0 20px;
+	}
 </style>
 <template>
 	<!-- 商品详情 页面-->
@@ -122,8 +131,7 @@
 					<div v-if="item.id == 3">
 						<div class="keepOn">
 							<p>
-								<span>——</span>
-								推荐商品
+								<span>——</span> 推荐商品
 								<span>——</span>
 							</p>
 							<div class="img-conent" @click="toProductInfo('123')">
@@ -202,147 +210,153 @@
 	</div>
 </template>
 <script>
-import img from "../../assets/img/介绍.png";
-import { Dialog, Rate } from "vant";
-import traceabilityVue from "../traceability/traceability.vue";
-import productInfo from "./service/product.js";
-export default {
-  name: "product_details",
-  mixins: [productInfo],
-  data() {
-    return {
-		cartLictPic: require('../../assets/img/组7@2x.png'),
-		valuationPic: require('../../assets/img/评价DEMO.png'),
-      marginBottom: "50px",
-      number: 1,
-      show: false,
-      show1: false,
-      show2: false,
-      message: "",
-      type: "",
-      evaluationicon: 3,
-      swiperOption: {
-        loop: true,
-        effect: "fade"
-      },
-      ordersList: [
-        { id: 1, text: "详情" },
-        { id: 2, text: "评价(201)" },
-        { id: 3, text: "推荐" }
-      ],
-      info: [
-        {
-          id: "1", //商品ID
-          title: "澄阳湖大闸蟹六对礼盒装AB双套餐可选 2.9-2.9两  12只", //商品标题
-          subtitle: "澄阳湖大闸蟹 AB双套餐", //商品副标题
-          oldprice: 288.0, //商品原价
-          newprice: 188.0,
-          discount: "7.0", //折扣
-          number: 12, //商品数量
-          type: "0",
-          productType: ["大闸蟹·现货", "2018.2.10"], //商品类型
-          images: [
-            "https://img14.360buyimg.com/popWaterMark/jfs/t17218/268/2177078914/177141/2f4cfd87/5ae920d7N7605a758.jpg",
-            "https://img13.360buyimg.com/popWaterMark/jfs/t18838/254/2140707395/230948/d2c13ef6/5ae920d4N82d84a7f.jpg",
-            "https://img14.360buyimg.com/popWaterMark/jfs/t18088/257/2187333638/209669/c11169a0/5ae920d8N05bc65e2.jpg",
-            "https://img30.360buyimg.com/popWaterMark/jfs/t17695/164/1073632144/214246/a74ac508/5ab8ae48N058b7c22.jpg"
-          ], //商品主图
-          content: '<div class="d-content"><img src="' + img + '"></div>', //详情,//详情
-          distribution: "顺丰空运", //配送方式
-          integral: "200", //购买可获得的积分数
-          origin: "阳澄湖" //商品产地
-        }
-      ],
-      product: null
-    };
-  },
-  methods: {
-    // 判断用户是否登录
-    isToken() {
-      var token = sessionStorage.getItem("token");
-      if (token) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    openPay(num) {
-      var istoken = this.isToken();
-      if (istoken) {
-        var staffId = sessionStorage.getItem("staffId");
-        var token = sessionStorage.getItem("token");
-        var id = this.$route.params.id;
-        this.addOrder(token, staffId, num, this.number).then(res => {
-          this.$router.push(`/cartDetermine?number=` + this.number);
-        });
-      } else {
-        Dialog.alert({
-          title: "提示",
-          message: "亲，如需购买，请先登录"
-        }).then(() => {
-          this.$router.push(`/login`); // on close
-        });
-      }
-    },
-    toCart1() {
-      var staffId = sessionStorage.getItem("staffId");
-      var token = sessionStorage.getItem("token");
-      var id = this.$route.params.id;
-      this.addCart(token, staffId, id, this.number).then(res => {
-        Dialog.alert({
-          title: "提示",
-          message: "添加成功"
-        }).then(() => {
-          this.$router.push(`/cart?number=` + this.number); // on close
-        });
-      });
-    },
-    openCart(type) {
-      var istoken = this.isToken();
-      if (istoken) {
-        this.show1 = true;
-        this.type = type;
-      } else {
-        Dialog.alert({
-          title: "提示",
-          message: "亲，如需购买，请先登录"
-        }).then(() => {
-          this.$router.push(`/login`); // on close
-        });
-      }
-    },
-    toCart() {
-      var istoken = this.isToken();
-      if (istoken) {
-        this.$router.push(`/cart?number=` + this.number);
-      } else {
-        Dialog.alert({
-          title: "提示",
-          message: "亲，如需购买，请先登录"
-        }).then(() => {
-          this.$router.push(`/login`); // on close
-        });
-      }
-    },
-    goEvaluation() {
-      this.$router.push(`/evaluation`);
-    }
-  },
-  mounted() {
-    let from = this.$route.query.from;
-    if (from == "IOS" || from == "Android") {
-      this.show = false;
-      this.marginBottom = "0px";
-    } else {
-      this.show = true;
-    }
-  },
-  beforeMount() {
-    var id = this.$route.params.id;
-    this.getProductInfo(id) //获取列表
-      .then(res => {
-        this.product = res;
-      });
-  }
-};
+	import img from "../../assets/img/介绍.png";
+	import { Dialog, Rate } from "vant";
+	import traceabilityVue from "../traceability/traceability.vue";
+	import productInfo from "./service/product.js";
+	export default {
+		name: "product_details",
+		mixins: [productInfo],
+		data() {
+			return {
+				cartLictPic: require('../../assets/img/组7@2x.png'),
+				valuationPic: require('../../assets/img/评价DEMO.png'),
+				marginBottom: "50px",
+				number: 1,
+				show: false,
+				show1: false,
+				show2: false,
+				message: "",
+				type: "",
+				evaluationicon: 3,
+				swiperOption: {
+					loop: true,
+					effect: "fade"
+				},
+				ordersList: [{
+						id: 1,
+						text: "详情"
+					},
+					{
+						id: 2,
+						text: "评价(201)"
+					},
+					{
+						id: 3,
+						text: "推荐"
+					}
+				],
+				info: [{
+					id: "1", //商品ID
+					title: "澄阳湖大闸蟹六对礼盒装AB双套餐可选 2.9-2.9两  12只", //商品标题
+					subtitle: "澄阳湖大闸蟹 AB双套餐", //商品副标题
+					oldprice: 288.0, //商品原价
+					newprice: 188.0,
+					discount: "7.0", //折扣
+					number: 12, //商品数量
+					type: "0",
+					productType: ["大闸蟹·现货", "2018.2.10"], //商品类型
+					images: [
+						"https://img14.360buyimg.com/popWaterMark/jfs/t17218/268/2177078914/177141/2f4cfd87/5ae920d7N7605a758.jpg",
+						"https://img13.360buyimg.com/popWaterMark/jfs/t18838/254/2140707395/230948/d2c13ef6/5ae920d4N82d84a7f.jpg",
+						"https://img14.360buyimg.com/popWaterMark/jfs/t18088/257/2187333638/209669/c11169a0/5ae920d8N05bc65e2.jpg",
+						"https://img30.360buyimg.com/popWaterMark/jfs/t17695/164/1073632144/214246/a74ac508/5ab8ae48N058b7c22.jpg"
+					], //商品主图
+					content: '<div class="d-content"><img src="' + img + '"></div>', //详情,//详情
+					distribution: "顺丰空运", //配送方式
+					integral: "200", //购买可获得的积分数
+					origin: "阳澄湖" //商品产地
+				}],
+				product: null
+			};
+		},
+		methods: {
+			// 判断用户是否登录
+			isToken() {
+				var token = sessionStorage.getItem("token");
+				if(token) {
+					return true;
+				} else {
+					return false;
+				}
+			},
+			openPay(num) {
+				var istoken = this.isToken();
+				if(istoken) {
+					var staffId = sessionStorage.getItem("staffId");
+					var token = sessionStorage.getItem("token");
+					var id = this.$route.params.id;
+					this.addOrder(token, staffId, num, this.number).then(res => {
+						this.$router.push(`/cartDetermine?number=` + this.number);
+					});
+				} else {
+					Dialog.alert({
+						title: "提示",
+						message: "亲，如需购买，请先登录"
+					}).then(() => {
+						this.$router.push(`/login`); // on close
+					});
+				}
+			},
+			toCart1() {
+				var staffId = sessionStorage.getItem("staffId");
+				var token = sessionStorage.getItem("token");
+				var id = this.$route.params.id;
+				this.addCart(token, staffId, id, this.number).then(res => {
+					Dialog.alert({
+						title: "提示",
+						message: "添加成功"
+					}).then(() => {
+						this.$router.push(`/cart?number=` + this.number); // on close
+					});
+				});
+			},
+			openCart(type) {
+				var istoken = this.isToken();
+				if(istoken) {
+					this.show1 = true;
+					this.type = type;
+				} else {
+					Dialog.alert({
+						title: "提示",
+						message: "亲，如需购买，请先登录"
+					}).then(() => {
+						this.$router.push(`/login`); // on close
+					});
+				}
+			},
+			toCart() {
+				var istoken = this.isToken();
+				if(istoken) {
+					this.$router.push(`/cart?number=` + this.number);
+				} else {
+					Dialog.alert({
+						title: "提示",
+						message: "亲，如需购买，请先登录"
+					}).then(() => {
+						this.$router.push(`/login`); // on close
+					});
+				}
+			},
+			goEvaluation() {
+				this.$router.push(`/evaluation`);
+			}
+		},
+		mounted() {
+			let from = this.$route.query.from;
+			if(from == "IOS" || from == "Android") {
+				this.show = false;
+				this.marginBottom = "0px";
+			} else {
+				this.show = true;
+			}
+		},
+		beforeMount() {
+			var id = this.$route.params.id;
+			this.getProductInfo(id) //获取列表
+				.then(res => {
+					this.product = res;
+				});
+		}
+	};
 </script>

@@ -15,75 +15,77 @@
 	export default {
 		data() {
 			return {
-			
+
 			}
 		},
-		beforeMount() {
-		},
+		beforeMount() {},
 		methods: {
 			goGoodListVC(name) {
 				let from = this.$route.query.from;
-				console.log("from",from)
-				if(from =="IOS"){
-					this.$bridge.callHandler('goGoodListVC', { 'name': name }, (data) => {
+				console.log("from", from)
+				if(from == "IOS") {
+					this.$bridge.callHandler('goGoodListVC', {
+						'name': name
+					}, (data) => {
 						console.log("IOS success")
 					})
-				}else if(from =="Android"){
-					this.$bridge.callHandler('goGoodListVC', { 'name': name }, (data) => {
+				} else if(from == "Android") {
+					this.$bridge.callHandler('goGoodListVC', {
+						'name': name
+					}, (data) => {
 						console.log("Android success")
 					})
-				}else{
+				} else {
 					this.$router.push(
-				 		`/goodsList/${name}`
+						`/goodsList/${name}`
 					);
 				}
-				
-				
+
 			},
 			goPickupVC() {
 				console.log("success")
 				let from = this.$route.query.from;
-				console.log("from",from)
-				if(from=="IOS"){
+				console.log("from", from)
+				if(from == "IOS") {
 					this.$bridge.callHandler('goPickupVC', (data) => {
 						console.log("IOS  success")
 					})
-				}else if(from=="Android"){
+				} else if(from == "Android") {
 					this.$bridge.callHandler('goPickupVC', (data) => {
 						console.log("Android success")
 					})
-				}else{
+				} else {
 					this.$router.push(
-				 		`/pick`
+						`/pick`
 					);
 				}
-				
+
 			},
 			goGoodOriginVC() {
 				let from = this.$route.query.from;
-				console.log("from",from)
-				if(from=="IOS"){
+				console.log("from", from)
+				if(from == "IOS") {
 					this.$bridge.callHandler('goGoodOriginVC', (data) => {
 						console.log("success")
 					})
-				}else if(from=="Android"){
+				} else if(from == "Android") {
 					this.$bridge.callHandler('goGoodOriginVC', (data) => {
 						console.log("success")
 					})
-				}else{
+				} else {
 					this.$router.push(
-				 		`/pick`
+						`/pick`
 					);
 				}
-				
+
 			}
 		},
 		mounted() {
 
 		},
 		computed: {
-			viewWeight: function () {
-				return ((window.innerWidth - 20) / 2) + 'px'
+			viewWeight: function() {
+				return((window.innerWidth - 20) / 2) + 'px'
 			},
 		}
 	}
