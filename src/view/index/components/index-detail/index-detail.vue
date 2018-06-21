@@ -8,12 +8,12 @@
 </style>
 <template>
 	<div>
-		<div class="d-content"><img src="../../../../assets/img/介绍.png"></div>
+		<div class="d-content"><img v-lazy="IntroducePic"></div>
 		<div class="d-video">
 				<video-player class="vjs-custom-skin" ref="videoPlayer" :options="playerOptions" :playsinline="true">
 				</video-player>
 			</div>
-			<div class="d-content"><img src="../../../../assets/img/介绍.png"></div>
+			<div class="d-content"><img v-lazy="IntroducePic"></div>
 
 	</div>
 </template>
@@ -21,6 +21,7 @@
 	export default {
 		data() {
 			return {
+	    		IntroducePic: require('../../../../assets/img/介绍.png'),
 				// videojs options
 				playerOptions: {
 					height: '360',

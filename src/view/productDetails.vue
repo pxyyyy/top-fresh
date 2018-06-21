@@ -6,7 +6,7 @@
 	<div>
 		<div class="index-nav-bar" v-if="!isClient" >
 			<div class="index-nav-bar__left" v-if="!currentRoute && !eventRouter && !goodDetailRouter">
-				<img src="../assets//icon//极味生鲜.png" height="15">
+				<img v-lazy="logoPic" height="15">
 			</div>
 			<div @click="shangyiye" class="index-nav-bar__left" v-else  >
 				<van-icon name="arrow-left" />
@@ -28,6 +28,7 @@
 	export default {
 		data() {
 			return {
+	    	logoPic: require('../assets/icon/极味生鲜.png'),
 				isClient:false,
 				marginTop:"46px",
 				name:""

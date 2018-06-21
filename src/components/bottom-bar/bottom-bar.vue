@@ -5,7 +5,7 @@
 	<div class="index-bottom-bar">
 		<router-link class="index-bottom-bar__item" v-bind:class="{index_bottom_bar__active : router == 'index'}" to="/">
 			<div class="index-bottom-bar__icon">
-				<img src="../../assets/icon/首页@2x.png" v-if="router == 'index'">
+				<img v-lazy="currentHome" v-if="router == 'index'">
 				<img src="../../assets/icon/home.png" v-else>
 			</div>
 			<div>
@@ -47,6 +47,10 @@
 		data() {
 			return {
 				// router: 'index',
+				currentHome: require('../../assets/icon/首页@2x.png'),
+				currentActive: require('../../assets/icon/活动@2x.png'),
+				currentCart: require('../../assets/icon/购物车@2x.png'),
+				currentProfile: require('../../assets/icon/个人@2x.png'),
 				token:sessionStorage.getItem('token')
 			}
 		},

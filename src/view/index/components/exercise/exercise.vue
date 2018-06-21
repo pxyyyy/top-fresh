@@ -29,7 +29,8 @@
 export default {
   props: ["activities"],
   data() {
-    return {};
+    return {
+    };
   },
   beforeMount() {},
   methods: {

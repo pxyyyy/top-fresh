@@ -7,7 +7,7 @@
       <van-icon name="arrow-left" slot="left"  class="evetn-icon" @click="returnevent"/>
     </van-nav-bar>
     <div class="item-img">
-      <img src="@/assets/img/介绍.png">
+      <img v-lazy="cartDetails">
     </div>
     <div class="bottom">
       <p><van-icon name="phone" class="phone"/><span>致电咨询</span></p>
@@ -17,7 +17,9 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+    	cartDetails: require('@/assets/img/介绍.png'),
+    };
   },
   methods: {
     returnevent() {

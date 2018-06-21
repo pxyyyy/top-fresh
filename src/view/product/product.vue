@@ -114,7 +114,7 @@
 							</van-row>
 							<van-row class="evaluationPic">
 								<van-col span="8" v-for="item in 10" :key="item">
-									<img src="../../assets/img/评价DEMO.png" alt="" @click='goEvaluation'>
+									<img v-lazy="valuationPic" alt="" @click='goEvaluation'>
 								</van-col>
 							</van-row>
 						</div>
@@ -127,16 +127,19 @@
 								<span>——</span>
 							</p>
 							<div class="img-conent" @click="toProductInfo('123')">
-								<img src="../../assets/img/组7@2x.png" alt="">
+								<img v-lazy="cartLictPic" alt="">
 							</div>
 							<div class="img-conent" @click="toProductInfo('123')">
-								<img src="../../assets/img/组7@2x.png" alt="">
+								<img v-lazy="cartLictPic" alt="">
 							</div>
 							<div class="img-conent" @click="toProductInfo('123')">
-								<img src="../../assets/img/组7@2x.png" alt="">
+								<img v-lazy="cartLictPic" alt="">
 							</div>
 							<div class="img-conent" @click="toProductInfo('123')">
-								<img src="../../assets/img/组7@2x.png" alt="">
+								<img v-lazy="cartLictPic" alt="">
+							</div>
+							<div class="img-conent" @click="toProductInfo('123')">
+								<img v-lazy="cartLictPic" alt="">
 							</div>
 						</div>
 					</div>
@@ -208,6 +211,8 @@ export default {
   mixins: [productInfo],
   data() {
     return {
+		cartLictPic: require('../../assets/img/组7@2x.png'),
+		valuationPic: require('../../assets/img/评价DEMO.png'),
       marginBottom: "50px",
       number: 1,
       show: false,

@@ -78,16 +78,16 @@
                 <span> —— </span>
             </p>
             <div class="img-conent" @click="toProductInfo('123')">
-                <img src="../../assets/img/组7@2x.png" alt="">
+                <img v-lazy="cartLictPic" alt="">
             </div>
             <div class="img-conent" @click="toProductInfo('123')">
-                <img src="../../assets/img/组7@2x.png" alt="">
+                <img v-lazy="cartLictPic" alt="">
             </div>
             <div class="img-conent" @click="toProductInfo('123')">
-                <img src="../../assets/img/组7@2x.png" alt="">
+                <img v-lazy="cartLictPic" alt="">
             </div>
             <div class="img-conent" @click="toProductInfo('123')">
-                <img src="../../assets/img/组7@2x.png" alt="">
+                <img v-lazy="cartLictPic" alt="">
             </div>
         </div>
     </div>
@@ -97,6 +97,7 @@ export default {
   name: "profile",
   data() {
     return {
+		cartLictPic: require('../../assets/img/组7@2x.png'),
       informations: [
         {
           id: "001",

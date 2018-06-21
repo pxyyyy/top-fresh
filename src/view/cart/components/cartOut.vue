@@ -50,17 +50,8 @@
         <!-- 继续选购 -->
         <div class="keepOn">
             <p><span>——</span>继续选购<span>——</span></p>
-            <div class="img-conent" @click="toProductInfo('123')">
-              <img src="../../../assets/img/组7@2x.png" alt="">
-            </div>
-            <div class="img-conent" @click="toProductInfo('123')">
-              <img src="../../../assets/img/组7@2x.png" alt="">
-            </div>
-            <div class="img-conent" @click="toProductInfo('123')">
-              <img src="../../../assets/img/组7@2x.png" alt="">
-            </div>
-            <div class="img-conent" @click="toProductInfo('123')">
-              <img src="../../../assets/img/组7@2x.png" alt="">
+            <div class="img-conent" @click="toProductInfo('123')" v-for="index in 5" :key="index">
+              <img v-lazy="cartLictPic" alt="">
             </div>
         </div>
   </div>
@@ -70,6 +61,7 @@ import service from "../service/index.js";
 export default {
     data () {
         return {
+    	cartLictPic: require('../../../assets/img/组7@2x.png'),
           infoList: '',
           orders:  ''
         }

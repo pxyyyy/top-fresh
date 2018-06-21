@@ -26,11 +26,11 @@
                 </span>    
             </p>
             <ul class="collage-success-info-people">
-                <li><img src="../../assets/img/xhdpi.png" alt=""></li>
-                <li><img src="../../assets/img/xhdpi.png" alt=""></li>
-                <li><img src="../../assets/img/xhdpi.png" alt=""></li>
-                <li><img src="../../assets/img/xhdpi.png" alt=""></li>
-                <li><img src="../../assets/img/xhdpi.png" alt=""></li>
+                <li><img v-lazy="xhdpiPic" alt=""></li>
+                <li><img v-lazy="xhdpiPic" alt=""></li>
+                <li><img v-lazy="xhdpiPic" alt=""></li>
+                <li><img v-lazy="xhdpiPic" alt=""></li>
+                <li><img v-lazy="xhdpiPic" alt=""></li>
             </ul>
             <p class="collage-success-info-success">
                 还差<span class="num">4</span>人,剩余<span class="time">2</span>天<span class="time">23</span>小时 结束
@@ -71,6 +71,7 @@ import traceabilityVue from '../traceability/traceability.vue';
         name:"product_details",
         data(){
             return{
+            	xhdpiPic: require('../../assets/img/xhdpi.png'),
 				marginBottom:'50px',
 				number:1,
 				show:false,
