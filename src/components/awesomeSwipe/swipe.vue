@@ -10,7 +10,7 @@
 <template>
 	<swiper :options="swiperOption">
 		<swiper-slide v-for="item in sysbanners" :key="item.id" @click.native="toTeacher(item)">
-      <img src="../../assets/img/banner.png" alt="">
+      <img v-lazy="bannerPic" alt="">
       <!--后台调用数据-->
       <!--<img :src="item.imgUrl ? item.imgUrl : '../../assets/img/banner.png'">-->
 		</swiper-slide>
@@ -23,6 +23,7 @@
 	  props:['sysbanners'],
 		data() {
 			return {
+				bannerPic: require('../../assets/img/banner.png'),
 				swiperOption: {
 					loop: true,
 					effect: 'fade',

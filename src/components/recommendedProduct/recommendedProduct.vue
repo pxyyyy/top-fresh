@@ -13,7 +13,7 @@
     <div>
         <div class="gy">
             <div v-for="(product,index) in list" :key="index" class="list" @click="toProductInfo('123')">
-                <img src="../../../assets/img/product.png" alt="" class="img">
+                <img v-lazy="productPic" alt="" class="img">
                 <div class="title">{{product.title}}</div>
                 <div class="gg">{{product.liang}}两 x {{product.number}}只</div>
                 <div class="price">&yen;{{product.price}}</div> 
@@ -26,6 +26,7 @@ export default {
   name: "giftCard",
   data() {
     return {
+    	productPic: require('../../../assets/img/product.png'),
       list: [
         {
           title: "阳澄湖大闸蟹4对现货",

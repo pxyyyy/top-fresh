@@ -9,7 +9,7 @@
     <div class="teamwork">
       <div class="teamwork-content">
         <div class="teamwork-img">
-          <img src="../../assets/img/CollageBg.png" alt="">
+          <img v-lazy="CollageBgPic" alt="">
         </div>
         <div class="teamwork-info">
           <p class="teamwork-info-title">
@@ -30,7 +30,7 @@ export default {
     mixins:[service],
     data(){
       return{
-
+				CollageBgPic: require('../../assets/img/CollageBg.png'),
       }
     },
     methods:{

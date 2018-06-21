@@ -15,7 +15,7 @@
 	</van-nav-bar> -->
 		<div class="index-nav-bar" v-if="!isClient" >
 			<div class="index-nav-bar__left" v-if="!currentRoute && !eventRouter">
-				<img src="../assets//icon//极味生鲜.png" height="15">
+				<img v-lazy="logoPic" height="15">
 			</div>
 			<div class="index-nav-bar__title" v-if="currentRoute">
 				<span>购物车(3)</span>
@@ -33,6 +33,7 @@
 	export default {
 		data() {
 			return {
+	    	logoPic: require('../assets//icon/极味生鲜.png'),
 				router: 'index',
 				icon: {
 					normal: '//img.yzcdn.cn/1.png',

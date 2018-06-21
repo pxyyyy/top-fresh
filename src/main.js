@@ -27,7 +27,9 @@ import '@/assets/iconfont/iconfont.css'
 //use custom
 Vue.use(Vant);
 Vue.use(VueAwesomeSwiper)
-Vue.use(Lazyload);
+Vue.use(Lazyload, {
+  observer: true
+});
 Vue.use(Rate);
 Vue.use(VueVideoPlayer)
 
