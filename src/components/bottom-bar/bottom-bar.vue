@@ -51,7 +51,7 @@
 				currentActive: require('../../assets/icon/活动@2x.png'),
 				currentCart: require('../../assets/icon/购物车@2x.png'),
 				currentProfile: require('../../assets/icon/个人@2x.png'),
-				token:sessionStorage.getItem('token')
+				token:this.getCookie("staffId")
 			}
 		},
 		computed: {
@@ -62,7 +62,7 @@
 		methods: {
 			toSecond(path){
 				if(path == "cart" || path == 'profile' ){
-					var token=sessionStorage.getItem("token") || "";
+					var token= this.getCookie("staffId")  || "";
 					if(token == "" || token==undefined || token == null){
 						Dialog.alert({
 						title: '提示',
@@ -78,6 +78,15 @@
 					}
 				}
 				
+			},
+			// 获取cook
+			getCookie (name) {
+				var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+				if(arr=document.cookie.match(reg)){
+					return unescape(arr[2]);
+				}else{
+					return null; 
+				}
 			},
 			isActivty(path) {
 				this.router = path

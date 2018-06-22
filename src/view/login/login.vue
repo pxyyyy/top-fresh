@@ -86,6 +86,13 @@
 			}
 		},
 		methods: {
+			// setCookieMethods
+			setCookie (token,staffId) {
+				var Days = 30;   //cookie 将被保存30天
+				var exp  = new Date();  //获得当前时间
+				exp.setTime(exp.getTime() + Days*24*60*60*1000);  //换成毫秒
+				document.cookie = token + "="+ staffId + "; expires=" + exp.toGMTString();
+			},
 			// 点击下一步获取验证码
 			nextStep: function() {
 				// 验证手机号
@@ -120,8 +127,8 @@
 			sureStep: function() {
 				this.toLogin(this.phone, this.value)
 					.then(res => {
-						sessionStorage.setItem('token', res[0].staffToken);
-						sessionStorage.setItem('staffId', res[0].staffId);
+						this.setCookie('token', res[0].staffToken),
+						this.setCookie('staffId', res[0].staffId),
 						this.$router.go(-1)
 					})
 				// this.$router.push(`/index`);

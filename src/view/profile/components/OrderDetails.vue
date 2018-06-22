@@ -71,34 +71,43 @@
 </template>
 
 <script>
-	import order from "../service/order.js";
-	export default {
-		name: "OrderDetails",
-		mixins: [order],
-		data() {
-			return {
-				list: ''
-			}
-		},
-		methods: {
-			goShareIt: function() {
-				this.$router.push('/ShareIt')
-			},
-			last() {
-				this.$router.go(-1)
-			}
-		},
-		beforeMount() {
-			var staffId = sessionStorage.getItem("staffId");
-			var token = sessionStorage.getItem("token");
-			this.selectOrderPrimaryKey({
-				staffId,
-				token,
-				orderId: this.$route.params.orderId.odOrderId
-			}).then((res) => {
-				this.list = res
-				console.log(this.list)
-			})
-		}
-	}
+import order from "../service/order.js";
+export default {
+    name: "OrderDetails",
+    mixins: [order],
+    data () {
+      return {
+        list:''
+      }
+    },
+    methods: {
+      // 获取cook
+      getCookie (name) {
+        var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+        if(arr=document.cookie.match(reg)){
+          return unescape(arr[2]);
+        }else{
+          return null; 
+        }
+      },
+      goShareIt:function () {
+        this.$router.push('/ShareIt')
+      },
+      last () {
+        this.$router.go(-1)
+      }
+    },
+    beforeMount () {
+      var token = this.getCookie("token");
+      var staffId = this.getCookie("staffId");
+      this.selectOrderPrimaryKey({
+        staffId,
+        token,
+        orderId:this.$route.params.orderId.odOrderId
+      }).then((res)=>{
+        this.list = res
+        console.log(this.list)
+      })
+    }
+}
 </script>

@@ -153,127 +153,137 @@
 	</div>
 </template>
 <script>
-	import wxpic from "../../../assets/img/wx.png";
-	import zfbpic from "../../../assets/img/zfb.png";
-	import ylpic from "../../../assets/img/yl.png";
-	import wxpicActive from "../../../assets/img/active_wx.png";
-	import zfbpicActive from "../../../assets/img/active_zfb.png";
-	import ylpicActive from "../../../assets/img/ylActive.png";
-	import FeaturesIcon5 from "../../../assets/img/product.png";
-	import MailingOnePic from "../../../assets/img/volume-one.png";
-	import MailingTwoPic from "../../../assets/img/volume-two.png";
-	import ActiveMailingOnePic from "../../../assets/img/active-volume-one.png";
-	import ActiveMailingTwoPic from "../../../assets/img/active-volume-two.png";
-	import service from "../service/index.js";
-	export default {
-		mixins: [service],
-		data() {
-			return {
-				imageURL: FeaturesIcon5,
-				checked: false,
-				zfb: false,
-				wx: true,
-				yl: false,
-				wxPic: wxpicActive,
-				zfbPic: zfbpic,
-				ylpic: ylpic,
-				MailingTwoPic: MailingTwoPic,
-				MailingOnePic: ActiveMailingOnePic,
-				Mailing: false,
-				MailingActiveOne: true,
-				MailingActiveTwo: false,
-				Payment: false,
-				away: false,
-				cartList: [{}],
-				infoList: [],
-				datas: "",
-				PaymentType: "微信支付"
-			};
-		},
-		methods: {
-			showOne() {
-				this.Mailing = true;
-			},
-			wxActive() {
-				this.wx = true;
-				this.zfb = false;
-				this.yl = false;
-				this.wxPic = wxpicActive;
-				this.zfbPic = zfbpic;
-				this.ylpic = ylpic;
-				this.PaymentType = "微信支付";
-			},
-			ylActive() {
-				this.wx = false;
-				this.zfb = false;
-				this.yl = true;
-				this.zfbPic = zfbpic;
-				this.wxPic = wxpic;
-				this.ylpic = ylpicActive;
-				this.PaymentType = "银联支付";
-			},
-			zfbActive() {
-				this.wx = false;
-				this.zfb = true;
-				this.yl = false;
-				this.wxPic = wxpic;
-				this.zfbPic = zfbpicActive;
-				this.ylpic = ylpic;
-				this.PaymentType = "支付宝支付";
-			},
-			MailingOne() {
-				this.MailingActiveOne = true;
-				this.MailingActiveTwo = false;
-				this.MailingOnePic = ActiveMailingOnePic;
-				this.MailingTwoPic = MailingTwoPic;
-			},
-			MailingTwo() {
-				this.MailingActiveOne = false;
-				this.MailingActiveTwo = true;
-				this.MailingOnePic = MailingOnePic;
-				this.MailingTwoPic = ActiveMailingTwoPic;
-			},
-			goDetails: function() {
-				this.Payment = true;
-			},
-			goAddress: function() {
-				this.$router.push({
-					name: "cartAddress"
-				});
-			},
-			returnCart: function() {
-				this.away = true;
-			},
-			goaway: function() {
-				this.$router.push(`/cart`);
-			},
-			want: function() {
-				this.away = false;
-			},
-			gocartOut() {
-				this.$router.push(`/cartOut`);
-			}
-		},
-		async beforeMount() {
-			// 地址、
-			const staffId = sessionStorage.getItem("staffId");
-			const token = sessionStorage.getItem("token");
-			try {
-				await this.getAddress(staffId, token).then(res => {
-					this.cartList = res.filter((item, index, arr) => {
-						return item.adIsdefault == "1";
-					});
-				});
-			} catch(error) {}
-			// 订单详情
-			this.selectOrderPrimaryKey({
-				staffId,
-				token,
-				orderId: sessionStorage.getItem('orderId')
-			}).then(res => {
-				this.datas = res;
-				this.infoList = res.orderdetails;
-			});
-		}
-	};
+import wxpic from "../../../assets/img/wx.png";
+import zfbpic from "../../../assets/img/zfb.png";
+import ylpic from "../../../assets/img/yl.png";
+import wxpicActive from "../../../assets/img/active_wx.png";
+import zfbpicActive from "../../../assets/img/active_zfb.png";
+import ylpicActive from "../../../assets/img/ylActive.png";
+import FeaturesIcon5 from "../../../assets/img/product.png";
+import MailingOnePic from "../../../assets/img/volume-one.png";
+import MailingTwoPic from "../../../assets/img/volume-two.png";
+import ActiveMailingOnePic from "../../../assets/img/active-volume-one.png";
+import ActiveMailingTwoPic from "../../../assets/img/active-volume-two.png";
+import service from "../service/index.js";
+export default {
+  mixins: [service],
+  data() {
+    return {
+      imageURL: FeaturesIcon5,
+      checked: false,
+      zfb: false,
+      wx: true,
+      yl:false,
+      wxPic: wxpicActive,
+      zfbPic: zfbpic,
+      ylpic: ylpic,
+      MailingTwoPic: MailingTwoPic,
+      MailingOnePic: ActiveMailingOnePic,
+      Mailing: false,
+      MailingActiveOne: true,
+      MailingActiveTwo: false,
+      Payment: false,
+      away: false,
+      cartList: [{}],
+      infoList: [],
+      datas: "",
+      PaymentType: "微信支付"
+    };
+  },
+  methods: {
+    // 获取cook
+    getCookie (name) {
+      var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+      if(arr=document.cookie.match(reg)){
+        return unescape(arr[2]);
+      }else{
+        return null; 
+      }
+    },
+    showOne() {
+      this.Mailing = true;
+    },
+    wxActive() {
+      this.wx = true;
+      this.zfb = false;
+      this.yl = false;
+      this.wxPic = wxpicActive;
+      this.zfbPic = zfbpic;
+      this.ylpic = ylpic;
+      this.PaymentType = "微信支付";
+    },
+    ylActive() {
+      this.wx = false;
+      this.zfb = false;
+      this.yl = true;
+      this.zfbPic = zfbpic;
+      this.wxPic = wxpic;
+      this.ylpic = ylpicActive;
+      this.PaymentType = "银联支付";
+    },
+    zfbActive() {
+      this.wx = false;
+      this.zfb = true;
+      this.yl = false;
+      this.wxPic = wxpic;
+      this.zfbPic = zfbpicActive;
+      this.ylpic = ylpic;
+      this.PaymentType = "支付宝支付";
+    },
+    MailingOne() {
+      this.MailingActiveOne = true;
+      this.MailingActiveTwo = false;
+      this.MailingOnePic = ActiveMailingOnePic;
+      this.MailingTwoPic = MailingTwoPic;
+    },
+    MailingTwo() {
+      this.MailingActiveOne = false;
+      this.MailingActiveTwo = true;
+      this.MailingOnePic = MailingOnePic;
+      this.MailingTwoPic = ActiveMailingTwoPic;
+    },
+    goDetails: function() {
+      this.Payment = true;
+    },
+    goAddress: function() {
+      this.$router.push({
+        name: "cartAddress"
+      });
+    },
+    returnCart: function() {
+      this.away = true;
+    },
+    goaway: function() {
+      this.$router.push(`/cart`);
+    },
+    want: function() {
+      this.away = false;
+    },
+    gocartOut() {
+      this.$router.push(`/cartOut/${this.$route.params.orderId}`);
+    }
+  },
+  async beforeMount() {
+    // 地址、
+    const staffId = this.getCookie('staffId')
+    const token = this.getCookie('token')
+    try {
+        await this.getAddress(staffId, token).then(res => {
+          this.cartList = res.filter((item, index, arr) => {
+          return item.adIsdefault == "1";
+        });
+      });
+    } catch (error) {
+    }
+    // 订单详情
+    this.selectOrderPrimaryKey({
+      staffId,
+      token,
+      orderId:this.$route.params.orderId
+    }).then(res => {
+      this.datas = res;
+      this.infoList = res.orderdetails;
+    });
+  }
+};
 </script>

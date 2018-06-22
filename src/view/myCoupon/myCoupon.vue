@@ -36,78 +36,84 @@
 </template>
 
 <script>
-	import service from "./service";
-	export default {
-		mixins: [service],
-		data() {
-			return {
-				myCouponList: "",
-				loading: false,
-				finished: false,
-				pageNum: 1,
-				type: '立即领取',
-				code: ''
-			};
+import service from "./service";
+export default {
+  mixins: [service],
+  data() {
+    return {
+      myCouponList: "",
+      loading: false,
+      finished: false,
+      pageNum: 1,
+      type: '立即领取',
+      code: '',
+      staffId: this.getCookie("staffId"),
+      token: this.getCookie("token")
+    };
+  },
+  methods: {
+    // 获取cook
+    getCookie (name) {
+      var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+      if(arr=document.cookie.match(reg)){
+        return unescape(arr[2]);
+      }else{
+        return null; 
+      }
+    },
+    last() {
+      this.$router.go(-1);
+    },
+    loadMore (index) {
+      this.pageNum ++
+      this.getCouponsOfReceive({
+        staffId:this,staffId,
+        token:this.token,
+        pageNum: this.pageNum,
+        pageSize: 7
+      }).then((res) =>{
+        this.code = res.code
+        this.myCouponList = this.myCouponList.concat(res.data);
+      })
 		},
-		methods: {
-			last() {
-				this.$router.go(-1);
-			},
-			loadMore(index) {
-				var staffId = sessionStorage.getItem("staffId");
-				var token = sessionStorage.getItem("token");
-				this.pageNum++
-					this.getCouponsOfReceive({
-						staffId,
-						token,
-						pageNum: this.pageNum,
-						pageSize: 7
-					}).then((res) => {
-						this.code = res.code
-						this.myCouponList = this.myCouponList.concat(res.data);
-					})
-			},
-			async getCoupon(item) {
-				var staffId = sessionStorage.getItem("staffId");
-				var token = sessionStorage.getItem("token");
-				await this.fetchgetCouponsOfReceiveList({
-					staffId,
-					token,
-					scCouponId: item.couponsId,
-					scStaffId: item.scStaffId,
-					scCouponType: item.couponsType,
-					scCouponValue: item.couponsValue,
-					scCouponStartTime: item.couponsReceiveStartTime,
-					scCouponEndTime: item.couponsReceiveEndTime,
-					scCouponState: 0,
-					scStaffId: staffId
-				});
-				this.getCouponsOfReceive({
-					staffId,
-					token,
-					pageNum: this.pageNum,
-					pageSize: 7
-				}).then(res => {
-					this.myCouponList = res.data;
-					this.code = res.code
-				});
-			},
-		},
-		computed: {},
-		beforeMount() {
-			var staffId = sessionStorage.getItem("staffId");
-			var token = sessionStorage.getItem("token");
-			this.getCouponsOfReceive({
-				staffId,
-				token,
-				pageNum: 1,
-				pageSize: 7
-			}).then((res) => {
-				this.code = res.code
-				this.myCouponList = res.data
-			})
-		}
-	};
+    async getCoupon (item) {
+      await this.fetchgetCouponsOfReceiveList({
+        staffId:this.staffId,
+        token:this.token,
+        scCouponId:item.couponsId,
+        scStaffId:item.scStaffId,
+        scCouponType:item.couponsType,
+        scCouponValue:item.couponsValue,
+        scCouponStartTime:item.couponsReceiveStartTime,
+        scCouponEndTime:item.couponsReceiveEndTime,
+        scCouponState:0,
+        scStaffId:staffId
+      });
+      this.getCouponsOfReceive({
+        staffId,
+        token,
+        pageNum: this.pageNum,
+        pageSize: 7
+      }).then(res => {
+        this.myCouponList = res.data;
+        this.code = res.code 
+      });
+    },
+  },
+  computed: {
+  },
+  beforeMount() {
+      this.getCouponsOfReceive({
+        staffId:this.staffId,
+        token:this.token,
+        pageNum: 1,
+        pageSize: 7
+      }).then((res) =>{
+        this.code = res.code
+        this.myCouponList = res.data
+      })
+  }
+};
 </script>
 
 <style lang="less" scoped>

@@ -31,22 +31,31 @@
 		data() {
 			return {
 				CollageBgPic: require('../../assets/img/CollageBg.png'),
-			}
-		},
-		methods: {
-			goCollage(id) {
-				this.$router.push(
-					`/collageDetail/${id}`
-				)
-			},
-			last() {
-				this.$router.go(-1);
-			}
-		},
-		beforeMount() {
-			var staffId = sessionStorage.getItem("staffId");
-			var token = sessionStorage.getItem("token");
-			this.getTogetherOrderList(staffId, token)
-		}
-	}
+      }
+    },
+    methods:{
+      goCollage(id){
+        this.$router.push(
+          `/collageDetail/${id}`
+        )
+      },
+      last () {
+        this.$router.go(-1);
+      },
+      // 获取cook
+      getCookie (name) {
+        var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+        if(arr=document.cookie.match(reg)){
+          return unescape(arr[2]);
+        }else{
+          return null; 
+        }
+      }
+    },
+    beforeMount () {
+      var staffId = this.getCookie("staffId");
+      var token = this.getCookie("token");
+      this.getTogetherOrderList(staffId,token)
+    }
+}
 </script>

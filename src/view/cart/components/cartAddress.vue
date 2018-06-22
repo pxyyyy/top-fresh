@@ -55,57 +55,62 @@
 	</div>
 </template>
 <script>
-	import service from "../service/index.js";
-	export default {
-		mixins: [service],
-		data() {
-			return {
-				radio: "1",
-				selectStaffAddressList: []
-			};
-		},
-		methods: {
-			editAddress(id) {
-				this.$router.push({
-					name: "editAddress",
-					params: {
-						id
-					}
-				});
-			},
-			async Switching(adId) {
-				const id = sessionStorage.getItem("staffId");
-				const token = sessionStorage.getItem("token");
-				await this.updateDefaultAddress({
-					staffId: id,
-					token,
-					adId
-				});
-			},
-			async returnDetermine(adId) {
-				this.$router.go(-1);
-			},
-			goEditing: function() {
-				this.$router.push(`/cartAddressEditing`);
-			},
-			delAddress(adId) {
-				const id = sessionStorage.getItem("staffId");
-				const token = sessionStorage.getItem("token");
-				this.deleteAddress({
-					staffId: id,
-					token,
-					adId
-				}).then(res => {
-					this.selectStaffAddressList = res;
-				});
-			}
-		},
-		beforeMount() {
-			const id = sessionStorage.getItem("staffId");
-			const token = sessionStorage.getItem("token");
-			this.getAddress(id, token).then(res => {
-				this.selectStaffAddressList = res;
-			});
-		},
-	};
+import service from "../service/index.js";
+export default {
+  mixins: [service],
+  data() {
+    return {
+      radio: "1",
+      selectStaffAddressList: [],
+      staffId:this.getCookie("staffId"),
+      token:this.getCookie("token"),
+    };
+  },
+  methods: {
+    // 获取cook
+      getCookie (name) {
+        var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+        if(arr=document.cookie.match(reg)){
+          return unescape(arr[2]);
+        }else{
+          return null; 
+        }
+    },
+    editAddress(id) {
+      this.$router.push({
+        name: "editAddress",
+        params: {
+          id
+        }
+      });
+    },
+    async Switching(adId) {
+      await this.updateDefaultAddress({
+        staffId: this.staffId,
+        token:this.token,
+        adId
+      });
+    },
+    async returnDetermine(adId) {
+      this.$router.go(-1);
+    },
+    goEditing: function() {
+      this.$router.push(`/cartAddressEditing`);
+    },
+    delAddress(adId) {
+      this.deleteAddress({
+        staffId: this.staffId,
+        token:this.token,
+        adId
+      }).then(res => {
+        this.selectStaffAddressList = res;
+      });
+    }
+  },
+  beforeMount() {
+    this.getAddress(this.staffId, this.token).then(res => {
+      this.selectStaffAddressList = res;
+    });
+  },
+};
 </script>
