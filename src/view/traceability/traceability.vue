@@ -1,14 +1,14 @@
 <template>
-    <div>
-        <div v-html="traceability"></div>
-    </div>
+	<div>
+		<div v-html="traceability"></div>
+	</div>
 </template>
 <script>
-export default {
-    data(){
-        return{
-            traceability:''
-        }
-    }
-}
+	export default {
+		data() {
+			return {
+				traceability: ''
+			}
+		}
+	}
 </script>

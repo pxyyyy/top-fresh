@@ -1,16 +1,11 @@
-/*
- * @Author: By.zhangTeng
- * @Date: 2018-05-21 10:38:47
- * @Last Modified by: By.zhangTeng
- * @Last Modified time: 2018-06-05 10:50:48
- */
+/* * @Author: By.zhangTeng * @Date: 2018-05-21 10:38:47 * @Last Modified by: By.zhangTeng * @Last Modified time: 2018-06-05 10:50:48 */
 <style lang="less" scoped>
-@import "./login.less";
+	@import "./login.less";
 </style>
 <template>
-    <div>
+	<div>
 		<transition name="fade" mode="out-in">
-			<div v-if="login" class="animated" :key="1" >
+			<div v-if="login" class="animated" :key="1">
 				<div class="container" :style='{"height":viewHeight}'>
 					<div class="title">Hello,极味生鲜</div>
 					<div class="login-form">
@@ -22,7 +17,7 @@
 						<div class="input-title">未注册手机验证后自动登录</div>
 					</div>
 					<div class="other">
-						<div class="other_title">———————  其他登录方式  ———————</div>
+						<div class="other_title">——————— 其他登录方式 ———————</div>
 						<div class="fang">
 							<van-row gutter="20">
 								<van-col span="24">
@@ -46,12 +41,10 @@
 								</li>
 							</ul>
 						</label>
-						<input ref="input" class="input-code" @keyup="handleInput($event)" v-model="value"
-						id="code" name="code" type="tel" :maxlength="number"
-						autocorrect="off" autocomplete="off" autocapitalize="off">
+						<input ref="input" class="input-code" @keyup="handleInput($event)" v-model="value" id="code" name="code" type="tel" :maxlength="number" autocorrect="off" autocomplete="off" autocapitalize="off">
 					</div>
-						<div class="time color" v-show="show" @click="reset" >重新获取验证码</div>
-					<div class="time" v-show="!show" >{{count}}秒后可重新获取</div>
+					<div class="time color" v-show="show" @click="reset">重新获取验证码</div>
+					<div class="time" v-show="!show">{{count}}秒后可重新获取</div>
 					<van-button class="sure" size="large" @click="sureStep">确定</van-button>
 				</div>
 			</div>
@@ -62,113 +55,113 @@
 <script>
 	import login from './service/login.js'
 	export default {
-		mixins:[login],
+		mixins: [login],
 		name: "login",
 		props: {
 			number: {
-			type: Number,
-			default: 6
+				type: Number,
+				default: 6
 			},
 			placeholder: {
-			type: String,
-			default: ""
-		}
-	},
-	data() {
-		return {
-			phone: "",
-			height: "",
-			login: true,
-			value: "",
-			show: true,
-			count: "",
-			timer: null,
-			mask:false,
-			popup:"请输入手机号",
-		};
-	},
-	watch: {
-		login: function() {
-			 console.log(this.login);
-		}
-	},
-	methods: {
-		// 点击下一步获取验证码
-		nextStep: function() {
-			// 验证手机号
-			let reg=/^[1][3,4,5,7,8][0-9]{9}$/;
-			if(this.phone==""){
-				this.mask=true;
+				type: String,
+				default: ""
+			}
+		},
+		data() {
+			return {
+				phone: "",
+				height: "",
+				login: true,
+				value: "",
+				show: true,
+				count: "",
+				timer: null,
+				mask: false,
+				popup: "请输入手机号",
+			};
+		},
+		watch: {
+			login: function() {
+				console.log(this.login);
+			}
+		},
+		methods: {
+			// 点击下一步获取验证码
+			nextStep: function() {
+				// 验证手机号
+				let reg = /^[1][3,4,5,7,8][0-9]{9}$/;
+				if(this.phone == "") {
+					this.mask = true;
 
-			}else if( !reg.test(this.phone) || this.phone.length<11){
-				this.mask=true;
-				this.popup="请输入正确的11位手机号"
-			}else{
-				this.login=false;
+				} else if(!reg.test(this.phone) || this.phone.length < 11) {
+					this.mask = true;
+					this.popup = "请输入正确的11位手机号"
+				} else {
+					this.login = false;
+					this.show = false;
+					this.timeout();
+					this.getCode(this.phone)
+						.then(res => {
+							console.log(res);
+						})
+				}
+
+			},
+			// 重新获取验证码
+			reset: function() {
 				this.show = false;
 				this.timeout();
 				this.getCode(this.phone)
-				.then(res => {
-					console.log(res);
-				})
-			}
+					.then(res => {
 
-		},
-		// 重新获取验证码
-		reset: function() {
-			this.show = false;
-			this.timeout();
-			this.getCode(this.phone)
-			.then(res => {
-
-				console.log(res);
-			})
-		},
-		sureStep: function() {
-			this.toLogin(this.phone,this.value)
-			.then(res => {
-				sessionStorage.setItem('token',res[0].staffToken);
-				sessionStorage.setItem('staffId',res[0].staffId);
-				this.$router.go(-1)
-			})
-			// this.$router.push(`/index`);
-		},
-		timeout() {
-			const TIME_COUNT = 60;
-			if (!this.timer) {
-				this.count = TIME_COUNT;
-				this.show = false;
-				this.timer = setInterval(() => {
-				if (this.count > 0 && this.count <= TIME_COUNT) {
-					this.count--;
-				} else {
-					this.show = true;
-					clearInterval(this.timer);
-					this.timer = null;
+						console.log(res);
+					})
+			},
+			sureStep: function() {
+				this.toLogin(this.phone, this.value)
+					.then(res => {
+						sessionStorage.setItem('token', res[0].staffToken);
+						sessionStorage.setItem('staffId', res[0].staffId);
+						this.$router.go(-1)
+					})
+				// this.$router.push(`/index`);
+			},
+			timeout() {
+				const TIME_COUNT = 60;
+				if(!this.timer) {
+					this.count = TIME_COUNT;
+					this.show = false;
+					this.timer = setInterval(() => {
+						if(this.count > 0 && this.count <= TIME_COUNT) {
+							this.count--;
+						} else {
+							this.show = true;
+							clearInterval(this.timer);
+							this.timer = null;
+						}
+					}, 1000);
 				}
-				}, 1000);
+			},
+			hideKeyboard() {
+				// 输入完成隐藏键盘
+				document.activeElement.blur(); // ios隐藏键盘
+				this.$refs.input.blur(); // android隐藏键盘
+			},
+			handleSubmit() {
+				this.$emit("input", this.value);
+			},
+			handleInput(e) {
+				this.$refs.input.value = this.value;
+				if(this.value.length >= this.number) {
+					this.hideKeyboard();
+				}
+				this.handleSubmit();
 			}
 		},
-		hideKeyboard() {
-		// 输入完成隐藏键盘
-			document.activeElement.blur(); // ios隐藏键盘
-			this.$refs.input.blur(); // android隐藏键盘
-		},
-		handleSubmit() {
-			this.$emit("input", this.value);
-		},
-		handleInput(e) {
-			this.$refs.input.value = this.value;
-			if (this.value.length >= this.number) {
-				this.hideKeyboard();
+		computed: {
+			viewHeight: function() {
+				return window.innerHeight + "px";
 			}
-			this.handleSubmit();
-		}
-	},
-	computed: {
-		viewHeight: function() {
-			return window.innerHeight + "px";
-		}
-	},
+		},
 	};
 </script>

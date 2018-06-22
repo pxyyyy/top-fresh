@@ -1,9 +1,4 @@
-/*
- * @Author: tarn.tianrun 
- * @Date: 2018-05-14 11:08:35 
- * @Last Modified by: By.zhangTeng
- * @Last Modified time: 2018-05-25 10:33:39
- */
+/* * @Author: tarn.tianrun * @Date: 2018-05-14 11:08:35 * @Last Modified by: By.zhangTeng * @Last Modified time: 2018-05-25 10:33:39 */
 
 <style scoped lang="less">
 	@import './Main.less';
@@ -13,7 +8,7 @@
 		<!-- <van-nav-bar left-text="极味生鲜">
 		<van-icon name="pending-evaluate" slot="right" />
 	</van-nav-bar> -->
-		<div class="index-nav-bar" v-if="!isClient" >
+		<div class="index-nav-bar" v-if="!isClient">
 			<div class="index-nav-bar__left" v-if="!currentRoute && !eventRouter">
 				<img v-lazy="logoPic" height="15">
 			</div>
@@ -33,35 +28,34 @@
 	export default {
 		data() {
 			return {
-	    	logoPic: require('../assets//icon/极味生鲜.png'),
+				logoPic: require('../assets//icon/极味生鲜.png'),
 				router: 'index',
 				icon: {
 					normal: '//img.yzcdn.cn/1.png',
 					active: '//img.yzcdn.cn/2.png'
 				},
-				isClient:false,
-				marginTop:"46px",
-				
+				isClient: false,
+				marginTop: "46px",
+
 			}
 		},
-		beforeMount() {
-		},
+		beforeMount() {},
 		watch: {
 
 		},
 		computed: {
 			currentRoute() {
-				if (this.$route.name == 'cart') {
+				if(this.$route.name == 'cart') {
 					return true
 				} else {
 					return false
 				}
 			},
-			eventRouter(){
-				if (this.$route.name == 'event') {
+			eventRouter() {
+				if(this.$route.name == 'event') {
 					return true
 				} else {
-					return false 
+					return false
 				}
 			}
 		},
@@ -73,19 +67,18 @@
 				});
 			},
 		},
-		mounted(){
+		mounted() {
 			let from = this.$route.query.from;
-			console.log("from",from)
-			if(from=="IOS"){
-				this.isClient=true;
-				this.marginTop="0";
-			}else if(from=="Android"){
-				this.isClient=true;
-				this.marginTop="0";
+			console.log("from", from)
+			if(from == "IOS") {
+				this.isClient = true;
+				this.marginTop = "0";
+			} else if(from == "Android") {
+				this.isClient = true;
+				this.marginTop = "0";
 			}
 		},
-		methods: {
-		},
+		methods: {},
 		components: {
 			bottom
 		}
