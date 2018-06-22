@@ -124,95 +124,95 @@
 </template>
 
 <script>
-	import service from '../service/order.js'
-	export default {
-		name: "LadingRoll",
-		mixins: [service],
-		data() {
-			return {
-				active: 0,
-				ordersList: [{
-						text: '未用',
-						id: 1
-					},
-					{
-						text: '已用',
-						id: 3
-					},
-				],
-				pickupVolume: '',
-				pageNum: 1,
-				code: ''
-			}
-		},
-		methods: {
-			loadMore(index) {
-				var token = sessionStorage.getItem("token");
-				var staffId = sessionStorage.getItem("staffId");
-				this.pageNum++
-					this.selectMyLadingByStaffId({
-						token,
-						staffId,
-						state: index,
-						pageNum: this.pageNum,
-						pageSize: 7,
-					}).then(res => {
-						this.code = res.code;
-						this.pickupVolume = this.pickupVolume.concat(res.data);
-					});
-			},
-			getLadingRollType(index, text) {
-				var staffId = sessionStorage.getItem("staffId");
-				var token = sessionStorage.getItem("token");
-				if(text == '未用') {
-					this.pickupVolume = '',
-						this.selectMyLadingByStaffId({
-							token,
-							staffId,
-							state: 2,
-							pageNum: 1,
-							pageSize: 7,
-						}).then(res => {
-							this.code = res.code;
-							this.pickupVolume = this.pickupVolume.concat(res.data);
-						});
-				} else {
-					this.pickupVolume = '',
-						this.selectMyLadingByStaffId({
-							staffId,
-							token,
-							state: 3,
-							pageNum: 1,
-							pageSize: 7
-						}).then((res) => {
-							this.code = res.code
-							this.pickupVolume = res.data;
-						})
-				}
-			},
-			returnProFile() {
-				this.$router.push('/profile')
-			},
-			goLadingRollGive() {
-				this.$router.push('/LadingRollGive')
-			},
-			gocartAddress() {
-				this.$router.push({
-					name: 'cartAddress',
-					params: {
-						project: 'LadingRoll'
-					}
-				})
-			}
-		},
-		beforeMount() {
-			var staffId = sessionStorage.getItem("staffId");
-			var token = sessionStorage.getItem("token");
+import service from '../service/order.js'
+export default {
+    name: "LadingRoll",
+    mixins:[service],
+    data () {
+        return{
+          active:0,
+          ordersList:[
+            {text:'未用',id:1},
+            {text:'已用',id:3},
+          ],
+          pickupVolume:'',
+          pageNum: 1,
+          code: '',
+          staffId: this.getCookie("staffId"),
+          token: this.getCookie("token")
+        }
+    },
+  methods: {
+    // 获取cook
+    getCookie (name) {
+      var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+      if(arr=document.cookie.match(reg)){
+        return unescape(arr[2]);
+      }else{
+        return null; 
+      }
+    },
+    loadMore (index) {
+			this.pageNum ++
 			this.selectMyLadingByStaffId({
-				staffId,
-				token,
-				state: 2,
-			})
-		}
-	}
+        token:this.token,
+        staffId:this.staffId,
+        state: index,
+        pageNum:this.pageNum,
+        pageSize:7,
+      }).then(res => {
+				this.code = res.code;
+				this.pickupVolume = this.pickupVolume.concat(res.data);
+			});
+		},
+    getLadingRollType (index, text) {
+      if (text == '未用') {
+        this.pickupVolume = '',
+			this.selectMyLadingByStaffId({
+        token:this,token,
+        staffId:this.staffId,
+        state: 2,
+        pageNum:1,
+        pageSize:7,
+      }).then(res => {
+				this.code = res.code;
+				this.pickupVolume = this.pickupVolume.concat(res.data);
+			});
+      }else{
+          this.pickupVolume = '',
+          this.selectMyLadingByStaffId({
+          staffId:this,staffId,
+          token:this.token,
+          state:3,
+          pageNum:1,
+          pageSize:7
+        }).then((res) =>{
+          this.code = res.code
+          this.pickupVolume = res.data;
+        })
+      }
+    },
+    returnProFile () {
+      this.$router.push('/profile')
+    },
+    goLadingRollGive () {
+      this.$router.push('/LadingRollGive')
+    },
+    gocartAddress() {
+      this.$router.push({
+        name: 'cartAddress',
+        params: {
+          project: 'LadingRoll'
+        }
+      })
+    }
+  },
+  beforeMount () {
+    this.selectMyLadingByStaffId({
+      staffId:this.staffId,
+      token:this.token,
+      state:2,
+    })
+  }
+}
 </script>

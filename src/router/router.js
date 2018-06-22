@@ -92,12 +92,12 @@ export const otherRouter = [
 		]
 	},
   {
-    path: '/cartDetermine',
+    path: '/cartDetermine/:orderId',
     name: 'cartDetermine',
     component:  resolve => { require(['@/view/cart/components/cartDetermine.vue'], resolve); }
 	},
 	{
-    path: '/cartOut',
+    path: '/cartOut/:orderId',
     name: 'cartOut',
     component: resolve => { require(['@/view/cart/components/cartOut.vue'], resolve); }
   },

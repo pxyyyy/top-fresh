@@ -57,43 +57,53 @@
 	</div>
 </template>
 <script>
-	import service from "../service/index.js";
-	export default {
-		data() {
-			return {
-				cartLictPic: require('../../../assets/img/组7@2x.png'),
-				infoList: '',
-				orders: ''
-			}
-		},
-		mixins: [service],
-		methods: {
-			toProductInfo(productId) {
-				this.$router.push(`/product/${productId}`);
-			},
-			returnDetermine: function() {
-				this.$router.push(
-					`/`
-				);
-			},
-			goShareIt: function() {
-				this.$router.push({
-					name: 'shareIt',
-				});
-			}
-		},
-		beforeMount() {
-			// 订单详情
-			const staffId = sessionStorage.getItem("staffId");
-			const token = sessionStorage.getItem("token");
-			this.selectOrderPrimaryKey({
-				staffId,
-				token,
-				orderId: sessionStorage.getItem('orderId')
-			}).then(res => {
-				this.infoList = res.orderdetails;
-				this.orders = res
-			});
-		}
-	}
+import service from "../service/index.js";
+export default {
+    data () {
+        return {
+    	cartLictPic: require('../../../assets/img/组7@2x.png'),
+          infoList: '',
+          orders:  ''
+        }
+    },
+    mixins: [service],
+    methods: {
+      // 获取cook
+      getCookie (name) {
+        var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+        if(arr=document.cookie.match(reg)){
+          return unescape(arr[2]);
+        }else{
+          return null; 
+        }
+      },
+      toProductInfo(productId) {
+        this.$router.push(`/product/${productId}`);
+      },
+      returnDetermine:function () {
+        this.$router.push(
+          `/`
+        );
+      },
+      goShareIt:function () {
+        this.$router.push({
+            name: 'shareIt',
+          }
+        );
+      }
+    },
+    beforeMount () {
+    // 订单详情
+    const staffId = this.getCookie("staffId");
+    const token = this.getCookie("token");
+    this.selectOrderPrimaryKey({
+      staffId,
+      token,
+      orderId:this.$route.params.orderId
+    }).then(res => {
+      this.infoList = res.orderdetails;
+      this.orders = res
+    });
+    }
+}
 </script>

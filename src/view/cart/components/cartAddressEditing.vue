@@ -77,52 +77,62 @@
 			}
 		},
 
-		methods: {
-			showArea() {
-				this.Area = true
-			},
-			returnDetermine() {
-				this.$router.push(
-					`/cartDetermine`
-				);
-			},
-			determine(type) {
-				this.Area = false
-				this.from.area = '';
-				for(let i of type) {
-					if(i.name == '选择省份' || i.name == '选择城市' || i.name == '选择地区' || this.adAddressInfo == '') {} else {
-						this.from.area += i.name;
-					}
-				}
-			},
-			async save() {
-				if(this.from.adName == '') {
-					this.checkAdName = '请输入姓名';
-				}
-				if(this.from.adPhone == '') {
-					this.checkAdPhone = '请输入电话';
-				}
-				if(this.from.area == '') {
-					this.placeholderArea = '请选择地区';
-				}
-				if(this.from.adAddressInfo == '') {
-					this.checkadAddressInfo = '请输入街道和门牌信息';
-				}
-				if(this.from.adName != '' && this.from.adPhone != '' && this.from.area != '' && this.from.adAddressInfo != '') {
-					const id = sessionStorage.getItem('staffId');
-					const token = sessionStorage.getItem('token');
-					await this.addStaffAddress({
-						staffId: id,
-						token: token,
-						adName: this.from.adName,
-						adPhone: this.from.adPhone,
-						adAddress: this.from.area,
-						adAddressInfo: this.from.adAddressInfo,
-						adIsdefault: this.radio
-					})
-					this.$router.go(-1)
-				}
-			}
-		}
-	}
+  methods: {
+    // 获取cook
+      getCookie (name) {
+        var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+        if(arr=document.cookie.match(reg)){
+          return unescape(arr[2]);
+        }else{
+          return null; 
+        }
+      },
+    showArea () {
+      this.Area = true
+    },
+    returnDetermine () {
+      this.$router.push(
+        `/cartDetermine`
+      );
+    },
+    determine (type) {
+      this.Area = false
+      this.from.area = '';
+      for (let i of type) {
+        if (i.name == '选择省份' || i.name == '选择城市' || i.name == '选择地区' || this.adAddressInfo == '') {
+        }else {
+          this.from.area += i.name;
+        }
+      }
+    },
+    async save () {
+      if (this.from.adName == '') {
+        this.checkAdName = '请输入姓名';
+      }
+      if (this.from.adPhone == '') {
+        this.checkAdPhone = '请输入电话';
+      }
+      if (this.from.area == '') {
+        this.placeholderArea = '请选择地区';
+      }
+      if (this.from.adAddressInfo == '') {
+        this.checkadAddressInfo = '请输入街道和门牌信息';
+      }
+      if(this.from.adName != '' && this.from.adPhone != '' && this.from.area != '' && this.from.adAddressInfo != '' ) {
+        const id  = this.getCookie("staffId")
+        const token  = this.getCookie("token")
+        await this.addStaffAddress({
+          staffId: id,
+          token:token,
+          adName: this.from.adName,
+          adPhone: this.from.adPhone,
+          adAddress:this.from.area,
+          adAddressInfo:this.from.adAddressInfo,
+          adIsdefault:this.radio
+        })
+        this.$router.go(-1)
+      }
+    }
+  }
+}
 </script>

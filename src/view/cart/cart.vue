@@ -154,107 +154,104 @@
 	</div>
 </template>
 <script>
-	import service from "./service/index.js";
-	import { Dialog, Toast } from "vant";
-	import { mapState, mapMutations } from 'vuex'
-	export default {
-		mixins: [service],
-		data() {
-			return {
-				value: 3,
-				select: true,
-				checked: false,
-				checkedGoods: [],
-				goods: [],
-				Clearing: true,
-				orderId: "",
-				total: 0,
-				price: [],
-			};
-		},
-		beforeMount() {
-			const id = sessionStorage.getItem("staffId");
-			const token = sessionStorage.getItem("token");
-			this.fetchList(id, token).then(res => {
-				if(res == "") {
-					this.Clearing = false;
-					Toast("购物车空空~");
-				} else {
-					this.goods = res;
-				}
-			});
-		},
-		methods: {
-			// 购物车加
-			increase(carId) {
-				const id = sessionStorage.getItem("staffId");
-				const token = sessionStorage.getItem("token");
-				this.add(id, token, carId);
-			},
-			// 购物车减
-			decrease(carId) {
-				const id = sessionStorage.getItem("staffId");
-				const token = sessionStorage.getItem("token");
-				this.cut(id, token, carId);
-			},
-			onClose(clickPosition, instance) {
-				switch(clickPosition) {
-					case "cell":
-					case "outside":
-						instance.close();
-						break;
-					case "right":
-						Dialog.confirm({
-							message: "确定删除吗？"
-						}).then(() => {
-							instance.close();
-						});
-						break;
-				}
-			},
-			change() {
-				if(this.checked) {
-					this.total = 0;
-					this.goods.forEach(function(goods) {
-						this.checkedGoods.push(goods.carId);
-						this.total += parseInt(goods.carProductPprice);
-					}, this);
-				} else {
-					this.total = 0;
-					this.checkedGoods = [];
-				}
-			},
-			// 结算
-			goDetails: async function() {
-				let carIds = JSON.stringify([...this.checkedGoods]);
-				carIds = carIds.split("[")[1].split("]")[0];
-				const id = sessionStorage.getItem("staffId");
-				const token = sessionStorage.getItem("token");
-				if(this.checkedGoods == "") {
-					Toast("请选择订单商品");
-				} else {
-					await this.carToOrder({
-						carIds,
-						staffId: id,
-						token
-					}).then(res => {
-						this.orderId = res.data;
-						sessionStorage.orderId = res.data;
-					});
-					this.$router.push({
-						name: "cartDetermine",
-						params: {
-							orderId: this.orderId
-						}
-					});
-				}
-			},
-		},
-		computed: {
-			totalPrice() {
-				return this.goods.reduce(
-					(total, item) => total + (this.checkedGoods.indexOf(item.carId) !== -1 ? item.carProductPprice * 1 * item.carProductNum : 0), 0);
-			}
-		}
-	};
+import service from "./service/index.js";
+import { Dialog, Toast } from "vant";
+import { mapState, mapMutations  } from 'vuex'
+export default {
+  mixins: [service],
+  data() {
+    return {
+      value: 3,
+      select: true,
+      checked: false,
+      checkedGoods: [],
+      goods: [],
+      Clearing: true,
+      orderId: "",
+      total: 0,
+      price: [],
+      staffId: this.getCookie("staffId"),
+      token: this.getCookie("token")
+    };
+  },
+  beforeMount() {
+    this.fetchList(this.staffId, this.token).then(res => {
+      if (res == "") {
+        this.Clearing = false;
+        Toast("购物车空空~");
+      } else {
+        this.goods = res;
+      }
+    });
+  },
+  methods: {
+    // 获取cook
+    getCookie (name) {
+      var arr,reg = new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+      if(arr=document.cookie.match(reg)){
+        return unescape(arr[2]);
+      }else{
+        return null; 
+      }
+    },
+    // 购物车加
+    increase(carId) {
+      this.add(this.staffId, this.token, carId);
+    },
+    // 购物车减
+    decrease(carId) {
+      this.cut(this.staffId, this.token, carId);
+    },
+    onClose(clickPosition, instance) {
+      switch (clickPosition) {
+        case "cell":
+        case "outside":
+          instance.close();
+          break;
+        case "right":
+          Dialog.confirm({
+            message: "确定删除吗？"
+          }).then(() => {
+            instance.close();
+          });
+          break;
+      }
+    },
+    change() {
+      if (this.checked) {
+        this.total = 0;
+        this.goods.forEach(function(goods) {
+          this.checkedGoods.push(goods.carId);
+          this.total += parseInt(goods.carProductPprice);
+        }, this);
+      } else {
+        this.total = 0;
+        this.checkedGoods = [];
+      }
+    },
+    // 结算
+    goDetails: async function() {
+      let carIds = JSON.stringify([...this.checkedGoods]);
+      carIds = carIds.split("[")[1].split("]")[0];
+      if (this.checkedGoods == "") {
+        Toast("请选择订单商品");
+      } else {
+        await this.carToOrder({
+          carIds,
+          staffId: this.staffId,
+          token:this.token
+        }).then(res => {
+          this.orderId = res.data;
+        });
+        this.$router.push(`cartDetermine/${this.orderId}`);
+      }
+    },
+  },
+  computed: {
+    totalPrice() {
+      return this.goods.reduce(
+        (total, item) => total + (this.checkedGoods.indexOf(item.carId) !== -1 ? item.carProductPprice * 1 * item.carProductNum : 0),0);
+    }
+  }
+};
 </script>

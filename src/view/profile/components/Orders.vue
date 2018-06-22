@@ -205,40 +205,55 @@
 	</div>
 </template>
 <script>
-	import order from "../service/order.js";
-	export default {
-		mixins: [order],
-		name: "orders",
-		data() {
-			return {
-				active: "",
-				ordersList: [{
-						id: 1,
-						text: "待付款"
-					},
-					{
-						id: 2,
-						text: "待发货"
-					},
-					{
-						id: 3,
-						text: "待收货"
-					},
-					{
-						id: 5,
-						text: "待评价"
-					},
-					{
-						id: 4,
-						text: "全部订单"
-					}
-				],
-				orders: [],
-				loading: false,
-				finished: false,
-				pageNum: 1,
-				code: '',
-			};
+import order from "../service/order.js";
+export default {
+  mixins: [order],
+  name: "orders",
+  data() {
+    return {
+      active: "",
+      ordersList: [
+        { id: 1, text: "待付款" },
+        { id: 2, text: "待发货" },
+        { id: 3, text: "待收货" },
+        { id: 5, text: "待评价" },
+        { id: 4, text: "全部订单" }
+			],
+			orders: [],
+			loading: false,
+      finished: false,
+			pageNum: 1,
+			code: '',
+			staffId: this.getCookie("staffId"),
+      token: this.getCookie("token")
+    };
+  },
+  computed: {
+    changeActive() {
+      return this.$store.state.app.currentActiveForProfile;
+    }
+  },
+  mounted() {
+    this.init();
+  },
+  methods: {
+	// 获取cook
+    getCookie (name) {
+      var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+      if(arr=document.cookie.match(reg)){
+        return unescape(arr[2]);
+      }else{
+        return null; 
+      }
+    },
+		loadMore () {
+			this.pageNum ++
+			this.showLoad = true;
+			this.getOrder(this.staffId, this.token, "",7,this.pageNum).then(res => {
+				this.code = res.code;
+				console.log( typeof(this.code))
+				this.orders = this.orders.concat(res.data);
+			});
 		},
 		computed: {
 			changeActive() {
@@ -275,50 +290,51 @@
 				this.$router.push("/profile");
 			},
 		},
-		watch: {
-			active: async function() {
-				var token = sessionStorage.getItem("token");
-				var staffId = sessionStorage.getItem("staffId");
-				if(this.active == 0) {
-					//   待付款
-					this.orders = ''
-					this.getOrder(staffId, token, "1", 7, this.pageNum).then(res => {
-						this.code = res.code
-						this.orders = res.data;
-					});
-				} else if(this.active == 1) {
-					// 待发货
-					this.orders = ''
-					this.getOrder(staffId, token, "2", 7, this.pageNum).then(res => {
-						this.code = res.code
-						this.orders = res.data;
-					});
-				} else if(this.active == 2) {
-					//   待收货
-					this.orders = ''
-					this.getOrder(staffId, token, "3", 7, this.pageNum).then(res => {
-						this.code = res.code
-						this.orders = res.data;
-					});
-				} else if(this.active == 3) {
-					//   待评价
-					this.orders = ''
-				} else if(this.active == 4) {
-					//   全部订单
-					this.orders = ''
-					this.getOrder(staffId, token, "", 7, this.pageNum).then(res => {
-						this.code = res.code
-						this.orders = res.data;
-					});
-				}
-			}
-		}
-		//   beforeMount() {
-		//     var token = sessionStorage.getItem("token");
-		//     var staffId = sessionStorage.getItem("staffId");
-		//     this.getOrder(staffId, token, "").then(res => {
-		//       this.orders = res;
-		//     });
-		//   }
-	};
+  },
+  watch: {
+    active: async function() {
+      var token = this.token
+      var staffId = this.staffId
+      if (this.active == 0) {
+				//   待付款
+				this.orders = ''
+				this.getOrder(staffId, token, "1",7,this.pageNum).then(res => {
+					this.code = res.code
+					this.orders = res.data;
+        });
+      } else if (this.active == 1) {
+        // 待发货
+				this.orders = ''
+				this.getOrder(staffId, token, "2",7,this.pageNum).then(res => {
+					this.code = res.code
+					this.orders = res.data;
+        });
+      } else if (this.active == 2) {
+        //   待收货
+				this.orders = ''
+				this.getOrder(staffId, token, "3",7,this.pageNum).then(res => {
+					this.code = res.code
+					this.orders = res.data;
+        });
+      } else if (this.active == 3) {
+				//   待评价
+				this.orders = ''
+      } else if (this.active == 4) {
+				//   全部订单
+				this.orders = ''
+        this.getOrder(staffId, token, "",7,this.pageNum).then(res => {
+					this.code = res.code
+					this.orders = res.data;
+        });
+      }
+    }
+  }
+  //   beforeMount() {
+  //     var token = sessionStorage.getItem("token");
+  //     var staffId = sessionStorage.getItem("staffId");
+  //     this.getOrder(staffId, token, "").then(res => {
+  //       this.orders = res;
+  //     });
+  //   }
+};
 </script>

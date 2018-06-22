@@ -67,33 +67,42 @@
 	</div>
 </template>
 <script>
-	import coupon from "../service/coupon.js";
-	export default {
-		name: "coupon",
-		mixins: [coupon],
-		data() {
-			return {
-				active: 2,
-				coupon: null,
-				coupon1: null
-			};
-		},
-		methods: {
-			returnProfile() {
-				this.$router.go(-1);
-			}
-		},
-		beforeMount() {
-			var token = sessionStorage.getItem("token");
-			var staffId = sessionStorage.getItem("staffId");
-			this.getCoupon(staffId, token, 0).then(res => {
-				console.log(res);
-				this.coupon = res;
-			});
-			this.getCoupon(staffId, token, 1).then(res => {
-				console.log(res);
-				this.coupon1 = res;
-			});
-		}
-	};
+import coupon from "../service/coupon.js";
+export default {
+  name: "coupon",
+  mixins: [coupon],
+  data() {
+    return {
+      active: 2,
+      coupon: null,
+      coupon1: null
+    };
+  },
+  methods: {
+    returnProfile() {
+      this.$router.go(-1);
+    },
+    // 获取cook
+    getCookie (name) {
+      var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+      if(arr=document.cookie.match(reg)){
+        return unescape(arr[2]);
+      }else{
+        return null; 
+      }
+    },
+  },
+  beforeMount() {
+    var token = this.getCookie("token");
+    var staffId = this.getCookie("staffId");
+    this.getCoupon(staffId, token, 0).then(res => {
+      console.log(res);
+      this.coupon = res;
+    });
+    this.getCoupon(staffId, token, 1).then(res => {
+      console.log(res);
+      this.coupon1 = res;
+    });
+  }
+};
 </script>
