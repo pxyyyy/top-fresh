@@ -1,44 +1,44 @@
 <style lang="less" scoped>
-	@import "./orders.less";
+@import "./orders.less";
 </style>
 <style>
-	.orders .van-tabs__nav--card .van-tab.van-tab--active {
-		background: none !important;
-		color: #e2bf85 !important;
-	}
-	
-	.orders .van-tabs__nav--card .van-tab.van-tab--active span {
-		border-bottom: 2px solid #e2bf85 !important;
-	}
-	
-	.orders .van-tabs__nav--card {
-		border: none !important;
-		border-bottom: 1px solid #ccc !important;
-	}
-	
-	.orders .van-tab {
-		border: none !important;
-	}
-	
-	.van-tabs--card .van-tabs__wrap {
-		background: #fff;
-	}
-	
-	.orders .van-tabs__content {
-		margin: 0;
-	}
-	
-	.orders .van-tabs__wrap--scrollable .van-tab {
-		flex: auto;
-	}
-	
-	.orders .van-tabs__wrap--scrollable .van-tabs__nav {
-		margin: 0 2%;
-	}
-	
-	.orders .van-tabs__nav--card {
-		width: 100%;
-	}
+.orders .van-tabs__nav--card .van-tab.van-tab--active {
+  background: none !important;
+  color: #e2bf85 !important;
+}
+
+.orders .van-tabs__nav--card .van-tab.van-tab--active span {
+  border-bottom: 2px solid #e2bf85 !important;
+}
+
+.orders .van-tabs__nav--card {
+  border: none !important;
+  border-bottom: 1px solid #ccc !important;
+}
+
+.orders .van-tab {
+  border: none !important;
+}
+
+.van-tabs--card .van-tabs__wrap {
+  background: #fff;
+}
+
+.orders .van-tabs__content {
+  margin: 0;
+}
+
+.orders .van-tabs__wrap--scrollable .van-tab {
+  flex: auto;
+}
+
+.orders .van-tabs__wrap--scrollable .van-tabs__nav {
+  margin: 0 2%;
+}
+
+.orders .van-tabs__nav--card {
+  width: 100%;
+}
 </style>
 <template>
 	<div>
@@ -55,13 +55,16 @@
 								<div class="item-info">
 									<p class="item-title">{{item.odProductName}}</p>
 									<p class="item-desc">{{item.odProductDes}}</p>
-									<p class="item-button"><strong class="money">￥{{item.odProductPprice}}</strong>
+									<p class="item-button">
+										<strong class="money">￥{{item.odProductPprice}}</strong>
 										<span> x{{item.odProductNum}}</span>
 									</p>
 								</div>
 							</div>
 							<div class="item-bottom">
-								<p>取消订单 <button>立即付款</button></p>
+								<p>取消订单
+									<button>立即付款</button>
+								</p>
 							</div>
 						</li>
 					</ul>
@@ -80,7 +83,8 @@
 								<div class="item-info">
 									<p class="item-title">{{item.odProductName}}</p>
 									<p class="item-desc">{{item.odProductDes}}</p>
-									<p class="item-button"><strong class="money">￥{{item.odProductPprice}}</strong>
+									<p class="item-button">
+										<strong class="money">￥{{item.odProductPprice}}</strong>
 										<span> x{{item.odProductNum}}</span>
 									</p>
 								</div>
@@ -105,13 +109,17 @@
 								<div class="item-info">
 									<p class="item-title">{{item.odProductName}}</p>
 									<p class="item-desc">{{item.odProductDes}}</p>
-									<p class="item-button"><strong class="money">￥{{item.odProductPprice}}</strong>
+									<p class="item-button">
+										<strong class="money">￥{{item.odProductPprice}}</strong>
 										<span> x{{item.odProductNum}}</span>
 									</p>
 								</div>
 							</div>
 							<div class="item-bottom">
-								<p> <button class="item-bottom-three">确认收货</button><button>查看物流</button></p>
+								<p>
+									<button class="item-bottom-three">确认收货</button>
+									<button>查看物流</button>
+								</p>
 							</div>
 						</li>
 					</ul>
@@ -130,7 +138,8 @@
 								<div class="item-info">
 									<p class="item-title">{{item.odProductName}}</p>
 									<p class="item-desc">{{item.odProductDes}}</p>
-									<p class="item-button"><strong class="money">￥{{item.odProductPprice}}</strong>
+									<p class="item-button">
+										<strong class="money">￥{{item.odProductPprice}}</strong>
 										<span> x{{item.odProductNum}}</span>
 									</p>
 								</div>
@@ -218,13 +227,13 @@ export default {
         { id: 3, text: "待收货" },
         { id: 5, text: "待评价" },
         { id: 4, text: "全部订单" }
-			],
-			orders: [],
-			loading: false,
+      ],
+      orders: [],
+      loading: false,
       finished: false,
-			pageNum: 1,
-			code: '',
-			staffId: this.getCookie("staffId"),
+      pageNum: 1,
+      code: "",
+      staffId: this.getCookie("staffId"),
       token: this.getCookie("token")
     };
   },
@@ -237,104 +246,72 @@ export default {
     this.init();
   },
   methods: {
-	// 获取cook
-    getCookie (name) {
-      var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-      if(arr=document.cookie.match(reg)){
+    // 获取cook
+    getCookie(name) {
+      var arr,
+        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+      if ((arr = document.cookie.match(reg))) {
         return unescape(arr[2]);
-      }else{
-        return null; 
+      } else {
+        return null;
       }
     },
-		loadMore () {
-			this.pageNum ++
-			this.showLoad = true;
-			this.getOrder(this.staffId, this.token, "",7,this.pageNum).then(res => {
-				this.code = res.code;
-				console.log( typeof(this.code))
-				this.orders = this.orders.concat(res.data);
-			});
-		},
-		computed: {
-			changeActive() {
-				return this.$store.state.app.currentActiveForProfile;
-			}
-		},
-		mounted() {
-			this.init();
-		},
-		methods: {
-			loadMore() {
-				var token = sessionStorage.getItem("token");
-				var staffId = sessionStorage.getItem("staffId");
-				this.pageNum++
-					this.showLoad = true;
-				this.getOrder(staffId, token, "", 7, this.pageNum).then(res => {
-					this.code = res.code;
-					console.log(typeof(this.code))
-					this.orders = this.orders.concat(res.data);
-				});
-			},
-			init() {
-				this.active = this.changeActive;
-			},
-			gotDetails(item) {
-				this.$router.push({
-					name: "OrderDetails",
-					params: {
-						orderId: item
-					}
-				});
-			},
-			returnProfile() {
-				this.$router.push("/profile");
-			},
-		},
+    loadMore() {
+      this.pageNum++;
+      this.showLoad = true;
+      this.getOrder(this.staffId, this.token, "", 7, this.pageNum).then(res => {
+        this.code = res.code;
+        console.log(typeof this.code);
+        this.orders = this.orders.concat(res.data);
+      });
+    },
+    init() {
+      this.active = this.changeActive;
+    },
+    gotDetails(item) {
+      this.$router.push(`OrderDetails/${item.odOrderId}`);
+    },
+    returnProfile() {
+      this.$router.push("/profile");
+    }
   },
   watch: {
     active: async function() {
-      var token = this.token
-      var staffId = this.staffId
+      var token = this.token;
+      var staffId = this.staffId;
       if (this.active == 0) {
-				//   待付款
-				this.orders = ''
-				this.getOrder(staffId, token, "1",7,this.pageNum).then(res => {
-					this.code = res.code
-					this.orders = res.data;
+        //   待付款
+        this.orders = "";
+        this.getOrder(staffId, token, "1", 7, this.pageNum).then(res => {
+          this.code = res.code;
+          this.orders = res.data;
         });
       } else if (this.active == 1) {
         // 待发货
-				this.orders = ''
-				this.getOrder(staffId, token, "2",7,this.pageNum).then(res => {
-					this.code = res.code
-					this.orders = res.data;
+        this.orders = "";
+        this.getOrder(staffId, token, "2", 7, this.pageNum).then(res => {
+          this.code = res.code;
+          this.orders = res.data;
         });
       } else if (this.active == 2) {
         //   待收货
-				this.orders = ''
-				this.getOrder(staffId, token, "3",7,this.pageNum).then(res => {
-					this.code = res.code
-					this.orders = res.data;
+        this.orders = "";
+        this.getOrder(staffId, token, "3", 7, this.pageNum).then(res => {
+          this.code = res.code;
+          this.orders = res.data;
         });
       } else if (this.active == 3) {
-				//   待评价
-				this.orders = ''
+        //   待评价
+        this.orders = "";
       } else if (this.active == 4) {
-				//   全部订单
-				this.orders = ''
-        this.getOrder(staffId, token, "",7,this.pageNum).then(res => {
-					this.code = res.code
-					this.orders = res.data;
+        //   全部订单
+        this.orders = "";
+        this.getOrder(staffId, token, "", 7, this.pageNum).then(res => {
+          this.code = res.code;
+          this.orders = res.data;
         });
       }
     }
   }
-  //   beforeMount() {
-  //     var token = sessionStorage.getItem("token");
-  //     var staffId = sessionStorage.getItem("staffId");
-  //     this.getOrder(staffId, token, "").then(res => {
-  //       this.orders = res;
-  //     });
-  //   }
 };
 </script>

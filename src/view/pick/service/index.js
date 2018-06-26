@@ -2,47 +2,14 @@ import API from '../../../api/API.js'
 const api = new API();
 export default {
   methods: {
-    // 拼团接口
-    getTogetherOrderInfo(json) {
-      return api.get('fresh_show/togetherOrder/getTogetherOrderInfo', json)
+    getLadingDetail(json) {
+      return api.post(`fresh_show/orderTail/getLadingDetail`, json)
         .then(res => {
-          if (res.data.code == 100000) {
-            return res.data.data;
-          }
+          return res.data;
         })
         .catch(function (error) {
           console.log(error);
         });
-    },
-    fetchList(staffId, token) {
-      return api.get(`fresh_show/prCar/selectProCarList?staffId=${staffId}&token=${token}`).then((res) => {
-        const data = res.data.data;
-        return data;
-      }).catch((err) => {
-        console.log(err)
-      });
-    },
-    // 加接口
-    add(staffId, token, carId) {
-      return api.get(`fresh_show/prCar/addProCarNum?staffId=${staffId}&token=${token}&carId=${carId}`).then((res) => {
-        if (res.data.code == 100000 && res.data.message == 'success') {
-          const data = res.data.data;
-          return data;
-        }
-      }).catch((err) => {
-        console.log(err)
-      });
-    },
-    // 减接口
-    cut(staffId, token, carId) {
-      return api.get(`fresh_show/prCar/cutProCarNum?staffId=${staffId}&token=${token}&carId=${carId}`).then((res) => {
-        if (res.data.code == 100000 && res.data.message == 'success') {
-          const data = res.data.data;
-          return data;
-        }
-      }).catch((err) => {
-        console.log(err)
-      });
     },
     // 收货地址列表
     getAddress(staffId, token, carId) {
@@ -99,20 +66,8 @@ export default {
         console.log(err)
       });
     },
-    //购物车结算
-    carToOrder(json) {
-      return api.post('fresh_show/prCar/carToOrder', json).then((res) => {
-        if (res.data.code == 100000 && res.data.message == 'success') {
-          const data = res.data
-          return data;
-        }
-      }).catch((err) => {
-        console.log(err)
-      });
-    },
-    // 订单详情
-    selectOrderPrimaryKey(json) {
-      return api.post('fresh_show/order/selectOrderPrimaryKey', json).then((res) => {
+    saveLading(json) {
+      return api.post('fresh_show/orderTail/saveLading', json).then((res) => {
         if (res.data.code == 100000 && res.data.message == 'success') {
           const data = res.data.data;
           return data;
@@ -121,5 +76,5 @@ export default {
         console.log(err)
       });
     },
-  }
+  },
 }

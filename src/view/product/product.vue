@@ -1,54 +1,54 @@
 <style lang="less" scoped>
-	@import "./product.less";
+@import "./product.less";
 </style>
 <style>
-	.details_content img {
-		width: 100%;
-		border: 0;
-		vertical-align: middle;
-	}
-	
-	.details .van-tabs__nav--card .van-tab.van-tab--active {
-		background: #fff !important;
-		color: #e2c083 !important;
-	}
-	
-	.details .van-tabs__nav--card .van-tab.van-tab--active span {
-		border-bottom: 2px solid #e2c083;
-	}
-	
-	.details .van-tabs__nav--card .van-tab {
-		border: none;
-		font-size: 14px;
-		font-weight: 600;
-		color: black;
-	}
-	
-	.details .van-tabs__nav--card {
-		border: none;
-		width: 90%;
-	}
-	
-	.details .van-tabs__nav--card {
-		margin: 10px 15px;
-	}
-	
-	.details .van-tabs--card {
-		padding-top: 45px;
-	}
-	
-	.details .van-tabs--card .van-tabs__wrap {
-		height: 45px;
-	}
-	
-	.details .van-tabs__nav {
-		justify-content: center;
-	}
-	
-	.details .van-tab {
-		flex: inherit;
-		padding: 0 20px;
-	}
+.details_content img {
+  width: 100%;
+  border: 0;
+  vertical-align: middle;
+}
+
+.details .van-tabs__nav--card .van-tab.van-tab--active {
+  background: #fff !important;
+  color: #e2c083 !important;
+}
+
+.details .van-tabs__nav--card .van-tab.van-tab--active span {
+  border-bottom: 2px solid #e2c083;
+}
+
+.details .van-tabs__nav--card .van-tab {
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: black;
+}
+
+.details .van-tabs__nav--card {
+  border: none;
+  width: 90%;
+}
+
+.details .van-tabs__nav--card {
+  margin: 10px 15px;
+}
+
+.details .van-tabs--card {
+  padding-top: 45px;
+}
+
+.details .van-tabs--card .van-tabs__wrap {
+  height: 45px;
+}
+
+.details .van-tabs__nav {
+  justify-content: center;
+}
+
+.details .van-tab {
+  flex: inherit;
+  padding: 0 20px;
+}
 </style>
 <template>
 	<!-- 商品详情 页面-->
@@ -66,7 +66,7 @@
             </swiper-slide>
         </swiper> -->
 		<!-- 商品详细信息 -->
-		<div class="discript">
+		<!-- <div class="discript">
 			<img src="" alt="">
 			<p class="title">{{info[0].title}}</p>
 			<p class="subtitle">{{info[0].subtitle}}</p>
@@ -98,7 +98,44 @@
 				<span>可得积分:</span>
 				<span>可获得{{info[0].integral}}积分</span>
 			</p>
+		</div> -->
+		<!-- 接口定义好用这个 -->
+		<div class="discript">
+			<img src="" alt="">
+			<p class="title">{{product.productName}}</p>
+			<p class="subtitle">{{product.productInfo}}</p>
+			<p class="price" v-if="product.productPrice">
+				<span>&yen;{{product.productPrice}}/{{product.productNum}}只</span>
+				<span class="old">&yen;{{product.productOprice}}</span>
+			</p>
+			<p class="price" v-else>
+				<span>&yen;{{product.productOprice}}/{{product.productNum}}只</span>
+			</p>
 		</div>
+		<div class="xinxi">
+			<p>
+				<span>商品类型:</span>
+				<span>
+					<span class="type">{{product.productPtype == 2 ? "大闸蟹 · 现货" : "大闸蟹 · 礼品卡"}}</span>
+				</span>
+			</p>
+			<p>
+				<span>商品产地:</span>
+				<span>{{product.productAddress}}</span>
+			</p>
+			<p>
+				<span>配送方式:</span>
+				<span>{{product.productSendType}}</span>
+			</p>
+			<p>
+				<span>可得积分:</span>
+				<span>可获得{{product.productScore}}积分</span>
+			</p>
+		</div>
+		<!-- <div class="details" :style="{marginBottom:marginBottom}">
+			<p class="details_title">---- 商品详情 ----</p>
+			<div class="details_content" v-html="product.productImg"></div>
+		</div> -->
 		<div class="details" :style="{marginBottom:marginBottom}">
 			<!-- <p class="details_title">---- 商品详情 ----</p> -->
 			<van-tabs type="card">
@@ -154,50 +191,13 @@
 				</van-tab>
 			</van-tabs>
 		</div>
-		<!-- 接口定义好用这个 -->
-		<!-- <div class="discript">
-			<img src="" alt="">
-			<p class="title">{{product.productName}}</p>
-        	<p class="subtitle">{{product.productInfo}}</p>
-			<p class="price" v-if="product.productPrice">
-				<span>&yen;{{product.productPrice}}/{{product.productNum}}只</span>
-				<span class="old">&yen;{{product.productOprice}}</span>
-			</p>
-			<p class="price" v-else>
-				<span>&yen;{{product.productOprice}}/{{product.productNum}}只</span>
-			</p>
-		</div>
-		<div class="xinxi">
-			<p>
-				<span>商品类型:</span>
-				<span>
-					<span class="type">{{product.productPtype == 2 ? "大闸蟹 · 现货" : "大闸蟹 · 礼品卡"}}</span>
-				</span>
-			</p>
-			<p>
-				<span>商品产地:</span>
-				<span>{{product.productAddress}}</span>
-			</p>
-			<p>
-				<span>配送方式:</span>
-				<span>{{product.productSendType}}</span>
-			</p>
-			<p>
-				<span>可得积分:</span>
-				<span>可获得{{product.productScore}}积分</span>
-			</p>
-		</div>
-		<div class="details" :style="{marginBottom:marginBottom}">
-			<p class="details_title">---- 商品详情 ----</p>
-			<div class="details_content" v-html="product.productImg"></div>
-		</div> -->
 		<!-- 商品图文详情 -->
 		<van-goods-action v-show="show">
 			<van-goods-action-mini-btn icon="like-o" text="收藏" />
 			<van-goods-action-mini-btn icon="cart" text="购物车" @click="toCart" />
 			<van-goods-action-mini-btn icon="chat" text="客服" />
 			<van-goods-action-big-btn text="加入购物车" @click="openCart" />
-			<van-goods-action-big-btn text="立即购买" primary @click="openPay('123')" />
+			<van-goods-action-big-btn text="立即购买" primary @click="openPay(product.productId)" />
 		</van-goods-action>
 		<van-actionsheet v-model="show1" title="选择数量">
 			<p style="display:fixed">
@@ -219,8 +219,8 @@ export default {
   mixins: [productInfo],
   data() {
     return {
-		cartLictPic: require('../../assets/img/组7@2x.png'),
-		valuationPic: require('../../assets/img/评价DEMO.png'),
+      cartLictPic: require("../../assets/img/组7@2x.png"),
+      valuationPic: require("../../assets/img/评价DEMO.png"),
       marginBottom: "50px",
       number: 1,
       show: false,
@@ -261,19 +261,20 @@ export default {
           origin: "阳澄湖" //商品产地
         }
       ],
-      product: null,
+      product: "",
       staffId: this.getCookie("staffId"),
       token: this.getCookie("token")
     };
   },
   methods: {
     // 获取cook
-    getCookie (name) {
-      var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-      if(arr=document.cookie.match(reg)){
+    getCookie(name) {
+      var arr,
+        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+      if ((arr = document.cookie.match(reg))) {
         return unescape(arr[2]);
-      }else{
-        return null; 
+      } else {
+        return null;
       }
     },
     // 判断用户是否登录
@@ -286,11 +287,12 @@ export default {
       }
     },
     openPay(num) {
+      console.log(num);
       var istoken = this.isToken();
       if (istoken) {
         var id = this.$route.params.id;
         this.addOrder(this.token, this.staffId, num, this.number).then(res => {
-          this.$router.push(`/cartDetermine?number=` + this.number);
+          this.$router.push(`/cartDetermine/${res[0].orderId}`);
         });
       } else {
         Dialog.alert({

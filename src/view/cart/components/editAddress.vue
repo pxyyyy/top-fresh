@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-	@import "./cartAddressEditing.less";
+@import "./cartAddressEditing.less";
 </style>
 <template>
 	<div>
@@ -51,94 +51,105 @@
 </template>
 
 <script>
-	// 地址数据
-	import address from '../address/index.js'
-	import service from '../service/index.js'
-	export default {
-		name: 'cartAddressEditing',
-		mixins: [service],
-		data() {
-			return {
-				username: '',
-				radio: '0',
-				Area: false,
-				areaList: address,
-				searchResult: [],
-				from: {
-					adName: '',
-					adPhone: '',
-					adAddressInfo: '',
-					area: ''
-				},
-				checkAdName: '',
-				checkAdPhone: '',
-				checkadAddressInfo: '请输入街道和门牌信息',
-				placeholderArea: ''
-			}
-		},
+// 地址数据
+import address from "../address/index.js";
+import service from "../service/index.js";
+export default {
+  name: "cartAddressEditing",
+  mixins: [service],
+  data() {
+    return {
+      username: "",
+      radio: "0",
+      Area: false,
+      areaList: address,
+      searchResult: [],
+      from: {
+        adName: "",
+        adPhone: "",
+        adAddressInfo: "",
+        area: ""
+      },
+      checkAdName: "",
+      checkAdPhone: "",
+      checkadAddressInfo: "请输入街道和门牌信息",
+      placeholderArea: ""
+    };
+  },
 
   methods: {
     // 获取cook
-    getCookie (name) {
-      var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-      if(arr=document.cookie.match(reg)){
+    getCookie(name) {
+      var arr,
+        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+      if ((arr = document.cookie.match(reg))) {
         return unescape(arr[2]);
-      }else{
-        return null; 
+      } else {
+        return null;
       }
     },
-    showArea () {
-      this.Area = true
+    showArea() {
+      this.Area = true;
     },
-    returnDetermine () {
-      this.$router.go(-1)
+    returnDetermine() {
+      this.$router.go(-1);
     },
-    determine (type) {
-      this.Area = false
-      this.from.area = '';
+    determine(type) {
+      this.Area = false;
+      this.from.area = "";
       for (let i of type) {
-        if (i.name == '选择省份' || i.name == '选择城市' || i.name == '选择地区' || this.adAddressInfo == '') {
-        }else {
+        if (
+          i.name == "选择省份" ||
+          i.name == "选择城市" ||
+          i.name == "选择地区" ||
+          this.adAddressInfo == ""
+        ) {
+        } else {
           this.from.area += i.name;
         }
       }
     },
-    async save () {
-      if (this.from.adName == '') {
-        this.checkAdName = '请输入姓名';
+    async save() {
+      if (this.from.adName == "") {
+        this.checkAdName = "请输入姓名";
       }
-      if (this.from.adPhone == '') {
-        this.checkAdPhone = '请输入电话';
+      if (this.from.adPhone == "") {
+        this.checkAdPhone = "请输入电话";
       }
-      if (this.from.area == '') {
-        this.placeholderArea = '请选择地区';
+      if (this.from.area == "") {
+        this.placeholderArea = "请选择地区";
       }
-      if (this.from.adAddressInfo == '') {
-        this.checkadAddressInfo = '请输入街道和门牌信息';
+      if (this.from.adAddressInfo == "") {
+        this.checkadAddressInfo = "请输入街道和门牌信息";
       }
-      if(this.from.adName != '' && this.from.adPhone != '' && this.from.area != '' && this.from.adAddressInfo != '' ) {
-          const staffId = this.getCookie("staffId");
-          const token = this.getCookie("token");
+      if (
+        this.from.adName != "" &&
+        this.from.adPhone != "" &&
+        this.from.area != "" &&
+        this.from.adAddressInfo != ""
+      ) {
+        const staffId = this.getCookie("staffId");
+        const token = this.getCookie("token");
         try {
           await this.updateStaffAddress({
-            adId:this.$route.params.id,
+            adId: this.$route.params.id,
             staffId: staffId,
-            token:token,
+            token: token,
             adName: this.from.adName,
             adPhone: this.from.adPhone,
-            adAddress:this.from.area,
-            adAddressInfo:this.from.adAddressInfo,
-            adIsdefault:this.radio
-          })
-        }catch (e) {
-          console.log(e)
+            adAddress: this.from.area,
+            adAddressInfo: this.from.adAddressInfo,
+            adIsdefault: this.radio
+          });
+        } catch (e) {
+          console.log(e);
         }
-        this.$router.go(-1)
+        this.$router.go(-1);
       }
     }
   },
-  mounted () {
-    console.log(this.$route.params.id)
+  mounted() {
+    console.log(this.$route.params.id);
   }
-}
+};
 </script>
