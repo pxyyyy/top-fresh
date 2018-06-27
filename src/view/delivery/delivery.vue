@@ -1,12 +1,12 @@
 <style lang="less" scoped>
-	@import "./delivery.less";
+@import "./delivery.less";
 </style>
 <style>
-	.details_content img {
-		width: 100%;
-		border: 0;
-		vertical-align: middle
-	}
+.details_content img {
+  width: 100%;
+  border: 0;
+  vertical-align: middle;
+}
 </style>
 
 <template>
@@ -14,63 +14,72 @@
 	<div>
 		<!-- 商品主图  有赞轮播组件-->
 		<swiper :options="swiperOption">
-			<swiper-slide v-for="(image, index) in info[0].images" :key="index">
-				<img v-lazy="image" class="img" />
+			<swiper-slide v-for="(image, index) in info.proImgs" :key="index">
+				<img v-lazy="image.imgUrl" class="img" />
 			</swiper-slide>
 		</swiper>
 		<!-- 商品详细信息 -->
 		<div class="discript">
 			<!-- 预售图片 -->
 			<img src="" alt="">
-			<p class="title">{{info[0].title}}</p>
-			<p class="subtitle">{{info[0].subtitle}}</p>
-			<p class="price" v-if="info[0].discount">
-				<span>&yen;{{info[0].newprice}}/{{info[0].number}}只</span>
-				<span class="old">&yen;{{info[0].oldprice}}</span>
-				<span class="discount">{{info[0].discount}}折</span>
+			<p class="title">{{info.productName}}</p>
+			<p class="subtitle">{{info.productInfo}}</p>
+			<p class="price" v-if="info.productDiscount">
+				<span>&yen;{{info.productPrice}}/{{info.productUnit}}只</span>
+				<span class="old">&yen;{{info.productOprice}}</span>
+				<span class="discount">{{info.productDiscount}}折</span>
 			</p>
 			<p class="price" v-else>
-				<span>&yen;{{info[0].oldprice}}/{{info[0].number}}只</span>
+				<span>&yen;{{info.productOprice}}/{{info.productUnit}}只</span>
 			</p>
 		</div>
 		<div class="xinxi">
 			<p>
 				<span>商品类型:</span>
-				<span v-for="(type,index) in info[0].productType" :key="index">
-					<span class="type">{{type}}</span>
+				<span v-for="(type,index) in info.productPtype" :key="index">
+					<span class="type" v-if="type == 1">礼品卡</span>
+					<span class="type" v-else>礼品卡</span>
 				</span>
 			</p>
 			<p>
 				<span>商品产地:</span>
-				<span>{{info[0].origin}}</span>
+				<span>{{info.productAddress}}</span>
 			</p>
 			<p>
 				<span>配送方式:</span>
-				<span>{{info[0].distribution}}</span>
+				<span>{{info.productSendType}}</span>
 			</p>
-			<p>
+			<!-- <p>
 				<span>提货周期:</span>
 				<span>{{info[0].integral}}</span>
-			</p>
+			</p> -->
 		</div>
 		<div class="details">
 			<p class="details_title">---- 商品详情 ----</p>
-			<div class="details_content" v-html="info[0].content"></div>
+			<div class="details_content">
+				<div class="d-content">
+					<img src="//img30.360buyimg.com/popWaterMark/jfs/t19498/108/2431894716/126463/a3756bf0/5af28a62Ne2cd4e4e.jpg">
+				</div>
+			</div>
 		</div>
 		<van-button bottom-action @click="goAddress()">马上提取现货 </van-button>
 		<!-- 商品图文详情 -->
 	</div>
 </template>
 <script>
-	export default {
-		name: "product_details",
-		data() {
-			return {
-				swiperOption: {
-					loop: true,
-					effect: "fade",
-				},
-				info: [{
+import service from "./service/index.js";
+export default {
+  name: "product_details",
+  mixins: [service],
+  data() {
+    return {
+      swiperOption: {
+        loop: true,
+        effect: "fade"
+      },
+      info: [
+        /*
+				{
 					id: "1", //商品ID
 					title: "澄阳湖大闸蟹六对礼盒装AB双套餐可选 2.9-2.9两  12只", //商品标题
 					subtitle: "澄阳湖大闸蟹 AB双套餐", //商品副标题
@@ -90,27 +99,53 @@
 					distribution: "顺丰空运", //配送方式
 					integral: "2018.10.09-2018.12.09", //购买可获得的积分数
 					origin: "阳澄湖", //商品产地
-				}]
-			}
-		},
-		methods: {
-			goAddress() {
-				var code = this.$route.params.id;
-				let from = this.$route.query.from;
-				if(from == "IOS" || from == "Android") {
-					console.log(code)
-					this.$bridge.callHandler('goPickupInfoVC', {
-						'code': code
-					}, (data) => {
-						console.log("success")
-					})
-				} else {
-					this.$router.push(
-						`/cartDetermine`
-					)
-				}
-
-			}
-		}
-	}
+					} */
+      ]
+    };
+  },
+  beforeMount() {
+    this.getLadingDetail({
+      staffId: this.getCookie("staffId"),
+      token: this.getCookie("token"),
+      card: this.$route.params.value,
+      hidecard: this.$route.params.password
+    }).then(res => {
+      this.info = res.data;
+    });
+  },
+  methods: {
+    // 获取cook
+    getCookie(name) {
+      var arr,
+        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+      if ((arr = document.cookie.match(reg))) {
+        return unescape(arr[2]);
+      } else {
+        return null;
+      }
+    },
+    goAddress() {
+      var code = this.$route.params.id;
+      let from = this.$route.query.from;
+      if (from == "IOS" || from == "Android") {
+        console.log(code);
+        this.$bridge.callHandler(
+          "goPickupInfoVC",
+          {
+            code: code
+          },
+          data => {
+            console.log("success");
+          }
+        );
+      } else {
+        this.$router.push(
+          `/pickDetermine/${this.$route.params.value}/${
+            this.$route.params.password
+          }`
+        );
+      }
+    }
+  }
+};
 </script>

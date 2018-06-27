@@ -1,20 +1,23 @@
 <style scoped>
-	@import "./pick.less";
+@import "./pick.less";
 </style>
 <style>
-	#app {
-		background-color: #efeff7;
-	}
-	
-	.top .van-field__control {
-		text-align: center !important;
-	}
+#app {
+  background-color: #efeff7;
+}
+
+.top .van-field__control {
+  text-align: center !important;
+}
 </style>
 <template>
 	<div>
 		<div class="top">
 			<van-cell-group>
 				<van-field v-model="value" placeholder="请输入提货码" />
+			</van-cell-group>
+			<van-cell-group>
+				<van-field v-model="password" placeholder="请输入提货码密码" />
 			</van-cell-group>
 			<van-button size="large" @click="goDetails()">确定提货</van-button>
 		</div>
@@ -30,56 +33,94 @@
 	</div>
 </template>
 <script>
-	export default {
-		name: "pick",
-		data() {
-			return {
-				value: "",
-				// 当前供应
-				list: [{
-						id: 100001,
-						title: "阳澄湖大闸蟹4对装礼品卡",
-						liang: "4.0",
-						number: 12,
-						price: "299.00"
-					},
-					{
-						id: 100001,
-						title: "阳澄湖大闸蟹4对装礼品卡",
-						liang: "4.0",
-						number: 12,
-						price: "299.00"
-					},
-					{
-						id: 100001,
-						title: "阳澄湖大闸蟹4对装礼品卡",
-						liang: "4.0",
-						number: 12,
-						price: "299.00"
-					},
-					{
-						id: 100001,
-						title: "阳澄湖大闸蟹4对装礼品卡",
-						liang: "4.0",
-						number: 12,
-						price: "299.00"
-					},
-					{
-						title: "阳澄湖大闸蟹4对装礼品卡",
-						liang: "4.0",
-						number: 12,
-						price: "299.00"
-					}
-				]
-			};
-		},
-		methods: {
-			goDetails: function() {
-				this.$router.push(`/delivery/${this.value}`);
-			},
-			toProductInfo(productId) {
-				this.$router.push(`/product/${productId}`);
-			}
-		}
-	};
+import { Toast } from "vant";
+import service from "./service/index.js";
+export default {
+  name: "pick",
+  mixins: [service],
+  data() {
+    return {
+      value: "",
+      password: "",
+      // 当前供应
+      list: [
+        {
+          id: 100001,
+          title: "阳澄湖大闸蟹4对装礼品卡",
+          liang: "4.0",
+          number: 12,
+          price: "299.00"
+        },
+        {
+          id: 100001,
+          title: "阳澄湖大闸蟹4对装礼品卡",
+          liang: "4.0",
+          number: 12,
+          price: "299.00"
+        },
+        {
+          id: 100001,
+          title: "阳澄湖大闸蟹4对装礼品卡",
+          liang: "4.0",
+          number: 12,
+          price: "299.00"
+        },
+        {
+          id: 100001,
+          title: "阳澄湖大闸蟹4对装礼品卡",
+          liang: "4.0",
+          number: 12,
+          price: "299.00"
+        },
+        {
+          title: "阳澄湖大闸蟹4对装礼品卡",
+          liang: "4.0",
+          number: 12,
+          price: "299.00"
+        }
+      ]
+    };
+  },
+  mounted() {
+    let cookie = this.getCookie("staffId");
+    if (!cookie) {
+      this.$router.push("/Login");
+    }
+  },
+  methods: {
+    // 获取cook
+    getCookie(name) {
+      var arr,
+        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+      if ((arr = document.cookie.match(reg))) {
+        return unescape(arr[2]);
+      } else {
+        return null;
+      }
+    },
+    goDetails: function() {
+      if (this.value == "") {
+        Toast("请输入提货码");
+      } else if (this.password == "") {
+        Toast("请输入提货码密码");
+      } else {
+        this.getLadingDetail({
+          staffId: this.getCookie("staffId"),
+          token: this.getCookie("token"),
+          card: this.value,
+          hidecard: this.password
+        }).then(res => {
+          if (res.code == 100003) {
+            Toast("未查询到卡券");
+          } else {
+            this.$router.push(`/delivery/${this.value}/${this.password}`);
+          }
+        });
+      }
+    },
+    toProductInfo(productId) {
+      this.$router.push(`/product/${productId}`);
+    }
+  }
+};
 </script>

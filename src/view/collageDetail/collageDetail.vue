@@ -1,86 +1,93 @@
 <style lang="less" scoped>
-	@import "./collageDetail.less";
+@import "./collageDetail.less";
 </style>
 <style>
-	.details_content img {
-		width: 100%;
-		border: 0;
-		vertical-align: middle
-	}
+.details_content img {
+  width: 100%;
+  border: 0;
+  vertical-align: middle;
+}
 </style>
 <template>
 	<!-- 商品详情 页面-->
 	<div>
 		<!-- 商品主图  有赞轮播组件-->
 		<swiper :options="swiperOption">
-			<swiper-slide v-for="(image, index) in info[0].images" :key="index">
-				<img v-lazy="image" class="img" />
+			<swiper-slide v-for="(image, index) in info" :key="index">
+				<img v-lazy="info.productIcon" class="img" />
 			</swiper-slide>
 		</swiper>
 		<!-- 商品详细信息 -->
 		<div class="discript">
-			<p class="title">{{info[0].title}}</p>
+			<p class="title">{{info.productName}}</p>
 			<p class="price">
 				<span class="collage">
-                    ￥{{info[0].newprice}}    
-                </span>
+					￥{{info.productPrice}}
+				</span>
 				<span class="alone">
-                    单价买 ￥{{info[0].oldprice}}    
-                </span>
+					单价买 ￥{{info.productOprice}}
+				</span>
 			</p>
 		</div>
 		<div class="xinxi">
 			<p>
 				<span>商品类型:</span>
-				<span v-for="(type,index) in info[0].productType" :key="index">
-					<span class="type">{{type}}</span>
+				<span v-for="(type,index) in info.productPtype" :key="index">
+					<span class="type" v-if="type == 1">礼品卡</span>
+					<span class="type" v-else>现货</span>
 				</span>
 			</p>
 			<p>
 				<span>商品产地:</span>
-				<span>{{info[0].origin}}</span>
+				<span>{{info.productAddress}}</span>
 			</p>
 			<p>
 				<span>配送方式:</span>
-				<span>{{info[0].distribution}}</span>
+				<span>{{info.productSendType}}</span>
 			</p>
 			<p>
 				<span>获得积分:</span>
-				<span>可获得{{info[0].integral}}积分</span>
+				<span>可获得{{info.productScore}}积分</span>
 			</p>
 		</div>
 		<div class="details" :style="{marginBottom:marginBottom}">
 			<p class="details_title">---- 商品详情 ----</p>
-			<div class="details_content" v-html="info[0].content"></div>
+			<div class="details_content">
+				<img v-lazy="info.productImg" alt="">
+			</div>
 		</div>
 		<!-- 商品图文详情 -->
 		<van-row>
 			<van-col span="12">
-				<van-button bottom-action @click="aloneBy('123323')">单独购买 ￥{{info[0].oldprice}}</van-button>
+				<van-button bottom-action @click="aloneBy('123323')">单独购买 ￥{{info.productOprice}}</van-button>
 			</van-col>
 			<van-col span="12">
-				<van-button type="primary" bottom-action @click="collage('1232321')">5人成团 ￥{{info[0].newprice}}</van-button>
+				<van-button type="primary" bottom-action @click="collage('1232321')">5人成团 ￥{{info.productPrice}}</van-button>
 			</van-col>
 		</van-row>
 	</div>
 </template>
 <script>
-	import img from "../../assets/img/介绍.png"
-	import traceabilityVue from '../traceability/traceability.vue';
-	export default {
-		name: "product_details",
-		data() {
-			return {
-				marginBottom: '50px',
-				number: 1,
-				show: false,
-				show1: false,
-				type: '',
-				swiperOption: {
-					loop: true,
-					effect: "fade",
-				},
-				info: [{
+import service from "./service/order.js";
+import img from "../../assets/img/介绍.png";
+import traceabilityVue from "../traceability/traceability.vue";
+export default {
+  name: "product_details",
+  mixins: [service],
+  data() {
+    return {
+      marginBottom: "50px",
+      number: 1,
+      show: false,
+      show1: false,
+      type: "",
+      swiperOption: {
+        loop: true,
+        effect: "fade"
+      },
+      info: [
+        /*
+				{
 					id: "1", //商品ID
 					title: "澄阳湖大闸蟹六对礼盒装", //商品标题
 					oldprice: 288.00, //商品原价
@@ -99,57 +106,111 @@
 					distribution: "顺丰空运", //配送方式
 					integral: "200", //购买可获得的积分数
 					origin: "阳澄湖", //商品产地
-				}]
-			}
-		},
-		methods: {
-			aloneBy(id) {
-				let from = this.$route.query.from;
-				console.log("from", from)
-				if(from == "IOS") {
-					this.$bridge.callHandler('goPintuanGoodsAlone', {
-						'id': id
-					}, (data) => {
-						console.log("IOS success")
-					})
-				} else if(from == "Android") {
-					this.$bridge.callHandler('goPintuanGoodsAlone', {
-						'id': id
-					}, (data) => {
-						console.log("Android success")
-					})
-				} else {
-					this.$router.push(
-						`/cartDetermine?id=` + id
-					)
 				}
-
-			},
-			collage(id) {
-				let from = this.$route.query.from;
-				console.log("from", from)
-				if(from == "IOS") {
-					this.$bridge.callHandler('goPintuanGoodsPayResult', {
-						'id': id
-					}, (data) => {
-						console.log("IOS success")
-					})
-				} else if(from == "Android") {
-					this.$bridge.callHandler('goPintuanGoodsPayResult', {
-						'id': id
-					}, (data) => {
-						console.log("Android success")
-					})
-				} else {
-					this.$router.push(
-						`/teamworkPayment?id=` + id
-					)
-				}
-
-			}
-		},
-		mounted() {
-
-		}
-	}
+				*/
+      ]
+    };
+  },
+  methods: {
+    // 获取cook
+    getCookie(name) {
+      var arr,
+        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+      if ((arr = document.cookie.match(reg))) {
+        return unescape(arr[2]);
+      } else {
+        return null;
+      }
+    },
+    aloneBy(id) {
+      let from = this.$route.query.from;
+      if (from == "IOS") {
+        this.$bridge.callHandler(
+          "goPintuanGoodsAlone",
+          {
+            id: id
+          },
+          data => {
+            console.log("IOS success");
+          }
+        );
+      } else if (from == "Android") {
+        this.$bridge.callHandler(
+          "goPintuanGoodsAlone",
+          {
+            id: id
+          },
+          data => {
+            console.log("Android success");
+          }
+        );
+      } else {
+        // this.$router.push(
+        // 	`/cartDetermine?id=` + id
+        // )
+      }
+    },
+    async collage(id) {
+      let from = this.$route.query.from;
+      if (from == "IOS") {
+        this.$bridge.callHandler(
+          "goPintuanGoodsPayResult",
+          {
+            id: id
+          },
+          data => {
+            console.log("IOS success");
+          }
+        );
+      } else if (from == "Android") {
+        this.$bridge.callHandler(
+          "goPintuanGoodsPayResult",
+          {
+            id: id
+          },
+          data => {
+            console.log("Android success");
+          }
+        );
+      } else {
+        var staffId = this.getCookie("staffId");
+        var token = this.getCookie("token");
+        await this.addUserTogetherOrder({
+          productId: this.info.productId,
+          togetherOrderId: this.$route.params.id,
+          // status: this.info.status,
+          originalPrice: this.info.productOprice,
+          priceTogether: this.info.productPrice,
+          title: this.info.productName,
+          orderIn: "0",
+          staffId,
+          token
+          // staffId: this.info.staffId,
+          // createTime: this.info.createTime,
+          // refundTime: this.info.refundTime,
+          // payTime: this.info.payTime,
+          // addressL: this.info.addressL,
+          // startUser: this.info.startUser
+        });
+        this.$router.push(
+          `/collageDetermine/${this.$route.params.id}/${
+            this.$route.params.productId
+          }`
+        );
+      }
+    }
+  },
+  mounted() {
+    var staffId = this.getCookie("staffId");
+    var token = this.getCookie("token");
+    this.getTogetherOrderInfo({
+      staffId,
+      token,
+      productId: this.$route.params.productId,
+      id: this.$route.params.id
+    }).then(res => {
+      this.info = res;
+    });
+  }
+};
 </script>

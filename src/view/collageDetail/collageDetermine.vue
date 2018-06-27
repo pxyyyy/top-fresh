@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-@import "./cartDetermine.less";
+@import "./collageDetermine.less";
 </style>
 <style>
 .Cell .van-icon {
@@ -23,7 +23,7 @@
 			<div class="address" @click="goAddress()">
 				<van-row class="address-content">
 					<van-col span="2" class="address-left">
-						<img src="../../../assets/img/cartDeteemine.png" alt="">
+						<img src="../../assets/img/cartDeteemine.png" alt="">
 					</van-col>
 					<van-col span="20">
 						<p>收货人: {{cartList[0].adName}}
@@ -32,21 +32,21 @@
 						<p style="margin-top:5px;">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</p>
 					</van-col>
 					<van-col span="2" class="address-right">
-						<img src="../../../assets/img/Arrow.png" alt="">
+						<img src="../../assets/img/Arrow.png" alt="">
 					</van-col>
 				</van-row>
 			</div>
 			<!-- 订单详情 -->
 			<div>
-				<ul v-for="item in infoList" :key="item.odProductId">
+				<ul>
 					<li class="item">
-						<img :src="item.odProductIcon" alt="" class="item-img">
+						<img :src="info.productIcon" alt="" class="item-img">
 						<div class="item-info">
-							<p class="item-title">{{item.odProductName}}</p>
-							<p class="item-desc">{{item.odProductDes}}</p>
+							<p class="item-title">{{info.productName}}</p>
+							<p class="item-desc">{{info.productInfo}}</p>
 							<p class="item-button">
-								<strong class="money">￥{{item.odProductPprice}}</strong>
-								<span>x{{item.odProductNum}}</span>
+								<strong class="money">￥{{info.productPrice}}</strong>
+								<span>x1</span>
 							</p>
 						</div>
 					</li>
@@ -64,7 +64,7 @@
 							<p>至你提供的地址</p>
 							<p>可通过实体卡上的密码</p>
 							<p>进行提货操作</p>
-							<p class="active_volume" v-if="MailingActiveOne"><img src="../../../assets/img/active-volume.png" alt=""></p>
+							<p class="active_volume" v-if="MailingActiveOne"><img src="../../assets/img/active-volume.png" alt=""></p>
 						</div>
 						<div :class="{Mailing_right:true, MailingActive:MailingActiveTwo}" @click="MailingTwo">
 							<p>
@@ -75,7 +75,7 @@
 							<p>至你提供的地址</p>
 							<p>可通过实体卡上的密码</p>
 							<p>进行提货操作</p>
-							<p class="active_volume" v-if="MailingActiveTwo"><img src="../../../assets/img/active-volume.png" alt=""></p>
+							<p class="active_volume" v-if="MailingActiveTwo"><img src="../../assets/img/active-volume.png" alt=""></p>
 						</div>
 						<van-button size="large" class="Mailing_button">确定</van-button>
 					</van-row>
@@ -109,7 +109,7 @@
 					<div class="border-top price-content">
 						<van-row>
 							<van-col span="12">商品总额</van-col>
-							<van-col span="12" class="price_right" style="font-wight:300;">￥{{datas.orderAllmoney}}</van-col>
+							<van-col span="12" class="price_right" style="font-wight:300;">￥{{info.productPrice}}</van-col>
 						</van-row>
 						<van-row>
 							<van-col span="12">代金卷优惠</van-col>
@@ -121,7 +121,7 @@
 						</van-row>
 						<van-row class="price-bottom">
 							<van-col span="24" class="price_right">实付款
-								<strong class="money">￥{{datas.orderAllmoney}}</strong>
+								<strong class="money">￥{{info.productPrice}}</strong>
 							</van-col>
 						</van-row>
 					</div>
@@ -174,18 +174,18 @@
 	</div>
 </template>
 <script>
-import wxpic from "../../../assets/img/wx.png";
-import zfbpic from "../../../assets/img/zfb.png";
-import ylpic from "../../../assets/img/yl.png";
-import wxpicActive from "../../../assets/img/active_wx.png";
-import zfbpicActive from "../../../assets/img/active_zfb.png";
-import ylpicActive from "../../../assets/img/ylActive.png";
-import FeaturesIcon5 from "../../../assets/img/product.png";
-import MailingOnePic from "../../../assets/img/volume-one.png";
-import MailingTwoPic from "../../../assets/img/volume-two.png";
-import ActiveMailingOnePic from "../../../assets/img/active-volume-one.png";
-import ActiveMailingTwoPic from "../../../assets/img/active-volume-two.png";
-import service from "../service/index.js";
+import wxpic from "../../assets/img/wx.png";
+import zfbpic from "../../assets/img/zfb.png";
+import ylpic from "../../assets/img/yl.png";
+import wxpicActive from "../../assets/img/active_wx.png";
+import zfbpicActive from "../../assets/img/active_zfb.png";
+import ylpicActive from "../../assets/img/ylActive.png";
+import FeaturesIcon5 from "../../assets/img/product.png";
+import MailingOnePic from "../../assets/img/volume-one.png";
+import MailingTwoPic from "../../assets/img/volume-two.png";
+import ActiveMailingOnePic from "../../assets/img/active-volume-one.png";
+import ActiveMailingTwoPic from "../../assets/img/active-volume-two.png";
+import service from "../cart/service/index.js";
 export default {
   mixins: [service],
   data() {
@@ -207,6 +207,7 @@ export default {
       away: false,
       cartList: [{}],
       infoList: [],
+      info: "",
       datas: "",
       PaymentType: "微信支付"
     };
@@ -283,10 +284,19 @@ export default {
     },
     gocartOut() {
       this.$router.push(`/cartOut/${this.$route.params.orderId}`);
+    },
+    // 获取cook
+    getCookie(name) {
+      var arr,
+        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+      if ((arr = document.cookie.match(reg))) {
+        return unescape(arr[2]);
+      } else {
+        return null;
+      }
     }
   },
   async beforeMount() {
-    // 地址、
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");
     try {
@@ -296,14 +306,13 @@ export default {
         });
       });
     } catch (error) {}
-    // 订单详情
-    this.selectOrderPrimaryKey({
+    this.getTogetherOrderInfo({
       staffId,
       token,
-      orderId: this.$route.params.orderId
+      productId: this.$route.params.productId,
+      id: this.$route.params.id
     }).then(res => {
-      this.datas = res;
-      this.infoList = res.orderdetails;
+      this.info = res;
     });
   }
 };
