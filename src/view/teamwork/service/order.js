@@ -20,5 +20,29 @@ export default {
           console.log(error);
         });
     },
+    // 分享拼团(生成拼团展示连接)
+    shareTogetherOrder(json) {
+      return api.post('fresh_show/togetherOrder/shareTogetherOrder', json)
+        .then(res => {
+          if (res.data.code == 100000) {
+            return res.data.data;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 拼团付款成功后展示（剩余人数。结束时间。已参加用户）
+    getTogetherOrderProcessMessage(json) {
+      return api.post('fresh_show/togetherOrder/getTogetherOrderProcessMessage', json)
+        .then(res => {
+          if (res.data.code == 100000) {
+            return res.data.data;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   }
 }

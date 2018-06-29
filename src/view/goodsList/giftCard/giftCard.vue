@@ -1,7 +1,7 @@
 /* * @Author: By.zhangTeng * @Date: 2018-05-22 17:14:14 * @Last Modified by: By.zhangTeng * @Last Modified time: 2018-06-08 10:26:26 */
 
 <style lang="less" scoped>
-	@import url("./giftCard.less");
+@import url("./giftCard.less");
 </style>
 
 <template>
@@ -20,63 +20,64 @@
 	</div>
 </template>
 <script>
-	import getGiftCard from "../service/giftCard.js";
-	export default {
-		name: "giftCard",
-		mixins: [getGiftCard],
-		data() {
-			return {
-				giftCard: null,
-				list: [{
-						id: 100001,
-						title: "阳澄湖大闸蟹4对装礼品卡",
-						liang: "4.0",
-						number: 12,
-						price: "299.00"
-					},
-					{
-						id: 100001,
-						title: "阳澄湖大闸蟹4对装礼品卡",
-						liang: "4.0",
-						number: 12,
-						price: "299.00"
-					},
-					{
-						id: 100001,
-						title: "阳澄湖大闸蟹4对装礼品卡",
-						liang: "4.0",
-						number: 12,
-						price: "299.00"
-					},
-					{
-						id: 100001,
-						title: "阳澄湖大闸蟹4对装礼品卡",
-						liang: "4.0",
-						number: 12,
-						price: "299.00"
-					},
-					{
-						title: "阳澄湖大闸蟹4对装礼品卡",
-						liang: "4.0",
-						number: 12,
-						price: "299.00"
-					}
-				]
-			};
-		},
-		methods: {
-			toProductInfo(productId) {
-				this.$router.push(`/product/${productId}`);
-			}
-		},
-		beforeMount() {
-			var name = this.$route.params.id;
-			this.getGiftCard(1) //获取列表
-				.then(res => {
-					console.log(res, "12321");
-					this.giftCard = res;
-					console.log(this.giftCard[0].imgUrl);
-				});
-		}
-	};
+import getGiftCard from "../service/giftCard.js";
+export default {
+  name: "giftCard",
+  mixins: [getGiftCard],
+  data() {
+    return {
+      giftCard: null,
+      list: [
+        {
+          id: 100001,
+          title: "阳澄湖大闸蟹4对装礼品卡",
+          liang: "4.0",
+          number: 12,
+          price: "299.00"
+        },
+        {
+          id: 100001,
+          title: "阳澄湖大闸蟹4对装礼品卡",
+          liang: "4.0",
+          number: 12,
+          price: "299.00"
+        },
+        {
+          id: 100001,
+          title: "阳澄湖大闸蟹4对装礼品卡",
+          liang: "4.0",
+          number: 12,
+          price: "299.00"
+        },
+        {
+          id: 100001,
+          title: "阳澄湖大闸蟹4对装礼品卡",
+          liang: "4.0",
+          number: 12,
+          price: "299.00"
+        },
+        {
+          title: "阳澄湖大闸蟹4对装礼品卡",
+          liang: "4.0",
+          number: 12,
+          price: "299.00"
+        }
+      ]
+    };
+  },
+  methods: {
+    toProductInfo(productId) {
+      this.$router.push(`/product/${productId}`);
+    }
+  },
+  beforeMount() {
+    var name = this.$route.params.id;
+    this.getGiftCard(1) //获取列表
+      .then(res => {
+        console.log(res, "12321");
+        this.giftCard = res;
+        console.log(this.giftCard[0].imgUrl);
+      });
+  }
+};
 </script>

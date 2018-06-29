@@ -70,13 +70,13 @@
 					</ul>
 					<van-row>
 						<van-col span="24" style="text-align:center; font-size:10px;margin-bottom:3px;color:#ccc;">
-							<div @click='loadMore' v-if="code == '100000'">加载更多 </div>
+							<div @click='loadMore(1)' v-if="code == '100000'">加载更多 </div>
 							<div v-else>已经到底了~~</div>
 						</van-col>
 					</van-row>
 				</div>
 				<div class="coupon-content" v-if="item.id == 2">
-					<ul v-for="(order,index) in orders" :key="index" v-if="order.orderState=='1'">
+					<ul v-for="(order,index) in orders" :key="index">
 						<li class="item" v-for="item in order.orderdetails" :key="item.odId">
 							<div class="item-content">
 								<img :src="item.odProductIcon ? item.odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
@@ -96,7 +96,7 @@
 					</ul>
 					<van-row>
 						<van-col span="24" style="text-align:center; font-size:10px;margin-bottom:3px;color:#ccc;">
-							<div @click='loadMore' v-if="code == '100000'">加载更多 </div>
+							<div @click='loadMore(2)' v-if="code == '100000'">加载更多 </div>
 							<div v-else>已经到底了~~</div>
 						</van-col>
 					</van-row>
@@ -125,7 +125,7 @@
 					</ul>
 					<van-row>
 						<van-col span="24" style="text-align:center; font-size:10px;margin-bottom:3px;color:#ccc;">
-							<div @click='loadMore' v-if="code == '100000'">加载更多 </div>
+							<div @click='loadMore(3)' v-if="code == '100000'">加载更多 </div>
 							<div v-else>已经到底了~~</div>
 						</van-col>
 					</van-row>
@@ -151,7 +151,7 @@
 					</ul>
 					<van-row>
 						<van-col span="24" style="text-align:center; font-size:10px;margin-bottom:3px;color:#ccc;">
-							<div @click='loadMore' v-if="code == '100000'">加载更多 </div>
+							<div @click='loadMore(0)' v-if="code == '100000'">加载更多 </div>
 							<div v-else>已经到底了~~</div>
 						</van-col>
 					</van-row>
@@ -256,14 +256,19 @@ export default {
         return null;
       }
     },
-    loadMore() {
+    loadMore(index) {
+      if (index == 0) {
+        index = "";
+      }
       this.pageNum++;
       this.showLoad = true;
-      this.getOrder(this.staffId, this.token, "", 7, this.pageNum).then(res => {
-        this.code = res.code;
-        console.log(typeof this.code);
-        this.orders = this.orders.concat(res.data);
-      });
+      this.getOrder(this.staffId, this.token, index, 7, this.pageNum).then(
+        res => {
+          this.code = res.code;
+          console.log(typeof this.code);
+          this.orders = this.orders.concat(res.data);
+        }
+      );
     },
     init() {
       this.active = this.changeActive;
@@ -281,6 +286,7 @@ export default {
       var staffId = this.staffId;
       if (this.active == 0) {
         //   待付款
+        this.pageNum = 1;
         this.orders = "";
         this.getOrder(staffId, token, "1", 7, this.pageNum).then(res => {
           this.code = res.code;
@@ -288,6 +294,7 @@ export default {
         });
       } else if (this.active == 1) {
         // 待发货
+        this.pageNum = 1;
         this.orders = "";
         this.getOrder(staffId, token, "2", 7, this.pageNum).then(res => {
           this.code = res.code;
@@ -295,6 +302,7 @@ export default {
         });
       } else if (this.active == 2) {
         //   待收货
+        this.pageNum = 1;
         this.orders = "";
         this.getOrder(staffId, token, "3", 7, this.pageNum).then(res => {
           this.code = res.code;
@@ -302,9 +310,11 @@ export default {
         });
       } else if (this.active == 3) {
         //   待评价
+        this.pageNum = 1;
         this.orders = "";
       } else if (this.active == 4) {
         //   全部订单
+        this.pageNum = 1;
         this.orders = "";
         this.getOrder(staffId, token, "", 7, this.pageNum).then(res => {
           this.code = res.code;

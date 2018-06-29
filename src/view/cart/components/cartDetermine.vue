@@ -51,7 +51,6 @@
 						</div>
 					</li>
 				</ul>
-				<!-- 单元格 -->
 				<!--是否邮寄提货卷弹出-->
 				<van-popup v-model="Mailing">
 					<van-row class="Mailing">
@@ -66,7 +65,7 @@
 							<p>进行提货操作</p>
 							<p class="active_volume" v-if="MailingActiveOne"><img src="../../../assets/img/active-volume.png" alt=""></p>
 						</div>
-						<div :class="{Mailing_right:true, MailingActive:MailingActiveTwo}" @click="MailingTwo">
+						<div :class="{Mailing_right:true, MailingActive:MailingActiveTwo}" @click="MailingTwo()">
 							<p>
 								<strong>使用虚拟提货卷</strong>
 							</p>
@@ -77,20 +76,25 @@
 							<p>进行提货操作</p>
 							<p class="active_volume" v-if="MailingActiveTwo"><img src="../../../assets/img/active-volume.png" alt=""></p>
 						</div>
-						<van-button size="large" class="Mailing_button">确定</van-button>
+						<van-button size="large" class="Mailing_button" @click="determine">确定</van-button>
 					</van-row>
 				</van-popup>
 				<div style="padding-top:30px;background:#fff;">
-					<div class="select">
+					<div class="select" @click="showOne">
 						<p>是否邮寄提货卷</p>
-						<p @click="showOne">请选择
+						<p>
+							{{MailingText}}
 							<span class="iconfont arrow-icon">&#xe66b;</span>
 						</p>
 					</div>
 					<div class="select">
-						<div class="border-top" style="padding:2px 0;">
+						<div class="border-top" style="padding:2px 0;" @click='usingaVouchers'>
 							<p>使用代金卷</p>
-							<p>选择代金卷
+							<p v-if="$route.params.money == 0">选择代金卷
+								<span class="iconfont arrow-icon">&#xe66b;</span>
+							</p>
+							<p v-else>
+								-{{$route.params.money}}元
 								<span class="iconfont arrow-icon">&#xe66b;</span>
 							</p>
 						</div>
@@ -113,7 +117,7 @@
 						</van-row>
 						<van-row>
 							<van-col span="12">代金卷优惠</van-col>
-							<van-col span="12" class="price_right">-￥10.00</van-col>
+							<van-col span="12" class="price_right">-￥{{$route.params.money}}</van-col>
 						</van-row>
 						<van-row>
 							<van-col span="12">积分优惠</van-col>
@@ -121,7 +125,7 @@
 						</van-row>
 						<van-row class="price-bottom">
 							<van-col span="24" class="price_right">实付款
-								<strong class="money">￥{{datas.orderAllmoney}}</strong>
+								<strong class="money">￥{{datas.orderAllmoney - $route.params.money}}</strong>
 							</van-col>
 						</van-row>
 					</div>
@@ -154,7 +158,7 @@
 			<!-- 支付订单 -->
 			<div class="cart-foot">
 				<p>付款 :
-					<span>￥{{datas.orderAllmoney}}</span>
+					<span>￥{{datas.orderAllmoney - $route.params.money}}</span>
 				</p>
 				<p>
 					<van-button size="normal" class="btnColor" @click="goDetails()">支付订单</van-button>
@@ -163,7 +167,7 @@
 			<!--付款方式弹出-->
 			<van-popup v-model="Payment" class="Payment">
 				<p>付款金额：
-					<span>￥{{datas.orderAllmoney}}</span>
+					<span>￥{{datas.orderAllmoney - $route.params.money}}</span>
 				</p>
 				<p>付款方式：
 					<span v-text="PaymentType"></span>
@@ -208,7 +212,9 @@ export default {
       cartList: [{}],
       infoList: [],
       datas: "",
-      PaymentType: "微信支付"
+      PaymentType: "微信支付",
+      MailingText: "请选择",
+      MailingType: ""
     };
   },
   methods: {
@@ -225,6 +231,14 @@ export default {
     showOne() {
       this.Mailing = true;
     },
+    usingaVouchers() {
+      this.$router.push(`/coupon/${this.$route.params.orderId}/0`);
+    },
+    // 邮寄提货卷确定点击
+    determine() {
+      this.Mailing = false;
+    },
+    // 付款图标点击
     wxActive() {
       this.wx = true;
       this.zfb = false;
@@ -252,17 +266,20 @@ export default {
       this.ylpic = ylpic;
       this.PaymentType = "支付宝支付";
     },
+    // 提货卷点击动画
     MailingOne() {
       this.MailingActiveOne = true;
       this.MailingActiveTwo = false;
       this.MailingOnePic = ActiveMailingOnePic;
       this.MailingTwoPic = MailingTwoPic;
+      this.MailingText = "邮件提货卷";
     },
     MailingTwo() {
       this.MailingActiveOne = false;
       this.MailingActiveTwo = true;
       this.MailingOnePic = MailingOnePic;
       this.MailingTwoPic = ActiveMailingTwoPic;
+      this.MailingText = "虚拟提货卷";
     },
     goDetails: function() {
       this.Payment = true;
@@ -276,7 +293,7 @@ export default {
       this.away = true;
     },
     goaway: function() {
-      this.$router.go(-1);
+      this.$router.push("/");
     },
     want: function() {
       this.away = false;
