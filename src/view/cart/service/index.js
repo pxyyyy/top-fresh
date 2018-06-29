@@ -22,6 +22,16 @@ export default {
         console.log(err)
       });
     },
+    // 推荐商品
+    selectProByType() {
+      return api.get('fresh_show/homePage/selectProByType')
+        .then(res => {
+          return res.data
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     // 加接口
     add(staffId, token, carId) {
       return api.get(`fresh_show/prCar/addProCarNum?staffId=${staffId}&token=${token}&carId=${carId}`).then((res) => {

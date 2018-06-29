@@ -23,23 +23,30 @@
 </style>
 
 <template>
-	<div class="container">
-		<van-tabs type="card" v-model="active">
-			<van-tab v-for="index in 2" :key="index" :title="index==1 ? '礼卡' : '现货' ">
-				<div v-if="index==1">
-					<gift-Card></gift-Card>
-				</div>
-				<div v-if="index==2">
-					<spot-Goods></spot-Goods>
-				</div>
-			</van-tab>
-		</van-tabs>
-	</div>
+  <div class="container">
+    <van-tabs type="card" v-model="active" v-if="$route.params.id == 0">
+      <van-tab v-for="index in 2" :key="index" :title="index==1 ? '礼卡' : '现货' ">
+        <div v-if="index==1">
+          <gift-Card></gift-Card>
+        </div>
+        <div v-if="index==2">
+          <spot-Goods></spot-Goods>
+        </div>
+      </van-tab>
+    </van-tabs>
+    <div class="ProductHighlights" v-if="$route.params.id != 0">
+      <product-Highlights>
+      </product-Highlights>
+    </div>
+  </div>
 </template>
 <script>
 import giftCard from "./giftCard/giftCard.vue";
 import spotGoods from "./spotGoods/spotGoods.vue";
+import ProductHighlights from "./ProductHighlights/ProductHighlights.vue";
+import service from "./service/giftCard.js";
 export default {
+  mixins: [service],
   data() {
     return {
       active: 0
@@ -48,7 +55,7 @@ export default {
   beforeMount() {},
   mounted() {
     var name = this.$route.params.id;
-    if (name == "礼卡") {
+    if (name == 0) {
       this.active = 0;
     } else {
       this.active = 1;
@@ -57,7 +64,8 @@ export default {
   methods: {},
   components: {
     giftCard,
-    spotGoods
+    spotGoods,
+    ProductHighlights
   }
 };
 </script>

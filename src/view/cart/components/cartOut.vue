@@ -61,8 +61,8 @@
 				<span>——</span>继续选购
 				<span>——</span>
 			</p>
-			<div class="img-conent" @click="toProductInfo('123')" v-for="index in 5" :key="index">
-				<img v-lazy="cartLictPic" alt="">
+			<div class="img-conent" @click="toProductInfo(item.id)" v-for="item in products" :key="item.id">
+				<img v-lazy="item.imgUrl" alt="">
 			</div>
 		</div>
 	</div>
@@ -74,7 +74,8 @@ export default {
     return {
       cartLictPic: require("../../../assets/img/组7@2x.png"),
       infoList: "",
-      orders: ""
+      orders: "",
+      products: ""
     };
   },
   mixins: [service],
@@ -113,6 +114,10 @@ export default {
     }).then(res => {
       this.infoList = res.orderdetails;
       this.orders = res;
+    });
+    // 继续选购
+    this.selectProByType().then(res => {
+      this.products = res.data;
     });
   }
 };

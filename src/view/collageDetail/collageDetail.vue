@@ -9,63 +9,63 @@
 }
 </style>
 <template>
-	<!-- 商品详情 页面-->
-	<div>
-		<!-- 商品主图  有赞轮播组件-->
-		<swiper :options="swiperOption">
-			<swiper-slide v-for="(image, index) in info" :key="index">
-				<img v-lazy="info.productIcon" class="img" />
-			</swiper-slide>
-		</swiper>
-		<!-- 商品详细信息 -->
-		<div class="discript">
-			<p class="title">{{info.productName}}</p>
-			<p class="price">
-				<span class="collage">
-					￥{{info.productPrice}}
-				</span>
-				<span class="alone">
-					单价买 ￥{{info.productOprice}}
-				</span>
-			</p>
-		</div>
-		<div class="xinxi">
-			<p>
-				<span>商品类型:</span>
-				<span v-for="(type,index) in info.productPtype" :key="index">
-					<span class="type" v-if="type == 1">礼品卡</span>
-					<span class="type" v-else>现货</span>
-				</span>
-			</p>
-			<p>
-				<span>商品产地:</span>
-				<span>{{info.productAddress}}</span>
-			</p>
-			<p>
-				<span>配送方式:</span>
-				<span>{{info.productSendType}}</span>
-			</p>
-			<p>
-				<span>获得积分:</span>
-				<span>可获得{{info.productScore}}积分</span>
-			</p>
-		</div>
-		<div class="details" :style="{marginBottom:marginBottom}">
-			<p class="details_title">---- 商品详情 ----</p>
-			<div class="details_content">
-				<img v-lazy="info.productImg" alt="">
-			</div>
-		</div>
-		<!-- 商品图文详情 -->
-		<van-row>
-			<van-col span="12">
-				<van-button bottom-action @click="aloneBy('123323')">单独购买 ￥{{info.productOprice}}</van-button>
-			</van-col>
-			<van-col span="12">
-				<van-button type="primary" bottom-action @click="collage('1232321')">5人成团 ￥{{info.productPrice}}</van-button>
-			</van-col>
-		</van-row>
-	</div>
+  <!-- 商品详情 页面-->
+  <div>
+    <!-- 商品主图  有赞轮播组件-->
+    <swiper :options="swiperOption">
+      <swiper-slide v-for="(image, index) in infoOne" :key="index">
+        <img v-lazy="image.productIcon" class="img" />
+      </swiper-slide>
+    </swiper>
+    <!-- 商品详细信息 -->
+    <div class="discript">
+      <p class="title">{{infoOne.productName}}</p>
+      <p class="price">
+        <span class="collage">
+          ￥{{infoTwo.priceTogether}}
+        </span>
+        <span class="alone">
+          单价买 ￥{{infoTwo.originalPrice}}
+        </span>
+      </p>
+    </div>
+    <div class="xinxi">
+      <p>
+        <span>商品类型:</span>
+        <span v-for="(type,index) in infoOne.productPtype" :key="index">
+          <span class="type" v-if="type == 1">礼品卡</span>
+          <span class="type" v-else>现货</span>
+        </span>
+      </p>
+      <p>
+        <span>商品产地:</span>
+        <span>{{infoOne.productAddress}}</span>
+      </p>
+      <p>
+        <span>配送方式:</span>
+        <span>{{infoOne.productSendType}}</span>
+      </p>
+      <p>
+        <span>获得积分:</span>
+        <span>可获得{{infoOne.productScore}}积分</span>
+      </p>
+    </div>
+    <div class="details" :style="{marginBottom:marginBottom}">
+      <p class="details_title">---- 商品详情 ----</p>
+      <div class="details_content">
+        <img v-lazy="infoOne.productImg" alt="">
+      </div>
+    </div>
+    <!-- 商品图文详情 -->
+    <van-row>
+      <van-col span="12">
+        <van-button bottom-action @click="aloneBy('123323')">单独购买 ￥{{infoTwo.originalPrice}}</van-button>
+      </van-col>
+      <van-col span="12">
+        <van-button type="primary" bottom-action @click="collage('1232321')">5人成团 ￥{{infoTwo.priceTogether}}</van-button>
+      </van-col>
+    </van-row>
+  </div>
 </template>
 <script>
 import service from "./service/order.js";
@@ -85,8 +85,10 @@ export default {
         loop: true,
         effect: "fade"
       },
-      info: [
-        /*
+      infoOne: "",
+      infoTwo: "",
+      id: ""
+      /*
 				{
 					id: "1", //商品ID
 					title: "澄阳湖大闸蟹六对礼盒装", //商品标题
@@ -108,7 +110,6 @@ export default {
 					origin: "阳澄湖", //商品产地
 				}
 				*/
-      ]
     };
   },
   methods: {
@@ -176,12 +177,12 @@ export default {
         var staffId = this.getCookie("staffId");
         var token = this.getCookie("token");
         await this.addUserTogetherOrder({
-          productId: this.info.productId,
+          productId: this.infoOne.productId,
           togetherOrderId: this.$route.params.id,
           // status: this.info.status,
-          originalPrice: this.info.productOprice,
-          priceTogether: this.info.productPrice,
-          title: this.info.productName,
+          originalPrice: this.infoOne.productOprice,
+          priceTogether: this.infoOne.productPrice,
+          title: this.infoOne.productName,
           orderIn: "0",
           staffId,
           token
@@ -191,16 +192,14 @@ export default {
           // payTime: this.info.payTime,
           // addressL: this.info.addressL,
           // startUser: this.info.startUser
+        }).then(res => {
+          this.id = res[0];
         });
-        this.$router.push(
-          `/collageDetermine/${this.$route.params.id}/${
-            this.$route.params.productId
-          }`
-        );
+        this.$router.push(`/collageDetermine/${this.id}`);
       }
     }
   },
-  mounted() {
+  beforeMount() {
     var staffId = this.getCookie("staffId");
     var token = this.getCookie("token");
     this.getTogetherOrderInfo({
@@ -209,7 +208,9 @@ export default {
       productId: this.$route.params.productId,
       id: this.$route.params.id
     }).then(res => {
-      this.info = res;
+      this.infoOne = res.data[0];
+      this.infoTwo = res.data[1];
+      console.log(res);
     });
   }
 };

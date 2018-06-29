@@ -19,33 +19,16 @@
 			<van-button size="small" class="Payment-button" @click="want">朕在想想</van-button>
 		</van-popup>
 		<div class="cart_min">
-			<!-- 收货地址 -->
-			<div class="address" @click="goAddress()">
-				<van-row class="address-content">
-					<van-col span="2" class="address-left">
-						<img src="../../assets/img/cartDeteemine.png" alt="">
-					</van-col>
-					<van-col span="20">
-						<p>收货人: {{cartList[0].adName}}
-							<span>{{cartList[0].adPhone}}</span>
-						</p>
-						<p style="margin-top:5px;">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</p>
-					</van-col>
-					<van-col span="2" class="address-right">
-						<img src="../../assets/img/Arrow.png" alt="">
-					</van-col>
-				</van-row>
-			</div>
 			<!-- 订单详情 -->
 			<div>
 				<ul>
 					<li class="item">
-						<img :src="info.productIcon" alt="" class="item-img">
+						<img :src="infoTwo.productIcon" alt="" class="item-img">
 						<div class="item-info">
-							<p class="item-title">{{info.productName}}</p>
-							<p class="item-desc">{{info.productInfo}}</p>
+							<p class="item-title">{{infoTwo.productName}}</p>
+							<p class="item-desc">{{infoTwo.productInfo}}</p>
 							<p class="item-button">
-								<strong class="money">￥{{info.productPrice}}</strong>
+								<strong class="money">￥{{infoTwo.productPrice}}</strong>
 								<span>x1</span>
 							</p>
 						</div>
@@ -53,40 +36,7 @@
 				</ul>
 				<!-- 单元格 -->
 				<!--是否邮寄提货卷弹出-->
-				<van-popup v-model="Mailing">
-					<van-row class="Mailing">
-						<div :class="{Mailing_left:true, MailingActive:MailingActiveOne}" @click="MailingOne()">
-							<p>
-								<strong>邮寄提货卷</strong>
-							</p>
-							<p><img :src="MailingOnePic" alt=""></p>
-							<p>将提货卷实体卡邮寄</p>
-							<p>至你提供的地址</p>
-							<p>可通过实体卡上的密码</p>
-							<p>进行提货操作</p>
-							<p class="active_volume" v-if="MailingActiveOne"><img src="../../assets/img/active-volume.png" alt=""></p>
-						</div>
-						<div :class="{Mailing_right:true, MailingActive:MailingActiveTwo}" @click="MailingTwo">
-							<p>
-								<strong>使用虚拟提货卷</strong>
-							</p>
-							<p><img :src="MailingTwoPic" alt=""></p>
-							<p>将提货卷实体卡邮寄</p>
-							<p>至你提供的地址</p>
-							<p>可通过实体卡上的密码</p>
-							<p>进行提货操作</p>
-							<p class="active_volume" v-if="MailingActiveTwo"><img src="../../assets/img/active-volume.png" alt=""></p>
-						</div>
-						<van-button size="large" class="Mailing_button">确定</van-button>
-					</van-row>
-				</van-popup>
 				<div style="padding-top:30px;background:#fff;">
-					<div class="select">
-						<p>是否邮寄提货卷</p>
-						<p @click="showOne">请选择
-							<span class="iconfont arrow-icon">&#xe66b;</span>
-						</p>
-					</div>
 					<div class="select">
 						<div class="border-top" style="padding:2px 0;">
 							<p>使用代金卷</p>
@@ -109,7 +59,7 @@
 					<div class="border-top price-content">
 						<van-row>
 							<van-col span="12">商品总额</van-col>
-							<van-col span="12" class="price_right" style="font-wight:300;">￥{{info.productPrice}}</van-col>
+							<van-col span="12" class="price_right" style="font-wight:300;">￥{{infoTwo.productPrice}}</van-col>
 						</van-row>
 						<van-row>
 							<van-col span="12">代金卷优惠</van-col>
@@ -121,7 +71,7 @@
 						</van-row>
 						<van-row class="price-bottom">
 							<van-col span="24" class="price_right">实付款
-								<strong class="money">￥{{info.productPrice}}</strong>
+								<strong class="money">￥{{infoTwo.productPrice}}</strong>
 							</van-col>
 						</van-row>
 					</div>
@@ -154,7 +104,7 @@
 			<!-- 支付订单 -->
 			<div class="cart-foot">
 				<p>付款 :
-					<span>￥{{datas.orderAllmoney}}</span>
+					<span>￥{{infoTwo.productPrice}}</span>
 				</p>
 				<p>
 					<van-button size="normal" class="btnColor" @click="goDetails()">支付订单</van-button>
@@ -163,7 +113,7 @@
 			<!--付款方式弹出-->
 			<van-popup v-model="Payment" class="Payment">
 				<p>付款金额：
-					<span>￥{{datas.orderAllmoney}}</span>
+					<span>￥{{infoTwo.productPrice}}</span>
 				</p>
 				<p>付款方式：
 					<span v-text="PaymentType"></span>
@@ -185,7 +135,7 @@ import MailingOnePic from "../../assets/img/volume-one.png";
 import MailingTwoPic from "../../assets/img/volume-two.png";
 import ActiveMailingOnePic from "../../assets/img/active-volume-one.png";
 import ActiveMailingTwoPic from "../../assets/img/active-volume-two.png";
-import service from "../cart/service/index.js";
+import service from "./service/order.js";
 export default {
   mixins: [service],
   data() {
@@ -207,7 +157,8 @@ export default {
       away: false,
       cartList: [{}],
       infoList: [],
-      info: "",
+      infoOne: "",
+      infoTwo: "",
       datas: "",
       PaymentType: "微信支付"
     };
@@ -283,7 +234,7 @@ export default {
       this.away = false;
     },
     gocartOut() {
-      this.$router.push(`/cartOut/${this.$route.params.orderId}`);
+      this.$router.push(`/teamworkPayment`);
     },
     // 获取cook
     getCookie(name) {
@@ -299,20 +250,13 @@ export default {
   async beforeMount() {
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");
-    try {
-      await this.getAddress(staffId, token).then(res => {
-        this.cartList = res.filter((item, index, arr) => {
-          return item.adIsdefault == "1";
-        });
-      });
-    } catch (error) {}
-    this.getTogetherOrderInfo({
+    this.getTogetherOrderInfo22({
       staffId,
       token,
-      productId: this.$route.params.productId,
       id: this.$route.params.id
     }).then(res => {
-      this.info = res;
+      this.infoOne = res.data[0];
+      this.infoTwo = res.data[1];
     });
   }
 };

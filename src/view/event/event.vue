@@ -1,62 +1,75 @@
 <style scoped lang="less">
-	@import "./evnet.less";
+@import "./evnet.less";
 </style>
 <template>
-	<div class="event-main">
-		<div class="imgs" v-for="img in imageList" :key="img.id" @click="goDetails()">
-			<img v-lazy="img.src" alt="">
-			<span>{{img.text}}</span>
-		</div>
-		<div class="keepOn">
-			<p>
-				<span>——</span>推荐商品
-				<span>——</span></p>
-			<div class="img-conent" @click="toProductInfo('123')" v-for="index in 5" :key="index">
-				<img v-lazy="cartLictPic" alt="">
-			</div>
-		</div>
-	</div>
+  <div class="event-main">
+    <div class="imgs" v-for="item in eventList" :key="item.id" @click="goActiveInfo(item)">
+      <img v-lazy="item.src" alt="">
+      <span>{{item.acTitle}}</span>
+    </div>
+    <div class="keepOn">
+      <p>
+        <span>——</span>推荐商品
+        <span>——</span>
+      </p>
+      <div class="img-conent" @click="toProductInfo(item.id)" v-for="item in products" :key="item.id">
+        <img v-lazy="item.imgUrl" alt="">
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-	import event1 from '../../assets/img/event1.png'
-	export default {
-		data() {
-			return {
-				cartLictPic: require('../../assets/img/组7@2x.png'),
-				imageList: [{
-						src: event1,
-						text: '极品生鲜招募代理中',
-						id: 1
-					},
-					{
-						src: event1,
-						text: '极品生鲜店中店加盟',
-						id: 2
-					},
-					{
-						src: event1,
-						text: '极品生鲜招募代理中',
-						id: 3
-					},
-					{
-						src: event1,
-						text: '极品生鲜招募代理中',
-						id: 4
-					},
-					{
-						src: event1,
-						text: '极品生鲜招募代理中',
-						id: 5
-					}
-				]
-			};
-		},
-		methods: {
-			goDetails: function() {
-				this.$router.push(
-					`/eventList`
-				);
-			}
-		}
-	}
+import event1 from "../../assets/img/event1.png";
+import service from "./service/index.js";
+export default {
+  mixins: [service],
+  data() {
+    return {
+      cartLictPic: require("../../assets/img/组7@2x.png"),
+      products: "",
+      eventList: []
+    };
+  },
+  methods: {
+    // 活动跳转
+    goActiveInfo(type) {
+      console.log(type.acType);
+      let from = this.$route.query.from;
+      //   优惠券
+      if (type.acType == 1) {
+        this.$router.push(
+          `/myCoupon/${type.acId}`
+          // link
+        );
+        // 拼团
+      } else if (type.acType == 2) {
+        this.$router.push(
+          `/teamwork`
+          // link
+        );
+        // 商品集锦
+      } else if (type.acType == 3) {
+        this.$router.push(`/goodsList/${type.acId}`);
+      }
+    },
+    goDetails: function() {
+      this.$router.push(`/eventList`);
+    },
+    toProductInfo(productId) {
+      this.$router.push(`/product/${productId}`);
+    }
+  },
+  beforeMount() {
+    // 活动列表
+    this.getCouponsOfReceive({
+      pageNum: 1,
+      pageSize: 7
+    }).then(res => {
+      this.eventList = res.data;
+    });
+    this.selectProByType().then(res => {
+      this.products = res.data;
+    });
+  }
+};
 </script>

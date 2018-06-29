@@ -1,106 +1,106 @@
 <style scoped lang="less">
-	@import "./cart.less";
+@import "./cart.less";
 </style>
 <style>
-	.cart-main .van-icon {
-		position: absolute;
-	}
-	
-	.cart-main .van-card {
-		background: #fff;
-	}
-	
-	.van-cell {
-		padding: 10px 5px 10px 10px;
-	}
-	
-	.van-cell-swipe {
-		margin: 5px 0;
-	}
-	
-	.van-card {
-		padding: 5px 5px 5px 115px;
-		background: #fff;
-	}
-	
-	.van-card__title {
-		font-size: 14px;
-	}
-	
-	.van-card__footer {
-		transform: scale(0.8);
-		bottom: 0;
-	}
-	
-	.cart-card__desc {
-		color: #9b9b9b;
-		background: #e8e8e8;
-		padding: 0 10px;
-	}
-	
-	.van-checkbox__label {
-		width: 100%;
-	}
-	
-	.van-stepper__minus,
-	.van-stepper__plus {
-		width: 20px;
-		height: 20px;
-		border-radius: 10px;
-	}
-	
-	.van-stepper__plus {
-		background: #1e1e1e;
-		color: #fff;
-	}
-	
-	.van-stepper__plus::after,
-	.van-stepper__plus::before {
-		background: #fff
-	}
-	
-	.van-stepper__input {
-		height: 21px;
-		background: none;
-		border: none;
-		font-size: 20px;
-		color: #868686;
-	}
-	
-	.van-cell-swipe__right {
-		color: #ffffff;
-		font-size: 15px;
-		width: 65px;
-		text-align: center;
-		line-height: 65px;
-		background-color: #f44;
-		vertical-align: middle;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-	
-	.van-checkbox__icon {
-		top: 50%;
-		left: 10px;
-		z-index: 1;
-		position: absolute;
-		margin-top: -10px;
-	}
-	
-	.cart-card__price {
-		color: #f44;
-		position: absolute;
-		bottom: 2px;
-		font-size: 14px;
-		font-weight: bold;
-	}
-	
-	.cart-info__price {
-		color: #f44;
-		font-size: 14px;
-		font-weight: bold;
-	}
+.cart-main .van-icon {
+  position: absolute;
+}
+
+.cart-main .van-card {
+  background: #fff;
+}
+
+.van-cell {
+  padding: 10px 5px 10px 10px;
+}
+
+.van-cell-swipe {
+  margin: 5px 0;
+}
+
+.van-card {
+  padding: 5px 5px 5px 115px;
+  background: #fff;
+}
+
+.van-card__title {
+  font-size: 14px;
+}
+
+.van-card__footer {
+  transform: scale(0.8);
+  bottom: 0;
+}
+
+.cart-card__desc {
+  color: #9b9b9b;
+  background: #e8e8e8;
+  padding: 0 10px;
+}
+
+.van-checkbox__label {
+  width: 100%;
+}
+
+.van-stepper__minus,
+.van-stepper__plus {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+}
+
+.van-stepper__plus {
+  background: #1e1e1e;
+  color: #fff;
+}
+
+.van-stepper__plus::after,
+.van-stepper__plus::before {
+  background: #fff;
+}
+
+.van-stepper__input {
+  height: 21px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #868686;
+}
+
+.van-cell-swipe__right {
+  color: #ffffff;
+  font-size: 15px;
+  width: 65px;
+  text-align: center;
+  line-height: 65px;
+  background-color: #f44;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.van-checkbox__icon {
+  top: 50%;
+  left: 10px;
+  z-index: 1;
+  position: absolute;
+  margin-top: -10px;
+}
+
+.cart-card__price {
+  color: #f44;
+  position: absolute;
+  bottom: 2px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.cart-info__price {
+  color: #f44;
+  font-size: 14px;
+  font-weight: bold;
+}
 </style>
 <template>
 	<div class="cart-main">
@@ -129,7 +129,7 @@
 									</div>
 								</div>
 								<div class="van-card__footer">
-									<van-stepper v-model="item.carProductNum" @plus="increase(item.carId)" @minus="decrease(item.carId)"/>
+									<van-stepper v-model="item.carProductNum" @plus="increase(item.carId)" @minus="decrease(item.carId)" />
 								</div>
 							</div>
 						</span>
@@ -156,7 +156,7 @@
 <script>
 import service from "./service/index.js";
 import { Dialog, Toast } from "vant";
-import { mapState, mapMutations  } from 'vuex'
+import { mapState, mapMutations } from "vuex";
 export default {
   mixins: [service],
   data() {
@@ -186,12 +186,13 @@ export default {
   },
   methods: {
     // 获取cook
-    getCookie (name) {
-      var arr,reg = new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-      if(arr=document.cookie.match(reg)){
+    getCookie(name) {
+      var arr,
+        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+      if ((arr = document.cookie.match(reg))) {
         return unescape(arr[2]);
-      }else{
-        return null; 
+      } else {
+        return null;
       }
     },
     // 购物车加
@@ -239,18 +240,24 @@ export default {
         await this.carToOrder({
           carIds,
           staffId: this.staffId,
-          token:this.token
+          token: this.token
         }).then(res => {
           this.orderId = res.data;
         });
-        this.$router.push(`cartDetermine/${this.orderId}`);
+        this.$router.push(`cartDetermine/${this.orderId}/0`);
       }
-    },
+    }
   },
   computed: {
     totalPrice() {
       return this.goods.reduce(
-        (total, item) => total + (this.checkedGoods.indexOf(item.carId) !== -1 ? item.carProductPprice * 1 * item.carProductNum : 0),0);
+        (total, item) =>
+          total +
+          (this.checkedGoods.indexOf(item.carId) !== -1
+            ? item.carProductPprice * 1 * item.carProductNum
+            : 0),
+        0
+      );
     }
   }
 };

@@ -12,9 +12,16 @@ export default {
     getTogetherOrderInfo(json) {
       return api.get('fresh_show/togetherOrder/getTogetherOrderInfo', json)
         .then(res => {
-          if (res.data.code == 100000) {
-            return res.data.data;
-          }
+          return res.data
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    getTogetherOrderInfo22(json) {
+      return api.post('fresh_show/togetherOrder/getTogetherOrderInfo22', json)
+        .then(res => {
+          return res.data
         })
         .catch(function (error) {
           console.log(error);

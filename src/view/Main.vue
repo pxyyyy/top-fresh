@@ -1,7 +1,7 @@
 /* * @Author: tarn.tianrun * @Date: 2018-05-14 11:08:35 * @Last Modified by: By.zhangTeng * @Last Modified time: 2018-05-25 10:33:39 */
 
 <style scoped lang="less">
-	@import './Main.less';
+@import "./Main.less";
 </style>
 <template>
 	<div>
@@ -24,63 +24,60 @@
 	</div>
 </template>
 <script>
-	import bottom from '../components/bottom-bar/bottom-bar.vue'
-	export default {
-		data() {
-			return {
-				logoPic: require('../assets//icon/极味生鲜.png'),
-				router: 'index',
-				icon: {
-					normal: '//img.yzcdn.cn/1.png',
-					active: '//img.yzcdn.cn/2.png'
-				},
-				isClient: false,
-				marginTop: "46px",
-
-			}
-		},
-		beforeMount() {},
-		watch: {
-
-		},
-		computed: {
-			currentRoute() {
-				if(this.$route.name == 'cart') {
-					return true
-				} else {
-					return false
-				}
-			},
-			eventRouter() {
-				if(this.$route.name == 'event') {
-					return true
-				} else {
-					return false
-				}
-			}
-		},
-		methods: {
-			isActivty(path) {
-				this.router = path
-				this.$router.push({
-					name: path
-				});
-			},
-		},
-		mounted() {
-			let from = this.$route.query.from;
-			console.log("from", from)
-			if(from == "IOS") {
-				this.isClient = true;
-				this.marginTop = "0";
-			} else if(from == "Android") {
-				this.isClient = true;
-				this.marginTop = "0";
-			}
-		},
-		methods: {},
-		components: {
-			bottom
-		}
-	}
+import bottom from "../components/bottom-bar/bottom-bar.vue";
+export default {
+  data() {
+    return {
+      logoPic: require("../assets//icon/极味生鲜.png"),
+      router: "index",
+      icon: {
+        normal: "//img.yzcdn.cn/1.png",
+        active: "//img.yzcdn.cn/2.png"
+      },
+      isClient: false,
+      marginTop: "46px"
+    };
+  },
+  beforeMount() {},
+  watch: {},
+  computed: {
+    currentRoute() {
+      if (this.$route.name == "cart") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    eventRouter() {
+      if (this.$route.name == "event") {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
+  methods: {
+    isActivty(path) {
+      this.router = path;
+      this.$router.push({
+        name: path
+      });
+    }
+  },
+  mounted() {
+    let from = this.$route.query.from;
+    console.log("from", from);
+    if (from == "IOS") {
+      this.isClient = true;
+      this.marginTop = "0";
+    } else if (from == "Android") {
+      this.isClient = true;
+      this.marginTop = "0";
+    }
+  },
+  methods: {},
+  components: {
+    bottom
+  }
+};
 </script>

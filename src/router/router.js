@@ -89,10 +89,17 @@ export const productRouter = [{
     }, ]
   },
   {
-    path: '/collageDetermine/:id/:productId',
+    path: '/collageDetermine/:id/',
     name: 'collageDetermine',
     component: resolve => {
       require(['@/view/collageDetail/collageDetermine.vue'], resolve);
+    }
+  },
+  {
+    path: '/collageDetermineOther/:id/:staffId',
+    name: 'collageDetermineOther',
+    component: resolve => {
+      require(['@/view/collageDetail/collageDetermineOther.vue'], resolve);
     }
   },
   {
@@ -100,7 +107,7 @@ export const productRouter = [{
     name: 'collageShare',
     component: productDetails,
     children: [{
-      path: ':id',
+      path: ':id/:productId/:staffId/:togetherOrderId/:token',
       title: 'collageShare',
       name: '拼团分享',
       component: resolve => {
@@ -163,7 +170,7 @@ export const otherRouter = [{
     }, ]
   },
   {
-    path: '/cartDetermine/:orderId',
+    path: '/cartDetermine/:orderId/:money',
     name: 'cartDetermine',
     component: resolve => {
       require(['@/view/cart/components/cartDetermine.vue'], resolve);
@@ -233,7 +240,7 @@ export const otherRouter = [{
     }
   },
   {
-    path: '/coupon',
+    path: '/coupon/:orderId/:type',
     name: 'coupon',
     component: resolve => {
       require(['@/view/profile/components/coupon.vue'], resolve);
@@ -317,7 +324,7 @@ export const otherRouter = [{
     }
   },
   {
-    path: '/myCoupon',
+    path: '/myCoupon/:id',
     name: 'myCoupon',
     component: resolve => {
       require(['@/view/myCoupon/myCoupon'], resolve);
