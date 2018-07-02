@@ -170,7 +170,7 @@ export const otherRouter = [{
     }, ]
   },
   {
-    path: '/cartDetermine/:orderId/:money',
+    path: '/cartDetermine/:orderId',
     name: 'cartDetermine',
     component: resolve => {
       require(['@/view/cart/components/cartDetermine.vue'], resolve);

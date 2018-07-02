@@ -9,17 +9,14 @@
     </div>
     <div class="exercise-active">
       <div class="left" @click="goActiveInfo(activities[0])">
-        <!-- <img src="../../../../assets//img/组9@2x.png"> -->
-        <img :src="activities[0].imgUrl" alt=""> {{activities[0].type}}
+        <img v-if="activities" :src="activities[0].imgUrl" alt="">
       </div>
       <div class="right">
         <div class="right-info" @click="goActiveInfo(activities[1])">
-          <!-- <img src="../../../../assets/img/组10@2x.png"> -->
-          <img :src="activities[1].imgUrl" alt=""> {{activities[1].type}}
+          <img v-if="activities" :src="activities[1].imgUrl" alt="">
         </div>
         <div class="right-info" @click="goActiveInfo(activities[2])">
-          <!-- <img src="../../../../assets/img/组11@2x.png"> -->
-          <img :src="activities[2].imgUrl" alt=""> {{activities[2].type}}
+          <img v-if="activities" :src="activities[2].imgUrl" alt="">
         </div>
       </div>
     </div>
@@ -38,9 +35,15 @@ export default {
       //   优惠券
       if (activeId.type == 1) {
         if (from == "IOS" || from == "Android") {
-          this.$bridge.callHandler("goYouhuiquanVC", data => {
-            console.log("success");
-          });
+          this.$bridge.callHandler(
+            "goYouhuiquanVC",
+            {
+              activityId: activeId.id
+            },
+            data => {
+              console.log("success");
+            }
+          );
         } else {
           this.$router.push(
             `/myCoupon/${activeId.id}`

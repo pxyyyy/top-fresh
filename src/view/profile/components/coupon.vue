@@ -97,9 +97,9 @@ export default {
   methods: {
     // 使用优惠卷
     useaCoupon(money) {
-      this.$router.push(
-        `/cartDetermine/${this.$route.params.orderId}/${money}`
-      );
+      // 优惠券价格保存
+      sessionStorage.money = money;
+      this.$router.push(`/cartDetermine/${this.$route.params.orderId}`);
     },
     returnProfile() {
       this.$router.go(-1);

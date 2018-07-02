@@ -34,7 +34,7 @@
               <p>积分</p>
             </van-col>
             <van-col span="12">
-              <h3 @click="goCoupon">8</h3>
+              <h3 @click="goCoupon">{{goldVolume}}</h3>
               <p @click="goCoupon">代金卷</p>
             </van-col>
           </van-row>
@@ -83,13 +83,15 @@
 </template>
 <script>
 import service from "../cart/service/index.js";
+import oreder from "./service/order.js";
 export default {
-  mixins: [service],
+  mixins: [service, oreder],
   name: "profile",
   data() {
     return {
       products: "",
       cartLictPic: require("../../assets/img/组7@2x.png"),
+      goldVolume: "",
       informations: [
         {
           id: "001",
@@ -152,8 +154,18 @@ export default {
     };
   },
   methods: {
+    // 获取cook
+    getCookie(name) {
+      var arr,
+        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+      if ((arr = document.cookie.match(reg))) {
+        return unescape(arr[2]);
+      } else {
+        return null;
+      }
+    },
     goCoupon() {
-      this.$router.push("/coupon/1");
+      this.$router.push("/coupon/0/1");
     },
     Orders(index) {
       this.$store.commit("setCurrentActiveForProfile", index);
@@ -183,6 +195,12 @@ export default {
     this.selectProByType().then(res => {
       this.products = res.data;
     });
+    // 代金卷数量
+    this.getCoupon(this.getCookie("staffId"), this.getCookie("token"), 0).then(
+      res => {
+        this.goldVolume = res.length;
+      }
+    );
   }
 };
 </script>

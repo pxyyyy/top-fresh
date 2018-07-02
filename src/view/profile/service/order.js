@@ -50,6 +50,20 @@ export default {
           console.log(error);
         });
     },
+    // 代金卷数量
+    getCoupon(staffId, token, scCouponState) {
+      return api.get(`fresh_show/staffcoupon/selectCouponsByStaffId?staffId=${staffId}&token=${token}&scCouponState=${scCouponState}`)
+        .then(res => {
+          console.log(res.data)
+          if (res.data.code == 100000) {
+            return res.data.data;
+          }
+
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
 
   }
 }
