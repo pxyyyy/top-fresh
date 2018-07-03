@@ -90,11 +90,11 @@
 					<div class="select">
 						<div class="border-top" style="padding:2px 0;" @click='usingaVouchers'>
 							<p>使用代金卷</p>
-							<p v-if="$route.params.money == 0">选择代金卷
+							<p v-if="this.offer">
+								-{{this.offer}}元
 								<span class="iconfont arrow-icon">&#xe66b;</span>
 							</p>
-							<p v-else>
-								-{{$route.params.money}}元
+							<p v-else>选择代金卷
 								<span class="iconfont arrow-icon">&#xe66b;</span>
 							</p>
 						</div>
@@ -117,7 +117,7 @@
 						</van-row>
 						<van-row>
 							<van-col span="12">代金卷优惠</van-col>
-							<van-col span="12" class="price_right">-￥{{$route.params.money}}</van-col>
+							<van-col span="12" class="price_right">-￥{{this.offer}}</van-col>
 						</van-row>
 						<van-row>
 							<van-col span="12">积分优惠</van-col>
@@ -125,7 +125,7 @@
 						</van-row>
 						<van-row class="price-bottom">
 							<van-col span="24" class="price_right">实付款
-								<strong class="money">￥{{datas.orderAllmoney - $route.params.money}}</strong>
+								<strong class="money">￥{{orderAllmoney}}</strong>
 							</van-col>
 						</van-row>
 					</div>
@@ -158,7 +158,7 @@
 			<!-- 支付订单 -->
 			<div class="cart-foot">
 				<p>付款 :
-					<span>￥{{datas.orderAllmoney - $route.params.money}}</span>
+					<span>￥{{orderAllmoney}}</span>
 				</p>
 				<p>
 					<van-button size="normal" class="btnColor" @click="goDetails()">支付订单</van-button>
@@ -167,7 +167,7 @@
 			<!--付款方式弹出-->
 			<van-popup v-model="Payment" class="Payment">
 				<p>付款金额：
-					<span>￥{{datas.orderAllmoney - $route.params.money}}</span>
+					<span>￥{{orderAllmoney}}</span>
 				</p>
 				<p>付款方式：
 					<span v-text="PaymentType"></span>
@@ -214,8 +214,19 @@ export default {
       datas: "",
       PaymentType: "微信支付",
       MailingText: "请选择",
-      MailingType: ""
+      MailingType: "",
+      offer: sessionStorage.getItem("money")
     };
+  },
+  // 优惠的价格
+  computed: {
+    orderAllmoney() {
+      if (sessionStorage.getItem("money")) {
+        return this.datas.orderAllmoney - sessionStorage.getItem("money");
+      } else {
+        return this.datas.orderAllmoney;
+      }
+    }
   },
   methods: {
     // 获取cook

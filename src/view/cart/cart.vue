@@ -103,55 +103,55 @@
 }
 </style>
 <template>
-	<div class="cart-main">
-		<van-checkbox-group class="card-goods" v-model="checkedGoods">
-			<van-cell-swipe :right-width="65" :on-close="onClose" v-for="item in goods" :key="item.carId">
-				<div>
-					<van-checkbox class="card-goods__item" :name="item.carId">
-					</van-checkbox>
-				</div>
-				<div class="van-cell-group van-hairline--top-bottom">
-					<div class="van-cell van-hairline">
-						<span class="van-checkbox__label">
-							<div class="van-card">
-								<div class="van-card__thumb">
-									<img :src="item.thumb" class="van-card__img">
-								</div>
-								<div class="van-card__content">
-									<div class="van-card__row">
-										<div class="van-card__title">{{item.carProductName}}</div>
-									</div>
-									<div class="van-card__row">
-										<div class="van-card__desc cart-card__desc">{{item.carProductDes}}</div>
-									</div>
-									<div class="van-card__row">
-										<div class="cart-card__price">¥{{item.carProductPprice}}.00</div>
-									</div>
-								</div>
-								<div class="van-card__footer">
-									<van-stepper v-model="item.carProductNum" @plus="increase(item.carId)" @minus="decrease(item.carId)" />
-								</div>
-							</div>
-						</span>
-					</div>
-				</div>
-				<span slot="right">删除</span>
-			</van-cell-swipe>
-		</van-checkbox-group>
-		<div class="cart-info" v-if="Clearing">
-			<div data-v-7f845944="" class="van-cell van-hairline">
-				<div data-v-7f845944="" class="van-cell__title cart-info__all" @click="change">
-					<van-checkbox v-model="checked" class="cart-info-span">全选</van-checkbox>
-				</div>
-				<div data-v-7f845944="" class="van-cell__value">
-					<span data-v-7f845944="">合计：
-						<span class="cart-info__price" v-text=" '￥' + totalPrice + '.00'"></span>
-					</span>
-					<van-button size="small" class="cart-info__btn" @click="goDetails">结算</van-button>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="cart-main">
+    <van-checkbox-group class="card-goods" v-model="checkedGoods">
+      <van-cell-swipe :right-width="65" :on-close="onClose" v-for="item in goods" :key="item.carId">
+        <div>
+          <van-checkbox class="card-goods__item" :name="item.carId">
+          </van-checkbox>
+        </div>
+        <div class="van-cell-group van-hairline--top-bottom">
+          <div class="van-cell van-hairline">
+            <span class="van-checkbox__label">
+              <div class="van-card">
+                <div class="van-card__thumb">
+                  <img :src="item.thumb" class="van-card__img">
+                </div>
+                <div class="van-card__content">
+                  <div class="van-card__row">
+                    <div class="van-card__title">{{item.carProductName}}</div>
+                  </div>
+                  <div class="van-card__row">
+                    <div class="van-card__desc cart-card__desc">{{item.carProductDes}}</div>
+                  </div>
+                  <div class="van-card__row">
+                    <div class="cart-card__price">¥{{item.carProductPprice}}.00</div>
+                  </div>
+                </div>
+                <div class="van-card__footer">
+                  <van-stepper v-model="item.carProductNum" @plus="increase(item.carId)" @minus="decrease(item.carId)" />
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+        <span slot="right">删除</span>
+      </van-cell-swipe>
+    </van-checkbox-group>
+    <div class="cart-info" v-if="Clearing">
+      <div data-v-7f845944="" class="van-cell van-hairline">
+        <div data-v-7f845944="" class="van-cell__title cart-info__all" @click="change">
+          <van-checkbox v-model="checked" class="cart-info-span">全选</van-checkbox>
+        </div>
+        <div data-v-7f845944="" class="van-cell__value">
+          <span data-v-7f845944="">合计：
+            <span class="cart-info__price" v-text=" '￥' + totalPrice + '.00'"></span>
+          </span>
+          <van-button size="small" class="cart-info__btn" @click="goDetails">结算</van-button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import service from "./service/index.js";
@@ -244,7 +244,7 @@ export default {
         }).then(res => {
           this.orderId = res.data;
         });
-        this.$router.push(`cartDetermine/${this.orderId}/0`);
+        this.$router.push(`cartDetermine/${this.orderId}`);
       }
     }
   },

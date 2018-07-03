@@ -30,7 +30,6 @@ export default {
     this.fetchList().then(res => {
       this.sysbanners = res.sysbanners;
       this.activities = res.activities;
-      console.log(this.activities);
     });
   },
   methods: {},
