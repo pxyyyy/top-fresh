@@ -18,7 +18,8 @@
           <p class="teamwork-info-bottom">
             ￥{{item.priceTogether}}
             <span>单买价￥{{item.originalPrice}}</span>
-            <button @click="goCollage(item.id,item.productId)">去开团</button>
+            <button v-if="item.canPay == 1" style="background:#ccc;">不可购买</button>
+            <button @click="goCollage(item.id,item.productId)" v-else>去开团</button>
           </p>
         </div>
       </div>
@@ -56,11 +57,17 @@ export default {
   },
   beforeMount() {
     if (!this.getCookie("staffId")) {
-      this.$router.push("login");
+      this.$router.push("/login");
     }
     var staffId = this.getCookie("staffId");
     var token = this.getCookie("token");
-    this.getTogetherOrderList(staffId, token).then(res => {
+    this.getTogetherOrderList({
+      staffId,
+      token,
+      activityId: this.$route.params.id,
+      pageNum: 1,
+      pageSize: 7
+    }).then(res => {
       this.teamworkList = res;
     });
   }

@@ -38,6 +38,16 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
-    }
+    },
+    // 模拟支付完成
+    togetherOrderBack(json) {
+      return api.post('fresh_show/togetherOrder/togetherOrderBack', json)
+        .then(res => {
+          return res.data.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   }
 }

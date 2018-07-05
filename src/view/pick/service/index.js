@@ -76,5 +76,25 @@ export default {
         console.log(err)
       });
     },
+    // 个人中心立即提货
+    selectProDetaiById(json) {
+      return api.post(`fresh_show/pro/selectProDetaiById`, json)
+        .then(res => {
+          return res.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 我的提货券--立刻提货
+    saveMyLading(json) {
+      return api.post(`fresh_show/orderTail/saveMyLading`, json)
+        .then(res => {
+          return res.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   },
 }

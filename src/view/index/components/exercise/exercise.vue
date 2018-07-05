@@ -32,13 +32,14 @@ export default {
   methods: {
     goActiveInfo(activeId) {
       let from = this.$route.query.from;
+      console.log(from);
       //   优惠券
       if (activeId.type == 1) {
         if (from == "IOS" || from == "Android") {
           this.$bridge.callHandler(
             "goYouhuiquanVC",
             {
-              activityId: activeId.id
+              link: `/myCoupon/${activeId.id}`
             },
             data => {
               console.log("success");
@@ -54,22 +55,21 @@ export default {
       } else if (activeId.type == 2) {
         if (from == "IOS" || from == "Android") {
           this.$bridge.callHandler("goPintuanGoodsVC", data => {
-            console.log("success");
+            link: `/teamwork/${activeId.id}`;
           });
         } else {
           this.$router.push(
-            `/teamwork`
+            `/teamwork/${activeId.id}`
             // link
           );
         }
         // 商品集锦
       } else if (activeId.type == 3) {
-        console.log(activeId.id);
         if (from == "IOS" || from == "Android") {
           this.$bridge.callHandler(
             "goActiveInfoVC",
             {
-              activeid: activeId.id
+              link: `/goodsList/${activeId.id}`
             },
             data => {
               console.log("success");
@@ -77,6 +77,35 @@ export default {
           );
         } else {
           this.$router.push(`/goodsList/${activeId.id}`);
+        }
+      } else if (activeId.type == 4) {
+        // 静态
+        if (from == "IOS" || from == "Android") {
+          this.$bridge.callHandler(
+            "goActiveInfoVC",
+            {
+              link: `/eventList/${activeId.id}`
+            },
+            data => {
+              console.log("success");
+            }
+          );
+        } else {
+          this.$router.push(`/eventList/${activeId.id}`);
+        }
+      } else if (activeId.type == 5) {
+        if (from == "IOS" || from == "Android") {
+          this.$bridge.callHandler(
+            "goActiveInfoVC",
+            {
+              type: 5
+            },
+            data => {
+              console.log("success");
+            }
+          );
+        } else {
+          window.location.href = activeId.link;
         }
       }
     }

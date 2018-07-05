@@ -11,5 +11,15 @@ export default {
           console.log(error);
         });
     },
+    // 个人中心立即提货
+    selectProDetaiById(json) {
+      return api.post(`fresh_show/pro/selectProDetaiById`, json)
+        .then(res => {
+          return res.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   }
 }

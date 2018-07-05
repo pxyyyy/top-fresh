@@ -8,13 +8,14 @@
 }
 </style>
 <template>
-	<swiper :options="swiperOption">
-		<swiper-slide v-for="item in sysbanners" :key="item.id">
-			<!-- <img v-lazy="bannerPic" alt=""> -->
-			<!--后台调用数据-->
-			<img :src="item.imgUrl ? item.imgUrl : '../../assets/img/banner.png'" @click="toTeacher(item)">
-		</swiper-slide>
-	</swiper>
+  <swiper :options="swiperOption">
+    <swiper-slide v-for="item in sysbanners" :key="item.id">
+      <!-- <img v-lazy="bannerPic" alt=""> -->
+      <!--后台调用数据-->
+      <img :src="item.imgUrl ? item.imgUrl : '../../assets/img/banner.png'" @click="toTeacher(item)">
+      <div class="swiper-pagination" slot="pagination"></div>
+    </swiper-slide>
+  </swiper>
 </template>
 
 <script>
@@ -26,7 +27,8 @@ export default {
       bannerPic: require("../../assets/img/banner.png"),
       swiperOption: {
         loop: true,
-        effect: "fade"
+        effect: "fade",
+        pagination: ".swiper-pagination"
         // autoplay: {
         // delay: 6000,
         // disableOnInteraction: false
@@ -46,7 +48,6 @@ export default {
   },
   methods: {
     toTeacher(item) {
-      alert(1);
       //   console.log(1);
       //   this.$router.push(item.link);
     }

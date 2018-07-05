@@ -10,19 +10,19 @@
 </style>
 
 <template>
-    <div>
-        <div class="gy">
-            <!-- <div v-for="(product,index) in giftCard" :key="index" class="list" @click="toProductInfo(product.id)">
+  <div>
+    <div class="gy">
+      <!-- <div v-for="(product,index) in giftCard" :key="index" class="list" @click="toProductInfo(product.id)">
                 <img :src='product.imgUrl ? product.imgUrl : "../../../assets/img/product.png"' alt="" class="img">
             </div> -->
-            <div v-for="(product,index) in list" :key="index" class="list" @click="toProductInfo(product.id)">
-                <img src="../../../assets/img/product.png" alt="" class="img">
-                <div class="title">{{product.title}}</div>
-                <div class="gg">{{product.liang}}两 x {{product.number}}只</div>
-                <div class="price">&yen;{{product.price}}</div> 
-            </div>
-        </div>
+      <div v-for="(product,index) in giftCard" :key="index" class="list" @click="toProductInfo(product.id)">
+        <img :src="product.imgUrl" alt="" class="img">
+        <div class="title">{{product.proName}}</div>
+        <div class="gg">{{product.proDetail}}</div>
+        <div class="price">&yen;{{product.proPrice}}</div>
+      </div>
     </div>
+  </div>
 </template>
 <script>
 import spotGoods from "../service/giftCard.js";
@@ -34,14 +34,14 @@ export default {
       giftCard: null,
       list: [
         {
-          id:100001,
+          id: 100001,
           title: "阳澄湖大闸蟹4对装礼品卡",
           liang: "4.0",
           number: 12,
           price: "299.00"
         },
         {
-          id:100002,
+          id: 100002,
           title: "阳澄湖大闸蟹4对装礼品卡",
           liang: "4.0",
           number: 12,
@@ -59,9 +59,7 @@ export default {
     var name = this.$route.params.id;
     this.getGiftCard(2) //获取列表
       .then(res => {
-        console.log(res, "12321");
         this.giftCard = res;
-        console.log(this.giftCard[0].imgUrl);
       });
   }
 };

@@ -1,5 +1,5 @@
 <style scoped lang="less">
-@import "./coupon.less";
+@import "./teamworkcoupon.less";
 </style>
 <style>
 .coupon .van-tabs__wrap {
@@ -35,20 +35,7 @@
       <van-tab v-for="index in 2" :title="index == 1 ? '未使用' : '已过期'" :key="index">
         <div v-if="index == 1" class="coupon-content" v-for="(item,num) in coupon" :key='num'>
           <!-- 判断用户是不在在购物车进入 -->
-          <div class="coupon-item" @click='useaCoupon(item.scCouponValue)' v-if="$route.params.type == 0">
-            <div class="coupon-item-left">
-              <p>
-                <strong>￥</strong>
-                <strong class="coupon-Large">{{item.scCouponValue}}</strong>
-              </p>
-            </div>
-            <div class="coupon-item-right">
-              <p>满{{item.coupons.couponsMin ? item.coupons.couponsMin : "0" }}元使用</p>
-              <p>{{item.scCouponStartTime.split(" ")[0]}}-{{item.scCouponEndTime.split(" ")[0]}}</p>
-            </div>
-          </div>
-          <!-- 判断用户是不在在购物车进入 -->
-          <div class="coupon-item" v-if="$route.params.type == 1">
+          <div class="coupon-item" @click='useaCoupon(item.scCouponValue)'>
             <div class="coupon-item-left">
               <p>
                 <strong>￥</strong>
@@ -81,10 +68,10 @@
   </div>
 </template>
 <script>
-import coupon from "../service/coupon.js";
+import order from "./service/order.js";
 export default {
   name: "coupon",
-  mixins: [coupon],
+  mixins: [order],
   data() {
     return {
       active: 2,
@@ -98,8 +85,8 @@ export default {
     // 使用优惠卷
     useaCoupon(money) {
       // 优惠券价格保存
-      sessionStorage.money = money;
-      this.$router.push(`/cartDetermine/${this.$route.params.orderId}`);
+      sessionStorage.teamworkMoney = money;
+      this.$router.go(-1);
     },
     returnProfile() {
       this.$router.go(-1);
@@ -107,19 +94,13 @@ export default {
     // 点击切换
     Unused(index) {
       if (index == 0) {
-        if (this.$route.params.type == 0) {
-          this.getCoupnsListByOrderId({
-            token: this.token,
-            staffId: this.staffId,
-            orderId: this.$route.params.orderId
-          }).then(res => {
-            this.coupon = res;
-          });
-        } else {
-          this.getCoupon(this.staffId, this.token, 0).then(res => {
-            this.coupon = res;
-          });
-        }
+        this.getCoupnsListByMoney({
+          token: this.token,
+          staffId: this.staffId,
+          money: this.$route.params.money
+        }).then(res => {
+          this.coupon = res;
+        });
       } else {
         this.getCoupon(this.staffId, this.token, 1).then(res => {
           console.log(res);
@@ -139,19 +120,14 @@ export default {
     }
   },
   beforeMount() {
-    if (this.$route.params.type == 0) {
-      this.getCoupnsListByOrderId({
-        token: this.token,
-        staffId: this.staffId,
-        orderId: this.$route.params.orderId
-      }).then(res => {
-        this.coupon = res;
-      });
-    } else {
-      this.getCoupon(this.staffId, this.token, 0).then(res => {
-        this.coupon = res;
-      });
-    }
+    console.log(this.token);
+    this.getCoupnsListByMoney({
+      token: this.token,
+      staffId: this.staffId,
+      money: this.$route.params.money
+    }).then(res => {
+      this.coupon = res;
+    });
   }
 };
 </script>

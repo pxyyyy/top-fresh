@@ -45,7 +45,7 @@
 					</div>
 				</li>
 			</ul>
-			<div class="price" v-if="list.orderPmoney">
+			<div class="pricepro" v-if="list.orderPmoney">
 				<div class="border-top price-content">
 					<van-row>
 						<van-col span="12">商品总额</van-col>

@@ -63,7 +63,29 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
-    }
+    },
+    // 个人信息
+    getStaffInfo(json) {
+      return api.post(`fresh_show/staff/getStaffInfo`, json)
+        .then(res => {
+          return res.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 修改用户
+    editStaff(json) {
+      return api.post(`fresh_show/staff/editStaff`, json)
+        .then(res => {
+          if (res.data.code == 100000) {
+            return res.data.data;
+          }
 
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   }
 }

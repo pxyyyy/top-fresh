@@ -126,6 +126,13 @@ export const productRouter = [{
       component: resolve => {
         require(['@/view/delivery/delivery.vue'], resolve);
       }
+    }, {
+      path: '/profiledelivery/:odId/:odProductId',
+      title: 'profiledelivery',
+      name: '提货详情',
+      component: resolve => {
+        require(['@/view/delivery/profiledelivery.vue'], resolve);
+      }
     }, ]
   },
 ];
@@ -184,6 +191,13 @@ export const otherRouter = [{
     }
   },
   {
+    path: '/propickDetermine/:odId/:productId',
+    name: 'propickDetermine',
+    component: resolve => {
+      require(['@/view/pick/components/propickDetermine.vue'], resolve);
+    }
+  },
+  {
     path: '/cartOut/:orderId',
     name: 'cartOut',
     component: resolve => {
@@ -191,7 +205,7 @@ export const otherRouter = [{
     }
   },
   {
-    path: '/eventList',
+    path: '/eventList/:id',
     name: 'eventList',
     component: resolve => {
       require(['@/view/event/components/eventList.vue'], resolve);
@@ -247,6 +261,13 @@ export const otherRouter = [{
     }
   },
   {
+    path: '/editprofile',
+    name: 'editprofile',
+    component: resolve => {
+      require(['@/view/profile/components/editprofile.vue'], resolve);
+    }
+  },
+  {
     path: '/Orders',
     name: 'Orders',
     component: resolve => {
@@ -258,6 +279,13 @@ export const otherRouter = [{
     name: 'LadingRoll',
     component: resolve => {
       require(['@/view/profile/components/LadingRoll.vue'], resolve);
+    }
+  },
+  {
+    path: '/binding',
+    name: 'binding',
+    component: resolve => {
+      require(['@/view/profile/components/binding.vue'], resolve);
     }
   },
   {
@@ -303,14 +331,21 @@ export const otherRouter = [{
     }
   },
   {
-    path: '/teamwork',
+    path: '/teamwork/:id',
     name: 'teamwork',
     component: resolve => {
       require(['@/view/teamwork/teamwork'], resolve);
     }
   },
   {
-    path: '/teamworkPayment',
+    path: '/teamworkcoupon',
+    name: 'teamworkcoupon',
+    component: resolve => {
+      require(['@/view/teamwork/teamworkcoupon.vue'], resolve);
+    }
+  },
+  {
+    path: '/teamworkPayment/:id/:idone',
     name: 'teamworkPayment',
     component: resolve => {
       require(['@/view/teamwork/teamworkPayment'], resolve);

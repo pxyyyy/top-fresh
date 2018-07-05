@@ -59,7 +59,7 @@
     <!-- 商品图文详情 -->
     <van-row>
       <van-col span="12">
-        <van-button bottom-action @click="aloneBy('123323')">单独购买 ￥{{infoTwo.originalPrice}}</van-button>
+        <van-button bottom-action @click="aloneBy('123323')">单独购买 ￥{{infoOne.productOprice}}</van-button>
       </van-col>
       <van-col span="12">
         <van-button type="primary" bottom-action @click="collage('1232321')">5人成团 ￥{{infoTwo.priceTogether}}</van-button>
@@ -146,9 +146,7 @@ export default {
           }
         );
       } else {
-        // this.$router.push(
-        // 	`/cartDetermine?id=` + id
-        // )
+        // this.$router.push(`/cartDetermine?id=` + id);
       }
     },
     async collage(id) {
@@ -181,7 +179,7 @@ export default {
           togetherOrderId: this.$route.params.id,
           // status: this.info.status,
           originalPrice: this.infoOne.productOprice,
-          priceTogether: this.infoOne.productPrice,
+          priceTogether: this.infoTwo.priceTogether,
           title: this.infoOne.productName,
           orderIn: "0",
           staffId,
@@ -195,6 +193,7 @@ export default {
         }).then(res => {
           this.id = res[0];
         });
+        sessionStorage.teamworkMoney = "";
         this.$router.push(`/collageDetermine/${this.id}`);
       }
     }
@@ -210,7 +209,6 @@ export default {
     }).then(res => {
       this.infoOne = res.data[0];
       this.infoTwo = res.data[1];
-      console.log(res);
     });
   }
 };

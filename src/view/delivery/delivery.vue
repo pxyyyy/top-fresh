@@ -68,6 +68,7 @@
 </template>
 <script>
 import service from "./service/index.js";
+import { Toast } from "vant";
 export default {
   name: "product_details",
   mixins: [service],
@@ -110,7 +111,11 @@ export default {
       card: this.$route.params.value,
       hidecard: this.$route.params.password
     }).then(res => {
-      this.info = res.data;
+      if (res.code == 100000) {
+        this.info = res.data;
+      } else {
+        Toast("未查询到数据~");
+      }
     });
   },
   methods: {
@@ -127,12 +132,13 @@ export default {
     goAddress() {
       var code = this.$route.params.id;
       let from = this.$route.query.from;
+      let odId = this.info.odId ? this.info.odId : "";
       if (from == "IOS" || from == "Android") {
-        console.log(code);
         this.$bridge.callHandler(
           "goPickupInfoVC",
           {
-            code: code
+            code: code,
+            odId
           },
           data => {
             console.log("success");

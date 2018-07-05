@@ -59,7 +59,7 @@
               <div class="content-bottom">
                 <p @click="goLadingRollGive">
                   <i><img src="../../../assets/img/Gift.png" alt=""></i>赠送好友</p>
-                <p>
+                <p @click="goprofiledelivery(info)">
                   <i><img src="../../../assets/img/immediately.png" alt=""></i>立即提货</p>
                 <p @click="gocartAddress">
                   <i><img src="../../../assets/img/Mailing.png" alt=""></i>邮寄实体卡</p>
@@ -155,6 +155,10 @@ export default {
         return null;
       }
     },
+    // 立即提货
+    goprofiledelivery(info) {
+      this.$router.push(`/profiledelivery/${info.odId}/${info.odProductId}`);
+    },
     loadMore(index) {
       this.pageNum++;
       this.selectMyLadingByStaffId({
@@ -170,31 +174,29 @@ export default {
     },
     getLadingRollType(index, text) {
       if (text == "未用") {
-        (this.pickupVolume = ""),
-          this.selectMyLadingByStaffId({
-            token: this,
-            token,
-            staffId: this.staffId,
-            state: 2,
-            pageNum: 1,
-            pageSize: 7
-          }).then(res => {
-            this.code = res.code;
-            this.pickupVolume = this.pickupVolume.concat(res.data);
-          });
+        this.pickupVolume = "";
+        this.selectMyLadingByStaffId({
+          token: this.token,
+          staffId: this.staffId,
+          state: 2,
+          pageNum: 1,
+          pageSize: 7
+        }).then(res => {
+          this.code = res.code;
+          this.pickupVolume = res.data;
+        });
       } else {
-        (this.pickupVolume = ""),
-          this.selectMyLadingByStaffId({
-            staffId: this,
-            staffId,
-            token: this.token,
-            state: 3,
-            pageNum: 1,
-            pageSize: 7
-          }).then(res => {
-            this.code = res.code;
-            this.pickupVolume = res.data;
-          });
+        this.pickupVolume = "";
+        this.selectMyLadingByStaffId({
+          staffId: this.staffId,
+          token: this.token,
+          state: 3,
+          pageNum: 1,
+          pageSize: 7
+        }).then(res => {
+          this.code = res.code;
+          this.pickupVolume = res.data;
+        });
       }
     },
     returnProFile() {
@@ -214,9 +216,14 @@ export default {
   },
   beforeMount() {
     this.selectMyLadingByStaffId({
-      staffId: this.staffId,
       token: this.token,
-      state: 2
+      staffId: this.staffId,
+      state: 2,
+      pageNum: this.pageNum,
+      pageSize: 7
+    }).then(res => {
+      this.code = res.code;
+      this.pickupVolume = res.data;
     });
   }
 };

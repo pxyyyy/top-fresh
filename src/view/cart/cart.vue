@@ -244,6 +244,7 @@ export default {
         }).then(res => {
           this.orderId = res.data;
         });
+        sessionStorage.money = "";
         this.$router.push(`cartDetermine/${this.orderId}`);
       }
     }

@@ -138,7 +138,7 @@
 		</div> -->
     <div class="details" :style="{marginBottom:marginBottom}">
       <!-- <p class="details_title">---- 商品详情 ----</p> -->
-      <van-tabs type="card">
+      <van-tabs type="card" v-model="active">
         <van-tab v-for="item in ordersList" :title="item.text" :key="item.id">
           <div class="details_content" v-html="info[0].content" v-if="item.id == 1"></div>
           <div class="evaluation" v-if="item.id == 2">
@@ -252,7 +252,8 @@ export default {
       product: "",
       staffId: this.getCookie("staffId"),
       token: this.getCookie("token"),
-      products: ""
+      products: "",
+      active: 0
     };
   },
   methods: {
@@ -286,7 +287,7 @@ export default {
       } else {
         Dialog.alert({
           title: "提示",
-          message: "亲，如需购买，请先登录"
+          message: "亲,游客模式,如需购买,请先登录"
         }).then(() => {
           this.$router.push(`/login`); // on close
         });
@@ -311,7 +312,7 @@ export default {
       } else {
         Dialog.alert({
           title: "提示",
-          message: "亲，如需购买，请先登录"
+          message: "亲,游客模式,请先登录"
         }).then(() => {
           this.$router.push(`/login`); // on close
         });
@@ -335,6 +336,7 @@ export default {
     },
     toProductInfo(productId) {
       this.$router.push(`/product/${productId}`);
+      this.active = 0;
     }
   },
   mounted() {
