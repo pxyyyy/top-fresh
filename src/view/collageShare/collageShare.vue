@@ -74,6 +74,13 @@
         <img :src="infoProduct.productImg" alt="">
       </div>
     </div>
+    <!-- 遮罩 -->
+    <div class="shareIt" v-if="showshareIt">
+      <div>
+        <img src="../../assets/img/shareitj.png" alt="">
+        <p>请点击右上角分享</p>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -92,6 +99,7 @@ export default {
       show: false,
       show1: false,
       type: "",
+      showshareIt: false,
       staffId: this.getCookie("staffId"),
       token: this.getCookie("token"),
       swiperOption: {
@@ -154,6 +162,7 @@ export default {
             this.$route.params.staffId
           }`
         );
+      } else {
       }
     }
   },
@@ -176,7 +185,11 @@ export default {
     }).then(res => {
       this.info = res;
       this.infoProduct = res.product;
+      console.log(this.info);
     });
+    if (this.staffId == this.$route.params.staffId) {
+      this.showshareIt = true;
+    }
   }
 };
 </script>

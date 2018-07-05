@@ -10,7 +10,7 @@
   <div class="profile">
     <div>
       <div class="information">
-        <div class="editicon-content">
+        <div class="editicon-content" @click="editprofile">
           <span class="editicon"> </span> 编辑资料
         </div>
         <!--头像-->
@@ -18,23 +18,24 @@
           <img src="@/assets/img/userBanner.png" alt="">
         </div>
         <p>
-          <img src="@/assets/img/Avatar.png" alt="">
+          <img :src="ueseInfo.staffPhotourl ? ueseInfo.staffPhotourl : userPic">
         </p>
         <div class="posi">
           <!--名字及电话-->
           <van-row class="info">
-            <h3>SAMON</h3>
+            <h3 v-if="ueseInfo.staffNickname">{{ueseInfo.staffNickname}}</h3>
             <span class="telicon"></span>
-            <strong class="tel">15966320757</strong>
+            <strong class="tel">{{ueseInfo.staffPhone}}</strong>
           </van-row>
           <!--积分和代金卷-->
           <van-row class="info info-one">
             <van-col span="12">
-              <h3>2018</h3>
+              <h3 v-if="ueseInfo.staffScore">{{ueseInfo.staffScore}}</h3>
+              <h3 v-else>0</h3>
               <p>积分</p>
             </van-col>
             <van-col span="12">
-              <h3 @click="goCoupon">{{goldVolume}}</h3>
+              <h3 @click="goCoupon">{{ueseInfo.couoponSize}}</h3>
               <p @click="goCoupon">代金卷</p>
             </van-col>
           </van-row>
@@ -90,8 +91,10 @@ export default {
   data() {
     return {
       products: "",
+      userPic: require("../../assets/img/Avatar.png"),
       cartLictPic: require("../../assets/img/组7@2x.png"),
       goldVolume: "",
+      ueseInfo: "",
       informations: [
         {
           id: "001",
@@ -164,6 +167,9 @@ export default {
         return null;
       }
     },
+    editprofile() {
+      this.$router.push("/editprofile");
+    },
     goCoupon() {
       this.$router.push("/coupon/0/1");
     },
@@ -195,12 +201,13 @@ export default {
     this.selectProByType().then(res => {
       this.products = res.data;
     });
-    // 代金卷数量
-    this.getCoupon(this.getCookie("staffId"), this.getCookie("token"), 0).then(
-      res => {
-        this.goldVolume = res.length;
-      }
-    );
+    // 个人信息{
+    this.getStaffInfo({
+      staffId: this.getCookie("staffId"),
+      token: this.getCookie("token")
+    }).then(res => {
+      this.ueseInfo = res.data;
+    });
   }
 };
 </script>

@@ -9,8 +9,8 @@ const api = new API();
 
 export default {
   methods: {
-    getTogetherOrderList(staffId, token) {
-      return api.get(`fresh_show/togetherOrder/getTogetherOrderList?staffId=${staffId}&token=${token}`)
+    getTogetherOrderList(json) {
+      return api.post(`fresh_show/togetherOrder/getTogetherOrderList222`, json)
         .then(res => {
           if (res.data.code == 100000) {
             return res.data.data;
@@ -39,6 +39,32 @@ export default {
           if (res.data.code == 100000) {
             return res.data.data;
           }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 拼团优惠卷
+    getCoupnsListByMoney(json) {
+      return api.post(`fresh_show/order/getCoupnsListByMoney`, json)
+        .then(res => {
+          if (res.data.code == 100000) {
+            return res.data.data;
+          }
+
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    getCoupon(staffId, token, scCouponState) {
+      return api.get(`fresh_show/staffcoupon/selectCouponsByStaffId?staffId=${staffId}&token=${token}&scCouponState=${scCouponState}`)
+        .then(res => {
+          console.log(res.data)
+          if (res.data.code == 100000) {
+            return res.data.data;
+          }
+
         })
         .catch(function (error) {
           console.log(error);

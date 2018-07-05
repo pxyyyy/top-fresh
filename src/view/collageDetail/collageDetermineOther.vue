@@ -23,10 +23,10 @@
       <div>
         <ul>
           <li class="item">
-            <img :src="infoTwo.productIcon" alt="" class="item-img">
+            <img :src="infoOne.product.productIcon" alt="" class="item-img">
             <div class="item-info">
-              <p class="item-title">{{infoTwo.productName}}</p>
-              <p class="item-desc">{{infoTwo.productInfo}}</p>
+              <p class="item-title">{{infoOne.product.productName}}</p>
+              <p class="item-desc">{{infoOne.product.productInfo}}</p>
               <p class="item-button">
                 <strong class="money">￥{{infoOne.priceTogether}}</strong>
                 <span>x1</span>
@@ -36,9 +36,13 @@
         </ul>
         <div style="padding-top:30px;background:#fff;">
           <div class="select">
-            <div class="border-top" style="padding:2px 0;">
+            <div class="border-top" style="padding:2px 0;" @click="usingaVouchers">
               <p>使用代金卷</p>
-              <p>选择代金卷
+              <p v-if="this.offer">
+                -{{this.offer}}元
+                <span class="iconfont arrow-icon">&#xe66b;</span>
+              </p>
+              <p v-else>选择代金卷
                 <span class="iconfont arrow-icon">&#xe66b;</span>
               </p>
             </div>
@@ -57,7 +61,7 @@
           <div class="border-top price-content">
             <van-row>
               <van-col span="12">商品总额</van-col>
-              <van-col span="12" class="price_right" style="font-wight:300;">￥{{infoTwo.priceTogether}}</van-col>
+              <van-col span="12" class="price_right" style="font-wight:300;">￥{{infoOne.product.priceTogether}}</van-col>
             </van-row>
             <van-row>
               <van-col span="12">代金卷优惠</van-col>
@@ -69,7 +73,7 @@
             </van-row>
             <van-row class="price-bottom">
               <van-col span="24" class="price_right">实付款
-                <strong class="money">￥{{infoOne.priceTogether}}</strong>
+                <strong class="money">￥{{orderAllmoney}}</strong>
               </van-col>
             </van-row>
           </div>
@@ -102,7 +106,7 @@
       <!-- 支付订单 -->
       <div class="cart-foot">
         <p>付款 :
-          <span>￥{{infoOne.priceTogether}}</span>
+          <span>￥{{orderAllmoney}}</span>
         </p>
         <p>
           <van-button size="normal" class="btnColor" @click="goDetails()">支付订单</van-button>
@@ -111,10 +115,10 @@
       <!--付款方式弹出-->
       <van-popup v-model="Payment" class="Payment">
         <p>付款金额：
-          <span>￥{{infoOne.priceTogether}}</span>
+          <span>￥{{orderAllmoney}}</span>
         </p>
         <p>付款方式：
-          <!-- <span v-text="PaymentType"></span> -->
+          <span v-text="PaymentType"></span>
         </p>
         <van-button size="small" class="Payment-button" @click="gocartOut">去支付</van-button>
       </van-popup>
@@ -139,6 +143,7 @@ export default {
   data() {
     return {
       imageURL: FeaturesIcon5,
+      offer: sessionStorage.getItem("teamworkMoney"),
       checked: false,
       zfb: false,
       wx: true,
@@ -162,7 +167,34 @@ export default {
       infoTwo: ""
     };
   },
+  // 优惠的价格
+  computed: {
+    orderAllmoney() {
+      if (sessionStorage.getItem("teamworkMoney")) {
+        return (
+          this.infoOne.priceTogether - sessionStorage.getItem("teamworkMoney")
+        );
+      } else {
+        return this.infoOne.priceTogether;
+      }
+    }
+  },
   methods: {
+    // 代金卷
+    usingaVouchers() {
+      this.$router.push(`/teamworkcoupon`);
+    },
+    gocartOut() {
+      // 模拟支付完成;
+      this.togetherOrderBack({
+        id: this.$route.params.id,
+        token: this.getCookie("token"),
+        staffId: this.getCookie("staffId")
+      }).then(res => {
+        console.log(res);
+        // this.$router.push(`/teamworkPayment/${this.$route.params.}`);
+      });
+    },
     // 获取cook
     getCookie(name) {
       var arr,
@@ -267,9 +299,7 @@ export default {
       token,
       id: this.$route.params.id
     }).then(res => {
-      this.infoOne = res.data[0];
-      this.infoTwo = res.data[1];
-      console.log(res.data[0]);
+      this.infoOne = res.data;
     });
   }
 };

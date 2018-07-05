@@ -190,6 +190,7 @@ import MailingTwoPic from "../../../assets/img/volume-two.png";
 import ActiveMailingOnePic from "../../../assets/img/active-volume-one.png";
 import ActiveMailingTwoPic from "../../../assets/img/active-volume-two.png";
 import service from "../service/index.js";
+import { Toast } from "vant";
 export default {
   mixins: [service],
   data() {
@@ -293,7 +294,12 @@ export default {
       this.MailingText = "虚拟提货卷";
     },
     goDetails: function() {
-      this.Payment = true;
+      console.log(this.cartList[0].adName);
+      if (this.cartList[0].adName) {
+        this.Payment = true;
+      } else {
+        Toast("请选择收货地址");
+      }
     },
     goAddress: function() {
       this.$router.push({
@@ -304,7 +310,7 @@ export default {
       this.away = true;
     },
     goaway: function() {
-      this.$router.push("/");
+      this.$router.go(-1);
     },
     want: function() {
       this.away = false;

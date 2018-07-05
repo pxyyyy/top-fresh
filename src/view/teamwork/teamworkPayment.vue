@@ -39,7 +39,8 @@ export default {
       xhdpiPic: require("../../assets/img/xhdpi.png"),
       Url: "",
       staffId: this.getCookie("staffId"),
-      token: this.getCookie("token")
+      token: this.getCookie("token"),
+      teamworkId: ""
     };
   },
   methods: {
@@ -59,7 +60,8 @@ export default {
     async invite() {
       await this.shareTogetherOrder({
         token: this.token,
-        staffId: this.staffId
+        staffId: this.staffId,
+        id: this.$route.params.idone
       }).then(res => {
         console.log(res);
         this.Url = res[0];
@@ -75,7 +77,11 @@ export default {
     this.getTogetherOrderProcessMessage({
       staffId: this.staffId,
       token: this.token,
-      togetherOrderId: 3
+      togetherOrderId: 3,
+      startUser: this.$route.params.id
+    }).then(res => {
+      this.teamworkId = res;
+      console.log(res);
     });
   }
 };

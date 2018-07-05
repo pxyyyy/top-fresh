@@ -7,121 +7,125 @@
 }
 </style>
 <template>
-	<div>
-		<van-nav-bar title="确认订单" class="evetn-bar">
-			<van-icon name="arrow-left" slot="left" class="evetn-icon" @click="returnCart()" />
-		</van-nav-bar>
-		<!--返回弹出-->
-		<van-popup v-model="away" class="away">
-			<p>正在离开结算页面</p>
-			<p>确定不要了吗</p>
-			<van-button size="small" class="Payment-button awayColor" @click="goaway">去意已决</van-button>
-			<van-button size="small" class="Payment-button" @click="want">朕在想想</van-button>
-		</van-popup>
-		<div class="cart_min">
-			<!-- 订单详情 -->
-			<div>
-				<ul>
-					<li class="item">
-						<img :src="infoTwo.productIcon" alt="" class="item-img">
-						<div class="item-info">
-							<p class="item-title">{{infoTwo.productName}}</p>
-							<p class="item-desc">{{infoTwo.productInfo}}</p>
-							<p class="item-button">
-								<strong class="money">￥{{infoTwo.productPrice}}</strong>
-								<span>x1</span>
-							</p>
-						</div>
-					</li>
-				</ul>
-				<!-- 单元格 -->
-				<!--是否邮寄提货卷弹出-->
-				<div style="padding-top:30px;background:#fff;">
-					<div class="select">
-						<div class="border-top" style="padding:2px 0;">
-							<p>使用代金卷</p>
-							<p>选择代金卷
-								<span class="iconfont arrow-icon">&#xe66b;</span>
-							</p>
-						</div>
-					</div>
-					<div class="Cell">
-						<div class="border-top" style="padding:2px 0;">
-							<p>可用200积分抵扣20元</p>
-							<p class="checked">
-								<van-checkbox v-model="checked"></van-checkbox>
-							</p>
-						</div>
-					</div>
-				</div>
-				<!--价格详情-->
-				<div class="myInfo">
-					<div class="border-top price-content">
-						<van-row>
-							<van-col span="12">商品总额</van-col>
-							<van-col span="12" class="price_right" style="font-wight:300;">￥{{infoTwo.productPrice}}</van-col>
-						</van-row>
-						<van-row>
-							<van-col span="12">代金卷优惠</van-col>
-							<van-col span="12" class="price_right">-￥10.00</van-col>
-						</van-row>
-						<van-row>
-							<van-col span="12">积分优惠</van-col>
-							<van-col span="12" class="price_right">-￥10.00</van-col>
-						</van-row>
-						<van-row class="price-bottom">
-							<van-col span="24" class="price_right">实付款
-								<strong class="money">￥{{infoTwo.productPrice}}</strong>
-							</van-col>
-						</van-row>
-					</div>
-				</div>
-				<!-- 付款方式 -->
-				<div class='payment'>
-					<p>付款方式：</p>
-					<van-row>
-						<van-col span="8">
-							<div :class="{wx: true ,wxactive: wx }" @click='wxActive'>
-								<img :src="wxPic" alt="">
-								<p>微信支付</p>
-							</div>
-						</van-col>
-						<van-col span="8">
-							<div :class="{zfb: true, zfbactive: zfb }" @click='zfbActive'>
-								<img :src="zfbPic" alt="">
-								<p>支付宝</p>
-							</div>
-						</van-col>
-						<van-col span="8">
-							<div :class="{yl: true, ylactive: yl }" @click='ylActive'>
-								<img :src="ylpic" alt="">
-								<p>银联支付</p>
-							</div>
-						</van-col>
-					</van-row>
-				</div>
-			</div>
-			<!-- 支付订单 -->
-			<div class="cart-foot">
-				<p>付款 :
-					<span>￥{{infoTwo.productPrice}}</span>
-				</p>
-				<p>
-					<van-button size="normal" class="btnColor" @click="goDetails()">支付订单</van-button>
-				</p>
-			</div>
-			<!--付款方式弹出-->
-			<van-popup v-model="Payment" class="Payment">
-				<p>付款金额：
-					<span>￥{{infoTwo.productPrice}}</span>
-				</p>
-				<p>付款方式：
-					<span v-text="PaymentType"></span>
-				</p>
-				<van-button size="small" class="Payment-button" @click="gocartOut">去支付</van-button>
-			</van-popup>
-		</div>
-	</div>
+  <div>
+    <van-nav-bar title="确认订单" class="evetn-bar">
+      <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="returnCart()" />
+    </van-nav-bar>
+    <!--返回弹出-->
+    <van-popup v-model="away" class="away">
+      <p>正在离开结算页面</p>
+      <p>确定不要了吗</p>
+      <van-button size="small" class="Payment-button awayColor" @click="goaway">去意已决</van-button>
+      <van-button size="small" class="Payment-button" @click="want">朕在想想</van-button>
+    </van-popup>
+    <div class="cart_min">
+      <!-- 订单详情 -->
+      <div>
+        <ul v-if="info">
+          <li class="item">
+            <img :src="info.product.productIcon" alt="" class="item-img">
+            <div class="item-info">
+              <p class="item-title">{{info.product.productName}}</p>
+              <p class="item-desc">{{info.product.productInfo}}</p>
+              <p class="item-button">
+                <strong class="money">￥{{info.priceTogether}}</strong>
+                <span>x1</span>
+              </p>
+            </div>
+          </li>
+        </ul>
+        <!-- 单元格 -->
+        <!--是否邮寄提货卷弹出-->
+        <div style="padding-top:30px;background:#fff;">
+          <div class="select">
+            <div class="border-top" style="padding:2px 0;" @click='usingaVouchers'>
+              <p>使用代金卷</p>
+              <p v-if="this.offer">
+                -{{this.offer}}元
+                <span class="iconfont arrow-icon">&#xe66b;</span>
+              </p>
+              <p v-else>选择代金卷
+                <span class="iconfont arrow-icon">&#xe66b;</span>
+              </p>
+            </div>
+          </div>
+          <div class="Cell">
+            <div class="border-top" style="padding:2px 0;">
+              <p>可用200积分抵扣20元</p>
+              <p class="checked">
+                <van-checkbox v-model="checked"></van-checkbox>
+              </p>
+            </div>
+          </div>
+        </div>
+        <!--价格详情-->
+        <div class="myInfo" v-if="info">
+          <div class="border-top price-content">
+            <van-row>
+              <van-col span="12">商品总额</van-col>
+              <van-col span="12" class="price_right" style="font-wight:300;">￥{{info.priceTogether}}</van-col>
+            </van-row>
+            <van-row>
+              <van-col span="12">代金卷优惠</van-col>
+              <van-col span="12" class="price_right">-￥{{this.offer}}</van-col>
+            </van-row>
+            <van-row>
+              <van-col span="12">积分优惠</van-col>
+              <van-col span="12" class="price_right">-￥10.00</van-col>
+            </van-row>
+            <van-row class="price-bottom">
+              <van-col span="24" class="price_right">实付款
+                <strong class="money">￥{{orderAllmoney}}</strong>
+              </van-col>
+            </van-row>
+          </div>
+        </div>
+        <!-- 付款方式 -->
+        <div class='payment' v-if="info">
+          <p>付款方式：</p>
+          <van-row>
+            <van-col span="8">
+              <div :class="{wx: true ,wxactive: wx }" @click='wxActive'>
+                <img :src="wxPic" alt="">
+                <p>微信支付</p>
+              </div>
+            </van-col>
+            <van-col span="8">
+              <div :class="{zfb: true, zfbactive: zfb }" @click='zfbActive'>
+                <img :src="zfbPic" alt="">
+                <p>支付宝</p>
+              </div>
+            </van-col>
+            <van-col span="8">
+              <div :class="{yl: true, ylactive: yl }" @click='ylActive'>
+                <img :src="ylpic" alt="">
+                <p>银联支付</p>
+              </div>
+            </van-col>
+          </van-row>
+        </div>
+      </div>
+      <!-- 支付订单 -->
+      <div class="cart-foot" v-if="info">
+        <p>付款 :
+          <span>￥{{orderAllmoney}}</span>
+        </p>
+        <p>
+          <van-button size="normal" class="btnColor" @click="goDetails()">支付订单</van-button>
+        </p>
+      </div>
+      <!--付款方式弹出-->
+      <van-popup v-model="Payment" class="Payment" v-if="info">
+        <p>付款金额：
+          <span>￥{{orderAllmoney}}</span>
+        </p>
+        <p>付款方式：
+          <span v-text="PaymentType"></span>
+        </p>
+        <van-button size="small" class="Payment-button" @click="gocartOut">去支付</van-button>
+      </van-popup>
+    </div>
+  </div>
 </template>
 <script>
 import wxpic from "../../assets/img/wx.png";
@@ -157,13 +161,17 @@ export default {
       away: false,
       cartList: [{}],
       infoList: [],
-      infoOne: "",
-      infoTwo: "",
+      info: "",
       datas: "",
-      PaymentType: "微信支付"
+      PaymentType: "微信支付",
+      offer: sessionStorage.getItem("teamworkMoney")
     };
   },
   methods: {
+    // 代金卷
+    usingaVouchers() {
+      this.$router.push(`/teamworkcoupon`);
+    },
     // 获取cook
     getCookie(name) {
       var arr,
@@ -234,7 +242,15 @@ export default {
       this.away = false;
     },
     gocartOut() {
-      this.$router.push(`/teamworkPayment`);
+      // 模拟支付完成;
+      this.togetherOrderBack({
+        id: this.$route.params.id,
+        token: this.getCookie("token"),
+        staffId: this.getCookie("staffId")
+      }).then(res => {
+        console.log(res);
+        this.$router.push(`/teamworkPayment/${this.info.staffId}/${res}`);
+      });
     },
     // 获取cook
     getCookie(name) {
@@ -247,6 +263,18 @@ export default {
       }
     }
   },
+  // 优惠的价格
+  computed: {
+    orderAllmoney() {
+      if (sessionStorage.getItem("teamworkMoney")) {
+        return (
+          this.info.priceTogether - sessionStorage.getItem("teamworkMoney")
+        );
+      } else {
+        return this.info.priceTogether;
+      }
+    }
+  },
   async beforeMount() {
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");
@@ -255,8 +283,7 @@ export default {
       token,
       id: this.$route.params.id
     }).then(res => {
-      this.infoOne = res.data[0];
-      this.infoTwo = res.data[1];
+      this.info = res.data;
     });
   }
 };

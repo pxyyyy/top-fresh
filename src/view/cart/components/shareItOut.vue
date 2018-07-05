@@ -1,11 +1,11 @@
 <style lang="less" scoped>
-	@import "./shareItOut.less";
+@import "./shareItOut.less";
 </style>
 <template>
 	<div>
 		<div class="topbar">
 			现金红包送不停
-			<span class="iconfont" @click="returnDetermine()">&#xe624;</span>
+			<span class="iconfont" @click="last()">&#xe624;</span>
 		</div>
 		<div class="shareIt">
 			<div class="shareIt-content">
@@ -16,7 +16,10 @@
 						<p class="shareIt-item-leftBottom">满199使用</p>
 					</div>
 					<div class="shareIt-item-right">
-						<p><strong>￥</strong><strong class="money">20</strong></p>
+						<p>
+							<strong>￥</strong>
+							<strong class="money">20</strong>
+						</p>
 					</div>
 				</div>
 				<div class="shareIt-item">
@@ -26,11 +29,16 @@
 						<p class="shareIt-item-leftBottom">满199使用</p>
 					</div>
 					<div class="shareIt-item-right">
-						<p><strong>￥</strong><strong class="money">20</strong></p>
+						<p>
+							<strong>￥</strong>
+							<strong class="money">20</strong>
+						</p>
 					</div>
 				</div>
 				<div class="shareIt-item-booton">
-					<p>红包已放入账号 <span>16749506845</span> </p>
+					<p>红包已放入账号
+						<span>16749506845</span>
+					</p>
 					<button>立即使用</button>
 				</div>
 			</div>
@@ -39,7 +47,12 @@
 </template>
 
 <script>
-	export default {
-		name: "shareItOut"
-	}
+export default {
+  name: "shareItOut",
+  methods: {
+    last() {
+      this.$router.push("/");
+    }
+  }
+};
 </script>

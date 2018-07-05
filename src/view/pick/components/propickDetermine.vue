@@ -116,14 +116,14 @@ export default {
     },
     goDetails: function() {
       this.Payment = true;
-      this.saveLading({
+      this.saveMyLading({
         staffId: this.staffId,
         token: this.token,
-        odId: this.infoList.odId,
+        odId: this.$route.params.odId,
         adId: this.cartList[0].adId
       }).then(res => {
         if (this.cartList[0].adName) {
-          this.$router.push(`/cartOut/${res}`);
+          this.$router.push(`/cartOut/${res.data[0]}`);
         } else {
           Toast("请选这收货地址~");
         }
@@ -159,12 +159,8 @@ export default {
       });
     } catch (error) {}
     // 订单详情
-
-    this.getLadingDetail({
-      staffId: this.getCookie("staffId"),
-      token: this.getCookie("token"),
-      card: this.$route.params.value,
-      hidecard: this.$route.params.password
+    this.selectProDetaiById({
+      productId: this.$route.params.productId
     }).then(res => {
       this.infoList = res.data;
     });

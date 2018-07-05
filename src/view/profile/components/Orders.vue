@@ -63,7 +63,7 @@
 							</div>
 							<div class="item-bottom">
 								<p>取消订单
-									<button>立即付款</button>
+									<button @click="payment(item.odOrderId)">立即付款</button>
 								</p>
 							</div>
 						</li>
@@ -255,6 +255,9 @@ export default {
       } else {
         return null;
       }
+    },
+    payment(id) {
+      this.$router.push(`/cartDetermine/${id}`);
     },
     loadMore(index) {
       if (index == 0) {
