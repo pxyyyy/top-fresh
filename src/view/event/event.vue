@@ -13,7 +13,7 @@
         <span>——</span>
       </p>
       <div class="img-conent" @click="toProductInfo(item.id)" v-for="item in products" :key="item.id">
-        <img v-lazy="item.imgUrl" alt="">
+        <img v-lazy="item.imgUrl + '?x-oss-process=image/crop,x_0,y_0,h_150,g_center'" alt="">
       </div>
     </div>
   </div>
@@ -33,29 +33,28 @@ export default {
   methods: {
     // 活动跳转
     goActiveInfo(activeId) {
+      console.log(activeId);
       let from = this.$route.query.from;
       //   优惠券
       if (activeId.acType == 1) {
         if (from == "IOS" || from == "Android") {
           this.$bridge.callHandler(
-            "goYouhuiquanVC",
+            "goActiveInfoVC",
             {
-              activityId: activeId.acId
+              activityId: activeId.acId,
+              type: 1
             },
             data => {
               console.log("success");
             }
           );
         } else {
-          this.$router.push(
-            `/myCoupon/${activeId.acId}`
-            // link
-          );
+          this.$router.push(`/myCoupon/${activeId.acId}`);
         }
         // 拼团
       } else if (activeId.acType == 2) {
         if (from == "IOS" || from == "Android") {
-          this.$bridge.callHandler("goPintuanGoodsVC", data => {
+          this.$bridge.callHandler("goActiveInfoVC", data => {
             console.log("success");
           });
         } else {
@@ -67,7 +66,8 @@ export default {
           this.$bridge.callHandler(
             "goActiveInfoVC",
             {
-              activeid: activeId.acId
+              activeid: activeId.acId,
+              type: 3
             },
             data => {
               console.log("success");
@@ -82,7 +82,8 @@ export default {
           this.$bridge.callHandler(
             "goActiveInfoVC",
             {
-              activeid: activeId.acId
+              activeid: activeId.acId,
+              type: 4
             },
             data => {
               console.log("success");
@@ -96,7 +97,8 @@ export default {
           this.$bridge.callHandler(
             "goActiveInfoVC",
             {
-              activeid: activeId.acId
+              activeid: activeId.acId,
+              type: 5
             },
             data => {
               console.log("success");

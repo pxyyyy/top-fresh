@@ -30,38 +30,54 @@ export default {
   },
   mounted() {},
   methods: {
+    getCookie(name) {
+      var arr,
+        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+      if ((arr = document.cookie.match(reg))) {
+        return unescape(arr[2]);
+      } else {
+        return null;
+      }
+    },
     goActiveInfo(activeId) {
       let from = this.$route.query.from;
-      console.log(from);
       //   优惠券
       if (activeId.type == 1) {
         if (from == "IOS" || from == "Android") {
           this.$bridge.callHandler(
-            "goYouhuiquanVC",
+            "goActiveInfoVC",
             {
-              link: `/myCoupon/${activeId.id}`
+              type: 1,
+              link: `${activeId.id}`
             },
             data => {
               console.log("success");
             }
           );
         } else {
-          this.$router.push(
-            `/myCoupon/${activeId.id}`
-            // link
-          );
+          if (this.getCookie("token")) {
+            this.$router.push(`/myCoupon/${activeId.id}`);
+          } else {
+            this.$router.push(`/login`);
+          }
         }
         // 拼团
       } else if (activeId.type == 2) {
         if (from == "IOS" || from == "Android") {
-          this.$bridge.callHandler("goPintuanGoodsVC", data => {
-            link: `/teamwork/${activeId.id}`;
-          });
-        } else {
-          this.$router.push(
-            `/teamwork/${activeId.id}`
-            // link
+          this.$bridge.callHandler(
+            "goActiveInfoVC",
+            {
+              type: 2,
+              link: `${activeId.id}`
+            },
+            data => {}
           );
+        } else {
+          if (this.getCookie("token")) {
+            this.$router.push(`/teamwork/${activeId.id}`);
+          } else {
+            this.$router.push(`/login`);
+          }
         }
         // 商品集锦
       } else if (activeId.type == 3) {
@@ -69,7 +85,8 @@ export default {
           this.$bridge.callHandler(
             "goActiveInfoVC",
             {
-              link: `/goodsList/${activeId.id}`
+              type: 3,
+              link: `${activeId.id}`
             },
             data => {
               console.log("success");
@@ -84,7 +101,8 @@ export default {
           this.$bridge.callHandler(
             "goActiveInfoVC",
             {
-              link: `/eventList/${activeId.id}`
+              type: 4,
+              link: `${activeId.id}`
             },
             data => {
               console.log("success");
@@ -98,7 +116,8 @@ export default {
           this.$bridge.callHandler(
             "goActiveInfoVC",
             {
-              type: 5
+              type: 5,
+              link: activeId.link
             },
             data => {
               console.log("success");

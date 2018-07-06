@@ -226,7 +226,7 @@ export const otherRouter = [{
     }
   },
   {
-    path: '/evaluationOrder',
+    path: '/evaluationOrder/:id',
     name: 'evaluationOrder',
     component: resolve => {
       require(['@/view/cart/components/evaluationOrder.vue'], resolve);
@@ -237,6 +237,13 @@ export const otherRouter = [{
     name: 'editAddress',
     component: resolve => {
       require(['@/view/cart/components/editAddress.vue'], resolve);
+    }
+  },
+  {
+    path: '/expressdelivery',
+    name: 'expressdelivery',
+    component: resolve => {
+      require(['@/view/expressdelivery/expressdelivery.vue'], resolve);
     }
   },
   {
@@ -265,6 +272,13 @@ export const otherRouter = [{
     name: 'editprofile',
     component: resolve => {
       require(['@/view/profile/components/editprofile.vue'], resolve);
+    }
+  },
+  {
+    path: '/feedback/:phone',
+    name: 'feedback',
+    component: resolve => {
+      require(['@/view/profile/components/feedback.vue'], resolve);
     }
   },
   {

@@ -77,7 +77,7 @@
         <span> —— </span>
       </p>
       <div class="img-conent" @click="toProductInfo(item.id)" v-for="item in products" :key="item.id">
-        <img v-lazy="item.imgUrl" alt="">
+        <img v-lazy="item.imgUrl + '?x-oss-process=image/crop,x_0,y_0,h_150,g_center'" alt="">
       </div>
     </div>
   </div>
@@ -187,6 +187,9 @@ export default {
           break;
         case 2:
           this.$router.push("/MyCollage");
+          break;
+        case 4:
+          this.$router.push(`/feedback/${this.ueseInfo.staffPhone}`);
           break;
         case 5:
           this.$router.push("/Settings");

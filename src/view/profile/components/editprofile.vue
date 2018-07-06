@@ -143,7 +143,6 @@ export default {
   overflow: hidden;
   text-align: center;
   input {
-    text-align: center;
   }
 }
 </style>
