@@ -138,7 +138,8 @@ export default {
           "goPickupInfoVC",
           {
             code: code,
-            odId
+            odId,
+            type: 1
           },
           data => {
             console.log("success");

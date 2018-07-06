@@ -54,17 +54,17 @@
   <!-- 商品详情 页面-->
   <div>
     <!-- 商品主图  有赞轮播组件-->
-    <swiper :options="swiperOption">
+    <!-- <swiper :options="swiperOption">
       <swiper-slide v-for="(image, index) in info[0].images" :key="index">
         <img v-lazy="image" class="img" />
       </swiper-slide>
-    </swiper>
+    </swiper> -->
     <!-- 调用接口后 -->
-    <!-- <swiper :options="swiperOption">
-            <swiper-slide v-for="(image, index) in product.proImgs" :key="index">
-                <img v-lazy="image.imgSrc" class="img"/>
-            </swiper-slide>
-        </swiper> -->
+    <swiper :options="swiperOption">
+      <swiper-slide v-for="(image, index) in product.proImgs" :key="index">
+        <img v-lazy="image.imgUrl" class="img" />
+      </swiper-slide>
+    </swiper>
     <!-- 商品详细信息 -->
     <!-- <div class="discript">
 			<img src="" alt="">
@@ -337,7 +337,14 @@ export default {
     toProductInfo(productId) {
       this.$router.push(`/product/${productId}`);
       this.active = 0;
+    },
+    giveShareInfo() {
+      // 标题，副标题
+      Android.giveShareInfo(`${this.product.productName}`,`${this.product.productInfo}`);
     }
+  },
+  created() {
+    window.giveShareInfo = this.giveShareInfo;
   },
   mounted() {
     let from = this.$route.query.from;
@@ -349,6 +356,13 @@ export default {
     }
   },
   beforeMount() {
+    this.$bridge.registerHandler("giveShareInfo", (data, responseCallback) => {
+      responseCallback({
+        title: `${this.product.productName}`,
+        toProductInfo: `${this.product.productInfo}`
+      });
+    });
+
     var id = this.$route.params.id;
     this.getProductInfo(id) //获取列表
       .then(res => {

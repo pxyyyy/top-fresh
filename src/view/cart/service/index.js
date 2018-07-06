@@ -131,5 +131,29 @@ export default {
         console.log(err)
       });
     },
+    // 图片上传
+    uploadAll(json) {
+      return api.post('fresh_show/User/uploadAll', json).then((res) => {
+        return res.data;
+      }).catch((err) => {
+        console.log(err)
+      });
+    },
+    // 商品评价
+    addEvaluation(json) {
+      return api.post('fresh_show/evaluation/addEvaluation', json).then((res) => {
+        return res.data;
+      }).catch((err) => {
+        console.log(err)
+      });
+    },
+    // 商品评价
+    getScoreByOrderId(json) {
+      return api.post('fresh_show/order/getScoreByOrderId', json).then((res) => {
+        return res.data;
+      }).catch((err) => {
+        console.log(err)
+      });
+    },
   }
 }

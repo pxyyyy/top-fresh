@@ -87,5 +87,16 @@ export default {
           console.log(error);
         });
     },
+    // 意见反馈
+    addFeedback(json) {
+      return api.post(`fresh_show/feedback/addFeedback`, json)
+        .then(res => {
+          return res.data;
+
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   }
 }

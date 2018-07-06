@@ -52,8 +52,6 @@ export default {
   },
   beforeMount() {
     this.selectByPrimaryKey({
-      token: this.token,
-      staffId: this.staffId,
       acId: this.$route.params.id
     }).then(res => {
       this.contentHtml = res.data[0].acImg;

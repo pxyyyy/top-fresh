@@ -156,59 +156,34 @@
 						</van-col>
 					</van-row>
 				</div>
-				<!-- <div class="coupon-content" v-if="item.id == 5">
-					<ul v-for="(order,index) in orders" :key="index" v-if="order.orderState=='1'">
-						<li class="item">
+				<div class="coupon-content" v-if="item.id == 5">
+					<ul v-for="(order,index) in orders" :key="index">
+						<li class="item" v-for="item in order.orderdetails" :key="item.odId">
 							<div class="item-content">
-								<img :src="order.orderdetails[0].odProductIcon ? order.orderdetails[0].odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
+								<img :src="item.odProductIcon ? item.odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
 								<div class="item-info">
-									<p class="item-title">{{order.orderdetails[0].odProductName}}</p>
-									<p class="item-desc">{{order.orderdetails[0].odProductDes}}</p>
-									<p class="item-button"><strong class="money">￥{{order.orderAllmoney}}</strong>
-										<span> x {{order.orderdetails[0].odProductNum}}</span>
+									<p class="item-title">{{item.odProductName}}</p>
+									<p class="item-desc">{{item.odProductDes}}</p>
+									<p class="item-button">
+										<strong class="money">￥{{item.odProductPprice}}</strong>
+										<span> x {{item.odProductNum}}</span>
 									</p>
 								</div>
 							</div>
 							<div class="item-bottom">
-								<p>取消订单 <button>立即付款</button></p>
+								<p>
+									<button @click="goEvaluation(item)">立即评价</button>
+								</p>
 							</div>
 						</li>
 					</ul>
-					<ul v-for="(order,index) in orders" :key="index" v-if="order.orderState=='2'">
-						<li class="item">
-							<div class="item-content">
-								<img :src="order.orderdetails[0].odProductIcon ? order.orderdetails[0].odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
-								<div class="item-info">
-									<p class="item-title">{{order.orderdetails[0].odProductName}}</p>
-									<p class="item-desc">{{order.orderdetails[0].odProductDes}}</p>
-									<p class="item-button"><strong class="money">￥{{order.orderAllmoney}}</strong>
-										<span> x {{order.orderdetails[0].odProductNum}}</span>
-									</p>
-								</div>
-							</div>
-							<div class="item-bottom">
-								<p class="item-bottom-two">等待发货</p>
-							</div>
-						</li>
-					</ul>
-					<ul v-for="(order,index) in orders" :key="index" v-if="order.orderState=='3'">
-						<li class="item">
-							<div class="item-content">
-								<img :src="order.orderdetails[0].odProductIcon ? order.orderdetails[0].odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
-								<div class="item-info">
-									<p class="item-title">{{order.orderdetails[0].odProductName}}</p>
-									<p class="item-desc">{{order.orderdetails[0].odProductDes}}</p>
-									<p class="item-button"><strong class="money">￥{{order.orderAllmoney}}</strong>
-										<span> x {{order.orderdetails[0].odProductNum}}</span>
-									</p>
-								</div>
-							</div>
-							<div class="item-bottom">
-								<p> <button class="item-bottom-three">确认收货</button><button>查看物流</button></p>
-							</div>
-						</li>
-					</ul>
-				</div> -->
+					<van-row>
+						<van-col span="24" style="text-align:center; font-size:10px;margin-bottom:3px;color:#ccc;">
+							<div @click='loadMore(4)' v-if="code == '100000'">加载更多 </div>
+							<div v-else>已经到底了~~</div>
+						</van-col>
+					</van-row>
+				</div>
 			</van-tab>
 		</van-tabs>
 	</div>
@@ -246,6 +221,10 @@ export default {
     this.init();
   },
   methods: {
+    // 评价
+    goEvaluation(item) {
+      this.$router.push(`/evaluationOrder/${item.odProductId}`);
+    },
     // 获取cook
     getCookie(name) {
       var arr,
@@ -315,6 +294,10 @@ export default {
         //   待评价
         this.pageNum = 1;
         this.orders = "";
+        this.getOrder(staffId, token, "4", 7, this.pageNum).then(res => {
+          this.code = res.code;
+          this.orders = res.data;
+        });
       } else if (this.active == 4) {
         //   全部订单
         this.pageNum = 1;

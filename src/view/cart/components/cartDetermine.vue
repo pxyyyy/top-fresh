@@ -4,6 +4,10 @@
 <style>
 .Cell .van-icon {
   position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  margin-top: 0;
 }
 </style>
 <template>
@@ -101,7 +105,7 @@
 					</div>
 					<div class="Cell">
 						<div class="border-top" style="padding:2px 0;">
-							<p>可用200积分抵扣20元</p>
+							<p>可用{{this.integral[0]}}积分,抵扣{{this.integral[1]}}元</p>
 							<p class="checked">
 								<van-checkbox v-model="checked"></van-checkbox>
 							</p>
@@ -121,7 +125,7 @@
 						</van-row>
 						<van-row>
 							<van-col span="12">积分优惠</van-col>
-							<van-col span="12" class="price_right">-￥10.00</van-col>
+							<van-col span="12" class="price_right">-￥{{this.integral[1]}}</van-col>
 						</van-row>
 						<van-row class="price-bottom">
 							<van-col span="24" class="price_right">实付款
@@ -134,13 +138,13 @@
 				<div class='payment'>
 					<p>付款方式：</p>
 					<van-row>
-						<van-col span="8">
+						<van-col span="24">
 							<div :class="{wx: true ,wxactive: wx }" @click='wxActive'>
 								<img :src="wxPic" alt="">
 								<p>微信支付</p>
 							</div>
 						</van-col>
-						<van-col span="8">
+						<!-- <van-col span="8">
 							<div :class="{zfb: true, zfbactive: zfb }" @click='zfbActive'>
 								<img :src="zfbPic" alt="">
 								<p>支付宝</p>
@@ -151,7 +155,7 @@
 								<img :src="ylpic" alt="">
 								<p>银联支付</p>
 							</div>
-						</van-col>
+						</van-col> -->
 					</van-row>
 				</div>
 			</div>
@@ -216,7 +220,8 @@ export default {
       PaymentType: "微信支付",
       MailingText: "请选择",
       MailingType: "",
-      offer: sessionStorage.getItem("money")
+      offer: sessionStorage.getItem("money"),
+      integral: ""
     };
   },
   // 优惠的价格
@@ -338,6 +343,14 @@ export default {
     }).then(res => {
       this.datas = res;
       this.infoList = res.orderdetails;
+    });
+    // 积分
+    this.getScoreByOrderId({
+      staffId,
+      token,
+      orderId: this.$route.params.orderId
+    }).then(res => {
+      this.integral = res.data;
     });
   }
 };

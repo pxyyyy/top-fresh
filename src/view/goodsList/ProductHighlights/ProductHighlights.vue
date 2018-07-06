@@ -1,12 +1,12 @@
 <template>
-    <div class="ProductHighlights">
-        <div class="list" v-for="item in list" :key="item.id">
-            <img :src="item.productImg" alt="" class="img">
-            <div data-v-12f4fbe3="" class="title">{{item.productName}}</div>
-            <div data-v-12f4fbe3="" class="gg">{{item.productDetail}}</div>
-            <div data-v-12f4fbe3="" class="price">¥{{item.productOprice}}</div>
-        </div>
+  <div class="ProductHighlights">
+    <div class="list" v-for="item in list" :key="item.id">
+      <img :src="item.productIcon" alt="" class="img">
+      <div data-v-12f4fbe3="" class="title">{{item.productName}}</div>
+      <div data-v-12f4fbe3="" class="gg">{{item.productDetail}}</div>
+      <div data-v-12f4fbe3="" class="price">¥{{item.productOprice}}</div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -23,13 +23,12 @@ export default {
       const staffId = this.getCookie("staffId");
       const token = this.getCookie("token");
       this.getGiftCards({
-        staffId,
-        token,
         activityId: this.$route.params.id,
         pageNum: 1,
         pageSize: 7
       }).then(res => {
         this.list = res;
+        console.log(this.list[0].productImg);
       });
     }
   },
@@ -81,5 +80,9 @@ export default {
   right: 20px;
   font-size: 16px;
   color: #e7bf79;
+}
+.ProductHighlights img {
+  width: 100%;
+  height: 150px;
 }
 </style>
