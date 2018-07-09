@@ -18,6 +18,9 @@
 }
 </style>
 <style lang="less">
+.list {
+  margin-left: 0 !important;
+}
 .van-tab--active {
   color: #fff !important;
   background: #000 !important;

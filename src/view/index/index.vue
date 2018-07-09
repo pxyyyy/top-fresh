@@ -7,7 +7,7 @@
     <index-Event></index-Event>
     <exercise :activities="activities"></exercise>
     <index-Product></index-Product>
-    <index-Detail></index-Detail>
+    <index-Detail :content="content"></index-Detail>
   </div>
 </template>
 <script>
@@ -28,8 +28,9 @@ export default {
   },
   beforeMount() {
     this.fetchList().then(res => {
-      this.sysbanners = res.sysbanners;
-      this.activities = res.activities;
+      this.sysbanners = res.data.sysbanners;
+      this.activities = res.data.activities;
+      this.content = res.data.sysContent[0].content;
     });
   },
   methods: {},
