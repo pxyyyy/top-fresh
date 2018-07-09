@@ -4,10 +4,10 @@
 <template>
   <div class="event-index">
     <van-row class="e-row">
-      <van-col class="event-list" span="6" @click.native="goGoodListVC('礼卡')"><img src="../../../../assets/icon/lipin.png" width="50" height="50"> 礼卡区</van-col>
-      <van-col class="event-list" span="6" @click.native="goGoodListVC('现货')"><img src="../../../../assets/icon/xianhuo.png" width="50" height="50">现货区</van-col>
+      <van-col class="event-list" span="6" @click.native="goGoodListVC('礼卡',0)"><img src="../../../../assets/icon/lipin.png" width="50" height="50"> 礼卡区</van-col>
+      <van-col class="event-list" span="6" @click.native="goGoodListVC('现货',1)"><img src="../../../../assets/icon/xianhuo.png" width="50" height="50">现货区</van-col>
       <van-col class="event-list" span="6" @click.native="goPickupVC()"><img src="../../../../assets/icon/tihuo.png" width="50" height="50">礼卡提货</van-col>
-      <van-col class="event-list" span="6"><img src="../../../../assets/icon/candi.png" width="50" height="50">产地溯源</van-col>
+      <van-col class="event-list" span="6" @click.native="Traceability()"><img src="../../../../assets/icon/candi.png" width="50" height="50">产地溯源</van-col>
     </van-row>
   </div>
 </template>
@@ -18,7 +18,32 @@ export default {
   },
   beforeMount() {},
   methods: {
-    goGoodListVC(name) {
+    Traceability() {
+      let from = this.$route.query.from;
+      console.log("from", from);
+      if (from == "IOS") {
+        this.$bridge.callHandler(
+          "goGoodOriginVC",
+          {
+            name: name
+          },
+          data => {
+            console.log("IOS success");
+          }
+        );
+      } else if (from == "Android") {
+        this.$bridge.callHandler(
+          "goGoodOriginVC",
+          {
+            name: name
+          },
+          data => {
+            console.log("Android success");
+          }
+        );
+      }
+    },
+    goGoodListVC(name, id) {
       let from = this.$route.query.from;
       console.log("from", from);
       if (from == "IOS") {
@@ -42,7 +67,7 @@ export default {
           }
         );
       } else {
-        this.$router.push(`/goodsList/0`);
+        this.$router.push(`/goodsList/${id}`);
       }
     },
     goPickupVC() {

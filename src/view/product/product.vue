@@ -290,6 +290,20 @@ export default {
       this.$router.push(`/evaluation`);
     },
     toProductInfo(productId) {
+      let from = this.$route.query.from;
+      if (from == "IOS" || from == "Android") {
+        this.$bridge.callHandler(
+          "goGoodInfoVC",
+          {
+            productId: `${productId}`
+          },
+          data => {
+            console.log("success");
+          }
+        );
+      } else {
+        this.$router.push(`/product/${productId}`);
+      }
       this.$router.push(`/product/${productId}`);
       this.active = 0;
     },

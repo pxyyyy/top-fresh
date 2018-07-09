@@ -12,13 +12,13 @@
     <van-nav-bar :title="title" class="evetn-bar" v-if="!this.$route.query.from">
       <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="returnevent" />
     </van-nav-bar>
-    <div class="item-img" v-html="this.contentHtml">
+    <div class="item-img" v-html="this.contentHtml" :class="{marginTop:isActive}">
     </div>
     <div class="bottom">
-      <p>
+      <!-- <p>
         <van-icon name="phone" class="phone" />
         <span>致电咨询</span>
-      </p>
+      </p> -->
     </div>
   </div>
 </template>
@@ -33,7 +33,8 @@ export default {
       staffId: this.getCookie("staffId"),
       contentHtml: "",
       from: this.$route.query.from,
-      title: ""
+      title: "",
+      isActive: false
     };
   },
   methods: {
@@ -58,6 +59,9 @@ export default {
       this.contentHtml = res.data[0].acImg;
       this.title = res.data[0].acTitle;
     });
+    if (this.$route.query.from) {
+      this.isActive = true;
+    }
   }
 };
 </script>

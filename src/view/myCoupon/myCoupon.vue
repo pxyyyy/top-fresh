@@ -94,7 +94,7 @@ export default {
         scCouponStartTime: item.couponsReceiveStartTime,
         scCouponEndTime: item.couponsReceiveEndTime,
         scCouponState: 0,
-        scStaffId: staffId
+        scStaffId: this.staffId
       });
       this.getCouponsOfReceive({
         staffId,

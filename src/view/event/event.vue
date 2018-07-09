@@ -40,7 +40,7 @@ export default {
           this.$bridge.callHandler(
             "goActiveInfoVC",
             {
-              activityId: activeId.acId,
+              link: activeId.acId,
               type: 1
             },
             data => {
@@ -74,7 +74,7 @@ export default {
           this.$bridge.callHandler(
             "goActiveInfoVC",
             {
-              activeid: activeId.acId,
+              link: activeId.acId,
               type: 3
             },
             data => {
@@ -91,7 +91,7 @@ export default {
           this.$bridge.callHandler(
             "goActiveInfoVC",
             {
-              activeid: activeId.acId,
+              link: activeId.acId,
               type: 4
             },
             data => {
