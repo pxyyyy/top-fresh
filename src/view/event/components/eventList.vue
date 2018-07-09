@@ -9,7 +9,7 @@
 
 <template>
   <div>
-    <van-nav-bar title="招募极味道代理" class="evetn-bar" v-if="!from">
+    <van-nav-bar :title="title" class="evetn-bar" v-if="!this.$route.query.from">
       <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="returnevent" />
     </van-nav-bar>
     <div class="item-img" v-html="this.contentHtml">
@@ -32,7 +32,8 @@ export default {
       token: this.getCookie("token"),
       staffId: this.getCookie("staffId"),
       contentHtml: "",
-      from: this.$route.query.from
+      from: this.$route.query.from,
+      title: ""
     };
   },
   methods: {
@@ -55,7 +56,7 @@ export default {
       acId: this.$route.params.id
     }).then(res => {
       this.contentHtml = res.data[0].acImg;
-      console.log(this.contentHtml);
+      this.title = res.data[0].acTitle;
     });
   }
 };

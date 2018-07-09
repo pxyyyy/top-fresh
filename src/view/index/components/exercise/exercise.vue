@@ -57,6 +57,7 @@ export default {
         } else {
           if (this.getCookie("token")) {
             this.$router.push(`/myCoupon/${activeId.id}`);
+            this.$store.commit("setcurrentActiveName", activeId.title);
           } else {
             this.$router.push(`/login`);
           }
@@ -94,6 +95,7 @@ export default {
           );
         } else {
           this.$router.push(`/goodsList/${activeId.id}`);
+          this.$store.commit("setcurrentActiveName", activeId.title);
         }
       } else if (activeId.type == 4) {
         // 静态
@@ -110,6 +112,7 @@ export default {
           );
         } else {
           this.$router.push(`/eventList/${activeId.id}`);
+          this.$store.commit("setcurrentActiveName", activeId.title);
         }
       } else if (activeId.type == 5) {
         if (from == "IOS" || from == "Android") {

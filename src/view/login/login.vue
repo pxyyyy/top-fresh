@@ -55,6 +55,7 @@
 </template>
 <script>
 import { Decrypt, Encrypt } from "@/assets/js/crypto.js";
+import { Toast } from "vant";
 import login from "./service/login.js";
 export default {
   mixins: [login],
@@ -135,9 +136,14 @@ export default {
     },
     sureStep: function() {
       this.toLogin(this.d2, this.value).then(res => {
-        this.setCookie("token", res[0].staffToken),
-          this.setCookie("staffId", res[0].staffId),
-          this.$router.go(-1);
+        console.log(res);
+        if (res.data.code == 100000) {
+          this.setCookie("token", res.data[0].staffToken),
+            this.setCookie("staffId", res.data[0].staffId),
+            this.$router.go(-1);
+        } else {
+          Toast(res.message);
+        }
       });
       // this.$router.push(`/index`);
     },

@@ -6,15 +6,16 @@
   background: #fff;
   border: 1px solid #fff;
 }
+.swiper-pagination-bullet-active {
+  background: #fff !important;
+}
 </style>
 <template>
   <swiper :options="swiperOption">
     <swiper-slide v-for="item in sysbanners" :key="item.id">
-      <!-- <img v-lazy="bannerPic" alt=""> -->
-      <!--后台调用数据-->
-      <img :src="item.imgUrl ? item.imgUrl : '../../assets/img/banner.png'" @click="toTeacher(item)">
-      <!-- <div class="swiper-pagination" slot="pagination"></div> -->
+      <img class="swiper-img" :src="item.imgUrl" alt="" @click="toTeacher(item)">
     </swiper-slide>
+    <div class="swiper-pagination" slot="pagination"></div>
   </swiper>
 </template>
 
@@ -28,15 +29,14 @@ export default {
       swiperOption: {
         loop: true,
         effect: "fade",
-        pagination: ".swiper-pagination"
         // autoplay: {
         // delay: 6000,
         // disableOnInteraction: false
         // },
-        // pagination: {
-        // 	el: '.swiper-pagination',
-        // 	clickable: true
-        // }
+        pagination: {
+          el: ".swiper-pagination"
+          // clickable: true
+        }
       },
       dataSwipe: [
         {
@@ -75,34 +75,94 @@ export default {
             }
           );
         } else {
-          if (this.getCookie("token")) {
-            this.$router.push(`/myCoupon/${activeId.id}`);
-          } else {
-            this.$router.push(`/login`);
-          }
+          this.$router.push(`/product/${activeId.link}`);
         }
-        // 拼团
+        // 活动
       } else if (activeId.type == 2) {
-        if (from == "IOS" || from == "Android") {
-          this.$bridge.callHandler(
-            "goActiveInfoVC",
-            {
-              link: `${activeId.id}`,
-              type: 2
-            },
-            data => {}
-          );
-        } else {
-          if (this.getCookie("token")) {
-            this.$router.push(
-              `/teamwork/${activeId.id}`
-              // link
+        console.log(activeId.actype);
+        if (activeId.actype == 1) {
+          if (from == "IOS" || from == "Android") {
+            this.$bridge.callHandler(
+              "goActiveInfoVC",
+              {
+                activityId: activeId.acId,
+                type: 1
+              },
+              data => {
+                console.log("success");
+              }
             );
           } else {
-            this.$router.push(`/login`);
+            if (this.getCookie("token")) {
+              this.$router.push(`/myCoupon/${activeId.id}`);
+              this.$store.commit("setcurrentActiveName", activeId.acTitle);
+            } else {
+              this.$router.push("/login");
+            }
+          }
+          // 拼团
+        } else if (activeId.actype == 2) {
+          if (from == "IOS" || from == "Android") {
+            this.$bridge.callHandler("goActiveInfoVC", data => {
+              console.log("success");
+            });
+          } else {
+            if (this.getCookie("token")) {
+              this.$router.push(`/teamwork/${activeId.acId}`);
+            } else {
+              this.$router.push("/login");
+            }
+          }
+          // 商品集锦
+        } else if (activeId.actype == 3) {
+          if (from == "IOS" || from == "Android") {
+            this.$bridge.callHandler(
+              "goActiveInfoVC",
+              {
+                activeid: activeId.acId,
+                type: 3
+              },
+              data => {
+                console.log("success");
+              }
+            );
+          } else {
+            this.$router.push(`/goodsList/${activeId.link}`);
+            this.$store.commit("setcurrentActiveName", activeId.acTitle);
+          }
+        } else if (activeId.actype == 4) {
+          // 静态
+          if (from == "IOS" || from == "Android") {
+            this.$bridge.callHandler(
+              "goActiveInfoVC",
+              {
+                activeid: activeId.acId,
+                type: 4
+              },
+              data => {
+                console.log("success");
+              }
+            );
+          } else {
+            this.$router.push(`/eventList/${activeId.acId}`);
+          }
+        } else if (activeId.actype == 5) {
+          if (from == "IOS" || from == "Android") {
+            this.$bridge.callHandler(
+              "goActiveInfoVC",
+              {
+                activeid: activeId.acId,
+                type: 5
+              },
+              data => {
+                console.log("success");
+              }
+            );
+          } else {
+            window.location.href = "http://" + activeId.acSrc;
           }
         }
-        // 商品集锦
+        // 外链
       } else if (activeId.type == 3) {
         if (from == "IOS" || from == "Android") {
           this.$bridge.callHandler(
@@ -116,24 +176,10 @@ export default {
             }
           );
         } else {
-          this.$router.push(`/goodsList/${activeId.id}`);
+          window.location.href = activeId.link;
         }
       } else if (activeId.type == 4) {
-        // 静态
-        if (from == "IOS" || from == "Android") {
-          this.$bridge.callHandler(
-            "goActiveInfoVC",
-            {
-              link: `${activeId.id}`,
-              type: 4
-            },
-            data => {
-              console.log("success");
-            }
-          );
-        } else {
-          this.$router.push(`/eventList/${activeId.id}`);
-        }
+        // 置空
       } else if (activeId.type == 5) {
         if (from == "IOS" || from == "Android") {
           this.$bridge.callHandler(

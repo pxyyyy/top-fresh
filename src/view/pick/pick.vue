@@ -11,26 +11,26 @@
 }
 </style>
 <template>
-	<div>
-		<div class="top">
-			<van-cell-group>
-				<van-field v-model="value" placeholder="请输入提货码" />
-			</van-cell-group>
-			<van-cell-group>
-				<van-field v-model="password" placeholder="请输入提货码密码" />
-			</van-cell-group>
-			<van-button size="large" @click="goDetails()">确定提货</van-button>
-		</div>
-		<div class="gy">
-			<p>—当前供应—</p>
-			<div v-for="(product,index) in list" :key="index" class="list" @click="toProductInfo(product.id)">
-				<img src="../../assets/img/product.png" alt="" class="img">
-				<div class="title">{{product.title}}</div>
-				<div class="gg">{{product.liang}}两 x {{product.number}}只</div>
-				<div class="price">&yen;{{product.price}}</div>
-			</div>
-		</div>
-	</div>
+  <div>
+    <div class="top">
+      <van-cell-group>
+        <van-field v-model="value" placeholder="请输入提货码" />
+      </van-cell-group>
+      <van-cell-group>
+        <van-field v-model="password" placeholder="请输入提货码密码" />
+      </van-cell-group>
+      <van-button size="large" @click="goDetails()">确定提货</van-button>
+    </div>
+    <div class="gy">
+      <p>—当前供应—</p>
+      <div v-for="(product,index) in list" :key="index" class="list" @click="toProductInfo(product.id)">
+        <img src="../../assets/img/product.png" alt="" class="img">
+        <div class="title">{{product.title}}</div>
+        <div class="gg">{{product.liang}}两 x {{product.number}}只</div>
+        <div class="price">&yen;{{product.price}}</div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import { Toast } from "vant";
@@ -81,12 +81,7 @@ export default {
       ]
     };
   },
-  mounted() {
-    let cookie = this.getCookie("staffId");
-    if (!cookie) {
-      this.$router.push("/Login");
-    }
-  },
+  mounted() {},
   methods: {
     // 获取cook
     getCookie(name) {

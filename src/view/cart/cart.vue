@@ -105,37 +105,39 @@
 <template>
   <div class="cart-main">
     <van-checkbox-group class="card-goods" v-model="checkedGoods">
-      <van-cell-swipe :right-width="65" :on-close="onClose" v-for="item in goods" :key="item.carId">
-        <div>
+      <van-cell-swipe :right-width="65" :on-close="onClose(item)" v-for="(item,index) in goods" :key="item.carId">
+        <!-- <div>
           <van-checkbox class="card-goods__item" :name="item.carId">
           </van-checkbox>
-        </div>
-        <div class="van-cell-group van-hairline--top-bottom">
-          <div class="van-cell van-hairline">
-            <span class="van-checkbox__label">
-              <div class="van-card">
-                <div class="van-card__thumb">
-                  <img :src="item.thumb" class="van-card__img">
-                </div>
-                <div class="van-card__content">
-                  <div class="van-card__row">
-                    <div class="van-card__title">{{item.carProductName}}</div>
+        </div> -->
+        <van-cell-group>
+          <div class="van-cell-group van-hairline--top-bottom">
+            <div class="van-cell van-hairline">
+              <span class="van-checkbox__label">
+                <div class="van-card">
+                  <div class="van-card__thumb">
+                    <img :src="item.thumb" class="van-card__img">
                   </div>
-                  <div class="van-card__row">
-                    <div class="van-card__desc cart-card__desc">{{item.carProductDes}}</div>
+                  <div class="van-card__content">
+                    <div class="van-card__row">
+                      <div class="van-card__title">{{item.carProductName}}</div>
+                    </div>
+                    <div class="van-card__row">
+                      <div class="van-card__desc cart-card__desc">{{item.carProductDes}}</div>
+                    </div>
+                    <div class="van-card__row">
+                      <div class="cart-card__price">¥{{item.carProductPprice}}.00</div>
+                    </div>
                   </div>
-                  <div class="van-card__row">
-                    <div class="cart-card__price">¥{{item.carProductPprice}}.00</div>
+                  <div class="van-card__footer">
+                    <van-stepper v-model="item.carProductNum" @plus="increase(item.carId)" @minus="decrease(item.carId)" :min="0" />
                   </div>
                 </div>
-                <div class="van-card__footer">
-                  <van-stepper v-model="item.carProductNum" @plus="increase(item.carId)" @minus="decrease(item.carId)" />
-                </div>
-              </div>
-            </span>
+              </span>
+            </div>
           </div>
-        </div>
-        <span slot="right">删除</span>
+        </van-cell-group>
+        <!-- <span slot="right">删除</span> -->
       </van-cell-swipe>
     </van-checkbox-group>
     <div class="cart-info" v-if="Clearing">
@@ -180,7 +182,7 @@ export default {
         this.Clearing = false;
         Toast("购物车空空~");
       } else {
-        this.goods = res;
+        this.goods = res.data;
       }
     });
   },
@@ -200,23 +202,34 @@ export default {
       this.add(this.staffId, this.token, carId);
     },
     // 购物车减
-    decrease(carId) {
-      this.cut(this.staffId, this.token, carId);
+    async decrease(carId) {
+      await this.cut(this.staffId, this.token, carId);
+      this.fetchList(this.staffId, this.token).then(res => {
+        if (res.data == "") {
+          Toast("购物车空空~");
+          this.goods = "";
+        } else {
+          this.goods = res.data;
+        }
+        console.log(res);
+      });
     },
-    onClose(clickPosition, instance) {
-      switch (clickPosition) {
-        case "cell":
-        case "outside":
-          instance.close();
-          break;
-        case "right":
-          Dialog.confirm({
-            message: "确定删除吗？"
-          }).then(() => {
-            instance.close();
-          });
-          break;
-      }
+    onClose(item) {
+      // return (clickPosition, instance) => {
+      //   switch (clickPosition) {
+      //     case "cell":
+      //     case "outside":
+      //       instance.close();
+      //       break;
+      //     case "right":
+      //       Dialog.confirm({
+      //         message: "确定删除吗？"
+      //       }).then(() => {
+      //         this.goods.splice(item, 1);
+      //       });
+      //       break;
+      //   }
+      // };
     },
     change() {
       if (this.checked) {
@@ -242,10 +255,14 @@ export default {
           staffId: this.staffId,
           token: this.token
         }).then(res => {
-          this.orderId = res.data;
+          if (res.data.code == 100003) {
+            Toast("卡卷和现货不能一起购买");
+          } else {
+            this.orderId = res.data.data;
+            sessionStorage.money = "";
+            this.$router.push(`cartDetermine/${this.orderId}`);
+          }
         });
-        sessionStorage.money = "";
-        this.$router.push(`cartDetermine/${this.orderId}`);
       }
     }
   },

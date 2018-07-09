@@ -35,5 +35,49 @@ export default {
           console.log(error);
         });
     },
+    // 提货卷赠送好友
+    giveFriend(json) {
+      return api.post(`fresh_show/orderTail/giveFriend`, json)
+        .then(res => {
+          return res.data.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 好友领取详情
+    getLadingPrimaryKey(json) {
+      return api.post(`fresh_show/orderTail/getLadingPrimaryKey`, json)
+        .then(res => {
+          return res.data.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 发送验证码
+    getCode(phone) {
+      return api.get(`fresh_show/staffC/sendCode?codePhone=${phone}`)
+        .then(res => {
+          console.log(res.data)
+          if (res.data.code == 100000) {
+            return res.data.data;
+          }
+
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 好友领取优惠券
+    getFriend(json) {
+      return api.post(`fresh_show/orderTail/getFriend`, json)
+        .then(res => {
+          return res.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   }
 }

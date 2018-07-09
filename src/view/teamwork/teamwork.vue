@@ -56,9 +56,9 @@ export default {
     }
   },
   beforeMount() {
-    if (!this.getCookie("staffId")) {
-      this.$router.push("/login");
-    }
+    // if (!this.getCookie("staffId")) {
+    //   this.$router.push("/login");
+    // }
     var staffId = this.getCookie("staffId");
     var token = this.getCookie("token");
     this.getTogetherOrderList({

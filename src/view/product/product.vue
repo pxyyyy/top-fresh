@@ -53,52 +53,12 @@
 <template>
   <!-- 商品详情 页面-->
   <div>
-    <!-- 商品主图  有赞轮播组件-->
-    <!-- <swiper :options="swiperOption">
-      <swiper-slide v-for="(image, index) in info[0].images" :key="index">
-        <img v-lazy="image" class="img" />
-      </swiper-slide>
-    </swiper> -->
     <!-- 调用接口后 -->
     <swiper :options="swiperOption">
       <swiper-slide v-for="(image, index) in product.proImgs" :key="index">
         <img v-lazy="image.imgUrl" class="img" />
       </swiper-slide>
     </swiper>
-    <!-- 商品详细信息 -->
-    <!-- <div class="discript">
-			<img src="" alt="">
-			<p class="title">{{info[0].title}}</p>
-			<p class="subtitle">{{info[0].subtitle}}</p>
-			<p class="price" v-if="info[0].discount">
-				<span>&yen;{{info[0].newprice}}/{{info[0].number}}只</span>
-				<span class="old">&yen;{{info[0].oldprice}}</span>
-				<span class="discount">{{info[0].discount}}折</span>
-			</p>
-			<p class="price" v-else>
-				<span>&yen;{{info[0].oldprice}}/{{info[0].number}}只</span>
-			</p>
-		</div>
-		<div class="xinxi">
-			<p>
-				<span>商品类型:</span>
-				<span v-for="(type,index) in info[0].productType" :key="index">
-					<span class="type">{{type}}</span>
-				</span>
-			</p>
-			<p>
-				<span>商品产地:</span>
-				<span>{{info[0].origin}}</span>
-			</p>
-			<p>
-				<span>配送方式:</span>
-				<span>{{info[0].distribution}}</span>
-			</p>
-			<p>
-				<span>可得积分:</span>
-				<span>可获得{{info[0].integral}}积分</span>
-			</p>
-		</div> -->
     <!-- 接口定义好用这个 -->
     <div class="discript">
       <img src="" alt="">
@@ -132,15 +92,10 @@
         <span>可获得{{product.productScore}}积分</span>
       </p>
     </div>
-    <!-- <div class="details" :style="{marginBottom:marginBottom}">
-			<p class="details_title">---- 商品详情 ----</p>
-			<div class="details_content" v-html="product.productImg"></div>
-		</div> -->
     <div class="details" :style="{marginBottom:marginBottom}">
-      <!-- <p class="details_title">---- 商品详情 ----</p> -->
       <van-tabs type="card" v-model="active">
         <van-tab v-for="item in ordersList" :title="item.text" :key="item.id">
-          <div class="details_content" v-html="info[0].content" v-if="item.id == 1"></div>
+          <div class="details_content" v-html="product.productImg" v-if="item.id == 1"></div>
           <div class="evaluation" v-if="item.id == 2">
             <div class="evaluationList" v-for="item in 10" :key="item">
               <van-row style="margin-top:10px;">
@@ -181,9 +136,9 @@
     </div>
     <!-- 商品图文详情 -->
     <van-goods-action v-show="show">
-      <van-goods-action-mini-btn icon="like-o" text="收藏" />
+      <!-- <van-goods-action-mini-btn icon="like-o" text="收藏" /> -->
       <van-goods-action-mini-btn icon="cart" text="购物车" @click="toCart" />
-      <van-goods-action-mini-btn icon="chat" text="客服" />
+      <van-goods-action-mini-btn icon="chat" text="客服" v-if="this.$route.query.from" />
       <van-goods-action-big-btn text="加入购物车" @click="openCart" />
       <van-goods-action-big-btn text="立即购买" primary @click="openPay(product.productId)" />
     </van-goods-action>
@@ -340,7 +295,10 @@ export default {
     },
     giveShareInfo() {
       // 标题，副标题
-      Android.giveShareInfo(`${this.product.productName}`,`${this.product.productInfo}`);
+      Android.giveShareInfo(
+        `${this.product.productName}`,
+        `${this.product.productInfo}`
+      );
     }
   },
   created() {

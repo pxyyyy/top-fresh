@@ -57,7 +57,7 @@
                 </div>
               </div>
               <div class="content-bottom">
-                <p @click="goLadingRollGive">
+                <p @click="goLadingRollGive(info.odId)">
                   <i><img src="../../../assets/img/Gift.png" alt=""></i>赠送好友</p>
                 <p @click="goprofiledelivery(info)">
                   <i><img src="../../../assets/img/immediately.png" alt=""></i>立即提货</p>
@@ -202,8 +202,8 @@ export default {
     returnProFile() {
       this.$router.push("/profile");
     },
-    goLadingRollGive() {
-      this.$router.push("/LadingRollGive");
+    goLadingRollGive(id) {
+      this.$router.push(`/LadingRollGive/${id}`);
     },
     gocartAddress() {
       this.$router.push({

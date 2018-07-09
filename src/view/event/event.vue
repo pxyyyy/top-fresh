@@ -33,7 +33,6 @@ export default {
   methods: {
     // 活动跳转
     goActiveInfo(activeId) {
-      console.log(activeId);
       let from = this.$route.query.from;
       //   优惠券
       if (activeId.acType == 1) {
@@ -49,7 +48,12 @@ export default {
             }
           );
         } else {
-          this.$router.push(`/myCoupon/${activeId.acId}`);
+          if (this.getCookie("token")) {
+            this.$router.push(`/myCoupon/${activeId.acId}`);
+            this.$store.commit("setcurrentActiveName", activeId.acTitle);
+          } else {
+            this.$router.push("/login");
+          }
         }
         // 拼团
       } else if (activeId.acType == 2) {
@@ -58,7 +62,11 @@ export default {
             console.log("success");
           });
         } else {
-          this.$router.push(`/teamwork/${activeId.acId}`);
+          if (this.getCookie("token")) {
+            this.$router.push(`/teamwork/${activeId.acId}`);
+          } else {
+            this.$router.push("/login");
+          }
         }
         // 商品集锦
       } else if (activeId.acType == 3) {
@@ -75,6 +83,7 @@ export default {
           );
         } else {
           this.$router.push(`/goodsList/${activeId.acId}`);
+          this.$store.commit("setcurrentActiveName", activeId.acTitle);
         }
       } else if (activeId.acType == 4) {
         // 静态
@@ -105,7 +114,7 @@ export default {
             }
           );
         } else {
-          window.location.href = activeId.link;
+          window.location.href = "http://" + activeId.acSrc;
         }
       }
     },
