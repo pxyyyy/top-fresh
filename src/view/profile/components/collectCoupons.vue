@@ -182,6 +182,9 @@ export default {
     }).then(res => {
       this.product = res;
     });
+    this.selectProByType().then(res => {
+      this.products = res.data;
+    });
   }
 };
 </script>

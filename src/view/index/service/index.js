@@ -2,26 +2,23 @@ import API from '../../../api/API.js'
 const api = new API();
 export default {
   methods: {
-    fetchList () {
+    fetchList() {
       return api.get('fresh_show/homePage/selectHome').then((res) => {
-        if (res.data.code == 100000 && res.data.message == 'success'){
-            const data = res.data.data;
-            return data;
-        }
-      }).catch((err)=>{
+        const data = res.data;
+        return data;
+      }).catch((err) => {
         console.log(err)
       });
     },
-    getproducts (index) {
+    getproducts(index) {
       return api.get(`fresh_show/homePage/selectProByType?pType=${index}`).then((res) => {
-        if (res.data.code == 100000 && res.data.message == 'success'){
+        if (res.data.code == 100000 && res.data.message == 'success') {
           const data = res.data.data;
           return data
         }
-      }).catch((err)=>{
+      }).catch((err) => {
         console.log(err)
       });
     }
   }
 }
-

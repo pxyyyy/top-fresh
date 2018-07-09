@@ -28,7 +28,7 @@ export default {
       bannerPic: require("../../assets/img/banner.png"),
       swiperOption: {
         loop: true,
-        effect: "fade",
+        effect: "coverflow",
         // autoplay: {
         // delay: 6000,
         // disableOnInteraction: false
