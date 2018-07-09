@@ -161,7 +161,7 @@ export default {
               }
             );
           } else {
-            window.location.href = "http://" + activeId.acSrc;
+            // window.location.href = "http://" + activeId.acSrc;
           }
         }
         // 外链
@@ -170,7 +170,7 @@ export default {
           this.$bridge.callHandler(
             "goActiveInfoVC",
             {
-              activeid: `${activeId.id}`,
+              link: `${activeId.link}`,
               type: 5
             },
             data => {
