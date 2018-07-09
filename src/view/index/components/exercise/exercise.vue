@@ -48,7 +48,8 @@ export default {
             "goActiveInfoVC",
             {
               type: 1,
-              link: `${activeId.id}`
+              link: `${activeId.id}`,
+              title: `${activeId.title}`
             },
             data => {
               console.log("success");
@@ -69,7 +70,8 @@ export default {
             "goActiveInfoVC",
             {
               type: 2,
-              link: `${activeId.id}`
+              link: `${activeId.id}`,
+              title: `${activeId.title}`
             },
             data => {}
           );
@@ -87,7 +89,8 @@ export default {
             "goActiveInfoVC",
             {
               type: 3,
-              link: `${activeId.id}`
+              link: `${activeId.id}`,
+              title: `${activeId.title}`
             },
             data => {
               console.log("success");
@@ -104,7 +107,8 @@ export default {
             "goActiveInfoVC",
             {
               type: 4,
-              link: `${activeId.id}`
+              link: `${activeId.id}`,
+              title: `${activeId.title}`
             },
             data => {
               console.log("success");
@@ -120,7 +124,8 @@ export default {
             "goActiveInfoVC",
             {
               type: 5,
-              link: activeId.link
+              link: activeId.link,
+              title: `${activeId.title}`
             },
             data => {
               console.log("success");

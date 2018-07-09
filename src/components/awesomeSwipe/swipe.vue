@@ -65,10 +65,9 @@ export default {
       if (activeId.type == 1) {
         if (from == "IOS" || from == "Android") {
           this.$bridge.callHandler(
-            "goActiveInfoVC",
+            "goGoodInfoVC",
             {
-              link: `${activeId.id}`,
-              type: 1
+              productId: `${activeId.link}`
             },
             data => {
               console.log("success");
@@ -79,14 +78,15 @@ export default {
         }
         // 活动
       } else if (activeId.type == 2) {
-        console.log(activeId.actype);
         if (activeId.actype == 1) {
+          console.log(activeId);
           if (from == "IOS" || from == "Android") {
             this.$bridge.callHandler(
               "goActiveInfoVC",
               {
-                activityId: activeId.acId,
-                type: 1
+                link: activeId.link,
+                type: 1,
+                title: activeId.title
               },
               data => {
                 console.log("success");
@@ -94,7 +94,7 @@ export default {
             );
           } else {
             if (this.getCookie("token")) {
-              this.$router.push(`/myCoupon/${activeId.id}`);
+              this.$router.push(`/myCoupon/${activeId.link}`);
               this.$store.commit("setcurrentActiveName", activeId.acTitle);
             } else {
               this.$router.push("/login");
@@ -119,8 +119,9 @@ export default {
             this.$bridge.callHandler(
               "goActiveInfoVC",
               {
-                activeid: activeId.acId,
-                type: 3
+                link: activeId.link,
+                type: 3,
+                title: activeId.title
               },
               data => {
                 console.log("success");
@@ -136,8 +137,9 @@ export default {
             this.$bridge.callHandler(
               "goActiveInfoVC",
               {
-                activeid: activeId.acId,
-                type: 4
+                link: activeId.acId,
+                type: 4,
+                title: activeId.title
               },
               data => {
                 console.log("success");
@@ -151,7 +153,7 @@ export default {
             this.$bridge.callHandler(
               "goActiveInfoVC",
               {
-                activeid: activeId.acId,
+                link: activeId.acId,
                 type: 5
               },
               data => {
@@ -168,8 +170,8 @@ export default {
           this.$bridge.callHandler(
             "goActiveInfoVC",
             {
-              link: `${activeId.id}`,
-              type: 3
+              activeid: `${activeId.id}`,
+              type: 5
             },
             data => {
               console.log("success");
@@ -180,21 +182,6 @@ export default {
         }
       } else if (activeId.type == 4) {
         // 置空
-      } else if (activeId.type == 5) {
-        if (from == "IOS" || from == "Android") {
-          this.$bridge.callHandler(
-            "goActiveInfoVC",
-            {
-              link: activeId.link,
-              type: 5
-            },
-            data => {
-              console.log("success");
-            }
-          );
-        } else {
-          window.location.href = activeId.link;
-        }
       }
       //   console.log(1);
       //   this.$router.push(item.link);

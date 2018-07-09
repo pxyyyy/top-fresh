@@ -40,7 +40,7 @@
       <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="last" />
     </van-nav-bar>
     <div style="margin-top:45px;">
-      <van-tabs type="card" v-model="active" v-if="$route.params.id == 0">
+      <van-tabs type="card" v-model="active" v-if="$route.params.id == 0 || $route.params.id == 1">
         <van-tab v-for="index in 2" :key="index" :title="index==1 ? '礼卡' : '现货' ">
           <div v-if="index==1">
             <gift-Card></gift-Card>
@@ -71,19 +71,24 @@ export default {
     };
   },
   beforeMount() {
-    this.selectByPrimaryKey({
-      acId: this.$route.params.id
-    }).then(res => {
-      this.title = res.data[0].acTitle;
-    });
+    if (this.$route.params.id == 0 || this.$route.params.id == 1) {
+      this.title = "全部商品";
+      this.active = this.$route.params.id;
+    } else {
+      this.selectByPrimaryKey({
+        acId: this.$route.params.id
+      }).then(res => {
+        this.title = res.data[0].acTitle;
+      });
+    }
   },
   mounted() {
     var name = this.$route.params.id;
-    if (name == 0) {
-      this.active = 0;
-    } else {
-      this.active = 1;
-    }
+    // if (name == 0) {
+    //   this.active = 0;
+    // } else {
+    //   this.active = 1;
+    // }
   },
   methods: {
     last() {
