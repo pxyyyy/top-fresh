@@ -16,7 +16,7 @@
 <template>
   <div class="r-product">
     <div class="r-title">
-      <p>阳澄湖大闸蟹专题推荐</p>
+      <p>倾情推荐</p>
       <span>寻找舌尖的味道</span>
     </div>
     <van-tabs type="card" class="r-tab commodityList" @click="getInfo">

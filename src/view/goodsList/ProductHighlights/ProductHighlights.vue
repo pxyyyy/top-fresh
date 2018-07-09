@@ -1,7 +1,7 @@
 <template>
   <div class="ProductHighlights">
     <div class="list" v-for="item in list" :key="item.id">
-      <img :src="item.productIcon" alt="" class="img">
+      <img :src="item.productIcon" alt="" class="img" @click='commodity(item)'>
       <div data-v-12f4fbe3="" class="title">{{item.productName}}</div>
       <div data-v-12f4fbe3="" class="gg">{{item.productDetail}}</div>
       <div data-v-12f4fbe3="" class="price">¥{{item.productOprice}}</div>
@@ -41,6 +41,28 @@ export default {
         return unescape(arr[2]);
       } else {
         return null;
+      }
+    },
+    commodity(id) {
+      let from = this.$route.query.from;
+      if (from == "IOS") {
+        this.$bridge.callHandler(
+          "goGoodInfoVC",
+          { productId: id.productId },
+          data => {
+            console.log("success");
+          }
+        );
+      } else if (from == "Android") {
+        this.$bridge.callHandler(
+          "goGoodInfoVC",
+          { productId: id.productId },
+          data => {
+            console.log("success");
+          }
+        );
+      } else {
+        this.$router.push(`/product/${id.productId}`);
       }
     }
   }

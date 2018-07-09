@@ -299,11 +299,12 @@ export default {
       this.MailingText = "虚拟提货卷";
     },
     goDetails: function() {
-      console.log(this.cartList[0].adName);
-      if (this.cartList[0].adName) {
-        this.Payment = true;
-      } else {
+      if (!this.cartList[0].adName) {
         Toast("请选择收货地址");
+      } else if (this.MailingText == "请选择") {
+        Toast("请选择提货卷类型");
+      } else {
+        this.Payment = true;
       }
     },
     goAddress: function() {
@@ -321,7 +322,8 @@ export default {
       this.away = false;
     },
     gocartOut() {
-      this.$router.push(`/cartOut/${this.$route.params.orderId}`);
+      alert(1);
+      // this.$router.push(`/cartOut/${this.$route.params.orderId}`);
     }
   },
   async beforeMount() {

@@ -33,10 +33,6 @@ export default {
         {
           id: "001",
           text: "绑定账号"
-        },
-        {
-          id: "002",
-          text: "清处缓存"
         }
       ]
     };

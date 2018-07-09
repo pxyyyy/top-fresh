@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="可领取的优惠券" class="evetn-bar">
+    <van-nav-bar :title="title" class="evetn-bar">
       <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="last" />
     </van-nav-bar>
     <div class="wrapper">
@@ -48,8 +48,14 @@ export default {
       type: "立即领取",
       code: "",
       staffId: this.getCookie("staffId"),
-      token: this.getCookie("token")
+      token: this.getCookie("token"),
+      title: ""
     };
+  },
+  computed: {
+    // title() {
+    //   return this.$store.state.app.currentActiveName;
+    // }
   },
   methods: {
     // 获取cook
@@ -101,7 +107,6 @@ export default {
       });
     }
   },
-  computed: {},
   beforeMount() {
     this.getCouponsOfReceive({
       staffId: this.staffId,
@@ -112,6 +117,11 @@ export default {
     }).then(res => {
       this.code = res.code;
       this.myCouponList = res.data;
+    });
+    this.selectByPrimaryKey({
+      acId: this.$route.params.id
+    }).then(res => {
+      this.title = res.data[0].acTitle;
     });
   }
 };

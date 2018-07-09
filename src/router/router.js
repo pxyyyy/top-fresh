@@ -164,17 +164,19 @@ export const otherRouter = [{
   },
 
   {
-    path: '/goodsList',
+    path: '/goodsList/:id',
     name: 'goodsListView',
-    component: Other,
-    children: [{
-      path: ':id',
-      title: 'goodsList',
-      name: '全部商品',
-      component: resolve => {
-        require(['@/view/goodsList/goodList.vue'], resolve);
-      }
-    }, ]
+    component: resolve => {
+      require(['@/view/goodsList/goodList.vue'], resolve);
+    },
+    // children: [{
+    //   path: ':id',
+    //   title: 'goodsList',
+    //   name: '全部商品',
+    //   component: resolve => {
+    //     require(['@/view/goodsList/goodList.vue'], resolve);
+    //   }
+    // }, ]
   },
   {
     path: '/cartDetermine/:orderId',
@@ -240,7 +242,7 @@ export const otherRouter = [{
     }
   },
   {
-    path: '/expressdelivery',
+    path: '/expressdelivery/:name/:number',
     name: 'expressdelivery',
     component: resolve => {
       require(['@/view/expressdelivery/expressdelivery.vue'], resolve);
@@ -265,6 +267,13 @@ export const otherRouter = [{
     name: 'coupon',
     component: resolve => {
       require(['@/view/profile/components/coupon.vue'], resolve);
+    }
+  },
+  {
+    path: '/collectCoupons/:id',
+    name: 'collectCoupons',
+    component: resolve => {
+      require(['@/view/profile/components/collectCoupons.vue'], resolve);
     }
   },
   {
@@ -310,7 +319,7 @@ export const otherRouter = [{
     }
   },
   {
-    path: '/LadingRollGive',
+    path: '/LadingRollGive/:id',
     name: 'LadingRollGive',
     component: resolve => {
       require(['@/view/profile/components/LadingRollGive.vue'], resolve);

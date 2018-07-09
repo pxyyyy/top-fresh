@@ -6,13 +6,17 @@
  */
 
 const app = {
-	state: {
-		currentActiveForProfile:0
-	},
-	mutations: {
-		setCurrentActiveForProfile(state, active){
-			state.currentActiveForProfile = active
-		}
-	}
+  state: {
+    currentActiveForProfile: 0,
+    currentActiveName: ''
+  },
+  mutations: {
+    setCurrentActiveForProfile(state, active) {
+      state.currentActiveForProfile = active
+    },
+    setcurrentActiveName(state, active) {
+      state.currentActiveName = active
+    },
+  }
 };
 export default app;

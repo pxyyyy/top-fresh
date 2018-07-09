@@ -30,5 +30,15 @@ export default {
           console.log(error);
         });
     },
+    // 查询活动详情
+    selectByPrimaryKey(json) {
+      return api.post('fresh_show/activity/selectByPrimaryKey', json)
+        .then(res => {
+          return res.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   }
 }

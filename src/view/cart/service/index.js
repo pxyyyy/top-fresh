@@ -16,7 +16,7 @@ export default {
     },
     fetchList(staffId, token) {
       return api.get(`fresh_show/prCar/selectProCarList?staffId=${staffId}&token=${token}`).then((res) => {
-        const data = res.data.data;
+        const data = res.data;
         return data;
       }).catch((err) => {
         console.log(err)
@@ -112,10 +112,7 @@ export default {
     //购物车结算
     carToOrder(json) {
       return api.post('fresh_show/prCar/carToOrder', json).then((res) => {
-        if (res.data.code == 100000 && res.data.message == 'success') {
-          const data = res.data
-          return data;
-        }
+        return res
       }).catch((err) => {
         console.log(err)
       });
