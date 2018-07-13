@@ -37,7 +37,14 @@ export default {
       isActive: false
     };
   },
+  created() {
+    window.giveShareInfo = this.giveShareInfo;
+  },
   methods: {
+    giveShareInfo() {
+      // 标题，副标题
+      Android.giveShareInfo(`${this.title}`, "");
+    },
     returnevent() {
       this.$router.go(-1);
     },
@@ -52,8 +59,8 @@ export default {
       }
     }
   },
-  beforeMount() {
-    this.selectByPrimaryKey({
+  async beforeMount() {
+    await this.selectByPrimaryKey({
       acId: this.$route.params.id
     }).then(res => {
       this.contentHtml = res.data[0].acImg;
@@ -62,6 +69,12 @@ export default {
     if (this.$route.query.from) {
       this.isActive = true;
     }
+    this.$bridge.registerHandler("giveShareInfo", (data, responseCallback) => {
+      responseCallback({
+        title: `${this.title}`,
+        toProductInfo: ""
+      });
+    });
   }
 };
 </script>

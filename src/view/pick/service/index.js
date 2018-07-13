@@ -96,5 +96,14 @@ export default {
           console.log(error);
         });
     },
+    selectProByType() {
+      return api.get('fresh_show/homePage/selectProByType')
+        .then(res => {
+          return res.data
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   },
 }

@@ -22,6 +22,16 @@ export default {
         console.log(err)
       });
     },
+    // 个人信息
+    getStaffInfo(json) {
+      return api.post(`fresh_show/staff/getStaffInfo`, json)
+        .then(res => {
+          return res.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     // 推荐商品
     selectProByType() {
       return api.get('fresh_show/homePage/selectProByType')

@@ -105,9 +105,36 @@
 					</div>
 					<div class="Cell">
 						<div class="border-top" style="padding:2px 0;">
-							<p>可用{{this.integral[0]}}积分,抵扣{{this.integral[1]}}元</p>
+							<p>
+								可用{{this.integral[0]}}积分,抵扣{{this.integral[1]}}元
+								<span class="iconfont integral" @click="help">&#xe62a;</span>
+							</p>
 							<p class="checked">
 								<van-checkbox v-model="checked"></van-checkbox>
+							</p>
+						</div>
+					</div>
+					<div class="select">
+						<div class="border-top" style="padding:2px 0;" @click='usingaVouchers'>
+							<p>商品总额</p>
+							<p class="black">
+								￥{{datas.orderAllmoney}}
+							</p>
+						</div>
+					</div>
+					<div class="select">
+						<div class="border-top" style="padding:2px 0;" @click='usingaVouchers'>
+							<p>代金卷优惠</p>
+							<p class="black" v-if="this.offer">-￥{{this.offer}}
+							</p>
+							<p class="black" v-else>-￥0
+							</p>
+						</div>
+					</div>
+					<div class="select">
+						<div class="border-top" style="padding:2px 0;" @click='usingaVouchers'>
+							<p>积分优惠</p>
+							<p class="black">-￥{{this.integral[1]}}
 							</p>
 						</div>
 					</div>
@@ -115,18 +142,6 @@
 				<!--价格详情-->
 				<div class="myInfo">
 					<div class="border-top price-content">
-						<van-row>
-							<van-col span="12">商品总额</van-col>
-							<van-col span="12" class="price_right" style="font-wight:300;">￥{{datas.orderAllmoney}}</van-col>
-						</van-row>
-						<van-row>
-							<van-col span="12">代金卷优惠</van-col>
-							<van-col span="12" class="price_right">-￥{{this.offer}}</van-col>
-						</van-row>
-						<van-row>
-							<van-col span="12">积分优惠</van-col>
-							<van-col span="12" class="price_right">-￥{{this.integral[1]}}</van-col>
-						</van-row>
 						<van-row class="price-bottom">
 							<van-col span="24" class="price_right">实付款
 								<strong class="money">￥{{orderAllmoney}}</strong>
@@ -194,7 +209,7 @@ import MailingTwoPic from "../../../assets/img/volume-two.png";
 import ActiveMailingOnePic from "../../../assets/img/active-volume-one.png";
 import ActiveMailingTwoPic from "../../../assets/img/active-volume-two.png";
 import service from "../service/index.js";
-import { Toast } from "vant";
+import { Toast, Dialog } from "vant";
 export default {
   mixins: [service],
   data() {
@@ -221,7 +236,8 @@ export default {
       MailingText: "请选择",
       MailingType: "",
       offer: sessionStorage.getItem("money"),
-      integral: ""
+      integral: "",
+      userInfo: ""
     };
   },
   // 优惠的价格
@@ -235,6 +251,14 @@ export default {
     }
   },
   methods: {
+    help() {
+      Dialog.alert({
+        title: "积分说明",
+        message: this.ueseInfo.jifenInfo
+      }).then(() => {
+        // on close
+      });
+    },
     // 获取cook
     getCookie(name) {
       var arr,
@@ -322,8 +346,7 @@ export default {
       this.away = false;
     },
     gocartOut() {
-      alert(1);
-      // this.$router.push(`/cartOut/${this.$route.params.orderId}`);
+      this.$router.push(`/cartOut/${this.$route.params.orderId}`);
     }
   },
   async beforeMount() {
@@ -353,6 +376,13 @@ export default {
       orderId: this.$route.params.orderId
     }).then(res => {
       this.integral = res.data;
+    });
+    // 个人信息
+    this.getStaffInfo({
+      staffId: this.getCookie("staffId"),
+      token: this.getCookie("token")
+    }).then(res => {
+      this.ueseInfo = res.data;
     });
   }
 };

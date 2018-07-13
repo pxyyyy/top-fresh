@@ -15,7 +15,7 @@
         </div>
         <!--头像-->
         <div class="userBanner">
-          <img src="@/assets/img/userBanner.png" alt="">
+          <img src="@/assets/img/userBanner.jpg" alt="">
         </div>
         <p>
           <img :src="ueseInfo.staffPhotourl ? ueseInfo.staffPhotourl : userPic">
@@ -76,8 +76,13 @@
         <span> —— </span> 推荐商品
         <span> —— </span>
       </p>
-      <div class="img-conent" @click="toProductInfo(item.id)" v-for="item in products" :key="item.id">
-        <img v-lazy="item.imgUrl + '?x-oss-process=image/crop,x_0,y_0,h_150,g_center'" alt="">
+      <div class="gy">
+        <div v-for="(product,index) in products" :key="index" class="list">
+          <img :src="product.imgUrl" class="img" @click="toProductInfo(product.id)">
+          <div class="title">{{product.proName}}</div>
+          <div class="gg">{{product.proDetail}}</div>
+          <div class="price">&yen;{{product.proPrice}}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -136,7 +141,7 @@ export default {
         {
           id: "003",
           Url: require("../../assets/img/FeaturesList3.png"),
-          text: "拼团订单"
+          text: "我的拼团"
         },
         {
           id: "004",
@@ -186,7 +191,7 @@ export default {
           this.$router.push("/cartAddress");
           break;
         case 2:
-          this.$router.push("/MyCollage");
+          // this.$router.push("/MyCollage");
           break;
         case 4:
           this.$router.push(`/feedback/${this.ueseInfo.staffPhone}`);

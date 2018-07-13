@@ -207,10 +207,7 @@ export default {
     },
     gocartAddress() {
       this.$router.push({
-        name: "cartAddress",
-        params: {
-          project: "LadingRoll"
-        }
+        name: "cartAddress"
       });
     }
   },

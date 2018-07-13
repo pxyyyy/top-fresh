@@ -38,9 +38,7 @@ export default {
     };
   },
   methods: {
-    goThisPage() {
-      alert(1);
-    },
+    goThisPage() {},
     last() {
       this.$router.go(-1);
     },

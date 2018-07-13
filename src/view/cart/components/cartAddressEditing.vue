@@ -33,7 +33,7 @@
           </p>
         </div>
         <div class="editing-foot">
-          <p>
+          <p v-if="this.$route.params.type !=0">
             <van-radio-group v-model="radio" class="address-bottom-radio">
               <van-radio name="0" class="radio-text">使用该地址</van-radio>
             </van-radio-group>
@@ -141,6 +141,11 @@ export default {
         });
         this.$router.go(-1);
       }
+    }
+  },
+  beforeMount() {
+    if (this.$route.params.type == 0) {
+      this.radio = "1";
     }
   }
 };
