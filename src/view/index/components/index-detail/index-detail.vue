@@ -10,20 +10,22 @@
 }
 .wrapper {
   margin-bottom: 45px;
+  padding: 0 10px;
+  background: #fff;
 }
 </style>
 <template>
-	<div>
-		<div class="wrapper" v-html="content">
-		</div>
-		<!-- <div class="d-content"><img v-lazy="IntroducePic"></div>-->
-		<!-- <div class="d-video">
+  <div>
+    <div class="wrapper" v-html="content">
+    </div>
+    <!-- <div class="d-content"><img v-lazy="IntroducePic"></div>-->
+    <!-- <div class="d-video">
 			<video-player class="vjs-custom-skin" ref="videoPlayer" :options="playerOptions" :playsinline="true">
 			</video-player>
 		</div> -->
-		<!-- <div class="d-content"><img v-lazy="IntroducePic"></div> -->
+    <!-- <div class="d-content"><img v-lazy="IntroducePic"></div> -->
 
-	</div>
+  </div>
 </template>
 <script>
 export default {

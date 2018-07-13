@@ -77,7 +77,6 @@ export default {
   margin-bottom: 5px;
   padding: 5px;
   box-sizing: border-box;
-  margin-top: 45px;
 }
 .img {
   width: 100%;

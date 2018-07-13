@@ -105,11 +105,11 @@
 <template>
   <div class="cart-main">
     <van-checkbox-group class="card-goods" v-model="checkedGoods">
-      <van-cell-swipe :right-width="65" :on-close="onClose(item)" v-for="(item,index) in goods" :key="item.carId">
-        <!-- <div>
+      <van-cell-swipe :right-width="65" :on-close="onClose(item)" v-for="item in goods" :key="item.carId">
+        <div>
           <van-checkbox class="card-goods__item" :name="item.carId">
           </van-checkbox>
-        </div> -->
+        </div>
         <van-cell-group>
           <div class="van-cell-group van-hairline--top-bottom">
             <div class="van-cell van-hairline">
@@ -153,6 +153,9 @@
         </div>
       </div>
     </div>
+    <div class="leary" v-if="learyShow">
+      <img src="../../assets/img/leary.png" alt="">
+    </div>
   </div>
 </template>
 <script>
@@ -163,6 +166,7 @@ export default {
   mixins: [service],
   data() {
     return {
+      learyShow: "",
       value: 3,
       select: true,
       checked: false,
@@ -178,13 +182,21 @@ export default {
   },
   beforeMount() {
     this.fetchList(this.staffId, this.token).then(res => {
-      if (res == "") {
+      if (res.data == "") {
         this.Clearing = false;
-        Toast("购物车空空~");
+        this.learyShow = true;
       } else {
         this.goods = res.data;
       }
     });
+  },
+  watch: {
+    goods(val) {
+      if (val == "") {
+        this.Clearing = false;
+        this.learyShow = true;
+      }
+    }
   },
   methods: {
     // 获取cook
@@ -205,31 +217,25 @@ export default {
     async decrease(carId) {
       await this.cut(this.staffId, this.token, carId);
       this.fetchList(this.staffId, this.token).then(res => {
-        if (res.data == "") {
-          Toast("购物车空空~");
-          this.goods = "";
-        } else {
-          this.goods = res.data;
-        }
-        console.log(res);
+        this.goods = res.data;
       });
     },
     onClose(item) {
-      // return (clickPosition, instance) => {
-      //   switch (clickPosition) {
-      //     case "cell":
-      //     case "outside":
-      //       instance.close();
-      //       break;
-      //     case "right":
-      //       Dialog.confirm({
-      //         message: "确定删除吗？"
-      //       }).then(() => {
-      //         this.goods.splice(item, 1);
-      //       });
-      //       break;
-      //   }
-      // };
+      return (clickPosition, instance) => {
+        switch (clickPosition) {
+          case "cell":
+          case "outside":
+            instance.close();
+            break;
+          case "right":
+            Dialog.confirm({
+              message: "确定删除吗？"
+            }).then(() => {
+              this.goods.splice(item, 1);
+            });
+            break;
+        }
+      };
     },
     change() {
       if (this.checked) {
@@ -268,14 +274,18 @@ export default {
   },
   computed: {
     totalPrice() {
-      return this.goods.reduce(
-        (total, item) =>
-          total +
-          (this.checkedGoods.indexOf(item.carId) !== -1
-            ? item.carProductPprice * 1 * item.carProductNum
-            : 0),
-        0
-      );
+      if (this.goods) {
+        return this.goods.reduce(
+          (total, item) =>
+            total +
+            (this.checkedGoods.indexOf(item.carId) !== -1
+              ? item.carProductPprice * 1 * item.carProductNum
+              : 0),
+          0
+        );
+      } else {
+        return 0;
+      }
     }
   }
 };

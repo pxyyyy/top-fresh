@@ -49,23 +49,24 @@
   flex: inherit;
   padding: 0 20px;
 }
+.swiper-wrapper img {
+  border-radius: 0;
+}
 </style>
 <template>
   <!-- 商品详情 页面-->
-  <div>
-    <!-- 调用接口后 -->
+  <div :class="{top:top}">
     <swiper :options="swiperOption">
       <swiper-slide v-for="(image, index) in product.proImgs" :key="index">
         <img v-lazy="image.imgUrl" class="img" />
       </swiper-slide>
     </swiper>
-    <!-- 接口定义好用这个 -->
     <div class="discript">
       <img src="" alt="">
       <p class="title">{{product.productName}}</p>
       <p class="subtitle">{{product.productInfo}}</p>
       <p class="price" v-if="product.productPrice">
-        <span>&yen;{{product.productPrice}}/{{product.productNum}}只</span>
+        <span>&yen;{{product.productPrice}}/{{product.productNum}}{{product.productUnit}}</span>
         <span class="old">&yen;{{product.productOprice}}</span>
       </p>
       <p class="price" v-else>
@@ -88,8 +89,8 @@
         <span>{{product.productSendType}}</span>
       </p>
       <p>
-        <span>可得积分:</span>
-        <span>可获得{{product.productScore}}积分</span>
+        <span>商品规格:</span>
+        <span>{{product.productDetail}}</span>
       </p>
     </div>
     <div class="details" :style="{marginBottom:marginBottom}">
@@ -115,24 +116,39 @@
               </van-row>
               <van-row class="evaluationPic">
                 <van-col span="8" v-for="item in 10" :key="item">
-                  <img v-lazy="valuationPic" alt="" @click='goEvaluation'>
+                  <img v-lazy="valuationPic" alt="" @click='goEvaluation(item)'>
                 </van-col>
               </van-row>
             </div>
           </div>
           <div v-if="item.id == 3">
             <div class="keepOn">
-              <p>
+              <!-- <p>
                 <span>——</span> 推荐商品
                 <span>——</span>
-              </p>
-              <div class="img-conent" @click="toProductInfo(item.id)" v-for="item in products" :key="item.id">
-                <img v-lazy="item.imgUrl" alt="">
+              </p> -->
+              <div class="gy">
+                <div v-for="(product,index) in products" :key="index" class="list">
+                  <img :src="product.imgUrl" class="img" @click="toProductInfo(product.id)">
+                  <div class="title">{{product.proName}}</div>
+                  <div class="gg">{{product.proDetail}}</div>
+                  <div class="price">&yen;{{product.proPrice}}</div>
+                </div>
               </div>
             </div>
           </div>
         </van-tab>
       </van-tabs>
+    </div>
+    <!-- 图片查看 -->
+    <div class="evaluationa" v-if="pictureCorridor" @click="closeCorridor">
+      <div class="wrapper">
+        <van-swipe :touchable="true" :show-indicators="true" :initial-swipe="picIndex">
+          <van-swipe-item v-for="(image, index) in 10" :key="index">
+            <img v-lazy="valuationPic" />
+          </van-swipe-item>
+        </van-swipe>
+      </div>
     </div>
     <!-- 商品图文详情 -->
     <van-goods-action v-show="show">
@@ -144,7 +160,7 @@
     </van-goods-action>
     <van-actionsheet v-model="show1" title="选择数量">
       <p style="display:fixed">
-        <span style="padding-left:1.5rem">数量</span>
+        <span style="padding-left:1.5rem"></span>
         <van-stepper v-model="number"></van-stepper>
       </p>
       <van-button size="large" style="background-color:#1e1e1e;color:#fff" @click="toCart1">加入购物车</van-button>
@@ -162,6 +178,9 @@ export default {
   mixins: [productInfo],
   data() {
     return {
+      picIndex: "",
+      top: false,
+      pictureCorridor: false,
       cartLictPic: require("../../assets/img/组7@2x.png"),
       valuationPic: require("../../assets/img/评价DEMO.png"),
       marginBottom: "50px",
@@ -212,6 +231,21 @@ export default {
     };
   },
   methods: {
+    closeCorridor() {
+      let from = this.$route.query.from;
+      if (from == "IOS" || from == "Android") {
+        this.$bridge.callHandler(
+          "previewPicture",
+          {
+            type: "1"
+          },
+          data => {
+            console.log("success");
+          }
+        );
+      }
+      this.pictureCorridor = false;
+    },
     // 获取cook
     getCookie(name) {
       var arr,
@@ -286,8 +320,21 @@ export default {
         });
       }
     },
-    goEvaluation() {
-      this.$router.push(`/evaluation`);
+    goEvaluation(index) {
+      let from = this.$route.query.from;
+      if (from == "IOS" || from == "Android") {
+        this.$bridge.callHandler(
+          "previewPicture",
+          {
+            type: "0"
+          },
+          data => {
+            console.log("success");
+          }
+        );
+      }
+      this.picIndex = index - 1;
+      this.pictureCorridor = true;
     },
     toProductInfo(productId) {
       let from = this.$route.query.from;
@@ -313,15 +360,20 @@ export default {
         `${this.product.productName}`,
         `${this.product.productInfo}`
       );
+    },
+    closePicture() {
+      this.pictureCorridor = false;
     }
   },
   created() {
     window.giveShareInfo = this.giveShareInfo;
+    window.closePicture = this.closePicture;
   },
   mounted() {
     let from = this.$route.query.from;
     if (from == "IOS" || from == "Android") {
       this.show = false;
+      this.top = true;
       this.marginBottom = "0px";
     } else {
       this.show = true;
@@ -334,7 +386,9 @@ export default {
         toProductInfo: `${this.product.productInfo}`
       });
     });
-
+    this.$bridge.registerHandler("giveShareInfo", (data, responseCallback) => {
+      this.pictureCorridor = false;
+    });
     var id = this.$route.params.id;
     this.getProductInfo(id) //获取列表
       .then(res => {

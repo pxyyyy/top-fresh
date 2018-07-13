@@ -29,9 +29,12 @@
 .van-tabs__nav--card {
   width: 60%;
   margin: 0 auto !important;
-  border: 1px solid black;
+  border: 1px solid black !important;
+  color: #666 !important;
 }
-
+.van-tabs__nav--card .van-tab {
+  border-right: none !important;
+}
 .van-tabs__content {
   margin: 10px 10px 0 10px;
 }

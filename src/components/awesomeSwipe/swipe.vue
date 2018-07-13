@@ -137,7 +137,7 @@ export default {
             this.$bridge.callHandler(
               "goActiveInfoVC",
               {
-                link: activeId.acId,
+                link: activeId.link,
                 type: 4,
                 title: activeId.title
               },
@@ -146,14 +146,14 @@ export default {
               }
             );
           } else {
-            this.$router.push(`/eventList/${activeId.acId}`);
+            this.$router.push(`/eventList/${activeId.link}`);
           }
         } else if (activeId.actype == 5) {
           if (from == "IOS" || from == "Android") {
             this.$bridge.callHandler(
               "goActiveInfoVC",
               {
-                link: activeId.acId,
+                link: activeId.link,
                 type: 5
               },
               data => {
@@ -161,7 +161,7 @@ export default {
               }
             );
           } else {
-            // window.location.href = "http://" + activeId.acSrc;
+            window.location.href = activeId.link;
           }
         }
         // 外链

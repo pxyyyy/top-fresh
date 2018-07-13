@@ -136,8 +136,8 @@ export default {
     },
     sureStep: function() {
       this.toLogin(this.d2, this.value).then(res => {
-        console.log(res);
-        if (res.data.code == 100000) {
+        console.log(res.data.code);
+        if (res.code == 100000) {
           this.setCookie("token", res.data[0].staffToken),
             this.setCookie("staffId", res.data[0].staffId),
             this.$router.go(-1);

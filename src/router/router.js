@@ -221,7 +221,7 @@ export const otherRouter = [{
     }
   },
   {
-    path: '/cartAddressEditing',
+    path: '/cartAddressEditing/:type',
     name: 'cartAddressEditing',
     component: resolve => {
       require(['@/view/cart/components/cartAddressEditing.vue'], resolve);
