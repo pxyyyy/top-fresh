@@ -4,24 +4,24 @@
 @import "./Main.less";
 </style>
 <template>
-	<div>
-		<!-- <van-nav-bar left-text="极味生鲜">
+  <div>
+    <!-- <van-nav-bar left-text="极味生鲜">
 		<van-icon name="pending-evaluate" slot="right" />
 	</van-nav-bar> -->
-		<div class="index-nav-bar" v-if="!isClient">
-			<div class="index-nav-bar__left" v-if="!currentRoute && !eventRouter">
-				<img v-lazy="logoPic" height="15">
-			</div>
-			<div class="index-nav-bar__title" v-if="currentRoute">
-				<span>购物车(3)</span>
-			</div>
-			<div class="index-nav-bar__title" v-if="eventRouter">
-				<span>活动</span>
-			</div>
-		</div>
-		<router-view :style="{marginTop:marginTop}"></router-view>
-		<bottom v-if="!isClient"></bottom>
-	</div>
+    <div class="index-nav-bar" v-if="!isClient">
+      <!-- <div class="index-nav-bar__left" v-if="!currentRoute && !eventRouter">
+        <img v-lazy="logoPic" height="15">
+      </div> -->
+      <!-- <div class="index-nav-bar__title" v-if="currentRoute">
+        <span>购物车</span>
+      </div> -->
+      <!-- <div class="index-nav-bar__title" v-if="eventRouter">
+        <span>活动</span>
+      </div> -->
+    </div>
+    <router-view :style="{marginTop:marginTop}"></router-view>
+    <bottom v-if="!isClient"></bottom>
+  </div>
 </template>
 <script>
 import bottom from "../components/bottom-bar/bottom-bar.vue";
@@ -35,7 +35,7 @@ export default {
         active: "//img.yzcdn.cn/2.png"
       },
       isClient: false,
-      marginTop: "46px"
+      marginTop: "0"
     };
   },
   beforeMount() {},

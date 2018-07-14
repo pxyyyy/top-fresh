@@ -28,9 +28,6 @@
 </style>
 <template>
   <div>
-    <van-nav-bar title="我的优惠券" class="evetn-bar">
-      <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="returnProfile" />
-    </van-nav-bar>
     <van-tabs v-model="active" class="coupon" type="card" @click="Unused">
       <van-tab v-for="index in 2" :title="index == 1 ? '未使用' : '已过期'" :key="index">
         <div v-if="index == 1" class="coupon-content" v-for="(item,num) in coupon" :key='num'>
@@ -44,25 +41,26 @@
             </div>
             <div class="coupon-item-right">
               <p>满{{item.coupons.couponsMin ? item.coupons.couponsMin : "0" }}元使用</p>
-              <p>{{item.scCouponStartTime.split(" ")[0]}}-{{item.scCouponEndTime.split(" ")[0]}}</p>
+              <p>{{item.coupons.couponsStartTime}} -- {{item.coupons.createtime}}</p>
             </div>
           </div>
           <!-- 判断用户是不在在购物车进入 -->
           <div class="coupon-item" v-if="$route.params.type == 1">
             <div class="coupon-item-left">
-              <p>
-                <strong>￥</strong>
-                <strong class="coupon-Large">{{item.scCouponValue}}</strong>
+              <p style="align-items: baseline; display:flex;">
+                <span>￥</span>
+                <strong class="coupon-Large">
+                  {{item.scCouponValue}}</strong>
               </p>
             </div>
             <div class="coupon-item-right">
               <p>满{{item.coupons.couponsMin ? item.coupons.couponsMin : "0" }}元使用</p>
-              <p>{{item.scCouponStartTime.split(" ")[0]}}-{{item.scCouponEndTime.split(" ")[0]}}</p>
+              <p>{{item.coupons.couponsStartTime}} -- {{item.coupons.createtime}}</p>
             </div>
           </div>
         </div>
         <!--已过期-->
-        <div v-if="index == 2" class="coupon-content coupon-Expired" v-for="(item,num) in coupon1" :key='num' @click="Used">
+        <div v-if="index == 2" class="coupon-content coupon-Expired" v-for="(item,num) in coupon1" :key='num' @click="Unused">
           <div class="coupon-item">
             <div class="coupon-item-left">
               <p>

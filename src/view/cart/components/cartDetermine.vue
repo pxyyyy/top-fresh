@@ -12,9 +12,6 @@
 </style>
 <template>
 	<div>
-		<van-nav-bar title="确认订单" class="evetn-bar">
-			<van-icon name="arrow-left" slot="left" class="evetn-icon" @click="returnCart()" />
-		</van-nav-bar>
 		<!--返回弹出-->
 		<van-popup v-model="away" class="away">
 			<p>正在离开结算页面</p>
@@ -350,6 +347,7 @@ export default {
     }
   },
   async beforeMount() {
+    document.title = "确认订单";
     // 地址、
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");

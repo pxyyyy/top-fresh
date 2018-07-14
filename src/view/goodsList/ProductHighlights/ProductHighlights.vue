@@ -1,7 +1,7 @@
 <template>
   <div class="ProductHighlights">
     <div class="list" v-for="item in list" :key="item.id">
-      <img :src="item.productIcon" alt="" class="img" @click='commodity(item)'>
+      <img :src="item.productIcon + '?x-oss-process=image/crop,h_150,g_center'" alt="" class="img" @click='commodity(item)'>
       <div data-v-12f4fbe3="" class="title">{{item.productName}}</div>
       <div data-v-12f4fbe3="" class="gg">{{item.productDetail}}</div>
       <div data-v-12f4fbe3="" class="price">¥{{item.productOprice}}</div>
@@ -80,6 +80,7 @@ export default {
 }
 .img {
   width: 100%;
+  height: 150px;
   border-radius: 10px;
 }
 .title {
@@ -87,24 +88,25 @@ export default {
   bottom: 70px;
   right: 20px;
   color: #fff;
-  font-size: 12px;
+  font-size: 16px;
 }
 .gg {
   position: absolute;
   bottom: 50px;
   right: 20px;
-  font-size: 12px;
+  font-size: 14px;
   color: #fff;
 }
 .price {
   position: absolute;
   bottom: 20px;
   right: 20px;
-  font-size: 16px;
+  font-size: 20px;
   color: #e7bf79;
 }
 .ProductHighlights img {
   width: 100%;
   height: 150px;
+  margin-top: -10px;
 }
 </style>

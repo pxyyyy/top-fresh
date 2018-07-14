@@ -1,7 +1,5 @@
 <template>
   <div>
-    <van-nav-bar title="提货卷领取" class="evetn-bar" style="z-index:2000">
-    </van-nav-bar>
     <swiper :options="swiperOption">
       <swiper-slide v-for="(image, index) in product.proImgs" :key="index">
         <img v-lazy="image.imgUrl" class="img" />
@@ -177,6 +175,7 @@ export default {
     }
   },
   beforeMount() {
+    document.title = "提货卷领取";
     this.getLadingPrimaryKey({
       odId: this.$route.params.id
     }).then(res => {

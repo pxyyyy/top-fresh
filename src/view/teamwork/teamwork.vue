@@ -3,9 +3,6 @@
 </style>
 <template>
   <div>
-    <van-nav-bar title="我的商品" class="evetn-bar">
-      <van-icon name="arrow-left" slot="left" class="evetn-icon" @click='last' />
-    </van-nav-bar>
     <div class="teamwork">
       <div class="teamwork-content" v-for="item in teamworkList" :key="item.orderId">
         <div class="teamwork-img">
@@ -56,6 +53,7 @@ export default {
     }
   },
   beforeMount() {
+    document.title = "我的商品";
     // if (!this.getCookie("staffId")) {
     //   this.$router.push("/login");
     // }

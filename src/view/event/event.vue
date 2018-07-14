@@ -141,6 +141,7 @@ export default {
     }
   },
   beforeMount() {
+    document.title = "活动";
     // 活动列表
     this.selectlist({
       token: this.getCookie("token"),

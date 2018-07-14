@@ -3,10 +3,7 @@
 </style>
 <template>
   <div>
-    <van-nav-bar title="设置" class="evetn-bar">
-      <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="last" />
-    </van-nav-bar>
-    <van-cell-group style="margin-top:45px;">
+    <van-cell-group>
       <van-cell is-link v-for="item of FeaturesList" :key="item.id" @click="goThisPage">
         <template slot="title">
           <p class="van-cell-text">
@@ -69,6 +66,9 @@ export default {
         this.$router.push("/");
       }, 1000);
     }
+  },
+  mounted() {
+    document.title = "设置";
   }
 };
 </script>

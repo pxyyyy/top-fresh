@@ -3,9 +3,6 @@
 </style>
 <template>
   <div>
-    <van-nav-bar title="提货卷赠送" class="evetn-bar">
-      <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="goLadingRoll" />
-    </van-nav-bar>
     <div class="Give">
       <p>请填写朋友手机号以便本人验证</p>
       <p style="line-height:30px;"><input type="number" v-model="phone" maxlength="11" pattern="[0-9]*" oninput="if(value.length>11)value=value.slice(0,11)" /> </p>
@@ -73,6 +70,9 @@ export default {
         this.$router.push(`/collectCoupons/${this.$route.params.id}`);
       }
     }
+  },
+  beforeMount() {
+    document.title = "提货卷增送";
   }
 };
 </script>

@@ -30,9 +30,9 @@
           <!--积分和代金卷-->
           <van-row class="info info-one">
             <van-col span="12">
-              <h3 v-if="ueseInfo.staffScore">{{ueseInfo.staffScore}}</h3>
-              <h3 v-else>0</h3>
-              <p>积分</p>
+              <h3 v-if="ueseInfo.staffScore" @click="integralShow">{{ueseInfo.staffScore}}</h3>
+              <h3 v-else @click="integralShow">0</h3>
+              <p @click="integralShow">积分</p>
             </van-col>
             <van-col span="12">
               <h3 @click="goCoupon">{{ueseInfo.couoponSize}}</h3>
@@ -90,6 +90,7 @@
 <script>
 import service from "../cart/service/index.js";
 import oreder from "./service/order.js";
+import { Dialog } from "vant";
 export default {
   mixins: [service, oreder],
   name: "profile",
@@ -162,6 +163,14 @@ export default {
     };
   },
   methods: {
+    integralShow() {
+      Dialog.alert({
+        title: "积分说明",
+        message: this.ueseInfo.jifenInfo
+      }).then(() => {
+        // on close
+      });
+    },
     // 获取cook
     getCookie(name) {
       var arr,
@@ -206,6 +215,7 @@ export default {
     }
   },
   beforeMount() {
+    document.title = "个人";
     this.selectProByType().then(res => {
       this.products = res.data;
     });
@@ -215,6 +225,9 @@ export default {
       token: this.getCookie("token")
     }).then(res => {
       this.ueseInfo = res.data;
+      if (this.ueseInfo == "") {
+        this.$router.push("/login");
+      }
     });
   }
 };

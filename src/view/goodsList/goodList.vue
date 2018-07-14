@@ -29,7 +29,6 @@
 .van-tabs__nav--card {
   width: 60%;
   margin: 0 auto !important;
-  border: 1px solid black !important;
   color: #666 !important;
 }
 .van-tabs__nav--card .van-tab {
@@ -42,10 +41,10 @@
 
 <template>
   <div class="container">
-    <van-nav-bar :title="title" class="evetn-bar" v-if="!this.$route.query.from">
+    <!-- <van-nav-bar :title="title" class="evetn-bar" v-if="!this.$route.query.from">
       <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="last" />
-    </van-nav-bar>
-    <div style="margin-top:45px;">
+    </van-nav-bar> -->
+    <div>
       <van-tabs type="card" v-model="active" v-if="$route.params.id == 0 || $route.params.id == 1">
         <van-tab v-for="index in 2" :key="index" :title="index==1 ? '礼卡' : '现货' ">
           <div v-if="index==1">
@@ -76,17 +75,18 @@ export default {
       title: ""
     };
   },
-  beforeMount() {
+  async beforeMount() {
     if (this.$route.params.id == 0 || this.$route.params.id == 1) {
       this.title = "全部商品";
       this.active = this.$route.params.id;
     } else {
-      this.selectByPrimaryKey({
+      await this.selectByPrimaryKey({
         acId: this.$route.params.id
       }).then(res => {
         this.title = res.data[0].acTitle;
       });
     }
+    document.title = this.title;
   },
   mounted() {
     var name = this.$route.params.id;

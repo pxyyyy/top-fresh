@@ -15,9 +15,6 @@
 </style>
 <template>
   <div>
-    <van-nav-bar title="收货地址管理" class="evetn-bar">
-      <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="returnDetermine()" />
-    </van-nav-bar>
     <!--地址列表-->
     <div class="address-group">
       <div class="address" v-for="item in selectStaffAddressList" :key="item.staffId">
@@ -119,6 +116,7 @@ export default {
     this.getAddress(this.staffId, this.token).then(res => {
       this.selectStaffAddressList = res;
     });
+    document.title = "收货地址";
   }
 };
 </script>

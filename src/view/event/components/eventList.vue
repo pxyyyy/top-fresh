@@ -9,9 +9,9 @@
 
 <template>
   <div>
-    <van-nav-bar :title="title" class="evetn-bar" v-if="!this.$route.query.from">
+    <!-- <van-nav-bar :title="title" class="evetn-bar" v-if="!this.$route.query.from">
       <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="returnevent" />
-    </van-nav-bar>
+    </van-nav-bar> -->
     <div class="item-img" v-html="this.contentHtml" :class="{marginTop:isActive}">
     </div>
     <div class="bottom">
@@ -75,6 +75,7 @@ export default {
         toProductInfo: ""
       });
     });
+    document.title = this.title;
   }
 };
 </script>

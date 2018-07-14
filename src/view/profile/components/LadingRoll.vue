@@ -36,9 +36,6 @@
 </style>
 <template>
   <div>
-    <van-nav-bar title="我的提货卷" class="evetn-bar">
-      <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="returnProFile" />
-    </van-nav-bar>
     <div class="ladingRoll-item">
       <van-tabs v-model="active" class="ladingRoll-item-list" type="card" @click="getLadingRollType">
         <van-tab v-for="item in ordersList" :title="item.text" class="ladingRoll-item-content" :key="item.id">
@@ -212,6 +209,7 @@ export default {
     }
   },
   beforeMount() {
+    document.title = "我的提货卷";
     this.selectMyLadingByStaffId({
       token: this.token,
       staffId: this.staffId,

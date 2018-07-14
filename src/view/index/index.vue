@@ -28,6 +28,7 @@ export default {
     };
   },
   beforeMount() {
+    document.title = "首页";
     this.fetchList().then(res => {
       this.sysbanners = res.data.sysbanners;
       this.activities = res.data.activities;

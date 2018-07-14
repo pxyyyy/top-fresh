@@ -66,11 +66,11 @@
       <p class="title">{{product.productName}}</p>
       <p class="subtitle">{{product.productInfo}}</p>
       <p class="price" v-if="product.productPrice">
-        <span>&yen;{{product.productPrice}}/{{product.productNum}}{{product.productUnit}}</span>
+        <span>&yen;{{product.productPrice}}/{{product.productUnit}}</span>
         <span class="old">&yen;{{product.productOprice}}</span>
       </p>
       <p class="price" v-else>
-        <span>&yen;{{product.productOprice}}/{{product.productNum}}只</span>
+        <span>&yen;{{product.productOprice}}/{{product.productUnit}}只</span>
       </p>
     </div>
     <div class="xinxi">
@@ -386,7 +386,7 @@ export default {
         toProductInfo: `${this.product.productInfo}`
       });
     });
-    this.$bridge.registerHandler("giveShareInfo", (data, responseCallback) => {
+    this.$bridge.registerHandler("closePicture", (data, responseCallback) => {
       this.pictureCorridor = false;
     });
     var id = this.$route.params.id;

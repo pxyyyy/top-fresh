@@ -16,6 +16,10 @@
 </style>
 <template>
   <div>
+    <div class="e-title">
+      <p>极味生鲜</p>
+      <span>公司简介</span>
+    </div>
     <div class="wrapper" v-html="content">
     </div>
     <!-- <div class="d-content"><img v-lazy="IntroducePic"></div>-->

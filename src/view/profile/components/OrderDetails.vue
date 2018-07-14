@@ -3,9 +3,6 @@
 </style>
 <template>
 	<div class="OrderDetails">
-		<van-nav-bar title="订单详情" class="evetn-bar">
-			<van-icon name="arrow-left" slot="left" class="evetn-icon" @click='last' />
-		</van-nav-bar>
 		<div class="OrderDetails-top">
 			<div class="OrderDetails-top-group margin-big border-bottom">
 				<div class="express-img">
@@ -120,6 +117,7 @@ export default {
     }
   },
   beforeMount() {
+    document.title = "订单详情";
     var token = this.getCookie("token");
     var staffId = this.getCookie("staffId");
     this.selectOrderPrimaryKey({

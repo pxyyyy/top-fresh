@@ -3,9 +3,6 @@
 </style>
 <template>
   <div>
-    <van-nav-bar title="支付结果" class="evetn-bar">
-      <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="last" />
-    </van-nav-bar>
     <div class="teamworkPayment">
       <p class="teamworkPayment-title">开团成功</p>
       <p class="teamworkPayment-people">还差
@@ -74,6 +71,7 @@ export default {
     }
   },
   beforeMount() {
+    document.title = "支付结果";
     this.getTogetherOrderProcessMessage({
       staffId: this.staffId,
       token: this.token,

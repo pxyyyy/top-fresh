@@ -1,11 +1,13 @@
 <style scoped lang="less">
 @import "./cart.less";
 </style>
-<style>
+<style lang="less">
 .cart-main .van-icon {
   position: absolute;
 }
-
+.van-cell-swipe:nth-child(1) {
+  margin: -5px 0;
+}
 .cart-main .van-card {
   background: #fff;
 }
@@ -15,9 +17,8 @@
 }
 
 .van-cell-swipe {
-  margin: 5px 0;
+  margin: 10px 0;
 }
-
 .van-card {
   padding: 5px 5px 5px 115px;
   background: #fff;
@@ -181,6 +182,7 @@ export default {
     };
   },
   beforeMount() {
+    document.title = "购物车";
     this.fetchList(this.staffId, this.token).then(res => {
       if (res.data == "") {
         this.Clearing = false;
