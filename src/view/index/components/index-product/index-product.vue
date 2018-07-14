@@ -18,6 +18,13 @@
 .r-product .van-tabs__nav--card .van-tab {
   color: black !important;
 }
+.r-product .van-tab--active {
+}
+.r-product .van-tabs__nav--card .van-tab--active {
+  color: #fff !important;
+}
+
+
 </style>
 <template>
   <div class="r-product">

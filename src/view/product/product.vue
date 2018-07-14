@@ -98,25 +98,25 @@
         <van-tab v-for="item in ordersList" :title="item.text" :key="item.id">
           <div class="details_content" v-html="product.productImg" v-if="item.id == 1"></div>
           <div class="evaluation" v-if="item.id == 2">
-            <div class="evaluationList" v-for="item in 10" :key="item">
+            <div class="evaluationList" v-for="item in pinglun" :key="item.evaluationId">
               <van-row style="margin-top:10px;">
                 <van-col span="3.5" offset="1">
-                  <img src="../../assets/img/Avatar.png" alt="">
+                  <img :src="item.staffPhotourl" alt="">
                 </van-col>
                 <van-col span="7.5">
-                  <p class="evaluationName">2018旺旺网</p>
-                  <van-rate v-model="evaluationicon" disabled :size="16" disabled-color="#fdd951" />
+                  <p class="evaluationName">{{item.staffNickname}}</p>
+                  <van-rate v-model="item.evaluationPraiseNum" disabled :size="16" disabled-color="#fdd951" />
                 </van-col>
-                <van-col span="14" class="date">2018-02-28</van-col>
+                <van-col span="14" class="date">{{item.evaluationTime}}</van-col>
               </van-row>
               <van-row>
                 <van-col span="24" class="evaluationText">
-                  你为人热情,性格开朗,亦能说会道。对待学习态度端正,上课能够专心听讲,课下能够认真完成作业。不用去想能攀多高,即使路途遥远,只要一步一个脚印,目标...
+                  {{item.evaluationContent}}
                 </van-col>
               </van-row>
               <van-row class="evaluationPic">
-                <van-col span="8" v-for="item in 10" :key="item">
-                  <img v-lazy="valuationPic" alt="" @click='goEvaluation(item)'>
+                <van-col span="8" v-for="(usaePic,index) in item.prourl">
+                  <img v-lazy="usaePic" alt="" @click='goEvaluation(item.prourl,index)'>
                 </van-col>
               </van-row>
             </div>
@@ -144,8 +144,8 @@
     <div class="evaluationa" v-if="pictureCorridor" @click="closeCorridor">
       <div class="wrapper">
         <van-swipe :touchable="true" :show-indicators="true" :initial-swipe="picIndex">
-          <van-swipe-item v-for="(image, index) in 10" :key="index">
-            <img v-lazy="valuationPic" />
+          <van-swipe-item v-for="pic in swipePic">
+            <img v-lazy="pic" />
           </van-swipe-item>
         </van-swipe>
       </div>
@@ -195,9 +195,10 @@ export default {
         loop: true,
         effect: "fade"
       },
+      pinglun: '',
       ordersList: [
         { id: 1, text: "详情" },
-        { id: 2, text: "评价(201)" },
+        { id: 2, text: "评价()" },
         { id: 3, text: "推荐" }
       ],
       info: [
@@ -227,8 +228,11 @@ export default {
       staffId: this.getCookie("staffId"),
       token: this.getCookie("token"),
       products: "",
-      active: 0
+      active: 0,
+      swipePic: ''
     };
+  },
+  computed: {
   },
   methods: {
     closeCorridor() {
@@ -320,7 +324,7 @@ export default {
         });
       }
     },
-    goEvaluation(index) {
+    goEvaluation(item,index) {
       let from = this.$route.query.from;
       if (from == "IOS" || from == "Android") {
         this.$bridge.callHandler(
@@ -333,7 +337,8 @@ export default {
           }
         );
       }
-      this.picIndex = index - 1;
+      this.swipePic = item;
+      this.picIndex = index;
       this.pictureCorridor = true;
     },
     toProductInfo(productId) {
@@ -379,7 +384,7 @@ export default {
       this.show = true;
     }
   },
-  beforeMount() {
+  async beforeMount() {
     this.$bridge.registerHandler("giveShareInfo", (data, responseCallback) => {
       responseCallback({
         title: `${this.product.productName}`,
@@ -390,10 +395,22 @@ export default {
       this.pictureCorridor = false;
     });
     var id = this.$route.params.id;
-    this.getProductInfo(id) //获取列表
+    await this.getProductInfo(id) //获取列表
       .then(res => {
         this.product = res;
+        this.ordersList[1].text = `评价(${this.product.productPinglunnum})`
       });
+    await this.selectevaluationlist({
+      productId:this.$route.params.id,
+      pageNum: 1,
+      pageSize:100
+    }).then((res)=>{
+        this.pinglun = res
+      for (let item in this.pinglun) {
+          this.pinglun[item].evaluationPraiseNum = parseInt(this.pinglun[item].evaluationPraiseNum)
+      }
+      console.log(this.pinglun)
+    })
     this.selectProByType().then(res => {
       this.products = res.data;
     });
