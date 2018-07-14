@@ -96,6 +96,13 @@ export const productRouter = [{
     }
   },
   {
+    path: '/PlaceOfOrigin',
+    name: 'PlaceOfOrigin',
+    component: resolve => {
+      require(['@/view/PlaceOfOrigin/PlaceOfOrigin.vue'], resolve);
+    }
+  },
+  {
     path: '/collageDetermineOther/:id/:staffId',
     name: 'collageDetermineOther',
     component: resolve => {

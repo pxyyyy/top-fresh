@@ -42,9 +42,6 @@
 </style>
 <template>
 	<div>
-		<van-nav-bar title="我的订单" class="evetn-bar" style="z-index: 200;">
-			<van-icon name="arrow-left" slot="left" class="evetn-icon" @click="returnProfile" />
-		</van-nav-bar>
 		<van-tabs v-model="active" class="orders" type="card">
 			<van-tab v-for="item in ordersList" :title="item.text" :key="item.id">
 				<div class="coupon-content" v-if="item.id == 1">
@@ -218,6 +215,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "我的订单";
     this.init();
   },
   methods: {

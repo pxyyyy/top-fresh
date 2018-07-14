@@ -12,6 +12,12 @@
 .commodityList .van-tabs__content {
   margin: 10px 10px 0 10px;
 }
+.r-product .van-tabs__nav--card {
+  border: 1px solid #000 !important;
+}
+.r-product .van-tabs__nav--card .van-tab {
+  color: black !important;
+}
 </style>
 <template>
   <div class="r-product">

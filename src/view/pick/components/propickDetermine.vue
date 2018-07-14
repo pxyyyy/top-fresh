@@ -8,9 +8,6 @@
 </style>
 <template>
   <div>
-    <van-nav-bar title="确认订单" class="evetn-bar">
-      <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="returnCart()" />
-    </van-nav-bar>
     <!--返回弹出-->
     <van-popup v-model="away" class="away">
       <p>正在离开领取页面</p>

@@ -1,29 +1,25 @@
 <template>
-    <div>
-        <van-nav-bar title="编辑资料" class="evetn-bar">
-            <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="last" />
-            <van-icon slot="right" class="evetn-icon" @click="save">保存</van-icon>
-        </van-nav-bar>
-        <div class="wrapper">
-            <van-row class="wrapperList">
-                <van-col span="16">头像</van-col>
-                <van-col span="4" offset="4">
-                    <div class="user-pic">
-                        <img :src="userPic">
-                        <van-uploader :after-read="onRead">
-                            <van-icon name="photograph" />
-                        </van-uploader>
-                    </div>
-                </van-col>
-            </van-row>
-            <van-row class="wrapperList border-top ">
-                <van-col span="16">昵称</van-col>
-                <van-col span="8 " class="wrapperName">
-                    <input type="text " v-model="ueseInfo.staffNickname">
-                </van-col>
-            </van-row>
-        </div>
+  <div>
+    <div class="wrapper">
+      <van-row class="wrapperList">
+        <van-col span="16">头像</van-col>
+        <van-col span="4" offset="4">
+          <div class="user-pic">
+            <img :src="userPic">
+            <van-uploader :after-read="onRead">
+              <van-icon name="photograph" />
+            </van-uploader>
+          </div>
+        </van-col>
+      </van-row>
+      <van-row class="wrapperList border-top ">
+        <van-col span="16">昵称</van-col>
+        <van-col span="8 " class="wrapperName">
+          <input type="text " v-model="ueseInfo.staffNickname">
+        </van-col>
+      </van-row>
     </div>
+  </div>
 </template>
 
 <script>
@@ -83,6 +79,7 @@ export default {
     }
   },
   beforeMount() {
+    document.title = "编辑资料";
     this.getStaffInfo({
       staffId: this.getCookie("staffId"),
       token: this.getCookie("token")

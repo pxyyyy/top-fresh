@@ -1,14 +1,10 @@
 <template>
-    <div>
-        <van-nav-bar title="意见反馈" class="evetn-bar">
-            <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="last" />
-            <van-icon slot="right" class="evetn-icon" @click="save">保存</van-icon>
-        </van-nav-bar>
-        <div class="inner">
-            <textarea v-model="text">
-            </textarea>
-        </div>
+  <div>
+    <div class="inner">
+      <textarea v-model="text">
+      </textarea>
     </div>
+  </div>
 </template>
 
 <script>
@@ -21,6 +17,9 @@ export default {
     };
   },
   mixins: [oreder],
+  beforeMount() {
+    document.title = "意见反馈";
+  },
   methods: {
     // 获取cook
     getCookie(name) {
@@ -74,7 +73,6 @@ export default {
 }
 .inner {
   width: 100%;
-  margin-top: 45px;
   textarea {
     width: 100%;
     padding: 10px;

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <van-nav-bar :title="title" class="evetn-bar">
+    <!-- <van-nav-bar :title="title" class="evetn-bar">
       <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="last" />
-    </van-nav-bar>
+    </van-nav-bar> -->
     <div class="wrapper">
       <van-row class="wrapper-content" v-for="item in myCouponList" :key="item.couponsId">
         <van-col span="6" class="wrapperLeft">
@@ -107,8 +107,8 @@ export default {
       });
     }
   },
-  beforeMount() {
-    this.getCouponsOfReceive({
+  async beforeMount() {
+    await this.getCouponsOfReceive({
       staffId: this.staffId,
       token: this.token,
       activityId: this.$route.params.id,
@@ -118,11 +118,12 @@ export default {
       this.code = res.code;
       this.myCouponList = res.data;
     });
-    this.selectByPrimaryKey({
+    await this.selectByPrimaryKey({
       acId: this.$route.params.id
     }).then(res => {
       this.title = res.data[0].acTitle;
     });
+    document.title = this.title;
   }
 };
 </script>
@@ -143,7 +144,6 @@ export default {
 }
 
 .wrapper {
-  margin-top: 45px;
   padding: 10px;
 }
 

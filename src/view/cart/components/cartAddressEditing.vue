@@ -3,10 +3,6 @@
 </style>
 <template>
   <div>
-    <van-nav-bar title="收货地址管理" class="evetn-bar">
-      <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="last" />
-      <van-icon slot="right" class="evetn-icon" @click="save">保存</van-icon>
-    </van-nav-bar>
     <div class="cart_min">
       <div>
         <div class="Cell">
@@ -147,6 +143,7 @@ export default {
     if (this.$route.params.type == 0) {
       this.radio = "1";
     }
+    document.title = "收货地址管理";
   }
 };
 </script>

@@ -1,9 +1,5 @@
 <template>
   <div>
-    <van-nav-bar title="编辑资料" class="evetn-bar">
-      <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="last" />
-      <van-icon slot="right" class="evetn-icon" @click="save">保存</van-icon>
-    </van-nav-bar>
     <div class="wrapper">
       <van-row class="wrapperList">
         <van-col span="16">头像</van-col>
@@ -22,6 +18,9 @@
           <input type="text " v-model="ueseInfo.staffNickname">
         </van-col>
       </van-row>
+    </div>
+    <div class="wrapper-save">
+      <button @click="save">保存</button>
     </div>
   </div>
 </template>
@@ -83,6 +82,7 @@ export default {
     }
   },
   beforeMount() {
+    document.title = "编辑资料";
     this.getStaffInfo({
       staffId: this.getCookie("staffId"),
       token: this.getCookie("token")
@@ -95,6 +95,15 @@ export default {
 </script>
 
 <style scoped lang="less" >
+.wrapper-save {
+  text-align: center;
+  button {
+    width: 100px;
+    padding: 5px 10px 5px 10px;
+    background: #e1bf8a;
+    color: #fff;
+  }
+}
 .evetn-bar {
   width: 100%;
   background: #3d3d3d;
@@ -107,7 +116,6 @@ export default {
   color: #e1bf8a;
 }
 .wrapper {
-  margin-top: 45px;
 }
 .wrapperList {
   background: #fff;
