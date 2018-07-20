@@ -39,86 +39,54 @@
     <div class="ladingRoll-item">
       <van-tabs v-model="active" class="ladingRoll-item-list" type="card" @click="getLadingRollType">
         <van-tab v-for="item in ordersList" :title="item.text" class="ladingRoll-item-content" :key="item.id">
-          <div class="coupon-content" v-if="item.id == 1">
-            <div class="content-group" v-for="info in pickupVolume">
-              <div class="content-top">
-                <div class="content-top-img">
-                  <img :src="info.odProductIcon" alt="">
-                </div>
-                <div class="content-top-info">
-                  <p>{{info.odProductName}}</p>
-                  <p class="margin-top content-top-info-date">提货日期</p>
-                  <p class="content-top-info-date">
-                    <strong>{{info.begindate}}-{{info.enddate}}</strong>
-                  </p>
-                </div>
-              </div>
-              <div class="content-bottom">
-                <p @click="goLadingRollGive(info.odId)">
-                  <i><img src="../../../assets/img/Gift.png" alt=""></i>赠送好友</p>
-                <p @click="goprofiledelivery(info)">
-                  <i><img src="../../../assets/img/immediately.png" alt=""></i>立即提货</p>
-                <p @click="gocartAddress">
-                  <i><img src="../../../assets/img/Mailing.png" alt=""></i>邮寄实体卡</p>
-              </div>
-            </div>
-            <van-row>
-              <van-col span="24" style="text-align:center; font-size:10px;margin:20px 0;color:#ccc;">
-                <div @click='loadMore(2)' v-if="code == '100000'">加载更多 </div>
-                <div v-else>没有更多数据~~</div>
-              </van-col>
-            </van-row>
-          </div>
-          <!-- <div class="coupon-content" v-if="item.id == 2">
-            <div class="content-group">
-              <div class="content-top">
-                <div class="content-top-img">
-                  <img src="../../../assets/img/ladingroll.png" alt="">
-                </div>
-                <div class="content-top-info">
-                  <p>阳澄湖大闸蟹四对礼盒装4.0两x8只 四公四母</p>
-                  <p class="margin-top content-top-info-date">领取人手机号：1378367246 暂未领取2018.7.7 24:00自动返还</p>
-                </div>
-              </div>
-            </div>
-            <div class="content-group">
-              <div class="content-top">
-                <div class="content-top-img">
-                  <img src="../../../assets/img/ladingroll.png" alt="">
-                </div>
-                <div class="content-top-info">
-                  <p>阳澄湖大闸蟹四对礼盒装4.0两x8只 四公四母</p>
-                  <p class="margin-top content-top-info-date">领取人手机号：1378367246 暂未领取2018.7.7 24:00自动返还</p>
-                </div>
-              </div>
-            </div>
-          </div> -->
-          <div class="coupon-content" v-if="item.id == 3">
-            <div class="content-group" v-for="info in pickupVolume">
-              <div class="content-top" style="border-bottom: 1px solid #d3d3d3;">
-                <div class="content-top-img">
-                  <img src="../../../assets/img/ladingroll.png" alt="">
-                </div>
-                <div class="content-top-info">
-                  <p>{{info.odProductName}}</p>
-                  <!-- <p class="margin-top content-top-info-date color-ccc">领取人手机号：12384536732</p> -->
-                  <div class="content-top-info-date color-ccc">
-                    <p>使用日期</p>
-                    <p>{{info.usetime}}</p>
+          <van-list v-model="loading" :finished="finished" @load="onLoad" v-if="item.id == 1">
+            <div class="coupon-content" v-if="item.id == 1">
+              <div class="content-group" v-for="info in pickupVolume">
+                <div class="content-top">
+                  <div class="content-top-img">
+                    <img :src="info.odProductIcon" alt="">
+                  </div>
+                  <div class="content-top-info">
+                    <p>{{info.odProductName}}</p>
+                    <p class="margin-top content-top-info-date">提货日期</p>
+                    <p class="content-top-info-date">
+                      <strong>{{info.begindate}}-{{info.enddate}}</strong>
+                    </p>
                   </div>
                 </div>
-              </div>
-              <div style="margin-top:5px;">
-                <van-button disabled size="mini">已用</van-button>
+                <div class="content-bottom">
+                  <p @click="goLadingRollGive(info.odId)">
+                    <i><img src="../../../assets/img/Gift.png" alt=""></i>赠送好友</p>
+                  <p @click="goprofiledelivery(info)">
+                    <i><img src="../../../assets/img/immediately.png" alt=""></i>立即提货</p>
+                  <p @click="gocartAddress">
+                    <i><img src="../../../assets/img/Mailing.png" alt=""></i>邮寄实体卡</p>
+                </div>
               </div>
             </div>
-            <van-row>
-              <van-col span="24" style="text-align:center; font-size:10px;margin:20px 0;color:#ccc;">
-                <div @click='loadMore(3)' v-if="code == '100000'">加载更多 </div>
-                <div v-else>没有更多数据~~</div>
-              </van-col>
-            </van-row>
-          </div>
+          </van-list>
+          <van-list v-model="loading2" :finished="finished2" @load="onLoad2" v-if="item.id == 3">
+            <div class="coupon-content" v-if="item.id == 3">
+              <div class="content-group" v-for="info in pickupVolume">
+                <div class="content-top" style="border-bottom: 1px solid #d3d3d3;">
+                  <div class="content-top-img">
+                    <img src="../../../assets/img/ladingroll.png" alt="">
+                  </div>
+                  <div class="content-top-info">
+                    <p>{{info.odProductName}}</p>
+                    <!-- <p class="margin-top content-top-info-date color-ccc">领取人手机号：12384536732</p> -->
+                    <div class="content-top-info-date color-ccc">
+                      <p>使用日期</p>
+                      <p>{{info.usetime}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div style="margin-top:5px;">
+                  <van-button disabled size="mini">已用</van-button>
+                </div>
+              </div>
+            </div>
+          </van-list>
         </van-tab>
       </van-tabs>
     </div>
@@ -134,11 +102,15 @@ export default {
     return {
       active: 0,
       ordersList: [{ text: "未用", id: 1 }, { text: "已用", id: 3 }],
-      pickupVolume: "",
-      pageNum: 1,
+      pickupVolume: [],
+      pageNum: 0,
       code: "",
       staffId: this.getCookie("staffId"),
-      token: this.getCookie("token")
+      token: this.getCookie("token"),
+      loading: false,
+      finished: false,
+      loading2: false,
+      finished2: false
     };
   },
   methods: {
@@ -156,44 +128,47 @@ export default {
     goprofiledelivery(info) {
       this.$router.push(`/profiledelivery/${info.odId}/${info.odProductId}`);
     },
-    loadMore(index) {
+    onLoad() {
+      this.loading = true;
       this.pageNum++;
       this.selectMyLadingByStaffId({
         token: this.token,
         staffId: this.staffId,
-        state: index,
+        state: "2",
         pageNum: this.pageNum,
         pageSize: 7
       }).then(res => {
-        this.code = res.code;
+        this.loading = false;
         this.pickupVolume = this.pickupVolume.concat(res.data);
+        if (res.data == "") {
+          this.finished = true;
+        }
+      });
+    },
+    onLoad2() {
+      this.loading2 = true;
+      this.pageNum++;
+      this.selectMyLadingByStaffId({
+        token: this.token,
+        staffId: this.staffId,
+        state: "3",
+        pageNum: this.pageNum,
+        pageSize: 7
+      }).then(res => {
+        this.loading2 = false;
+        this.pickupVolume = this.pickupVolume.concat(res.data);
+        if (res.data == "") {
+          this.finished2 = true;
+        }
       });
     },
     getLadingRollType(index, text) {
+      this.pickupVolume = [];
+      this.pageNum = 0;
       if (text == "未用") {
-        this.pickupVolume = "";
-        this.selectMyLadingByStaffId({
-          token: this.token,
-          staffId: this.staffId,
-          state: 2,
-          pageNum: 1,
-          pageSize: 7
-        }).then(res => {
-          this.code = res.code;
-          this.pickupVolume = res.data;
-        });
+        this.onLoad();
       } else {
-        this.pickupVolume = "";
-        this.selectMyLadingByStaffId({
-          staffId: this.staffId,
-          token: this.token,
-          state: 3,
-          pageNum: 1,
-          pageSize: 7
-        }).then(res => {
-          this.code = res.code;
-          this.pickupVolume = res.data;
-        });
+        this.onLoad2();
       }
     },
     returnProFile() {
@@ -210,16 +185,6 @@ export default {
   },
   beforeMount() {
     document.title = "我的提货卷";
-    this.selectMyLadingByStaffId({
-      token: this.token,
-      staffId: this.staffId,
-      state: 2,
-      pageNum: this.pageNum,
-      pageSize: 7
-    }).then(res => {
-      this.code = res.code;
-      this.pickupVolume = res.data;
-    });
   }
 };
 </script>

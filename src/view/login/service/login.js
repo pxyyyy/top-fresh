@@ -21,8 +21,8 @@ export default {
           console.log(error);
         });
     },
-    toLogin(phone, code) {
-      return api.get(`fresh_show/staffC/Login?codePhone=${phone}&codeValue=${code}`)
+    toLogin(json) {
+      return api.post(`fresh_show/staffC/Login`, json)
         .then(res => {
           console.log(res.data)
           return res.data;
@@ -30,6 +30,14 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
-    }
+    },
+    // 微信登录
+    getOpenId(json) {
+      return api.post(`fresh_show/staffC/getOpenId`, json).then((res) => {
+        return res.data
+      }).catch((err) => {
+        console.log(err)
+      });
+    },
   }
 }

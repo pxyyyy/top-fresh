@@ -42,6 +42,26 @@ export default {
           console.log(error);
         });
     },
+    // 微信支付前请求订单价格
+    updateOrderBeginPay(json) {
+      return api.post('fresh_show/order/updateOrderBeginPay', json)
+        .then(res => {
+          return res.data
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 微信支付
+    weixinPay(json) {
+      return api.post('fresh_show/pay/weixin/weixinPay2', json)
+        .then(res => {
+          return res.data
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     // 加接口
     add(staffId, token, carId) {
       return api.get(`fresh_show/prCar/addProCarNum?staffId=${staffId}&token=${token}&carId=${carId}`).then((res) => {
@@ -154,7 +174,7 @@ export default {
         console.log(err)
       });
     },
-    // 商品评价
+    // 商品积分
     getScoreByOrderId(json) {
       return api.post('fresh_show/order/getScoreByOrderId', json).then((res) => {
         return res.data;

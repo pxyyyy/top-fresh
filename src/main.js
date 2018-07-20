@@ -10,7 +10,8 @@ import {
 import Vant from 'vant';
 import {
   Lazyload,
-  Rate
+  Rate,
+  List
 } from 'vant';
 import 'vant/lib/vant-css/index.css';
 
@@ -36,7 +37,8 @@ Vue.use(Lazyload, {
   observer: true
 });
 Vue.use(Rate);
-Vue.use(VueVideoPlayer)
+Vue.use(VueVideoPlayer),
+  Vue.use(List);
 
 Vue.config.productionTip = false
 

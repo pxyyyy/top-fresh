@@ -31,34 +31,47 @@
     <van-tabs v-model="active" class="coupon" type="card" @click="Unused">
       <van-tab v-for="index in 2" :title="index == 1 ? '未使用' : '已过期'" :key="index">
         <div v-if="index == 1" class="coupon-content" v-for="(item,num) in coupon" :key='num'>
-          <!-- 判断用户是不在在购物车进入 -->
-          <div class="coupon-item" @click='useaCoupon(item.scCouponValue)'>
-            <div class="coupon-item-left">
-              <p>
-                <strong>￥</strong>
-                <strong class="coupon-Large">{{item.scCouponValue}}</strong>
-              </p>
-            </div>
-            <div class="coupon-item-right">
-              <p>满{{item.coupons.couponsMin ? item.coupons.couponsMin : "0" }}元使用</p>
-              <p>{{item.scCouponStartTime.split(" ")[0]}}-{{item.scCouponEndTime.split(" ")[0]}}</p>
-            </div>
+          <div @click="useaCoupon(item.coupons.couponsValue)">
+            <van-row class="wrapper-content">
+              <van-col span="6" class="wrapperLeft">
+                <h3>
+                  <span>￥</span>{{item.coupons.couponsValue}}</h3>
+              </van-col>
+              <van-col span="11" class="wrapper-center" offset="1">
+                <p>{{item.coupons.couponsName}}</p>
+                <p>{{item.coupons.couponsStartTime}} - {{item.coupons.createtime}}</p>
+                <p class="weight">{{item.couponsType}}</p>
+              </van-col>
+              <van-col span="6" class="wrapper-right">
+                <div class="wrapper-right-icon">
+                  <img src="../../assets/img/myCoupon.png" alt="">
+                </div>
+                <div class="wrapper-right-button">
+                </div>
+              </van-col>
+            </van-row>
           </div>
         </div>
         <!--已过期-->
-        <div v-if="index == 2" class="coupon-content coupon-Expired" v-for="(item,num) in coupon1" :key='num' @click="Used">
-          <div class="coupon-item">
-            <div class="coupon-item-left">
-              <p>
-                <strong>￥</strong>
-                <strong class="coupon-Large">{{item.scCouponValue}}</strong>
-              </p>
-            </div>
-            <div class="coupon-item-right">
-              <p>满{{item.coupons.couponsMin ? item.coupons.couponsMin : "0" }}元使用</p>
-              <p>{{item.scCouponStartTime.split(" ")[0]}}-{{item.scCouponEndTime.split(" ")[0]}}</p>
-            </div>
-          </div>
+        <div v-if="index == 2" class="coupon-content coupon-Expired" v-for="(item,num) in coupon1" :key='num'>
+          <van-row class="wrapper-content" style="border:1px solid #ccc;">
+            <van-col span="6" class="wrapperLeft">
+              <h3 style="color:#ccc;">
+                <span>￥</span>{{item.coupons.couponsValue}}</h3>
+            </van-col>
+            <van-col span="11" class="wrapper-center" offset="1">
+              <p>{{item.coupons.couponsName}}</p>
+              <p>{{item.coupons.couponsStartTime}} - {{item.coupons.createtime}}</p>
+              <p class="weight">{{item.couponsType}}</p>
+            </van-col>
+            <van-col span="6" class="wrapper-right">
+              <div class="wrapper-right-icon">
+                <img src="../../assets/img/myCouponUnused.png" alt="">
+              </div>
+              <div class="wrapper-right-button">
+              </div>
+            </van-col>
+          </van-row>
         </div>
       </van-tab>
     </van-tabs>
@@ -117,7 +130,6 @@ export default {
     }
   },
   beforeMount() {
-    console.log(this.token);
     this.getCoupnsListByMoney({
       token: this.token,
       staffId: this.staffId,

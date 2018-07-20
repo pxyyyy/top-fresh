@@ -31,48 +31,67 @@
     <van-tabs v-model="active" class="coupon" type="card" @click="Unused">
       <van-tab v-for="index in 2" :title="index == 1 ? '未使用' : '已过期'" :key="index">
         <div v-if="index == 1" class="coupon-content" v-for="(item,num) in coupon" :key='num'>
-          <!-- 判断用户是不在在购物车进入 -->
-          <div class="coupon-item" @click='useaCoupon(item.scCouponValue)' v-if="$route.params.type == 0">
-            <div class="coupon-item-left">
-              <p>
-                <strong>￥</strong>
-                <strong class="coupon-Large">{{item.scCouponValue}}</strong>
-              </p>
+          <!-- 在购物车进入 -->
+          <van-row class="wrapper-content" v-if="$route.params.type == 0">
+            <div @click='useaCoupon(item.coupons.couponsValue,item.scId)'>
+              <van-col span="6" class="wrapperLeft">
+                <h3>
+                  <span>￥</span>{{item.coupons.couponsValue}}</h3>
+              </van-col>
+              <van-col span="11" class="wrapper-center" offset="1">
+                <p>{{item.coupons.couponsName}}</p>
+                <p>{{item.coupons.couponsStartTime}} - {{item.coupons.createtime}}</p>
+                <p class="weight">{{item.couponsType}}</p>
+              </van-col>
+              <van-col span="6" class="wrapper-right">
+                <div class="wrapper-right-icon">
+                  <img src="../../../assets/img/myCoupon.png" alt="">
+                </div>
+                <div class="wrapper-right-button">
+                </div>
+              </van-col>
             </div>
-            <div class="coupon-item-right">
-              <p>满{{item.coupons.couponsMin ? item.coupons.couponsMin : "0" }}元使用</p>
-              <p>{{item.coupons.couponsStartTime}} -- {{item.coupons.createtime}}</p>
-            </div>
-          </div>
-          <!-- 判断用户是不在在购物车进入 -->
-          <div class="coupon-item" v-if="$route.params.type == 1">
-            <div class="coupon-item-left">
-              <p style="align-items: baseline; display:flex;">
-                <span>￥</span>
-                <strong class="coupon-Large">
-                  {{item.scCouponValue}}</strong>
-              </p>
-            </div>
-            <div class="coupon-item-right">
-              <p>满{{item.coupons.couponsMin ? item.coupons.couponsMin : "0" }}元使用</p>
-              <p>{{item.coupons.couponsStartTime}} -- {{item.coupons.createtime}}</p>
-            </div>
-          </div>
+          </van-row>
+          <!-- 个人中心进入 -->
+          <van-row v-if="$route.params.type == 1" class="wrapper-content">
+            <van-col span="6" class="wrapperLeft">
+              <h3>
+                <span>￥</span>{{item.coupons.couponsValue}}</h3>
+            </van-col>
+            <van-col span="11" class="wrapper-center" offset="1">
+              <p>{{item.coupons.couponsName}}</p>
+              <p>{{item.coupons.couponsStartTime}} - {{item.coupons.createtime}}</p>
+              <p class="weight">{{item.couponsType}}</p>
+            </van-col>
+            <van-col span="6" class="wrapper-right">
+              <div class="wrapper-right-icon">
+                <img src="../../../assets/img/myCoupon.png" alt="">
+              </div>
+              <div class="wrapper-right-button">
+              </div>
+            </van-col>
+          </van-row>
         </div>
         <!--已过期-->
         <div v-if="index == 2" class="coupon-content coupon-Expired" v-for="(item,num) in coupon1" :key='num' @click="Unused">
-          <div class="coupon-item">
-            <div class="coupon-item-left">
-              <p>
-                <strong>￥</strong>
-                <strong class="coupon-Large">{{item.scCouponValue}}</strong>
-              </p>
-            </div>
-            <div class="coupon-item-right">
-              <p>满{{item.coupons.couponsMin ? item.coupons.couponsMin : "0" }}元使用</p>
-              <p>{{item.scCouponStartTime.split(" ")[0]}}-{{item.scCouponEndTime.split(" ")[0]}}</p>
-            </div>
-          </div>
+          <van-row class="wrapper-content" style="border:1px solid #ccc;">
+            <van-col span="6" class="wrapperLeft">
+              <h3 style="color:#ccc;">
+                <span>￥</span>{{item.coupons.couponsValue}}</h3>
+            </van-col>
+            <van-col span="11" class="wrapper-center" offset="1">
+              <p>{{item.coupons.couponsName}}</p>
+              <p>{{item.coupons.couponsStartTime}} - {{item.coupons.createtime}}</p>
+              <p class="weight">{{item.couponsType}}</p>
+            </van-col>
+            <van-col span="6" class="wrapper-right">
+              <div class="wrapper-right-icon">
+                <img src="../../../assets/img/myCouponUnused.png" alt="">
+              </div>
+              <div class="wrapper-right-button">
+              </div>
+            </van-col>
+          </van-row>
         </div>
       </van-tab>
     </van-tabs>
@@ -94,9 +113,10 @@ export default {
   },
   methods: {
     // 使用优惠卷
-    useaCoupon(money) {
+    useaCoupon(money, scId) {
       // 优惠券价格保存
       sessionStorage.money = money;
+      sessionStorage.scId = scId;
       this.$router.push(`/cartDetermine/${this.$route.params.orderId}`);
     },
     returnProfile() {

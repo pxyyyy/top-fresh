@@ -18,6 +18,16 @@ export default {
           console.log(error);
         });
     },
+    // 微信支付
+    weixinPay(json) {
+      return api.post('fresh_show/pay/weixin/weixinPay2', json)
+        .then(res => {
+          return res.data
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     getTogetherOrderInfo22(json) {
       return api.post('fresh_show/togetherOrder/getTogetherOrderInfo22', json)
         .then(res => {
@@ -40,8 +50,28 @@ export default {
         });
     },
     // 模拟支付完成
-    togetherOrderBack(json) {
-      return api.post('fresh_show/togetherOrder/togetherOrderBack', json)
+    weixinPay2(json) {
+      return api.post('fresh_show/togetherOrder/weixin/weixinPay2', json)
+        .then(res => {
+          return res.data.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 拼团价格
+    updateTogetherBeginPay(json) {
+      return api.post('fresh_show/order/updateTogetherBeginPay', json)
+        .then(res => {
+          return res.data.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 积分
+    getScoreByMoney(json) {
+      return api.post('fresh_show/order/getScoreByMoney', json)
         .then(res => {
           return res.data.data;
         })

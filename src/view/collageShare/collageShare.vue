@@ -12,66 +12,66 @@
   <!-- 商品详情 页面-->
   <div>
     <!-- 商品主图  有赞轮播组件-->
-    <swiper :options="swiperOption">
-      <swiper-slide v-for="(image, index) in infoProduct.productIcon" :key="index">
-        <img v-lazy="image" class="img" />
+    <swiper :options="swiperOption" v-if="infoProduct">
+      <swiper-slide v-for="(image, index) in infoProduct.product.proImgs" :key="index">
+        <img v-lazy="image.imgUrl" class="img" />
       </swiper-slide>
     </swiper>
     <!-- 商品详细信息 -->
-    <div class="discript">
+    <div class="discript" v-if="infoProduct">
       <p class="title">{{infoProduct.productName}}</p>
-      <p class="price">
+      <p class="priceaa">
         <span class="collage">
-          ￥{{infoProduct.productOprice}}
+          ￥{{infoProduct.pingMoney}}
         </span>
         <span class="alone">
-          单价买 ￥{{infoProduct.productPrice}}
+          单价买 ￥{{infoProduct.product.productScore}}
         </span>
       </p>
-      <ul class="collage-success-info-people">
-        <li><img v-lazy="xhdpiPic" alt=""></li>
-        <li><img v-lazy="xhdpiPic" alt=""></li>
-        <li><img v-lazy="xhdpiPic" alt=""></li>
-        <li><img v-lazy="xhdpiPic" alt=""></li>
-        <li><img v-lazy="xhdpiPic" alt=""></li>
+
+      <ul class="collage-success-info-people" v-if="infoProduct.user">
+        <li v-for="(item,index) in infoProductUser" :key="index">
+          <img :src="item.staffPhotourl">
+        </li>
+        <li v-for="item in (5 - infoProductUser.length)" :key="item">
+          <img :src="xhdpiPic">
+        </li>
       </ul>
       <p class="collage-success-info-success">
-        还差
-        <span class="num">{{info.lackPeopleNum}}</span>人,剩余
-        <span class="time">{{info.surplusDayNum}}</span>天
-        <span class="time">{{info.hourNum}}</span>小时 结束
+        结束时间
+        <span class="time">{{info.hourNum}}</span>
       </p>
       <p class="collage-success-info-button">
-        <button @click="participate">立即参团</button>
+        <button @click="participate" v-text="riend"></button>
       </p>
       <p class="collage-success-info-bottom">
         <span>邀请好友参团 </span> > 拼团成功分别发货 >人数不足自动退款</p>
     </div>
-    <div class="xinxi">
+    <div class="xinxi" v-if="infoProduct">
       <p>
         <span>商品类型:</span>
-        <span v-for="(type,index) in infoProduct.productPtype" :key="index">
+        <span v-for="(type,index) in infoProduct.product.productPtype" :key="index">
           <span class="type" v-if="type == 2">现货</span>
           <span class="type" v-else>礼品卡</span>
         </span>
       </p>
       <p>
         <span>商品产地:</span>
-        <span>{{infoProduct.productAddress}}</span>
+        <span>{{infoProduct.product.productAddress}}</span>
       </p>
       <p>
         <span>配送方式:</span>
-        <span>{{infoProduct.productSendType}}</span>
+        <span>{{infoProduct.product.productSendType}}</span>
       </p>
       <p>
         <span>获得积分:</span>
-        <span>可获得{{infoProduct.productScore}}积分</span>
+        <span>可获得{{infoProduct.product.productScore}}积分</span>
       </p>
     </div>
     <div class="details" :style="{marginBottom:marginBottom}">
       <p class="details_title">---- 商品详情 ----</p>
       <div class="details_content">
-        <img :src="infoProduct.productImg" alt="">
+        <img :src="infoProduct.product.productImg" alt="">
       </div>
     </div>
     <!-- 遮罩 -->
@@ -93,6 +93,7 @@ export default {
   mixins: [service],
   data() {
     return {
+      riend: "立即参团",
       xhdpiPic: require("../../assets/img/xhdpi.png"),
       marginBottom: "50px",
       number: 1,
@@ -107,34 +108,19 @@ export default {
         effect: "fade"
       },
       infoProduct: "",
+      infoProductUser: [],
       Url: "",
-      info: [
-        /*
-        {
-          id: "1", //商品ID
-          title: "澄阳湖大闸蟹六对礼盒装", //商品标题
-          oldprice: 288.0, //商品原价
-          newprice: 188.0,
-          discount: "7.0", //折扣
-          number: 12, //商品数量
-          type: "0",
-          productType: ["大闸蟹·现货"], //商品类型
-          images: [
-            "https://img14.360buyimg.com/popWaterMark/jfs/t17218/268/2177078914/177141/2f4cfd87/5ae920d7N7605a758.jpg",
-            "https://img13.360buyimg.com/popWaterMark/jfs/t18838/254/2140707395/230948/d2c13ef6/5ae920d4N82d84a7f.jpg",
-            "https://img14.360buyimg.com/popWaterMark/jfs/t18088/257/2187333638/209669/c11169a0/5ae920d8N05bc65e2.jpg",
-            "https://img30.360buyimg.com/popWaterMark/jfs/t17695/164/1073632144/214246/a74ac508/5ab8ae48N058b7c22.jpg"
-          ], //商品主图
-          content: '<div class="d-content"><img src="' + img + '"></div>', //详情,//详情
-          distribution: "顺丰空运", //配送方式
-          integral: "200", //购买可获得的积分数
-          origin: "阳澄湖" //商品产地
-		}
-		*/
-      ]
+      info: []
     };
   },
   methods: {
+    giveShareInfo() {
+      Android.giveShareInfo(
+        "你收到一个拼团邀请",
+        `${this.infoProduct.product.productName}`,
+        window.location.href
+      );
+    },
     // 获取cook
     getCookie(name) {
       var arr,
@@ -152,16 +138,30 @@ export default {
     toCart() {
       this.$router.push(`/cart?number=` + this.number);
     },
-    participate() {
+    async participate() {
       if (!this.staffId) {
         this.$router.push("/login");
-      } else if (this.staffId != this.$route.params.staffId) {
-        console.log(this.$route.params);
-        this.$router.push(
-          `/collageDetermineOther/${this.$route.params.id}/${
-            this.$route.params.staffId
-          }`
-        );
+      } else if (this.staffId != this.$route.params.startUser) {
+        // 个人信息
+        await this.getStaffInfo({
+          staffId: this.getCookie("staffId"),
+          token: this.getCookie("token")
+        }).then(res => {
+          var ueseInfo = res.data;
+          if (ueseInfo == "") {
+            this.$router.push("/login");
+          }
+        });
+        await this.addUserTogetherOrder({
+          staffId: this.getCookie("staffId"),
+          token: this.getCookie("token"),
+          togetherOrderId: this.infoProduct.togetherOrderId,
+          flagTO: 1,
+          togetherId: this.infoProduct.togetherId,
+          startUser: this.infoProduct.startUser
+        }).then(res => {
+          this.$router.push(`/collageDetermineOther/${res[0]}`);
+        });
       } else {
       }
     }
@@ -175,21 +175,46 @@ export default {
       this.show = true;
     }
   },
+  created() {
+    window.giveShareInfo = this.giveShareInfo;
+  },
   beforeMount() {
-    this.openShareTogetherOrder({
-      id: this.$route.params.id,
-      productId: this.$route.params.productId,
-      staffId: this.$route.params.staffId,
-      togetherOrderId: this.$route.params.togetherOrderId,
-      token: this.$route.params.token
-    }).then(res => {
-      this.info = res;
-      this.infoProduct = res.product;
-      console.log(this.info);
-    });
-    if (this.staffId == this.$route.params.staffId) {
-      this.showshareIt = true;
+    let from = this.$route.query.from;
+    if (from == "IOS" || from == "Android") {
+      this.showshareIt = false;
+      this.riend = "邀请好友参团";
     }
+    this.getTogetherOrderProcessMessage({
+      togetherOrderId: this.$route.params.id
+    }).then(res => {
+      this.infoProduct = res;
+      this.infoProductUser = res.user;
+      this.startUser = res.startUser;
+      for (let item in this.infoProductUser) {
+        if (this.getCookie("staffId") == this.infoProductUser[item].staffId) {
+          this.showshareIt = true;
+          this.riend = "邀请好友参团";
+        } else {
+          this.riend = "立即参团";
+        }
+      }
+      this.$bridge.registerHandler(
+        "giveShareInfo",
+        (data, responseCallback) => {
+          responseCallback(
+            "你收到一个拼团邀请",
+            `${this.infoProduct.product.productName}`,
+            window.location.href
+          );
+        }
+      );
+      // if (this.staffId == this.$route.params.startUser) {
+      //   this.showshareIt = true;
+      //   this.riend = "邀请好友参团";
+      // } else {
+      //   this.riend = "立即参团";
+      // }
+    });
   }
 };
 </script>

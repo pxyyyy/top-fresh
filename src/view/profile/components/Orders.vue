@@ -41,149 +41,129 @@
 }
 </style>
 <template>
-	<div>
-		<van-tabs v-model="active" class="orders" type="card">
-			<van-tab v-for="item in ordersList" :title="item.text" :key="item.id">
-				<div class="coupon-content" v-if="item.id == 1">
-					<ul v-for="(order,index) in orders" :key="index" v-if="order.orderState=='1'">
-						<li class="item" v-for="item in order.orderdetails" :key="item.odId">
-							<div class="item-content">
-								<img :src="item.odProductIcon ? item.odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
-								<div class="item-info">
-									<p class="item-title">{{item.odProductName}}</p>
-									<p class="item-desc">{{item.odProductDes}}</p>
-									<p class="item-button">
-										<strong class="money">￥{{item.odProductPprice}}</strong>
-										<span> x{{item.odProductNum}}</span>
-									</p>
-								</div>
-							</div>
-							<div class="item-bottom">
-								<p>取消订单
-									<button @click="payment(item.odOrderId)">立即付款</button>
-								</p>
-							</div>
-						</li>
-					</ul>
-					<van-row>
-						<van-col span="24" style="text-align:center; font-size:10px;margin-bottom:3px;color:#ccc;">
-							<div @click='loadMore(1)' v-if="code == '100000'">加载更多 </div>
-							<div v-else>已经到底了~~</div>
-						</van-col>
-					</van-row>
-				</div>
-				<div class="coupon-content" v-if="item.id == 2">
-					<ul v-for="(order,index) in orders" :key="index">
-						<li class="item" v-for="item in order.orderdetails" :key="item.odId">
-							<div class="item-content">
-								<img :src="item.odProductIcon ? item.odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
-								<div class="item-info">
-									<p class="item-title">{{item.odProductName}}</p>
-									<p class="item-desc">{{item.odProductDes}}</p>
-									<p class="item-button">
-										<strong class="money">￥{{item.odProductPprice}}</strong>
-										<span> x{{item.odProductNum}}</span>
-									</p>
-								</div>
-							</div>
-							<div class="item-bottom">
-								<p class="item-bottom-two">等待发货</p>
-							</div>
-						</li>
-					</ul>
-					<van-row>
-						<van-col span="24" style="text-align:center; font-size:10px;margin-bottom:3px;color:#ccc;">
-							<div @click='loadMore(2)' v-if="code == '100000'">加载更多 </div>
-							<div v-else>已经到底了~~</div>
-						</van-col>
-					</van-row>
-				</div>
-				<div class="coupon-content" v-if="item.id == 3">
-					<ul v-for="(order,index) in orders" :key="index" v-if="order.orderState=='3'">
-						<li class="item" v-for="item in order.orderdetails" :key="item.odId">
-							<div class="item-content">
-								<img :src="item.odProductIcon ? item.odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
-								<div class="item-info">
-									<p class="item-title">{{item.odProductName}}</p>
-									<p class="item-desc">{{item.odProductDes}}</p>
-									<p class="item-button">
-										<strong class="money">￥{{item.odProductPprice}}</strong>
-										<span> x{{item.odProductNum}}</span>
-									</p>
-								</div>
-							</div>
-							<div class="item-bottom">
-								<p>
-									<button class="item-bottom-three">确认收货</button>
-									<button>查看物流</button>
-								</p>
-							</div>
-						</li>
-					</ul>
-					<van-row>
-						<van-col span="24" style="text-align:center; font-size:10px;margin-bottom:3px;color:#ccc;">
-							<div @click='loadMore(3)' v-if="code == '100000'">加载更多 </div>
-							<div v-else>已经到底了~~</div>
-						</van-col>
-					</van-row>
-				</div>
-				<div class="coupon-content" v-if="item.id == 4">
-					<ul v-for="(order,index) in orders" :key="index">
-						<li class="item" v-for="item in order.orderdetails" :key="item.odId">
-							<div class="item-content">
-								<img :src="item.odProductIcon ? item.odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
-								<div class="item-info">
-									<p class="item-title">{{item.odProductName}}</p>
-									<p class="item-desc">{{item.odProductDes}}</p>
-									<p class="item-button">
-										<strong class="money">￥{{item.odProductPprice}}</strong>
-										<span> x{{item.odProductNum}}</span>
-									</p>
-								</div>
-							</div>
-							<div class="item-bottom">
-								<button @click='gotDetails(item)'>查看详情</button>
-							</div>
-						</li>
-					</ul>
-					<van-row>
-						<van-col span="24" style="text-align:center; font-size:10px;margin-bottom:3px;color:#ccc;">
-							<div @click='loadMore(0)' v-if="code == '100000'">加载更多 </div>
-							<div v-else>已经到底了~~</div>
-						</van-col>
-					</van-row>
-				</div>
-				<div class="coupon-content" v-if="item.id == 5">
-					<ul v-for="(order,index) in orders" :key="index">
-						<li class="item" v-for="item in order.orderdetails" :key="item.odId">
-							<div class="item-content">
-								<img :src="item.odProductIcon ? item.odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
-								<div class="item-info">
-									<p class="item-title">{{item.odProductName}}</p>
-									<p class="item-desc">{{item.odProductDes}}</p>
-									<p class="item-button">
-										<strong class="money">￥{{item.odProductPprice}}</strong>
-										<span> x {{item.odProductNum}}</span>
-									</p>
-								</div>
-							</div>
-							<div class="item-bottom">
-								<p>
-									<button @click="goEvaluation(item)">立即评价</button>
-								</p>
-							</div>
-						</li>
-					</ul>
-					<van-row>
-						<van-col span="24" style="text-align:center; font-size:10px;margin-bottom:3px;color:#ccc;">
-							<div @click='loadMore(4)' v-if="code == '100000'">加载更多 </div>
-							<div v-else>已经到底了~~</div>
-						</van-col>
-					</van-row>
-				</div>
-			</van-tab>
-		</van-tabs>
-	</div>
+  <div>
+    <van-tabs v-model="active" class="orders" type="card" @click="onClick">
+      <van-tab v-for="item in ordersList" :title="item.text" :key="item.id">
+        <div class="coupon-content" v-if="item.id == 1">
+          <van-list v-model="loading1" :finished="finished1" @load="onLoad1">
+            <ul v-for="(order,index) in orders" :key="index" v-if="order.orderState=='1'">
+              <li class="item" v-for="item in order.orderdetails" :key="item.odId">
+                <div class="item-content">
+                  <img :src="item.odProductIcon ? item.odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
+                  <div class="item-info">
+                    <p class="item-title">{{item.odProductName}}</p>
+                    <p class="item-desc">{{item.odProductDes}}</p>
+                    <p class="item-button">
+                      <strong class="money">￥{{item.odProductPprice}}</strong>
+                      <span> x{{item.odProductNum}}</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="item-bottom">
+                  <p>取消订单
+                    <button @click="payment(item.odOrderId)">立即付款</button>
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </van-list>
+        </div>
+        <div class="coupon-content" v-if="item.id == 2">
+          <van-list v-model="loading2" :finished="finished2" @load="onLoad2">
+            <ul v-for="(order,index) in orders" :key="index">
+              <li class="item" v-for="item in order.orderdetails" :key="item.odId">
+                <div class="item-content">
+                  <img :src="item.odProductIcon ? item.odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
+                  <div class="item-info">
+                    <p class="item-title">{{item.odProductName}}</p>
+                    <p class="item-desc">{{item.odProductDes}}</p>
+                    <p class="item-button">
+                      <strong class="money">￥{{item.odProductPprice}}</strong>
+                      <span> x{{item.odProductNum}}</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="item-bottom">
+                  <p class="item-bottom-two">等待发货</p>
+                </div>
+              </li>
+            </ul>
+          </van-list>
+        </div>
+        <div class="coupon-content" v-if="item.id == 3">
+          <van-list v-model="loading3" :finished="finished3" @load="onLoad3">
+            <ul v-for="(order,index) in orders" :key="index" v-if="order.orderState=='3'">
+              <li class="item" v-for="item in order.orderdetails" :key="item.odId">
+                <div class="item-content">
+                  <img :src="item.odProductIcon ? item.odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
+                  <div class="item-info">
+                    <p class="item-title">{{item.odProductName}}</p>
+                    <p class="item-desc">{{item.odProductDes}}</p>
+                    <p class="item-button">
+                      <strong class="money">￥{{item.odProductPprice}}</strong>
+                      <span> x{{item.odProductNum}}</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="item-bottom">
+                  <p>
+                    <button class="item-bottom-three">确认收货</button>
+                    <button>查看物流</button>
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </van-list>
+        </div>
+        <div class="coupon-content" v-if="item.id == 4">
+          <van-list v-model="loading4" :finished="finished4" @load="onLoad4">
+            <ul v-for="(order,index) in orders" :key="index">
+              <li class="item" v-for="item in order.orderdetails" :key="item.odId">
+                <div class="item-content">
+                  <img :src="item.odProductIcon ? item.odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
+                  <div class="item-info">
+                    <p class="item-title">{{item.odProductName}}</p>
+                    <p class="item-desc">{{item.odProductDes}}</p>
+                    <p class="item-button">
+                      <strong class="money">￥{{item.odProductPprice}}</strong>
+                      <span> x{{item.odProductNum}}</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="item-bottom">
+                  <button @click='gotDetails(item)'>查看详情</button>
+                </div>
+              </li>
+            </ul>
+          </van-list>
+        </div>
+        <div class="coupon-content" v-if="item.id == 5">
+          <van-list v-model="loading5" :finished="finished5" @load="onLoad5">
+            <ul v-for="(order,index) in orders" :key="index">
+              <li class="item" v-for="item in order.orderdetails" :key="item.odId">
+                <div class="item-content">
+                  <img :src="item.odProductIcon ? item.odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
+                  <div class="item-info">
+                    <p class="item-title">{{item.odProductName}}</p>
+                    <p class="item-desc">{{item.odProductDes}}</p>
+                    <p class="item-button">
+                      <strong class="money">￥{{item.odProductPprice}}</strong>
+                      <span> x {{item.odProductNum}}</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="item-bottom">
+                  <p>
+                    <button @click="goEvaluation(item)">立即评价</button>
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </van-list>
+        </div>
+      </van-tab>
+    </van-tabs>
+  </div>
 </template>
 <script>
 import order from "../service/order.js";
@@ -201,10 +181,18 @@ export default {
         { id: 4, text: "全部订单" }
       ],
       orders: [],
-      loading: false,
-      finished: false,
-      pageNum: 1,
-      code: "",
+      loading1: false,
+      finished1: false,
+      loading2: false,
+      finished2: false,
+      loading3: false,
+      finished3: false,
+      loading4: false,
+      finished4: false,
+      loading5: false,
+      finished5: false,
+      pageNum: 0,
+      code: false,
       staffId: this.getCookie("staffId"),
       token: this.getCookie("token")
     };
@@ -236,17 +224,89 @@ export default {
     payment(id) {
       this.$router.push(`/cartDetermine/${id}`);
     },
-    loadMore(index) {
+    onClick(index) {
+      this.pageNum = 0;
+      this.orders = [];
       if (index == 0) {
-        index = "";
+        this.finished1 = false;
+        this.onLoad1();
+      } else if (index == 1) {
+        this.finished2 = false;
+        this.onLoad2();
+      } else if (index == 2) {
+        this.finished3 = false;
+        this.onLoad3();
+      } else if (index == 3) {
+        this.finished5 = false;
+        this.onLoad5();
+      } else if (index == 4) {
+        this.finished4 = false;
+        this.onLoad4();
       }
+    },
+    onLoad1() {
+      // 待付款
+      this.loading1 = true;
       this.pageNum++;
-      this.showLoad = true;
-      this.getOrder(this.staffId, this.token, index, 7, this.pageNum).then(
+      this.getOrder(this.staffId, this.token, 1, 7, this.pageNum).then(res => {
+        this.loading1 = false;
+        this.code = res.code;
+        this.orders = this.orders.concat(res.data);
+        if (res.data == "") {
+          this.finished1 = true;
+        }
+      });
+    },
+    onLoad2() {
+      // 待发货
+      this.loading2 = true;
+      this.pageNum++;
+      this.getOrder(this.staffId, this.token, 2, 7, this.pageNum).then(res => {
+        this.loading2 = false;
+        this.code = res.code;
+        this.orders = this.orders.concat(res.data);
+        if (res.data == "") {
+          this.finished2 = true;
+        }
+      });
+    },
+    onLoad3() {
+      // 待收货
+      this.loading3 = true;
+      this.pageNum++;
+      this.getOrder(this.staffId, this.token, 3, 7, this.pageNum).then(res => {
+        this.loading3 = false;
+        this.code = res.code;
+        this.orders = this.orders.concat(res.data);
+        if (res.data == "") {
+          this.finished3 = true;
+        }
+      });
+    },
+    onLoad4() {
+      // 全部订单
+      this.loading4 = true;
+      this.pageNum++;
+      this.getOrder(this.staffId, this.token, "", 7, this.pageNum).then(res => {
+        this.loading4 = false;
+        this.code = res.code;
+        this.orders = this.orders.concat(res.data);
+        if (res.data == "") {
+          this.finished4 = true;
+        }
+      });
+    },
+    onLoad5() {
+      this.loading5 = true;
+      this.pageNum++;
+      this.getOrder(this.staffId, this.token, "4", 7, this.pageNum).then(
         res => {
+          this.loading5 = false;
           this.code = res.code;
-          console.log(typeof this.code);
           this.orders = this.orders.concat(res.data);
+          if (res.data == "") {
+            this.finished5 = true;
+          }
         }
       );
     },
@@ -258,53 +318,6 @@ export default {
     },
     returnProfile() {
       this.$router.push("/profile");
-    }
-  },
-  watch: {
-    active: async function() {
-      var token = this.token;
-      var staffId = this.staffId;
-      if (this.active == 0) {
-        //   待付款
-        this.pageNum = 1;
-        this.orders = "";
-        this.getOrder(staffId, token, "1", 7, this.pageNum).then(res => {
-          this.code = res.code;
-          this.orders = res.data;
-        });
-      } else if (this.active == 1) {
-        // 待发货
-        this.pageNum = 1;
-        this.orders = "";
-        this.getOrder(staffId, token, "2", 7, this.pageNum).then(res => {
-          this.code = res.code;
-          this.orders = res.data;
-        });
-      } else if (this.active == 2) {
-        //   待收货
-        this.pageNum = 1;
-        this.orders = "";
-        this.getOrder(staffId, token, "3", 7, this.pageNum).then(res => {
-          this.code = res.code;
-          this.orders = res.data;
-        });
-      } else if (this.active == 3) {
-        //   待评价
-        this.pageNum = 1;
-        this.orders = "";
-        this.getOrder(staffId, token, "4", 7, this.pageNum).then(res => {
-          this.code = res.code;
-          this.orders = res.data;
-        });
-      } else if (this.active == 4) {
-        //   全部订单
-        this.pageNum = 1;
-        this.orders = "";
-        this.getOrder(staffId, token, "", 7, this.pageNum).then(res => {
-          this.code = res.code;
-          this.orders = res.data;
-        });
-      }
     }
   }
 };
