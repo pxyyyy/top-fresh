@@ -1,23 +1,23 @@
 <template>
-    <div>
-        <div class="wrappre">
-            <div class="gitcard"></div>
-            <div class="gitcard-text">
-                <h4>阳澄湖大闸蟹礼盒3对装3对装</h4>
-                <h4>雄蟹2.8两 * 3只</h4>
-                <h4>雄蟹2.8两 * 3只</h4>
-                <h1 class="gitcard-money">￥860</h1>
-                <div class="gitcard-bottom">
-                    <p> <input type="text" placeholder="请输入手机号"> </p>
-                    <p><input type="text" placeholder="请输入验证码"></p>
-                    <p>
-                        <span>59秒后获取</span>
-                    </p>
-                    <button>立即提货</button>
-                </div>
-            </div>
+  <div>
+    <div class="wrappre">
+      <div class="gitcard"></div>
+      <div class="gitcard-text">
+        <h4>阳澄湖大闸蟹礼盒3对装3对装</h4>
+        <h4>雄蟹2.8两 * 3只</h4>
+        <h4>雄蟹2.8两 * 3只</h4>
+        <h1 class="gitcard-money">￥860</h1>
+        <div class="gitcard-bottom">
+          <p> <input type="text" placeholder="请输入手机号"> </p>
+          <p><input type="text" placeholder="请输入验证码"></p>
+          <p>
+            <span>59秒后获取</span>
+          </p>
+          <button>立即提货</button>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -28,7 +28,7 @@ export default {
     }
   },
   beforeMount() {
-    document.title = "领取礼卡";
+    document.title = "领取礼券";
   }
 };
 </script>

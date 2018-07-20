@@ -72,7 +72,7 @@ export default {
     }
   },
   beforeMount() {
-    document.title = "提货卷增送";
+    document.title = "提货券增送";
   }
 };
 </script>

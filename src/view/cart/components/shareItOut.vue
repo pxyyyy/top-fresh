@@ -11,7 +11,7 @@
 			<div class="shareIt-content">
 				<div class="shareIt-item">
 					<div class="shareIt-item-left">
-						<p>全品类代金卷</p>
+						<p>全品类代金券</p>
 						<p>2018.1.1-2017.3.1</p>
 						<p class="shareIt-item-leftBottom">满199使用</p>
 					</div>
@@ -24,7 +24,7 @@
 				</div>
 				<div class="shareIt-item">
 					<div class="shareIt-item-left">
-						<p>全品类代金卷</p>
+						<p>全品类代金券</p>
 						<p>2018.1.1-2017.3.1</p>
 						<p class="shareIt-item-leftBottom">满199使用</p>
 					</div>

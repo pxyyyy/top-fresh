@@ -2,63 +2,63 @@
 @import "./cartOut.less";
 </style>
 <template>
-	<div>
-		<!-- 订单详情 -->
-		<div class="order">
-			<span>订单号：{{orders.orderCode}}</span>
-		</div>
-		<div>
-			<ul v-for="item in infoList" :key="item.odId">
-				<li class="item">
-					<img :src="item.odProductIcon" alt="" class="item-img">
-					<div class="item-info">
-						<p class="item-title">{{item.odProductName}}</p>
-						<p class="item-desc">{{item.odProductDes}}</p>
-						<p class="item-button">
-							<strong class="money">￥{{item.odProductPprice}}</strong>
-							<span v-if="item.odProductNum">x{{item.odProductNum}}</span>
-							<span v-else>x1</span>
-						</p>
-					</div>
-				</li>
-			</ul>
-		</div>
-		<!-- 货品形式 -->
-		<div class="myInfoa" v-if="orders.orderPmoney">
-			<div class="border-top price-content">
-				<van-row>
-					<van-col span="12">商品总额</van-col>
-					<van-col span="12" class="price_right">￥199.00</van-col>
-				</van-row>
-				<van-row>
-					<van-col span="12">代金卷优惠</van-col>
-					<van-col span="12" class="price_right">-￥10.00</van-col>
-				</van-row>
-				<van-row>
-					<van-col span="12">积分优惠</van-col>
-					<van-col span="12" class="price_right">-￥10.00</van-col>
-				</van-row>
-				<van-row class="price-bottom">
-					<van-col span="24" class="price_right">实付款
-						<strong class="money">￥{{orders.orderPmoney}}.00</strong>
-					</van-col>
-				</van-row>
-			</div>
-		</div>
-		<div class="wait">
-			<van-button size="mini" class='info-button'>等待发货</van-button>
-		</div>
-		<!-- 继续选购 -->
-		<div class="keepOn">
-			<p>
-				<span>——</span>继续选购
-				<span>——</span>
-			</p>
-			<div class="img-conent" @click="toProductInfo(item.id)" v-for="item in products" :key="item.id">
-				<img v-lazy="item.imgUrl" alt="">
-			</div>
-		</div>
-	</div>
+  <div>
+    <!-- 订单详情 -->
+    <div class="order">
+      <span>订单号：{{orders.orderCode}}</span>
+    </div>
+    <div>
+      <ul v-for="item in infoList" :key="item.odId">
+        <li class="item">
+          <img :src="item.odProductIcon" alt="" class="item-img">
+          <div class="item-info">
+            <p class="item-title">{{item.odProductName}}</p>
+            <p class="item-desc">{{item.odProductDes}}</p>
+            <p class="item-button">
+              <strong class="money">￥{{item.odProductPprice}}</strong>
+              <span v-if="item.odProductNum">x{{item.odProductNum}}</span>
+              <span v-else>x1</span>
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- 货品形式 -->
+    <div class="myInfoa" v-if="orders.orderPmoney">
+      <div class="border-top price-content">
+        <van-row>
+          <van-col span="12">商品总额</van-col>
+          <van-col span="12" class="price_right">￥199.00</van-col>
+        </van-row>
+        <van-row>
+          <van-col span="12">代金券优惠</van-col>
+          <van-col span="12" class="price_right">-￥10.00</van-col>
+        </van-row>
+        <van-row>
+          <van-col span="12">积分优惠</van-col>
+          <van-col span="12" class="price_right">-￥10.00</van-col>
+        </van-row>
+        <van-row class="price-bottom">
+          <van-col span="24" class="price_right">实付款
+            <strong class="money">￥{{orders.orderPmoney}}.00</strong>
+          </van-col>
+        </van-row>
+      </div>
+    </div>
+    <div class="wait">
+      <van-button size="mini" class='info-button'>等待发货</van-button>
+    </div>
+    <!-- 继续选购 -->
+    <div class="keepOn">
+      <p>
+        <span>——</span>继续选购
+        <span>——</span>
+      </p>
+      <div class="img-conent" @click="toProductInfo(item.id)" v-for="item in products" :key="item.id">
+        <img v-lazy="item.imgUrl" alt="">
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import service from "../service/index.js";

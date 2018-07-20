@@ -68,10 +68,10 @@
         <span>可获得{{infoProduct.product.productScore}}积分</span>
       </p>
     </div>
-    <div class="details" :style="{marginBottom:marginBottom}">
+    <div class="details" :style="{marginBottom:marginBottom}" v-if="infoProduct.product.productImg">
       <p class="details_title">---- 商品详情 ----</p>
       <div class="details_content">
-        <img :src="infoProduct.product.productImg" alt="">
+        <!-- <img :src="infoProduct.product.productImg" alt=""> -->
       </div>
     </div>
     <!-- 遮罩 -->
@@ -115,6 +115,7 @@ export default {
   },
   methods: {
     giveShareInfo() {
+      console.log(this.$route);
       Android.giveShareInfo(
         "你收到一个拼团邀请",
         `${this.infoProduct.product.productName}`,
@@ -139,30 +140,47 @@ export default {
       this.$router.push(`/cart?number=` + this.number);
     },
     async participate() {
-      if (!this.staffId) {
-        this.$router.push("/login");
-      } else if (this.staffId != this.$route.params.startUser) {
-        // 个人信息
-        await this.getStaffInfo({
-          staffId: this.getCookie("staffId"),
-          token: this.getCookie("token")
-        }).then(res => {
-          var ueseInfo = res.data;
-          if (ueseInfo == "") {
-            this.$router.push("/login");
+      let from = this.$route.query.from;
+      if (from == "Android") {
+        this.giveShareInfo();
+      } else if (from == "IOS") {
+        this.$bridge.callHandler(
+          "giveShareInfo",
+          {
+            title: "你收到一个拼团邀请",
+            toProductInfo: `${this.infoProduct.product.productName}`,
+            link: window.location.href
+          },
+          data => {
+            console.log("success");
           }
-        });
-        await this.addUserTogetherOrder({
-          staffId: this.getCookie("staffId"),
-          token: this.getCookie("token"),
-          togetherOrderId: this.infoProduct.togetherOrderId,
-          flagTO: 1,
-          togetherId: this.infoProduct.togetherId,
-          startUser: this.infoProduct.startUser
-        }).then(res => {
-          this.$router.push(`/collageDetermineOther/${res[0]}`);
-        });
+        );
       } else {
+        if (!this.staffId) {
+          this.$router.push("/login");
+        } else if (this.staffId != this.$route.params.startUser) {
+          // 个人信息
+          await this.getStaffInfo({
+            staffId: this.getCookie("staffId"),
+            token: this.getCookie("token")
+          }).then(res => {
+            var ueseInfo = res.data;
+            if (ueseInfo == "") {
+              this.$router.push("/login");
+            }
+          });
+          await this.addUserTogetherOrder({
+            staffId: this.getCookie("staffId"),
+            token: this.getCookie("token"),
+            togetherOrderId: this.infoProduct.togetherOrderId,
+            flagTO: 1,
+            togetherId: this.infoProduct.togetherId,
+            startUser: this.infoProduct.startUser
+          }).then(res => {
+            this.$router.push(`/collageDetermineOther/${res[0]}`);
+          });
+        } else {
+        }
       }
     }
   },
@@ -180,34 +198,25 @@ export default {
   },
   beforeMount() {
     let from = this.$route.query.from;
-    if (from == "IOS" || from == "Android") {
-      this.showshareIt = false;
-      this.riend = "邀请好友参团";
-    }
     this.getTogetherOrderProcessMessage({
       togetherOrderId: this.$route.params.id
     }).then(res => {
       this.infoProduct = res;
       this.infoProductUser = res.user;
       this.startUser = res.startUser;
-      for (let item in this.infoProductUser) {
-        if (this.getCookie("staffId") == this.infoProductUser[item].staffId) {
-          this.showshareIt = true;
-          this.riend = "邀请好友参团";
-        } else {
-          this.riend = "立即参团";
+      if (from == "IOS" || from == "Android") {
+        this.showshareIt = false;
+        this.riend = "邀请好友参团";
+      } else {
+        for (let item in this.infoProductUser) {
+          if (this.getCookie("staffId") == this.infoProductUser[item].staffId) {
+            this.showshareIt = true;
+            this.riend = "邀请好友参团";
+          } else {
+            this.riend = "立即参团";
+          }
         }
       }
-      this.$bridge.registerHandler(
-        "giveShareInfo",
-        (data, responseCallback) => {
-          responseCallback(
-            "你收到一个拼团邀请",
-            `${this.infoProduct.product.productName}`,
-            window.location.href
-          );
-        }
-      );
       // if (this.staffId == this.$route.params.startUser) {
       //   this.showshareIt = true;
       //   this.riend = "邀请好友参团";

@@ -46,7 +46,7 @@
     </van-nav-bar> -->
     <div>
       <van-tabs type="card" v-model="active" v-if="$route.params.id == 0 || $route.params.id == 1">
-        <van-tab v-for="index in 2" :key="index" :title="index==1 ? '礼卡' : '现货' ">
+        <van-tab v-for="index in 2" :key="index" :title="index==1 ? '礼券' : '现货' ">
           <div v-if="index==1">
             <gift-Card></gift-Card>
           </div>

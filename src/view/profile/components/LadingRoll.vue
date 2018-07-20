@@ -184,7 +184,7 @@ export default {
     }
   },
   beforeMount() {
-    document.title = "我的提货卷";
+    document.title = "我的提货券";
   }
 };
 </script>

@@ -44,7 +44,17 @@ export default {
           console.log(error);
         });
     },
-    // 拼团优惠卷
+    // 个人信息
+    getStaffInfo(json) {
+      return api.post(`fresh_show/staff/getStaffInfo`, json)
+        .then(res => {
+          return res.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 拼团优惠券
     getCoupnsListByMoney(json) {
       return api.post(`fresh_show/order/getCoupnsListByMoney`, json)
         .then(res => {

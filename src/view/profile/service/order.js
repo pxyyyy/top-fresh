@@ -50,7 +50,7 @@ export default {
           console.log(error);
         });
     },
-    // 代金卷数量
+    // 代金券数量
     getCoupon(staffId, token, scCouponState) {
       return api.get(`fresh_show/staffcoupon/selectCouponsByStaffId?staffId=${staffId}&token=${token}&scCouponState=${scCouponState}`)
         .then(res => {

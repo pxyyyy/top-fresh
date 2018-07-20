@@ -35,11 +35,30 @@ export default {
           console.log(error);
         });
     },
-    // 提货卷赠送好友
+    // 提货券赠送好友
     giveFriend(json) {
       return api.post(`fresh_show/orderTail/giveFriend`, json)
         .then(res => {
           return res.data.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 解除绑定
+    clearOpenId(json) {
+      return api.post(`fresh_show/staff/clearOpenId`, json)
+        .then(res => {
+          return res.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    getStaffInfo(json) {
+      return api.post(`fresh_show/staff/getStaffInfo`, json)
+        .then(res => {
+          return res.data;
         })
         .catch(function (error) {
           console.log(error);
@@ -72,6 +91,16 @@ export default {
     // 好友领取优惠券
     getFriend(json) {
       return api.post(`fresh_show/orderTail/getFriend`, json)
+        .then(res => {
+          return res.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // 绑定微信
+    updateOpenId(json) {
+      return api.post(`fresh_show/staff/updateOpenId`, json)
         .then(res => {
           return res.data;
         })

@@ -112,7 +112,7 @@ export default {
     };
   },
   methods: {
-    // 使用优惠卷
+    // 使用优惠券
     useaCoupon(money, scId) {
       // 优惠券价格保存
       sessionStorage.money = money;

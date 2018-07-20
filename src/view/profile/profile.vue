@@ -27,7 +27,7 @@
             <span class="telicon"></span>
             <strong class="tel">{{ueseInfo.staffPhone}}</strong>
           </van-row>
-          <!--积分和代金卷-->
+          <!--积分和代金券-->
           <van-row class="info info-one">
             <van-col span="12">
               <h3 v-if="ueseInfo.staffScore" @click="integralShow">{{ueseInfo.staffScore}}</h3>
@@ -36,7 +36,7 @@
             </van-col>
             <van-col span="12">
               <h3 @click="goCoupon">{{ueseInfo.couoponSize}}</h3>
-              <p @click="goCoupon">代金卷</p>
+              <p @click="goCoupon">代金券</p>
             </van-col>
           </van-row>
         </div>
@@ -58,13 +58,14 @@
       </van-row>
       <!--功能-->
       <van-cell-group>
-        <van-cell is-link v-for="(item, index) of FeaturesList" @click="secondLevel(index)" :key="item.id">
+        <van-cell is-link v-for="(item, index) of FeaturesList" @click="secondLevel(index)" :key="item.id" :value="item.phone">
           <template slot="title">
             <p class="user-group-list">
               <img :src="item.Url">
             </p>
             <p class="van-cell-text">
               {{item.text}}
+              <span style="float:right;"></span>
             </p>
           </template>
         </van-cell>
@@ -105,7 +106,8 @@ export default {
         {
           id: "001",
           Url: require("../../assets/img/userIcon1.png"),
-          text: "待付款"
+          text: "待付款",
+          phone: ""
         },
         {
           id: "002",
@@ -132,32 +134,38 @@ export default {
         {
           id: "001",
           Url: require("../../assets/img/FeaturesList1.png"),
-          text: "我的提货卷"
+          text: "我的提货券",
+          phone: ""
         },
         {
           id: "002",
           Url: require("../../assets/img/FeaturesList2.png"),
-          text: "收货地址"
+          text: "收货地址",
+          phone: ""
         },
         {
           id: "003",
           Url: require("../../assets/img/FeaturesList3.png"),
-          text: "我的拼团"
+          text: "我的拼团",
+          phone: ""
         },
         {
           id: "004",
           Url: require("../../assets/img/FeaturesList4.png"),
-          text: "电话客服"
+          text: "电话客服",
+          phone: "400-010-5777"
         },
         {
           id: "005",
           Url: require("../../assets/img/FeaturesList5.png"),
-          text: "意见反馈"
+          text: "意见反馈",
+          phone: ""
         },
         {
           id: "006",
           Url: require("../../assets/img/FeaturesList6.png"),
-          text: "设置"
+          text: "设置",
+          phone: ""
         }
       ]
     };
@@ -200,7 +208,7 @@ export default {
           this.$router.push("/cartAddress");
           break;
         case 2:
-          // this.$router.push("/MyCollage");
+          this.$router.push("/MyCollage");
           break;
         case 4:
           this.$router.push(`/feedback/${this.ueseInfo.staffPhone}`);

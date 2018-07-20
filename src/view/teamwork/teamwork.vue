@@ -57,6 +57,16 @@ export default {
     // if (!this.getCookie("staffId")) {
     //   this.$router.push("/login");
     // }
+    // 个人信息{
+    this.getStaffInfo({
+      staffId: this.getCookie("staffId"),
+      token: this.getCookie("token")
+    }).then(res => {
+      this.ueseInfo = res.data;
+      if (this.ueseInfo == "") {
+        this.$router.push("/login");
+      }
+    });
     var staffId = this.getCookie("staffId");
     var token = this.getCookie("token");
     this.getTogetherOrderList({
