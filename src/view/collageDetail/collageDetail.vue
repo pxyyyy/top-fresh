@@ -13,8 +13,8 @@
   <div>
     <!-- 商品主图  有赞轮播组件-->
     <swiper :options="swiperOption">
-      <swiper-slide v-for="(image, index) in infoOne" :key="index">
-        <img v-lazy="image.productIcon" class="img" />
+      <swiper-slide v-for="(image, index) in infoOne.proImgs" :key="index">
+        <img v-lazy="image.imgUrl" class="img" />
       </swiper-slide>
     </swiper>
     <!-- 商品详细信息 -->
@@ -53,7 +53,7 @@
     <div class="details" :style="{marginBottom:marginBottom}">
       <p class="details_title">---- 商品详情 ----</p>
       <div class="details_content">
-        <img v-lazy="infoOne.productImg" alt="">
+        <img v-lazy="infoOne.productIcon" alt="">
       </div>
     </div>
     <!-- 商品图文详情 -->
@@ -62,7 +62,7 @@
         <van-button bottom-action @click="aloneBy('123323')">单独购买 ￥{{infoOne.productOprice}}</van-button>
       </van-col>
       <van-col span="12">
-        <van-button type="primary" bottom-action @click="collage('1232321')">5人成团 ￥{{infoTwo.priceTogether}}</van-button>
+        <van-button type="primary" bottom-action @click="collage('1232321')">{{infoTwo.successPeopleNum}}人成团 ￥{{infoTwo.priceTogether}}</van-button>
       </van-col>
     </van-row>
   </div>
@@ -175,21 +175,9 @@ export default {
         var staffId = this.getCookie("staffId");
         var token = this.getCookie("token");
         await this.addUserTogetherOrder({
-          productId: this.infoOne.productId,
-          togetherOrderId: this.$route.params.id,
-          // status: this.info.status,
-          originalPrice: this.infoOne.productOprice,
-          priceTogether: this.infoTwo.priceTogether,
-          title: this.infoOne.productName,
-          orderIn: "0",
           staffId,
-          token
-          // staffId: this.info.staffId,
-          // createTime: this.info.createTime,
-          // refundTime: this.info.refundTime,
-          // payTime: this.info.payTime,
-          // addressL: this.info.addressL,
-          // startUser: this.info.startUser
+          token,
+          togetherOrderId: this.$route.params.id
         }).then(res => {
           this.id = res[0];
         });

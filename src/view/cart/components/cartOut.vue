@@ -3,10 +3,6 @@
 </style>
 <template>
 	<div>
-		<div class="topbar">
-			支付完成
-			<span class="iconfont" @click="returnDetermine()">&#xe65c;</span>
-		</div>
 		<!-- 订单详情 -->
 		<div class="order">
 			<span>订单号：{{orders.orderCode}}</span>
@@ -52,9 +48,6 @@
 		<div class="wait">
 			<van-button size="mini" class='info-button'>等待发货</van-button>
 		</div>
-		<div class="shareIt" @click="goShareIt">
-			<img src="../../../assets/img/shareIt.png" alt="">
-		</div>
 		<!-- 继续选购 -->
 		<div class="keepOn">
 			<p>
@@ -80,6 +73,13 @@ export default {
   },
   mixins: [service],
   methods: {
+    pushHistory() {
+      var state = {
+        title: "title",
+        url: "#"
+      };
+      window.history.pushState(state, "title", "#");
+    },
     // 获取cook
     getCookie(name) {
       console.log(this);
@@ -104,6 +104,15 @@ export default {
     }
   },
   beforeMount() {
+    // 返回事件
+    this.pushHistory();
+    window.addEventListener(
+      "popstate",
+      function(e) {
+        window.location = "http://shop.jiweishengxian.com";
+      },
+      false
+    );
     // 订单详情
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");

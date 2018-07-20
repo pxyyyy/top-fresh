@@ -1,36 +1,30 @@
 <template>
   <div>
-    <!-- <van-nav-bar :title="title" class="evetn-bar">
-      <van-icon name="arrow-left" slot="left" class="evetn-icon" @click="last" />
-    </van-nav-bar> -->
     <div class="wrapper">
-      <van-row class="wrapper-content" v-for="item in myCouponList" :key="item.couponsId">
-        <van-col span="6" class="wrapperLeft">
-          <h2>
-            <span>￥</span>{{item.couponsValue}}</h2>
-        </van-col>
-        <van-col span="11" class="wrapper-center" offset="1">
-          <p>{{item.couponsName}}</p>
-          <p>{{item.couponsReceiveStartTime}} - {{item.couponsReceiveEndTime}}</p>
-          <p class="weight">{{item.couponsType}}</p>
-        </van-col>
-        <van-col span="6" class="wrapper-right">
-          <div class="wrapper-right-icon">
-            <img v-if="item.isReceive == 0 " src="../../assets/img/myCoupon.png" alt="">
-            <img v-else src="../../assets/img/myCouponUnused.png" alt="">
-          </div>
-          <div class="wrapper-right-button">
-            <button v-if="item.isReceive == 0 " @click="getCoupon(item)">立即领取</button>
-            <button v-else style="background:#ccc;">已领取</button>
-          </div>
-        </van-col>
-      </van-row>
-      <van-row>
-        <van-col span="24" style="text-align:center; font-size:10px;margin:20px 0;color:#ccc;">
-          <div @click='loadMore()' v-if="code == '100000'">加载更多 </div>
-          <div v-else>没有更多数据~~</div>
-        </van-col>
-      </van-row>
+      <van-list v-model="loading" :finished="finished" @load="onLoad">
+        <van-row class="wrapper-content" v-for="item in myCouponList" :key="item.couponsId">
+          <van-col span="6" class="wrapperLeft">
+            <h2>
+              <span>￥</span>{{item.couponsValue}}</h2>
+          </van-col>
+          <van-col span="11" class="wrapper-center" offset="1">
+            <p>{{item.couponsName}}</p>
+            <p>{{item.createtime}} - {{item.couponsEndTime}}</p>
+            <!-- <p class="weight">{{item.couponsType}}</p> -->
+          </van-col>
+          <van-col span="6" class="wrapper-right">
+            <div class="wrapper-right-icon">
+              <img v-if="item.isReceive == 0 " src="../../assets/img/myCoupon.png" alt="">
+              <img v-else src="../../assets/img/myCouponUnused.png" alt="">
+            </div>
+            <div class="wrapper-right-button">
+              <button v-if="item.isReceive == 0 " @click="getCoupon(item)">立即领取</button>
+              <button v-else style="background:#ccc;">已领取</button>
+            </div>
+          </van-col>
+        </van-row>
+      </van-list>
+
     </div>
   </div>
 </template>
@@ -41,10 +35,10 @@ export default {
   mixins: [service],
   data() {
     return {
-      myCouponList: "",
+      myCouponList: [],
       loading: false,
       finished: false,
-      pageNum: 1,
+      pageNum: 0,
       type: "立即领取",
       code: "",
       staffId: this.getCookie("staffId"),
@@ -71,16 +65,22 @@ export default {
     last() {
       this.$router.go(-1);
     },
-    loadMore(index) {
+    onLoad() {
+      this.loading = true;
       this.pageNum++;
       this.getCouponsOfReceive({
         staffId: this.staffId,
         token: this.token,
+        activityId: this.$route.params.id,
         pageNum: this.pageNum,
         pageSize: 7
       }).then(res => {
+        this.loading = false;
         this.code = res.code;
         this.myCouponList = this.myCouponList.concat(res.data);
+        if (res.data == "") {
+          this.finished = true;
+        }
       });
     },
     async getCoupon(item) {
@@ -108,16 +108,6 @@ export default {
     }
   },
   async beforeMount() {
-    await this.getCouponsOfReceive({
-      staffId: this.staffId,
-      token: this.token,
-      activityId: this.$route.params.id,
-      pageNum: 1,
-      pageSize: 7
-    }).then(res => {
-      this.code = res.code;
-      this.myCouponList = res.data;
-    });
     await this.selectByPrimaryKey({
       acId: this.$route.params.id
     }).then(res => {

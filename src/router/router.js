@@ -103,7 +103,7 @@ export const productRouter = [{
     }
   },
   {
-    path: '/collageDetermineOther/:id/:staffId',
+    path: '/collageDetermineOther/:id',
     name: 'collageDetermineOther',
     component: resolve => {
       require(['@/view/collageDetail/collageDetermineOther.vue'], resolve);
@@ -114,7 +114,7 @@ export const productRouter = [{
     name: 'collageShare',
     component: productDetails,
     children: [{
-      path: ':id/:productId/:staffId/:togetherOrderId/:token',
+      path: ':id/:startUser',
       title: 'collageShare',
       name: '拼团分享',
       component: resolve => {
@@ -368,7 +368,7 @@ export const otherRouter = [{
     }
   },
   {
-    path: '/teamworkcoupon',
+    path: '/teamworkcoupon/:money',
     name: 'teamworkcoupon',
     component: resolve => {
       require(['@/view/teamwork/teamworkcoupon.vue'], resolve);

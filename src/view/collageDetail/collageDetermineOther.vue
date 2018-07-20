@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-@import "./collageDetermineOther.less";
+@import "./collageDetermine.less";
 </style>
 <style>
 .Cell .van-icon {
@@ -18,22 +18,24 @@
     <div class="cart_min">
       <!-- 订单详情 -->
       <div>
-        <ul>
+        <ul v-if="info">
           <li class="item">
-            <img :src="infoOne.product.productIcon" alt="" class="item-img">
+            <img :src="info.product.productIcon" alt="" class="item-img">
             <div class="item-info">
-              <p class="item-title">{{infoOne.product.productName}}</p>
-              <p class="item-desc">{{infoOne.product.productInfo}}</p>
+              <p class="item-title">{{info.product.productName}}</p>
+              <p class="item-desc">{{info.product.productInfo}}</p>
               <p class="item-button">
-                <strong class="money">￥{{infoOne.priceTogether}}</strong>
+                <strong class="money">￥{{info.priceTogether}}</strong>
                 <span>x1</span>
               </p>
             </div>
           </li>
         </ul>
+        <!-- 单元格 -->
+        <!--是否邮寄提货卷弹出-->
         <div style="padding-top:30px;background:#fff;">
           <div class="select">
-            <div class="border-top" style="padding:2px 0;" @click="usingaVouchers">
+            <div class="border-top" style="padding:2px 0;" @click='usingaVouchers'>
               <p>使用代金卷</p>
               <p v-if="this.offer">
                 -{{this.offer}}元
@@ -46,28 +48,40 @@
           </div>
           <div class="Cell">
             <div class="border-top" style="padding:2px 0;">
-              <p>可用200积分抵扣20元</p>
+              <p>可用{{this.integral[0]}}积分,抵扣{{this.integral[1]}}元</p>
               <p class="checked">
                 <van-checkbox v-model="checked"></van-checkbox>
               </p>
             </div>
           </div>
+          <div class="select">
+            <div class="border-top" style="padding:2px 0;">
+              <p>商品总额</p>
+              <p class="black">
+                ￥{{info.priceTogether}}
+              </p>
+            </div>
+          </div>
+          <div class="select">
+            <div class="border-top" style="padding:2px 0;">
+              <p>代金卷优惠</p>
+              <p class="black" v-if="this.offer">-￥{{this.offer}}
+              </p>
+              <p class="black" v-else>-￥0
+              </p>
+            </div>
+          </div>
+          <div class="select">
+            <div class="border-top" style="padding:2px 0;">
+              <p>积分优惠</p>
+              <p class="black">-￥{{10.00}}
+              </p>
+            </div>
+          </div>
         </div>
         <!--价格详情-->
-        <div class="myInfo">
+        <div class="myInfo" v-if="info">
           <div class="border-top price-content">
-            <van-row>
-              <van-col span="12">商品总额</van-col>
-              <van-col span="12" class="price_right" style="font-wight:300;">￥{{infoOne.product.priceTogether}}</van-col>
-            </van-row>
-            <van-row>
-              <van-col span="12">代金卷优惠</van-col>
-              <van-col span="12" class="price_right">-￥10.00</van-col>
-            </van-row>
-            <van-row>
-              <van-col span="12">积分优惠</van-col>
-              <van-col span="12" class="price_right">-￥10.00</van-col>
-            </van-row>
             <van-row class="price-bottom">
               <van-col span="24" class="price_right">实付款
                 <strong class="money">￥{{orderAllmoney}}</strong>
@@ -76,32 +90,20 @@
           </div>
         </div>
         <!-- 付款方式 -->
-        <div class='payment'>
+        <div class='payment' v-if="info">
           <p>付款方式：</p>
           <van-row>
-            <van-col span="8">
+            <van-col span="24">
               <div :class="{wx: true ,wxactive: wx }" @click='wxActive'>
                 <img :src="wxPic" alt="">
                 <p>微信支付</p>
-              </div>
-            </van-col>
-            <van-col span="8">
-              <div :class="{zfb: true, zfbactive: zfb }" @click='zfbActive'>
-                <img :src="zfbPic" alt="">
-                <p>支付宝</p>
-              </div>
-            </van-col>
-            <van-col span="8">
-              <div :class="{yl: true, ylactive: yl }" @click='ylActive'>
-                <img :src="ylpic" alt="">
-                <p>银联支付</p>
               </div>
             </van-col>
           </van-row>
         </div>
       </div>
       <!-- 支付订单 -->
-      <div class="cart-foot">
+      <div class="cart-foot" v-if="info">
         <p>付款 :
           <span>￥{{orderAllmoney}}</span>
         </p>
@@ -110,7 +112,7 @@
         </p>
       </div>
       <!--付款方式弹出-->
-      <van-popup v-model="Payment" class="Payment">
+      <van-popup v-model="Payment" class="Payment" v-if="info">
         <p>付款金额：
           <span>￥{{orderAllmoney}}</span>
         </p>
@@ -140,11 +142,11 @@ export default {
   data() {
     return {
       imageURL: FeaturesIcon5,
-      offer: sessionStorage.getItem("teamworkMoney"),
       checked: false,
       zfb: false,
       wx: true,
       yl: false,
+      integral: "",
       wxPic: wxpicActive,
       zfbPic: zfbpic,
       ylpic: ylpic,
@@ -160,37 +162,27 @@ export default {
       info: "",
       datas: "",
       PaymentType: "微信支付",
-      infoOne: "",
-      infoTwo: ""
+      offer: sessionStorage.getItem("teamworkMoney"),
+      jmoney: "",
+      code: ""
     };
   },
-  // 优惠的价格
-  computed: {
-    orderAllmoney() {
-      if (sessionStorage.getItem("teamworkMoney")) {
-        return (
-          this.infoOne.priceTogether - sessionStorage.getItem("teamworkMoney")
-        );
-      } else {
-        return this.infoOne.priceTogether;
-      }
-    }
-  },
   methods: {
+    GetRequest() {
+      var url = location.search; //获取url中"?"符后的字串
+      var theRequest = new Object();
+      if (url.indexOf("?") != -1) {
+        var str = url.substr(1);
+        var strs = str.split("&");
+        for (var i = 0; i < strs.length; i++) {
+          theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+        }
+      }
+      return theRequest;
+    },
     // 代金卷
     usingaVouchers() {
-      this.$router.push(`/teamworkcoupon`);
-    },
-    gocartOut() {
-      // 模拟支付完成;
-      this.togetherOrderBack({
-        id: this.$route.params.id,
-        token: this.getCookie("token"),
-        staffId: this.getCookie("staffId")
-      }).then(res => {
-        console.log(res);
-        // this.$router.push(`/teamworkPayment/${this.$route.params.}`);
-      });
+      this.$router.push(`/teamworkcoupon/${this.info.priceTogether}`);
     },
     // 获取cook
     getCookie(name) {
@@ -246,18 +238,12 @@ export default {
     },
     goDetails: function() {
       this.Payment = true;
-      this.addUserTogetherOrder({
-        startUser: this.$route.params.staffId,
-        flagTO: "1",
-        token: this.getCookie("token"),
+      this.updateTogetherBeginPay({
         staffId: this.getCookie("staffId"),
-        productId: this.infoOne.productId,
-        togetherOrderId: this.infoOne.togetherOrderId,
-        priceTogether: this.infoOne.priceTogether,
-        togetherOrderId: this.infoOne.togetherOrderId,
-        title: this.infoOne.title,
-        orderIn: this.infoOne.orderIn,
-        originalPrice: this.infoOne.originalPrice
+        token: this.getCookie("token"),
+        id: this.$route.params.id
+      }).then(res => {
+        this.jmoney = res[0];
       });
     },
     goAddress: function() {
@@ -274,8 +260,34 @@ export default {
     want: function() {
       this.away = false;
     },
-    gocartOut() {
-      this.$router.push(`/teamworkPayment`);
+    async gocartOut() {
+      await this.weixinPay2({
+        staffId: this.getCookie("staffId"),
+        token: this.getCookie("token"),
+        orderCode: this.info.detailCode,
+        jmoney: this.jmoney,
+        title: " 拼团订单",
+        ttt: this.code
+      }).then(res => {
+        var detailCode = this.info.detailCode;
+        var startUser = this.info.startUser;
+        WeixinJSBridge.invoke(
+          "getBrandWCPayRequest",
+          {
+            appId: res.info.appId, //公众号名称，由商户传入
+            timeStamp: res.info.timeStamp, //时间戳，自1970年以来的秒数
+            nonceStr: res.info.nonceStr, //随机串
+            package: res.info.package,
+            signType: res.info.signType, //微信签名方式：
+            paySign: res.info.sign //微信签名
+          },
+          function(re) {
+            if (re.err_msg == "get_brand_wcpay_request:ok") {
+              window.location.href = `http://shop.jiweishengxian.com/collageShare/${detailCode}/${startUser}`;
+            }
+          }
+        );
+      });
     },
     // 获取cook
     getCookie(name) {
@@ -288,8 +300,28 @@ export default {
       }
     }
   },
-  beforeMount() {
+  // 优惠的价格
+  computed: {
+    orderAllmoney() {
+      if (sessionStorage.getItem("teamworkMoney")) {
+        return (
+          this.info.priceTogether - sessionStorage.getItem("teamworkMoney")
+        );
+      } else {
+        return this.info.priceTogether;
+      }
+    }
+  },
+  async beforeMount() {
     document.title = "确认订单";
+    this.GetRequest;
+    var Request = new Object();
+    Request = this.GetRequest();
+    this.code = Request["code"];
+    if (!this.code) {
+      var url = window.location.href;
+      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
+    }
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");
     this.getTogetherOrderInfo22({
@@ -297,7 +329,15 @@ export default {
       token,
       id: this.$route.params.id
     }).then(res => {
-      this.infoOne = res.data;
+      this.info = res.data;
+    });
+    // 积分
+    this.getScoreByMoney({
+      staffId,
+      token,
+      money: this.info.priceTogether
+    }).then(res => {
+      this.integral = res;
     });
   }
 };

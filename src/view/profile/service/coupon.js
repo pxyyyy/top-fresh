@@ -10,7 +10,7 @@ const api = new API();
 export default {
   methods: {
     getCoupon(staffId, token, scCouponState) {
-      return api.get(`fresh_show/staffcoupon/selectCouponsByStaffId?staffId=${staffId}&token=${token}&scCouponState=${scCouponState}`)
+      return api.get(`fresh_show/staffcoupon/selectCouponsByStaffId?staffId=${staffId}&token=${token}&scCouponState=${scCouponState}&pageNum=${1}&pageSize=${50}`)
         .then(res => {
           console.log(res.data)
           if (res.data.code == 100000) {

@@ -1,14 +1,5 @@
 <template>
   <div>
-    <div class="topbar">
-      设置
-      <span class="iconfont" @click="last">
-        &#xe624;
-      </span>
-      <p class='release' @click="release">
-        发布
-      </p>
-    </div>
     <div class="shareIt">
       <van-row>
         <van-col span="24">
@@ -138,7 +129,7 @@ export default {
 .shareIt {
   width: 100%;
   position: absolute;
-  top: 45px;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;

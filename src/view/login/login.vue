@@ -6,7 +6,7 @@
   <div>
     <transition name="fade" mode="out-in">
       <div v-if="login" class="animated" :key="1">
-        <span class="iconfont shutdown" @click="shutdown">&#xe65c;</span>
+        <!-- <span class="iconfont shutdown" @click="shutdown">&#xe65c;</span> -->
         <div class="container" :style='{"height":viewHeight}'>
           <div class="title">Hello,极味生鲜</div>
           <div class="login-form">
@@ -22,7 +22,7 @@
             <div class="fang">
               <van-row gutter="20">
                 <van-col span="24">
-                  <img src="../../assets/icon/weixin.png" alt="">
+                  <img src="../../assets/icon/weixin.png" alt="" @click="transferWeChat">
                 </van-col>
               </van-row>
             </div>
@@ -74,6 +74,7 @@ export default {
     return {
       phone: "",
       height: "",
+      weChat: "",
       login: true,
       value: "",
       show: true,
@@ -90,6 +91,22 @@ export default {
     }
   },
   methods: {
+    transferWeChat() {
+      window.location.href =
+        "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http%3a%2f%2fshop.jiweishengxian.com%2flogin&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+    },
+    GetRequest() {
+      var url = location.search; //获取url中"?"符后的字串
+      var theRequest = new Object();
+      if (url.indexOf("?") != -1) {
+        var str = url.substr(1);
+        var strs = str.split("&");
+        for (var i = 0; i < strs.length; i++) {
+          theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+        }
+      }
+      return theRequest;
+    },
     shutdown() {
       this.$router.push("/");
     },
@@ -130,22 +147,41 @@ export default {
     reset: function() {
       this.show = false;
       this.timeout();
-      this.getCode(this.phone).then(res => {
+      this.getCode(this.d2).then(res => {
         console.log(res);
       });
     },
     sureStep: function() {
-      this.toLogin(this.d2, this.value).then(res => {
-        console.log(res.data.code);
-        if (res.code == 100000) {
-          this.setCookie("token", res.data[0].staffToken),
-            this.setCookie("staffId", res.data[0].staffId),
+      if (this.weChat) {
+        this.toLogin({
+          codePhone: this.d2,
+          codeValue: this.value,
+          openid: this.weChat,
+          type: 2
+        }).then(res => {
+          if (res.code == 100000) {
+            this.setCookie("token", res.data[0].staffToken);
+            this.setCookie("staffId", res.data[0].staffId);
             this.$router.go(-1);
-        } else {
-          Toast(res.message);
-        }
-      });
-      // this.$router.push(`/index`);
+          } else {
+            Toast(res.message);
+          }
+        });
+      } else {
+        this.toLogin({
+          codePhone: this.d2,
+          codeValue: this.value
+        }).then(res => {
+          console.log(res.data.code);
+          if (res.code == 100000) {
+            this.setCookie("token", res.data[0].staffToken);
+            this.setCookie("staffId", res.data[0].staffId);
+            this.$router.go(-1);
+          } else {
+            Toast(res.message);
+          }
+        });
+      }
     },
     timeout() {
       const TIME_COUNT = 60;
@@ -182,6 +218,28 @@ export default {
   computed: {
     viewHeight: function() {
       return window.innerHeight + "px";
+    }
+  },
+  beforeMount() {
+    this.GetRequest;
+    var Request = new Object();
+    Request = this.GetRequest();
+    let code = Request["code"];
+    console.log(code);
+    if (code) {
+      this.getOpenId({
+        type: 3,
+        code
+      }).then(res => {
+        this.weChat = res.data.staffWechat;
+        if (!res.data.staffId) {
+          Toast("请绑定手机号~");
+        } else {
+          this.setCookie("token", res.data.staffToken);
+          this.setCookie("staffId", res.data.staffId);
+          this.$router.go(-3);
+        }
+      });
     }
   }
 };
