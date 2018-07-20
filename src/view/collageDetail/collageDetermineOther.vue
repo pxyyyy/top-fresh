@@ -32,16 +32,16 @@
           </li>
         </ul>
         <!-- 单元格 -->
-        <!--是否邮寄提货卷弹出-->
+        <!--是否邮寄提货券弹出-->
         <div style="padding-top:30px;background:#fff;">
           <div class="select">
             <div class="border-top" style="padding:2px 0;" @click='usingaVouchers'>
-              <p>使用代金卷</p>
+              <p>使用代金券</p>
               <p v-if="this.offer">
                 -{{this.offer}}元
                 <span class="iconfont arrow-icon">&#xe66b;</span>
               </p>
-              <p v-else>选择代金卷
+              <p v-else>选择代金券
                 <span class="iconfont arrow-icon">&#xe66b;</span>
               </p>
             </div>
@@ -64,7 +64,7 @@
           </div>
           <div class="select">
             <div class="border-top" style="padding:2px 0;">
-              <p>代金卷优惠</p>
+              <p>代金券优惠</p>
               <p class="black" v-if="this.offer">-￥{{this.offer}}
               </p>
               <p class="black" v-else>-￥0
@@ -180,7 +180,7 @@ export default {
       }
       return theRequest;
     },
-    // 代金卷
+    // 代金券
     usingaVouchers() {
       this.$router.push(`/teamworkcoupon/${this.info.priceTogether}`);
     },

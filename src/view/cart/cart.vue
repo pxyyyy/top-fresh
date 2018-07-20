@@ -106,7 +106,7 @@
 <template>
   <div class="cart-main">
     <van-checkbox-group class="card-goods" v-model="checkedGoods">
-      <van-cell-swipe :right-width="65" :on-close="onClose(item)" v-for="item in goods" :key="item.carId">
+      <van-cell-swipe :right-width="65" :on-close="onClose(item,index)" v-for="(item,index) in goods" :key="item.carId">
         <div>
           <van-checkbox class="card-goods__item" :name="item.carId">
           </van-checkbox>
@@ -117,7 +117,7 @@
               <span class="van-checkbox__label">
                 <div class="van-card">
                   <div class="van-card__thumb">
-                    <img :src="item.thumb" class="van-card__img">
+                    <img :src="item.carProductIcon" class="van-card__img">
                   </div>
                   <div class="van-card__content">
                     <div class="van-card__row">
@@ -138,7 +138,7 @@
             </div>
           </div>
         </van-cell-group>
-        <!-- <span slot="right">删除</span> -->
+        <span slot="right">删除</span>
       </van-cell-swipe>
     </van-checkbox-group>
     <div class="cart-info" v-if="Clearing">
@@ -222,7 +222,7 @@ export default {
         this.goods = res.data;
       });
     },
-    onClose(item) {
+    onClose(item, index) {
       return (clickPosition, instance) => {
         switch (clickPosition) {
           case "cell":
@@ -233,7 +233,12 @@ export default {
             Dialog.confirm({
               message: "确定删除吗？"
             }).then(() => {
-              this.goods.splice(item, 1);
+              this.goods.splice(index, 1);
+              this.emptyProCar({
+                staffId: this.staffId,
+                token: this.token,
+                carProductId: item.carProductId
+              });
             });
             break;
         }
@@ -264,7 +269,7 @@ export default {
           token: this.token
         }).then(res => {
           if (res.data.code == 100003) {
-            Toast("卡卷和现货不能一起购买");
+            Toast("卡券和现货不能一起购买");
           } else {
             this.orderId = res.data.data;
             sessionStorage.money = "";

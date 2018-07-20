@@ -23,8 +23,6 @@
 .r-product .van-tabs__nav--card .van-tab--active {
   color: #fff !important;
 }
-
-
 </style>
 <template>
   <div class="r-product">
@@ -33,7 +31,7 @@
       <span>寻找舌尖的味道</span>
     </div>
     <van-tabs type="card" class="r-tab commodityList" @click="getInfo">
-      <van-tab v-for="index in 2" :title="index == 1 ? '礼卷' : '现货'" :key="index">
+      <van-tab v-for="index in 2" :title="index == 1 ? '礼券' : '现货'" :key="index">
         <div class="gy" v-if="index == 1">
           <div v-for="(product,index) in imgList" :key="index" class="list">
             <img :src="product.imgUrl" class="img" @click="goGoodInfoVC(product.id)">

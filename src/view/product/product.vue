@@ -184,18 +184,19 @@ export default {
       cartLictPic: require("../../assets/img/组7@2x.png"),
       valuationPic: require("../../assets/img/评价DEMO.png"),
       marginBottom: "50px",
-      number: 1,
       show: false,
       show1: false,
       show2: false,
       message: "",
       type: "",
+      number: 1,
       evaluationicon: 3,
       swiperOption: {
         loop: true,
         effect: "fade"
       },
-      pinglun: '',
+      total: 1,
+      pinglun: "",
       ordersList: [
         { id: 1, text: "详情" },
         { id: 2, text: "评价()" },
@@ -229,11 +230,10 @@ export default {
       token: this.getCookie("token"),
       products: "",
       active: 0,
-      swipePic: ''
+      swipePic: ""
     };
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     closeCorridor() {
       let from = this.$route.query.from;
@@ -270,7 +270,16 @@ export default {
       }
     },
     openPay(num) {
-      console.log(num);
+      // 个人信息{
+      this.getStaffInfo({
+        staffId: this.getCookie("staffId"),
+        token: this.getCookie("token")
+      }).then(res => {
+        this.ueseInfo = res.data;
+        if (this.ueseInfo == "") {
+          this.$router.push("/login");
+        }
+      });
       var istoken = this.isToken();
       if (istoken) {
         var id = this.$route.params.id;
@@ -288,6 +297,16 @@ export default {
     },
     toCart1() {
       var id = this.$route.params.id;
+      // 个人信息{
+      this.getStaffInfo({
+        staffId: this.getCookie("staffId"),
+        token: this.getCookie("token")
+      }).then(res => {
+        this.ueseInfo = res.data;
+        if (this.ueseInfo == "") {
+          this.$router.push("/login");
+        }
+      });
       this.addCart(this.token, this.staffId, id, this.number).then(res => {
         Dialog.alert({
           title: "提示",
@@ -324,7 +343,7 @@ export default {
         });
       }
     },
-    goEvaluation(item,index) {
+    goEvaluation(item, index) {
       let from = this.$route.query.from;
       if (from == "IOS" || from == "Android") {
         this.$bridge.callHandler(
@@ -370,6 +389,13 @@ export default {
       this.pictureCorridor = false;
     }
   },
+  watch: {
+    number() {
+      if (this.number > 99) {
+        this.number = this.total;
+      }
+    }
+  },
   created() {
     window.giveShareInfo = this.giveShareInfo;
     window.closePicture = this.closePicture;
@@ -398,19 +424,21 @@ export default {
     await this.getProductInfo(id) //获取列表
       .then(res => {
         this.product = res;
-        this.ordersList[1].text = `评价(${this.product.productPinglunnum})`
+        this.ordersList[1].text = `评价(${this.product.productPinglunnum})`;
       });
     await this.selectevaluationlist({
-      productId:this.$route.params.id,
+      productId: this.$route.params.id,
       pageNum: 1,
-      pageSize:100
-    }).then((res)=>{
-        this.pinglun = res
+      pageSize: 100
+    }).then(res => {
+      this.pinglun = res;
       for (let item in this.pinglun) {
-          this.pinglun[item].evaluationPraiseNum = parseInt(this.pinglun[item].evaluationPraiseNum)
+        this.pinglun[item].evaluationPraiseNum = parseInt(
+          this.pinglun[item].evaluationPraiseNum
+        );
       }
-      console.log(this.pinglun)
-    })
+      console.log(this.pinglun);
+    });
     this.selectProByType().then(res => {
       this.products = res.data;
     });

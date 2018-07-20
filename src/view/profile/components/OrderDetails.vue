@@ -49,7 +49,7 @@
 						<van-col span="12" class="price_right">￥{{list.orderAllmoney}}</van-col>
 					</van-row>
 					<van-row>
-						<van-col span="12">代金卷优惠</van-col>
+						<van-col span="12">代金券优惠</van-col>
 						<van-col span="12" class="price_right">-￥10.00</van-col>
 					</van-row>
 					<van-row>

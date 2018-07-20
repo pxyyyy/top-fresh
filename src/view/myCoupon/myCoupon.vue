@@ -31,6 +31,7 @@
 
 <script>
 import service from "./service";
+import { Toast } from "vant";
 export default {
   mixins: [service],
   data() {
@@ -95,15 +96,17 @@ export default {
         scCouponEndTime: item.couponsReceiveEndTime,
         scCouponState: 0,
         scStaffId: this.staffId
-      });
-      this.getCouponsOfReceive({
-        staffId,
-        token,
-        pageNum: this.pageNum,
-        pageSize: 7
       }).then(res => {
-        this.myCouponList = res.data;
-        this.code = res.code;
+        Toast("领取成功");
+        this.getCouponsOfReceive({
+          staffId,
+          token,
+          pageNum: this.pageNum,
+          pageSize: 7
+        }).then(res => {
+          this.myCouponList = res.data;
+          this.code = res.code;
+        });
       });
     }
   },

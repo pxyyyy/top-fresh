@@ -84,6 +84,15 @@ export default {
         console.log(err)
       });
     },
+    // 清空购物车
+    emptyProCar(json) {
+      return api.post(`fresh_show/prCar/emptyProCar`, json).then((res) => {
+        const data = res.data.data;
+        return data;
+      }).catch((err) => {
+        console.log(err)
+      });
+    },
     // 收货地址列表
     getAddress(staffId, token, carId) {
       return api.get(`fresh_show/staffAddress/selectStaffAddressList?staffId=${staffId}&token=${token}`).then((res) => {

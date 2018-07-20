@@ -175,7 +175,7 @@ export default {
     }
   },
   beforeMount() {
-    document.title = "提货卷领取";
+    document.title = "提货券领取";
     this.getLadingPrimaryKey({
       odId: this.$route.params.id
     }).then(res => {

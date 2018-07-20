@@ -11,12 +11,17 @@
 }
 </style>
 <template>
-  <swiper :options="swiperOption">
+  <van-swipe>
+    <van-swipe-item v-for="(image, index) in sysbanners" :key="index">
+      <img v-lazy="image.imgUrl" @click="toTeacher(image)" style="width:100%" />
+    </van-swipe-item>
+  </van-swipe>
+  <!-- <swiper :options="swiperOption">
     <swiper-slide v-for="item in sysbanners" :key="item.id">
       <img class="swiper-img" :src="item.imgUrl" alt="" @click="toTeacher(item)">
     </swiper-slide>
     <div class="swiper-pagination" slot="pagination"></div>
-  </swiper>
+  </swiper> -->
 </template>
 
 <script>
@@ -34,8 +39,8 @@ export default {
         // disableOnInteraction: false
         // },
         pagination: {
-          el: ".swiper-pagination"
-          // clickable: true
+          el: ".swiper-pagination",
+          clickable: true
         }
       },
       dataSwipe: [
@@ -47,9 +52,7 @@ export default {
     };
   },
   methods: {
-    goSwiperLink() {
-      alert(1);
-    },
+    goSwiperLink() {},
     // 获取cook
     getCookie(name) {
       var arr,

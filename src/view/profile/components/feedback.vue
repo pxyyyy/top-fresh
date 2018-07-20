@@ -4,6 +4,9 @@
       <textarea v-model="text">
       </textarea>
     </div>
+    <div class="btnsave-wrapper" @click="save">
+      <van-button type="primary" class="btnsave">保存</van-button>
+    </div>
   </div>
 </template>
 
@@ -79,6 +82,21 @@ export default {
     height: 200px;
     box-sizing: border-box;
   }
+}
+.btnsave-wrapper {
+  width: 100px;
+  height: 40px;
+  margin: 0 auto;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 40px;
+}
+.btnsave {
+  background: #f77b17;
+  border: none;
+  margin: 0 auto;
+  width: 100px;
+  height: 40px;
 }
 </style>
 

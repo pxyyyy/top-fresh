@@ -52,15 +52,15 @@
             </div>
           </li>
         </ul>
-        <!--是否邮寄提货卷弹出-->
+        <!--是否邮寄提货券弹出-->
         <van-popup v-model="Mailing">
           <van-row class="Mailing">
             <div :class="{Mailing_left:true, MailingActive:MailingActiveOne}" @click="MailingOne()">
               <p>
-                <strong>邮寄提货卷</strong>
+                <strong>邮寄提货券</strong>
               </p>
               <p><img :src="MailingOnePic" alt=""></p>
-              <p>将提货卷实体卡邮寄</p>
+              <p>将提货券实体卡邮寄</p>
               <p>至你提供的地址</p>
               <p>可通过实体卡上的密码</p>
               <p>进行提货操作</p>
@@ -68,10 +68,10 @@
             </div>
             <div :class="{Mailing_right:true, MailingActive:MailingActiveTwo}" @click="MailingTwo()">
               <p>
-                <strong>使用虚拟提货卷</strong>
+                <strong>使用虚拟提货券</strong>
               </p>
               <p><img :src="MailingTwoPic" alt=""></p>
-              <p>将提货卷实体卡邮寄</p>
+              <p>将提货券实体卡邮寄</p>
               <p>至你提供的地址</p>
               <p>可通过实体卡上的密码</p>
               <p>进行提货操作</p>
@@ -82,7 +82,7 @@
         </van-popup>
         <div style="padding-top:30px;background:#fff;">
           <div class="select" @click="showOne">
-            <p>是否邮寄提货卷</p>
+            <p>是否邮寄提货券</p>
             <p>
               {{MailingText}}
               <span class="iconfont arrow-icon">&#xe66b;</span>
@@ -90,12 +90,12 @@
           </div>
           <div class="select">
             <div class="border-top" style="padding:2px 0;" @click='usingaVouchers'>
-              <p>使用代金卷</p>
+              <p>使用代金券</p>
               <p v-if="this.offer">
                 -{{this.offer}}元
                 <span class="iconfont arrow-icon">&#xe66b;</span>
               </p>
-              <p v-else>选择代金卷
+              <p v-else>选择代金券
                 <span class="iconfont arrow-icon">&#xe66b;</span>
               </p>
             </div>
@@ -121,7 +121,7 @@
           </div>
           <div class="select">
             <div class="border-top" style="padding:2px 0;">
-              <p>代金卷优惠</p>
+              <p>代金券优惠</p>
               <p class="black" v-if="this.offer">-￥{{this.offer}}
               </p>
               <p class="black" v-else>-￥0
@@ -241,6 +241,13 @@ export default {
     }
   },
   methods: {
+    pushHistory() {
+      var state = {
+        title: "title",
+        url: "#"
+      };
+      window.history.pushState(state, "title", "#");
+    },
     GetRequest() {
       var url = location.search; //获取url中"?"符后的字串
       var theRequest = new Object();
@@ -277,10 +284,10 @@ export default {
     usingaVouchers() {
       this.$router.push(`/coupon/${this.$route.params.orderId}/0`);
     },
-    // 邮寄提货卷确定点击
+    // 邮寄提货券确定点击
     determine() {
       if (this.MailingText == "请选择") {
-        this.MailingText = "邮件提货卷";
+        this.MailingText = "邮件提货券";
       }
       this.Mailing = false;
     },
@@ -294,29 +301,29 @@ export default {
       this.ylpic = ylpic;
       this.PaymentType = "微信支付";
     },
-    // 提货卷点击动画
+    // 提货券点击动画
     MailingOne() {
       this.MailingActiveOne = true;
       this.MailingActiveTwo = false;
       this.MailingOnePic = ActiveMailingOnePic;
       this.MailingTwoPic = MailingTwoPic;
-      this.MailingText = "邮件提货卷";
+      this.MailingText = "邮件提货券";
     },
     MailingTwo() {
       this.MailingActiveOne = false;
       this.MailingActiveTwo = true;
       this.MailingOnePic = MailingOnePic;
       this.MailingTwoPic = ActiveMailingTwoPic;
-      this.MailingText = "虚拟提货卷";
+      this.MailingText = "虚拟提货券";
     },
     goDetails: function() {
       if (!this.cartList[0].adName) {
         Toast("请选择收货地址");
       } else if (this.MailingText == "请选择") {
-        Toast("请选择提货卷类型");
+        Toast("请选择提货券类型");
       } else {
         this.Payment = true;
-        if (this.MailingText == "邮寄提货卷") {
+        if (this.MailingText == "邮寄提货券") {
           this.orderSendlading = 1;
         } else {
           this.orderSendlading = 2;
@@ -393,15 +400,25 @@ export default {
     }
   },
   async beforeMount() {
+    // 返回事件
+    var that = this;
+    this.pushHistory();
+    window.addEventListener(
+      "popstate",
+      function(e) {
+        that.$router.push("/");
+      },
+      false
+    );
     document.title = "确认订单";
     this.GetRequest;
     var Request = new Object();
     Request = this.GetRequest();
     this.code = Request["code"];
-    if (!this.code) {
-      var url = window.location.href;
-      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
-    }
+    // if (!this.code) {
+    //   var url = window.location.href;
+    //   window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
+    // }
     // 地址、
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");

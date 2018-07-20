@@ -20,11 +20,13 @@
           <div class="other">
             <div class="other_title">——————— 其他登录方式 ———————</div>
             <div class="fang">
-              <van-row gutter="20">
-                <van-col span="24">
-                  <img src="../../assets/icon/weixin.png" alt="" @click="transferWeChat">
-                </van-col>
-              </van-row>
+              <div @click="transferWeChat">
+                <van-row gutter="20">
+                  <van-col span="24">
+                    <img src="../../assets/icon/weixin.png" alt="">
+                  </van-col>
+                </van-row>
+              </div>
             </div>
             <div class="foot">注册即代表你同意《极味生鲜协议》和《隐私政策》</div>
           </div>
