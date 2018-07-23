@@ -15,7 +15,7 @@
     <!--返回弹出-->
     <van-popup v-model="away" class="away">
       <p>正在离开结算页面</p>
-      <p>确定不要了吗</p>
+      <p>您确定不要了吗</p>
       <van-button size="small" class="Payment-button awayColor" @click="goaway">去意已决</van-button>
       <van-button size="small" class="Payment-button" @click="want">朕在想想</van-button>
     </van-popup>
@@ -122,16 +122,20 @@
           <div class="select">
             <div class="border-top" style="padding:2px 0;">
               <p>代金券优惠</p>
-              <p class="black" v-if="this.offer">-￥{{this.offer}}
+              <p class="black" v-if="this.offer">-￥{{this.offer}}.00
               </p>
-              <p class="black" v-else>-￥0
+              <p class="black" v-else>-￥0.00
               </p>
             </div>
           </div>
           <div class="select">
             <div class="border-top" style="padding:2px 0;">
               <p>积分优惠</p>
-              <p class="black">-￥{{this.integral[1]}}
+              <p class="black" v-if="checked">
+                -￥{{this.integral[1]}}.00
+              </p>
+              <p v-else>
+                -￥0.00
               </p>
             </div>
           </div>
@@ -207,8 +211,8 @@ export default {
       wxPic: wxpicActive,
       zfbPic: zfbpic,
       ylpic: ylpic,
-      MailingTwoPic: MailingTwoPic,
-      MailingOnePic: ActiveMailingOnePic,
+      MailingTwoPic: ActiveMailingTwoPic,
+      MailingOnePic: MailingOnePic,
       Mailing: false,
       MailingActiveOne: true,
       MailingActiveTwo: false,
@@ -241,13 +245,13 @@ export default {
     }
   },
   methods: {
-    pushHistory() {
-      var state = {
-        title: "title",
-        url: "#"
-      };
-      window.history.pushState(state, "title", "#");
-    },
+    // pushHistory() {
+    //   var state = {
+    //     title: "title",
+    //     url: "#"
+    //   };
+    //   window.history.pushState(state, "title", "#");
+    // },
     GetRequest() {
       var url = location.search; //获取url中"?"符后的字串
       var theRequest = new Object();
@@ -305,15 +309,15 @@ export default {
     MailingOne() {
       this.MailingActiveOne = true;
       this.MailingActiveTwo = false;
-      this.MailingOnePic = ActiveMailingOnePic;
-      this.MailingTwoPic = MailingTwoPic;
+      this.MailingOnePic = MailingOnePic;
+      this.MailingTwoPic = ActiveMailingTwoPic;
       this.MailingText = "邮件提货券";
     },
     MailingTwo() {
       this.MailingActiveOne = false;
       this.MailingActiveTwo = true;
-      this.MailingOnePic = MailingOnePic;
-      this.MailingTwoPic = ActiveMailingTwoPic;
+      this.MailingOnePic = ActiveMailingOnePic;
+      this.MailingTwoPic = MailingTwoPic;
       this.MailingText = "虚拟提货券";
     },
     goDetails: function() {
@@ -401,24 +405,26 @@ export default {
   },
   async beforeMount() {
     // 返回事件
-    var that = this;
-    this.pushHistory();
-    window.addEventListener(
-      "popstate",
-      function(e) {
-        that.$router.push("/");
-      },
-      false
-    );
+    // var that = this;
+    // this.pushHistory();
+    // window.addEventListener(
+    //   "popstate",
+    //   function(e) {
+    //     that.$router.push("/");
+    //   },
+    //   false
+    // );
     document.title = "确认订单";
     this.GetRequest;
     var Request = new Object();
     Request = this.GetRequest();
     this.code = Request["code"];
-    // if (!this.code) {
-    //   var url = window.location.href;
-    //   window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
-    // }
+    if (!this.code) {
+      var url = `http://shop.jiweishengxian.com/cartDetermine/${
+        this.$route.params.orderId
+      }`;
+      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
+    }
     // 地址、
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");

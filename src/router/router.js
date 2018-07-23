@@ -228,6 +228,13 @@ export const otherRouter = [{
     }
   },
   {
+    path: '/yjcartAddress/:id',
+    name: 'yjcartAddress',
+    component: resolve => {
+      require(['@/view/cart/components/yjcartAddress.vue'], resolve);
+    }
+  },
+  {
     path: '/cartAddressEditing/:type',
     name: 'cartAddressEditing',
     component: resolve => {
@@ -335,6 +342,13 @@ export const otherRouter = [{
   {
     path: '/OrderDetails/:odOrderId',
     name: 'OrderDetails',
+    component: resolve => {
+      require(['@/view/profile/components/OrderDetails.vue'], resolve);
+    }
+  },
+  {
+    path: '/ptOrderDetails',
+    name: 'ptOrderDetails',
     component: resolve => {
       require(['@/view/profile/components/OrderDetails.vue'], resolve);
     }

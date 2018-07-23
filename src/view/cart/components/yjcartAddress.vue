@@ -17,7 +17,7 @@
   <div>
     <!--地址列表-->
     <div class="address-group">
-      <div class="address" v-for="item in selectStaffAddressList" :key="item.staffId">
+      <div class="address" v-for="item in selectStaffAddressList" :key="item.staffId" @click=Mailing(item)>
         <div class="address-top">
           <div class="address-top-left">
             收货人
@@ -55,6 +55,7 @@
 </template>
 <script>
 import service from "../service/index.js";
+import { Dialog, Toast } from "vant";
 export default {
   mixins: [service],
   data() {
@@ -67,6 +68,24 @@ export default {
     };
   },
   methods: {
+    Mailing(item) {
+      Dialog.confirm({
+        title: "邮寄实体卡",
+        message: "你确定要邮寄吗"
+      })
+        .then(() => {
+          this.sendMyLading({
+            staffId: this.getCookie("staffId"),
+            token: this.getCookie("token"),
+            odId: this.$route.params.id,
+            adId: item.adId
+          }).then(res => {
+            Toast("邮寄成功");
+            this.$route.push("/login");
+          });
+        })
+        .catch(() => {});
+    },
     // 获取cook
     getCookie(name) {
       var arr,

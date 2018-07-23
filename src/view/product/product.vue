@@ -100,14 +100,14 @@
           <div class="evaluation" v-if="item.id == 2">
             <div class="evaluationList" v-for="item in pinglun" :key="item.evaluationId">
               <van-row style="margin-top:10px;">
-                <van-col span="3.5" offset="1">
-                  <img :src="item.staffPhotourl" alt="">
+                <van-col span="3.5" offset="1" class="userPic">
+                  <img :src="item.staffPhotourl ? item.staffPhotourl : defaultavatar" alt="">
                 </van-col>
                 <van-col span="7.5">
                   <p class="evaluationName">{{item.staffNickname}}</p>
                   <van-rate v-model="item.evaluationPraiseNum" disabled :size="16" disabled-color="#fdd951" />
                 </van-col>
-                <van-col span="14" class="date">{{item.evaluationTime}}</van-col>
+                <van-col span="13" class="date">{{item.evaluationTime}}</van-col>
               </van-row>
               <van-row>
                 <van-col span="24" class="evaluationText">
@@ -123,10 +123,6 @@
           </div>
           <div v-if="item.id == 3">
             <div class="keepOn">
-              <!-- <p>
-                <span>——</span> 推荐商品
-                <span>——</span>
-              </p> -->
               <div class="gy">
                 <div v-for="(product,index) in products" :key="index" class="list">
                   <img :src="product.imgUrl" class="img" @click="toProductInfo(product.id)">
@@ -143,11 +139,12 @@
     <!-- 图片查看 -->
     <div class="evaluationa" v-if="pictureCorridor" @click="closeCorridor">
       <div class="wrapper">
-        <van-swipe :touchable="true" :show-indicators="true" :initial-swipe="picIndex">
-          <van-swipe-item v-for="pic in swipePic">
-            <img v-lazy="pic" />
-          </van-swipe-item>
-        </van-swipe>
+        <swiper :options="swiperOption">
+          <swiper-slide v-for="item in swipePic" :key="item.id">
+            <img class="swiper-img" :src="item" alt="">
+          </swiper-slide>
+          <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
       </div>
     </div>
     <!-- 商品图文详情 -->
@@ -173,6 +170,7 @@ import img from "../../assets/img/介绍.png";
 import { Dialog, Rate } from "vant";
 import traceabilityVue from "../traceability/traceability.vue";
 import productInfo from "./service/product.js";
+import defaultavatar from "../../assets/img/defaultavatar.png";
 export default {
   name: "product_details",
   mixins: [productInfo],
@@ -191,9 +189,16 @@ export default {
       type: "",
       number: 1,
       evaluationicon: 3,
+      loop: true,
       swiperOption: {
+        // 园点配置
+        pagination: ".swiper-pagination",
+        // 循环切换
         loop: true,
-        effect: "fade"
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true
+        }
       },
       total: 1,
       pinglun: "",
@@ -295,13 +300,14 @@ export default {
         });
       }
     },
-    toCart1() {
+    async toCart1() {
       var id = this.$route.params.id;
       // 个人信息{
-      this.getStaffInfo({
+      await this.getStaffInfo({
         staffId: this.getCookie("staffId"),
         token: this.getCookie("token")
       }).then(res => {
+        console.log(this.ueseInfo);
         this.ueseInfo = res.data;
         if (this.ueseInfo == "") {
           this.$router.push("/login");
@@ -391,7 +397,7 @@ export default {
   },
   watch: {
     number() {
-      if (this.number > 99) {
+      if (this.number > 999) {
         this.number = this.total;
       }
     }
@@ -425,6 +431,7 @@ export default {
       .then(res => {
         this.product = res;
         this.ordersList[1].text = `评价(${this.product.productPinglunnum})`;
+        document.title = `${this.product.productName}`;
       });
     await this.selectevaluationlist({
       productId: this.$route.params.id,

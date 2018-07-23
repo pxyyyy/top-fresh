@@ -107,7 +107,7 @@
   <div class="cart-main">
     <van-checkbox-group class="card-goods" v-model="checkedGoods">
       <van-cell-swipe :right-width="65" :on-close="onClose(item,index)" v-for="(item,index) in goods" :key="item.carId">
-        <div>
+        <div @click=cancel>
           <van-checkbox class="card-goods__item" :name="item.carId">
           </van-checkbox>
         </div>
@@ -117,7 +117,7 @@
               <span class="van-checkbox__label">
                 <div class="van-card">
                   <div class="van-card__thumb">
-                    <img :src="item.carProductIcon" class="van-card__img">
+                    <img :src="item.carProductIcon + '?x-oss-process=image/resize,h_100/crop,w_100,h_100,g_center'" class="van-card__img">
                   </div>
                   <div class="van-card__content">
                     <div class="van-card__row">
@@ -125,6 +125,10 @@
                     </div>
                     <div class="van-card__row">
                       <div class="van-card__desc cart-card__desc">{{item.carProductDes}}</div>
+                    </div>
+                    <div class="van-card__row" style="margin-top:2px;">
+                      <div class="van-card__desc cart-card__desc" v-if="item.carPtype == 1">礼卡</div>
+                      <div class="van-card__desc cart-card__desc" v-else>现货</div>
                     </div>
                     <div class="van-card__row">
                       <div class="cart-card__price">¥{{item.carProductPprice}}.00</div>
@@ -201,6 +205,9 @@ export default {
     }
   },
   methods: {
+    cancel() {
+      this.checked = false;
+    },
     // 获取cook
     getCookie(name) {
       var arr,

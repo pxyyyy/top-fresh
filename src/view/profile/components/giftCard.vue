@@ -28,7 +28,7 @@ export default {
     }
   },
   beforeMount() {
-    document.title = "领取礼券";
+    document.title = "领取礼卡";
   }
 };
 </script>

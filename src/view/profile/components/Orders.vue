@@ -60,8 +60,9 @@
                   </div>
                 </div>
                 <div class="item-bottom">
-                  <p>取消订单
-                    <button @click="payment(item.odOrderId)">立即付款</button>
+                  <p>
+                    <span @click="cancel(order.orderId)">取消订单</span>
+                    <button @click.stop="payment(item.odOrderId)">立即付款</button>
                   </p>
                 </div>
               </li>
@@ -167,6 +168,7 @@
 </template>
 <script>
 import order from "../service/order.js";
+import { Dialog, Toast } from "vant";
 export default {
   mixins: [order],
   name: "orders",
@@ -207,6 +209,26 @@ export default {
     this.init();
   },
   methods: {
+    // 取消订单
+    cancel(id) {
+      Dialog.confirm({
+        title: "取消订单",
+        message: "您确认取消订单吗"
+      })
+        .then(() => {
+          alert(id);
+          this.cancelOrder({
+            staffId: this.getCookie("staffId"),
+            token: this.getCookie("token"),
+            orderId: id
+          }).then(res => {
+            Toast("取消成功");
+          });
+        })
+        .catch(() => {
+          // on cancel
+        });
+    },
     // 评价
     goEvaluation(item) {
       this.$router.push(`/evaluationOrder/${item.odProductId}`);

@@ -24,7 +24,6 @@
           </van-col>
         </van-row>
       </van-list>
-
     </div>
   </div>
 </template>
@@ -47,11 +46,7 @@ export default {
       title: ""
     };
   },
-  computed: {
-    // title() {
-    //   return this.$store.state.app.currentActiveName;
-    // }
-  },
+  computed: {},
   methods: {
     // 获取cook
     getCookie(name) {
@@ -98,15 +93,7 @@ export default {
         scStaffId: this.staffId
       }).then(res => {
         Toast("领取成功");
-        this.getCouponsOfReceive({
-          staffId,
-          token,
-          pageNum: this.pageNum,
-          pageSize: 7
-        }).then(res => {
-          this.myCouponList = res.data;
-          this.code = res.code;
-        });
+        this.onLoad();
       });
     }
   },
@@ -115,8 +102,8 @@ export default {
       acId: this.$route.params.id
     }).then(res => {
       this.title = res.data[0].acTitle;
+      document.title = this.title;
     });
-    document.title = this.title;
   }
 };
 </script>

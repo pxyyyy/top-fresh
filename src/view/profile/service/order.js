@@ -64,6 +64,16 @@ export default {
           console.log(error);
         });
     },
+    // 取消订单
+    cancelOrder(json) {
+      return api.post(`fresh_show/order/cancelOrder`, json)
+        .then(res => {
+          return res.data.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     // 个人信息
     getStaffInfo(json) {
       return api.post(`fresh_show/staff/getStaffInfo`, json)

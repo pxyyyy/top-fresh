@@ -43,45 +43,11 @@ export default {
       value: "",
       password: "",
       // 当前供应
-      list: [
-        {
-          id: 100001,
-          title: "阳澄湖大闸蟹4对装礼品卡",
-          liang: "4.0",
-          number: 12,
-          price: "299.00"
-        },
-        {
-          id: 100001,
-          title: "阳澄湖大闸蟹4对装礼品卡",
-          liang: "4.0",
-          number: 12,
-          price: "299.00"
-        },
-        {
-          id: 100001,
-          title: "阳澄湖大闸蟹4对装礼品卡",
-          liang: "4.0",
-          number: 12,
-          price: "299.00"
-        },
-        {
-          id: 100001,
-          title: "阳澄湖大闸蟹4对装礼品卡",
-          liang: "4.0",
-          number: 12,
-          price: "299.00"
-        },
-        {
-          title: "阳澄湖大闸蟹4对装礼品卡",
-          liang: "4.0",
-          number: 12,
-          price: "299.00"
-        }
-      ]
+      list: []
     };
   },
   mounted() {
+    document.title = "礼卡提货";
     this.selectProByType().then(res => {
       this.list = res.data;
     });
