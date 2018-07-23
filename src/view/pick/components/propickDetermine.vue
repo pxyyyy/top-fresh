@@ -9,13 +9,7 @@
 <template>
   <div>
     <!--返回弹出-->
-    <van-popup v-model="away" class="away">
-      <p>正在离开领取页面</p>
-      <p>确定不要了吗</p>
-      <van-button size="small" class="Payment-button awayColor" @click="goaway">去意已决</van-button>
-      <van-button size="small" class="Payment-button" @click="want">朕在想想</van-button>
-    </van-popup>
-    <div class="cart_min">
+    <div>
       <!-- 收货地址 -->
       <div class="address" @click="goAddress()">
         <van-row class="address-content">
@@ -52,7 +46,7 @@
       </div>
       <!-- 支付订单 -->
       <div class="cart-foot">
-        <p>￥0.00</p>
+        <p></p>
         <p>
           <van-button size="normal" class="btnColor" @click="goDetails()">立即提货</van-button>
         </p>

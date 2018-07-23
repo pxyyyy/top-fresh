@@ -59,7 +59,7 @@
                     <i><img src="../../../assets/img/Gift.png" alt=""></i>赠送好友</p>
                   <p @click="goprofiledelivery(info)">
                     <i><img src="../../../assets/img/immediately.png" alt=""></i>立即提货</p>
-                  <p @click="gocartAddress">
+                  <p @click="gocartAddress(info.odId)">
                     <i><img src="../../../assets/img/Mailing.png" alt=""></i>邮寄实体卡</p>
                 </div>
               </div>
@@ -70,7 +70,7 @@
               <div class="content-group" v-for="info in pickupVolume">
                 <div class="content-top" style="border-bottom: 1px solid #d3d3d3;">
                   <div class="content-top-img">
-                    <img src="../../../assets/img/ladingroll.png" alt="">
+                    <img :src="info.odProductIcon" alt="">
                   </div>
                   <div class="content-top-info">
                     <p>{{info.odProductName}}</p>
@@ -177,10 +177,8 @@ export default {
     goLadingRollGive(id) {
       this.$router.push(`/LadingRollGive/${id}`);
     },
-    gocartAddress() {
-      this.$router.push({
-        name: "cartAddress"
-      });
+    gocartAddress(id) {
+      this.$router.push(`/yjcartAddress/${id}`);
     }
   },
   beforeMount() {

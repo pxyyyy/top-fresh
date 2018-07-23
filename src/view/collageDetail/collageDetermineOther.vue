@@ -8,13 +8,6 @@
 </style>
 <template>
   <div>
-    <!--返回弹出-->
-    <van-popup v-model="away" class="away">
-      <p>正在离开结算页面</p>
-      <p>确定不要了吗</p>
-      <van-button size="small" class="Payment-button awayColor" @click="goaway">去意已决</van-button>
-      <van-button size="small" class="Payment-button" @click="want">朕在想想</van-button>
-    </van-popup>
     <div class="cart_min">
       <!-- 订单详情 -->
       <div>
@@ -205,24 +198,6 @@ export default {
       this.zfbPic = zfbpic;
       this.ylpic = ylpic;
       this.PaymentType = "微信支付";
-    },
-    ylActive() {
-      this.wx = false;
-      this.zfb = false;
-      this.yl = true;
-      this.zfbPic = zfbpic;
-      this.wxPic = wxpic;
-      this.ylpic = ylpicActive;
-      this.PaymentType = "银联支付";
-    },
-    zfbActive() {
-      this.wx = false;
-      this.zfb = true;
-      this.yl = false;
-      this.wxPic = wxpic;
-      this.zfbPic = zfbpicActive;
-      this.ylpic = ylpic;
-      this.PaymentType = "支付宝支付";
     },
     MailingOne() {
       this.MailingActiveOne = true;

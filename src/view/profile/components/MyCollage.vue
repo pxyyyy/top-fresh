@@ -3,6 +3,9 @@
 </style>
 <template>
   <div>
+    <div class="leary" v-if="learyShow">
+      <img src="../../../assets/img/leary.png" alt="">
+    </div>
     <div class="MyCollage">
       <div class="MyCollage-item" v-for="item in MyCollage" :key="item.id">
         <div class="MyCollage-item-content">
@@ -17,9 +20,10 @@
           </div>
         </div>
         <div class="MyCollage-bottom">
-          <p class="MyCollage-bottom-state" v-if="item.status == 1">拼团中</p>
-          <p class="MyCollage-bottom-state" v-else-if="item.status == 2">拼团成功</p>
-          <p class="MyCollage-bottom-state" v-else>拼团失败</p>
+          <p class="MyCollage-bottom-state" v-if="item.status == 2">拼团中</p>
+          <p class="MyCollage-bottom-state" v-else-if="item.status == 3">拼团失败</p>
+          <p class="MyCollage-bottom-state" v-else-if="item.status == 4">拼团成功</p>
+          <!-- <p class="MyCollage-bottom-state" v-else>拼团失败</p> -->
           <p>
             <button>订单详情</button>
           </p>
@@ -39,7 +43,8 @@ export default {
   mixins: [service],
   data() {
     return {
-      MyCollage: ""
+      MyCollage: "",
+      learyShow: false
     };
   },
   methods: {
@@ -75,6 +80,9 @@ export default {
       token
     }).then(res => {
       this.MyCollage = res;
+      if (this.MyCollage == "") {
+        this.learyShow = true;
+      }
     });
   }
 };

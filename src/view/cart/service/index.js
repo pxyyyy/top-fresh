@@ -93,6 +93,15 @@ export default {
         console.log(err)
       });
     },
+    // 邮寄实体卡
+    sendMyLading(json) {
+      return api.post(`fresh_show/orderTail/sendMyLading`, json).then((res) => {
+        const data = res.data.data;
+        return data;
+      }).catch((err) => {
+        console.log(err)
+      });
+    },
     // 收货地址列表
     getAddress(staffId, token, carId) {
       return api.get(`fresh_show/staffAddress/selectStaffAddressList?staffId=${staffId}&token=${token}`).then((res) => {

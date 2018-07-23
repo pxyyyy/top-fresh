@@ -45,6 +45,7 @@ export default {
           console.log(error);
         });
     },
+
     // 解除绑定
     clearOpenId(json) {
       return api.post(`fresh_show/staff/clearOpenId`, json)

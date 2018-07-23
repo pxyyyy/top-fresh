@@ -17,9 +17,9 @@
             <input type="number" v-model="from.adPhone" :placeholder="checkAdPhone">
           </p>
         </div>
-        <div class="Cell border-top">
+        <div class="Cell border-top" @click="showArea">
           <p>所在地区</p>
-          <p class="Cell-input" @click="showArea">
+          <p class="Cell-input">
             <input type="text" :placeholder="placeholderArea" v-model="from.area" disabled style="background: none">
           </p>
         </div>
@@ -137,8 +137,9 @@ export default {
           adAddress: this.from.area,
           adAddressInfo: this.from.adAddressInfo,
           adIsdefault: this.radio
+        }).then(res => {
+          this.$router.go(-1);
         });
-        this.$router.go(-1);
       }
     }
   },

@@ -5,7 +5,8 @@
   <div>
     <!-- 订单详情 -->
     <div class="order">
-      <span>订单号：{{orders.orderCode}}</span>
+      <span>
+        <i class="iconfont" style="font-size:12px;margin-right:10px;" @click="history">&#xe65c;</i>订单号：{{orders.orderCode}}</span>
     </div>
     <div>
       <ul v-for="item in infoList" :key="item.odId">
@@ -28,19 +29,20 @@
       <div class="border-top price-content">
         <van-row>
           <van-col span="12">商品总额</van-col>
-          <van-col span="12" class="price_right">￥199.00</van-col>
+          <van-col span="12" class="price_right">￥{{orders.orderAllmoney}}</van-col>
         </van-row>
         <van-row>
           <van-col span="12">代金券优惠</van-col>
-          <van-col span="12" class="price_right">-￥10.00</van-col>
+          <van-col span="12" class="price_right">-￥{{orders.orderCouponsmoney}}.00</van-col>
         </van-row>
         <van-row>
           <van-col span="12">积分优惠</van-col>
-          <van-col span="12" class="price_right">-￥10.00</van-col>
+          <van-col span="12" class="price_right" v-if="orders.orderScore">-￥{{orders.orderScore}}</van-col>
+          <van-col span="12" class="price_right">-￥0.00</van-col>
         </van-row>
         <van-row class="price-bottom">
           <van-col span="24" class="price_right">实付款
-            <strong class="money">￥{{orders.orderPmoney}}.00</strong>
+            <strong class="money">￥{{orders.orderPmoney}}</strong>
           </van-col>
         </van-row>
       </div>
@@ -73,13 +75,16 @@ export default {
   },
   mixins: [service],
   methods: {
-    pushHistory() {
-      var state = {
-        title: "title",
-        url: "#"
-      };
-      window.history.pushState(state, "title", "#");
+    history() {
+      this.$router.go(-1);
     },
+    // pushHistory() {
+    //   var state = {
+    //     title: "title",
+    //     url: "#"
+    //   };
+    //   window.history.pushState(state, "title", "#");
+    // },
     // 获取cook
     getCookie(name) {
       console.log(this);
@@ -105,14 +110,14 @@ export default {
   },
   beforeMount() {
     // 返回事件
-    this.pushHistory();
-    window.addEventListener(
-      "popstate",
-      function(e) {
-        window.location = "http://shop.jiweishengxian.com";
-      },
-      false
-    );
+    // this.pushHistory();
+    // window.addEventListener(
+    //   "popstate",
+    //   function(e) {
+    //     window.location = "http://shop.jiweishengxian.com";
+    //   },
+    //   false
+    // );
     // 订单详情
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");

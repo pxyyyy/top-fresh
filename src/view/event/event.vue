@@ -69,6 +69,7 @@ export default {
         } else {
           if (this.getCookie("token")) {
             this.$router.push(`/teamwork/${activeId.acId}`);
+            this.$store.commit("setcurrentActiveName", activeId.acTitle);
           } else {
             this.$router.push("/login");
           }

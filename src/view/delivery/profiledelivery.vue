@@ -7,6 +7,12 @@
   border: 0;
   vertical-align: middle;
 }
+.pricebug {
+  font-size: 18px;
+  color: #e7bf7a;
+  font-weight: bold;
+  position: static !important;
+}
 </style>
 
 <template>
@@ -22,14 +28,14 @@
     <div class="discript">
       <!-- 预售图片 -->
       <img src="" alt="">
-      <p class="title">{{info.productName}}</p>
-      <p class="subtitle">{{info.productInfo}}</p>
-      <p class="price" v-if="info.productDiscount">
+      <p class="titlebug">{{info.productName}}</p>
+      <p class="subtitlebug">{{info.productInfo}}</p>
+      <p class="pricebug" v-if="info.productDiscount">
         <span>&yen;{{info.productPrice}}/{{info.productUnit}}只</span>
         <span class="old">&yen;{{info.productOprice}}</span>
         <span class="discount">{{info.productDiscount}}折</span>
       </p>
-      <p class="price" v-else>
+      <p class="pricebug" v-else>
         <span>&yen;{{info.productOprice}}/{{info.productUnit}}只</span>
       </p>
     </div>

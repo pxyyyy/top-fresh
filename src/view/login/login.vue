@@ -34,7 +34,7 @@
       </div>
       <div v-if="!login" class="animated" :key="2">
         <div class="container" :style='{"height":viewHeight}'>
-          <div class="title1">请输入验证码</div>
+          <div class="title1">请您输入验证码</div>
           <div class="subtitle">验证码已发送至+86 {{phone}}</div>
           <div class="security-code-wrap">
             <label for="code">
