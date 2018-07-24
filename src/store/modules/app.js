@@ -8,7 +8,8 @@
 const app = {
   state: {
     currentActiveForProfile: 0,
-    currentActiveName: ''
+    currentActiveName: '',
+    currentPtActiveName:"",
   },
   mutations: {
     setCurrentActiveForProfile(state, active) {
@@ -16,6 +17,9 @@ const app = {
     },
     setcurrentActiveName(state, active) {
       state.currentActiveName = active
+    },
+    setcurrentPtActiveName(state, active) {
+      state.currentPtActiveName = active
     },
   }
 };

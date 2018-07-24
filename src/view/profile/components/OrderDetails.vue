@@ -4,26 +4,15 @@
 <template>
 	<div class="OrderDetails">
 		<div class="OrderDetails-top">
-			<div class="OrderDetails-top-group margin-big border-bottom">
-				<div class="express-img">
-					<img src="../../../assets/img/express.png" alt="">
-				</div>
-				<div class="OrderDetails-top-info">
-					<p>在北京分拨中心进行装车扫描,即将发往：山东省济南市分拨中心</p>
-					<p class="express-date">2018-01-20
-						<span>18:24:21</span>
-					</p>
-				</div>
-			</div>
 			<div class="OrderDetails-top-group">
 				<div class="express-img">
 					<img src="../../../assets/img/address.png" alt="">
 				</div>
 				<div class="OrderDetails-top-info-end">
-					<p>收货人：段小姐
-						<span class="telephone">17645678987</span>
+					<p>收货人：{{result[0]}}
+						<span class="telephone">{{result[2]}}</span>
 					</p>
-					<p>收货地址：{{list.orderAddressinfo}}</p>
+					<p>收货地址：{{result[1]}}</p>
 				</div>
 			</div>
 		</div>
@@ -50,11 +39,13 @@
 					</van-row>
 					<van-row>
 						<van-col span="12">代金券优惠</van-col>
-						<van-col span="12" class="price_right">-￥{{list.orderCouponsmoney}}.00</van-col>
+						<van-col span="12" class="price_right" v-if="list.orderCouponsmoney">-￥{{list.orderCouponsmoney}}.00</van-col>
+						<van-col span="12" class="price_right" v-else>-￥0.00</van-col>
 					</van-row>
 					<van-row>
 						<van-col span="12">积分优惠</van-col>
-						<van-col span="12" class="price_right">-￥{{list.orderScore}}</van-col>
+						<van-col span="12" class="price_right" v-if="list.orderScoremoney">-￥{{list.orderScoremoney}}.00</van-col>
+						<van-col span="12" class="price_right" v-else>-￥0.00</van-col>
 					</van-row>
 					<van-row class="price-bottom">
 						<van-col span="24" class="price_right">实付款
@@ -78,8 +69,8 @@
 				<span>{{list.orderSendtime}}</span>
 			</p>
 			<p class="OrderDetails-bottom-button">
-				<button>查看物流</button>
-				<button class="button-confirm">确认收货</button>
+				<!-- <button>查看物流</button> -->
+				<!-- <button class="button-confirm">确认收货</button> -->
 			</p>
 		</div>
 	</div>
@@ -92,7 +83,8 @@ export default {
   mixins: [order],
   data() {
     return {
-      list: ""
+			list: "",
+			result: ''
     };
   },
   methods: {
@@ -122,7 +114,8 @@ export default {
       token,
       orderId: this.$route.params.odOrderId
     }).then(res => {
-      this.list = res;
+			this.list = res;
+			this.result=this.list.orderAddressinfo.split(",");
     });
   }
 };
