@@ -350,7 +350,7 @@ export const otherRouter = [{
     path: '/ptOrderDetails',
     name: 'ptOrderDetails',
     component: resolve => {
-      require(['@/view/profile/components/OrderDetails.vue'], resolve);
+      require(['@/view/profile/components/ptOrderDetails.vue'], resolve);
     }
   },
   {

@@ -113,6 +113,19 @@ export default {
         console.log(err)
       });
     },
+    // 根据订单查询可用优惠券
+    getCoupnsListByOrderId(json) {
+      return api.post(`fresh_show/order/getCoupnsListByOrderId`, json)
+        .then(res => {
+          if (res.data.code == 100000) {
+            return res.data.data;
+          }
+
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     // 新增收货地址
     addStaffAddress(json) {
       return api.post('fresh_show/staffAddress/addStaffAddress', json).then((res) => {

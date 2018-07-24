@@ -24,8 +24,9 @@
           <p class="MyCollage-bottom-state" v-else-if="item.status == 3">拼团失败</p>
           <p class="MyCollage-bottom-state" v-else-if="item.status == 4">拼团成功</p>
           <!-- <p class="MyCollage-bottom-state" v-else>拼团失败</p> -->
+          <p class="cancel" @click="cancelPt(item.id)">取消拼团</p>
           <p>
-            <button>订单详情</button>
+            <button @click="details(item)">订单详情</button>
           </p>
           <p>
             <button @click="goInfo(item.togetherId,item.startUser)">拼团详情</button>
@@ -38,6 +39,7 @@
 
 <script>
 import service from "../service/order.js";
+import { Dialog, Toast } from "vant";
 export default {
   name: "MyCollage",
   mixins: [service],
@@ -48,6 +50,37 @@ export default {
     };
   },
   methods: {
+    cancelPt(id) {
+      Dialog.confirm({
+        title: "取消拼团",
+        message: "您确定要取消吗？"
+      })
+        .then(() => {
+          this.togetherOrder(
+            id,
+            this.getCookie("staffId"),
+            this.getCookie("token")
+          ).then(res => {
+            Toast("取消拼团成功,钱将原价返回");
+            this.getTogetherOrderInfo({
+              staffId,
+              token
+            }).then(res => {
+              this.MyCollage = res;
+              if (this.MyCollage == "") {
+                this.learyShow = true;
+              }
+            });
+          });
+        })
+        .catch(() => {
+          // on cancel
+        });
+    },
+    details(json) {
+      this.$router.push("/ptOrderDetails");
+      this.$store.commit("setcurrentActiveName", json);
+    },
     goInfo(detailCode, startUser) {
       this.$router.push(`/collageShare/${detailCode}/${startUser}`);
     },

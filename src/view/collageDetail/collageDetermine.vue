@@ -35,13 +35,14 @@
         <!--是否邮寄提货券弹出-->
         <div style="padding-top:30px;background:#fff;">
           <div class="select">
-            <div class="border-top" style="padding:2px 0;" @click='usingaVouchers'>
+            <div class="" style="padding:2px 0;" @click='usingaVouchers'>
               <p>使用代金券</p>
               <p v-if="this.offer">
                 -{{this.offer}}元
                 <span class="iconfont arrow-icon">&#xe66b;</span>
               </p>
-              <p v-else>选择代金券
+              <p v-else>
+                <span v-text="offerText"></span>
                 <span class="iconfont arrow-icon">&#xe66b;</span>
               </p>
             </div>
@@ -150,6 +151,7 @@ export default {
       zfb: false,
       wx: true,
       yl: false,
+      offerText: "选择代金券",
       integral: "",
       wxPic: wxpicActive,
       zfbPic: zfbpic,
@@ -289,12 +291,24 @@ export default {
   // 优惠的价格
   computed: {
     orderAllmoney() {
-      if (sessionStorage.getItem("teamworkMoney")) {
-        return (
-          this.info.priceTogether - sessionStorage.getItem("teamworkMoney")
-        );
+      if (this.checked) {
+        if (sessionStorage.getItem("teamworkMoney")) {
+          return (
+            this.info.priceTogether -
+            sessionStorage.getItem("teamworkMoney") -
+            this.integral[1]
+          );
+        } else {
+          return this.info.priceTogether - this.integral[1];
+        }
       } else {
-        return this.info.priceTogether;
+        if (sessionStorage.getItem("teamworkMoney")) {
+          return (
+            this.info.priceTogether - sessionStorage.getItem("teamworkMoney")
+          );
+        } else {
+          return this.info.priceTogether;
+        }
       }
     }
   },
@@ -310,7 +324,7 @@ export default {
     }
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");
-    this.getTogetherOrderInfo22({
+    await this.getTogetherOrderInfo22({
       staffId,
       token,
       id: this.$route.params.id
@@ -324,6 +338,16 @@ export default {
       money: this.info.priceTogether
     }).then(res => {
       this.integral = res;
+    });
+    // 拼团优惠券
+    this.getCoupnsListByMoney({
+      token: this.getCookie("token"),
+      staffId: this.getCookie("staffId"),
+      money: this.info.priceTogether
+    }).then(res => {
+      if (!res) {
+        this.offerText = "无可用代金券";
+      }
     });
   }
 };

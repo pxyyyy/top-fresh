@@ -81,7 +81,8 @@
           </van-row>
         </van-popup>
         <div style="padding-top:30px;background:#fff;">
-          <div class="select" @click="showOne">
+          <!-- v-if="!infoList.orderdetails[0].odPtypeId == 2" -->
+          <div class="select" @click="showOne" v-if="this.datas.orderdetails[0].odPtypeId != 2">
             <p>是否邮寄提货券</p>
             <p>
               {{MailingText}}
@@ -95,7 +96,8 @@
                 -{{this.offer}}元
                 <span class="iconfont arrow-icon">&#xe66b;</span>
               </p>
-              <p v-else>选择代金券
+              <p v-else>
+                <span v-text="offerText"></span>
                 <span class="iconfont arrow-icon">&#xe66b;</span>
               </p>
             </div>
@@ -205,6 +207,7 @@ export default {
     return {
       imageURL: FeaturesIcon5,
       checked: false,
+      offerText: "选择代金券",
       zfb: false,
       wx: true,
       yl: false,
@@ -237,21 +240,26 @@ export default {
   // 优惠的价格
   computed: {
     orderAllmoney() {
-      if (sessionStorage.getItem("money")) {
-        return this.datas.orderAllmoney - sessionStorage.getItem("money");
+      if (this.checked) {
+        if (sessionStorage.getItem("money")) {
+          return (
+            this.datas.orderAllmoney -
+            sessionStorage.getItem("money") -
+            this.integral[1]
+          );
+        } else {
+          return this.datas.orderAllmoney - this.integral[1];
+        }
       } else {
-        return this.datas.orderAllmoney;
+        if (sessionStorage.getItem("money")) {
+          return this.datas.orderAllmoney - sessionStorage.getItem("money");
+        } else {
+          return this.datas.orderAllmoney;
+        }
       }
     }
   },
   methods: {
-    // pushHistory() {
-    //   var state = {
-    //     title: "title",
-    //     url: "#"
-    //   };
-    //   window.history.pushState(state, "title", "#");
-    // },
     GetRequest() {
       var url = location.search; //获取url中"?"符后的字串
       var theRequest = new Object();
@@ -323,7 +331,10 @@ export default {
     goDetails: function() {
       if (!this.cartList[0].adName) {
         Toast("请选择收货地址");
-      } else if (this.MailingText == "请选择") {
+      } else if (
+        this.MailingText == "请选择" &&
+        this.datas.orderdetails[0].odPtypeId != 2
+      ) {
         Toast("请选择提货券类型");
       } else {
         this.Payment = true;
@@ -333,29 +344,55 @@ export default {
           this.orderSendlading = 2;
         }
         if (this.checked) {
-          this.updateOrderBeginPay({
-            staffId: this.getCookie("staffId"),
-            token: this.getCookie("token"),
-            orderId: this.$route.params.orderId,
-            adId: this.cartList[0].adId,
-            orderSendlading: this.orderSendlading,
-            staffCouponId: sessionStorage.getItem("scId") || "",
-            orderScore: this.integral[0],
-            orderScoremoney: this.integral[1]
-          }).then(res => {
-            this.jmoney = res.data[0];
-          });
+          if (this.datas.orderdetails[0].odPtypeId != 2) {
+            this.updateOrderBeginPay({
+              staffId: this.getCookie("staffId"),
+              token: this.getCookie("token"),
+              orderId: this.$route.params.orderId,
+              adId: this.cartList[0].adId,
+              orderSendlading: this.orderSendlading,
+              staffCouponId: sessionStorage.getItem("scId") || "",
+              orderScore: this.integral[0],
+              orderScoremoney: this.integral[1]
+            }).then(res => {
+              this.jmoney = res.data[0];
+            });
+          } else {
+            this.updateOrderBeginPay({
+              staffId: this.getCookie("staffId"),
+              token: this.getCookie("token"),
+              orderId: this.$route.params.orderId,
+              adId: this.cartList[0].adId,
+              staffCouponId: sessionStorage.getItem("scId") || "",
+              orderScore: this.integral[0],
+              orderScoremoney: this.integral[1]
+            }).then(res => {
+              this.jmoney = res.data[0];
+            });
+          }
         } else {
-          this.updateOrderBeginPay({
-            staffId: this.getCookie("staffId"),
-            token: this.getCookie("token"),
-            orderId: this.$route.params.orderId,
-            adId: this.cartList[0].adId,
-            orderSendlading: this.orderSendlading,
-            staffCouponId: sessionStorage.getItem("scId") || ""
-          }).then(res => {
-            this.jmoney = res.data[0];
-          });
+          if (this.datas.orderdetails[0].odPtypeId != 2) {
+            this.updateOrderBeginPay({
+              staffId: this.getCookie("staffId"),
+              token: this.getCookie("token"),
+              orderId: this.$route.params.orderId,
+              orderSendlading: this.orderSendlading,
+              adId: this.cartList[0].adId,
+              staffCouponId: sessionStorage.getItem("scId") || ""
+            }).then(res => {
+              this.jmoney = res.data[0];
+            });
+          } else {
+            this.updateOrderBeginPay({
+              staffId: this.getCookie("staffId"),
+              token: this.getCookie("token"),
+              orderId: this.$route.params.orderId,
+              adId: this.cartList[0].adId,
+              staffCouponId: sessionStorage.getItem("scId") || ""
+            }).then(res => {
+              this.jmoney = res.data[0];
+            });
+          }
         }
       }
     },
@@ -404,16 +441,6 @@ export default {
     }
   },
   async beforeMount() {
-    // 返回事件
-    // var that = this;
-    // this.pushHistory();
-    // window.addEventListener(
-    //   "popstate",
-    //   function(e) {
-    //     that.$router.push("/");
-    //   },
-    //   false
-    // );
     document.title = "确认订单";
     this.GetRequest;
     var Request = new Object();
@@ -460,6 +487,16 @@ export default {
       token: this.getCookie("token")
     }).then(res => {
       this.ueseInfo = res.data;
+    });
+    // 优惠券;
+    this.getCoupnsListByOrderId({
+      token: this.getCookie("token"),
+      staffId: this.getCookie("staffId"),
+      orderId: this.$route.params.orderId
+    }).then(res => {
+      if (!res) {
+        this.offerText = "无可用代金券";
+      }
     });
   }
 };
