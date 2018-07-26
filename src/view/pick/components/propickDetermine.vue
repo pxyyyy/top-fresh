@@ -17,10 +17,13 @@
             <img src="../../../assets/img/cartDeteemine.png" alt="">
           </van-col>
           <van-col span="20">
-            <p>收货人: {{cartList[0].adName}}
-              <span>{{cartList[0].adPhone}}</span>
+            <p>收货人:
+              <i v-if="cartList[0]">{{cartList[0].adPhone}}</i>
+              <span v-if="cartList[0]">{{cartList[0].adName}}</span>
             </p>
-            <p style="margin-top:5px;">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</p>
+            <p style="margin-top:5px;">收货地址:
+              <span v-if="cartList[0]">{{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
+            </p>
           </van-col>
           <van-col span="2" class="address-right">
             <img src="../../../assets/img/Arrow.png" alt="">

@@ -55,7 +55,7 @@ export default {
       this.addEvaluation({
         staffId: this.getCookie("staffId"),
         token: this.getCookie("token"),
-        productid: this.$route.params.id,
+        orderId: this.$route.params.id,
         evaluationStaffid: this.getCookie("staffId"),
         evaluationContent: this.text,
         evaluationPraiseNum: this.value //星

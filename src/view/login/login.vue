@@ -223,6 +223,7 @@ export default {
     }
   },
   beforeMount() {
+    document.title = "登陆"
     this.GetRequest;
     var Request = new Object();
     Request = this.GetRequest();
@@ -239,7 +240,7 @@ export default {
         } else {
           this.setCookie("token", res.data.staffToken);
           this.setCookie("staffId", res.data.staffId);
-          this.$router.go(-3);
+          window.location.href = sessionStorage.link;
         }
       });
     }

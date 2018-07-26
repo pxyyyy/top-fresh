@@ -5,6 +5,9 @@
 .van-hairline--top-bottom::after {
   border: none;
 }
+.van-icon__info{
+  background: #e2bf85 !important;
+}
 </style>
 <template>
   <div class="profile">
@@ -215,6 +218,9 @@ export default {
         case 2:
           this.$router.push("/MyCollage");
           break;
+        case 3:
+           window.location.href = "tel:400-010-5777";
+          break;
         case 4:
           this.$router.push(`/feedback/${this.ueseInfo.staffPhone}`);
           break;
@@ -228,6 +234,7 @@ export default {
     }
   },
   beforeMount() {
+    sessionStorage.link = window.location.href;
     document.title = "个人";
     this.selectProByType().then(res => {
       this.products = res.data;

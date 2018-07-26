@@ -1,7 +1,7 @@
 <template>
   <div class="ProductHighlights">
     <div class="list" v-for="item in list" :key="item.id">
-      <img :src="item.productIcon + '?x-oss-process=image/crop,h_150,g_center'" alt="" class="img" @click='commodity(item)'>
+      <img :src="item.productIcon" alt="" class="img" @click='commodity(item)'>
       <div data-v-12f4fbe3="" class="title">{{item.productName}}</div>
       <div data-v-12f4fbe3="" class="gg">{{item.productDetail}}</div>
       <div data-v-12f4fbe3="" class="price">¥{{item.productOprice}}</div>

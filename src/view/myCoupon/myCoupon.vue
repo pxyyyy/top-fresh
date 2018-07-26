@@ -7,12 +7,12 @@
             <h2>
               <span>￥</span>{{item.couponsValue}}</h2>
           </van-col>
-          <van-col span="11" class="wrapper-center" offset="1">
+          <van-col span="10" class="wrapper-center" offset="1">
             <p>{{item.couponsName}}</p>
             <p>{{item.createtime}} - {{item.couponsEndTime}}</p>
             <!-- <p class="weight">{{item.couponsType}}</p> -->
           </van-col>
-          <van-col span="6" class="wrapper-right">
+          <van-col span="7" class="wrapper-right">
             <div class="wrapper-right-icon">
               <img v-if="item.isReceive == 0 " src="../../assets/img/myCoupon.png" alt="">
               <img v-else src="../../assets/img/myCouponUnused.png" alt="">
@@ -93,6 +93,8 @@ export default {
         scStaffId: this.staffId
       }).then(res => {
         Toast("领取成功");
+        this.myCouponList = [];
+        this.pageNum = "0"
         this.onLoad();
       });
     }
@@ -130,7 +132,7 @@ export default {
 .wrapper-content {
   border: 1px solid #fc5b7a;
   border-radius: 5px;
-  padding: 5px;
+  padding: 5px 5px 0 5px;
   color: #fc5b7a;
   margin-top: 10px;
   .wrapperLeft {

@@ -12,13 +12,13 @@
   <!-- 商品详情 页面-->
   <div>
     <!-- 商品主图  有赞轮播组件-->
-    <swiper :options="swiperOption">
+    <swiper :options="swiperOption" :class="{marginIos:ismarginIos}">
       <swiper-slide v-for="(image, index) in infoOne.proImgs" :key="index">
         <img v-lazy="image.imgUrl" class="img" />
       </swiper-slide>
     </swiper>
     <!-- 商品详细信息 -->
-    <div class="discript">
+    <div class="discript" >
       <p class="title">{{infoOne.productName}}</p>
       <p class="price">
         <span class="collage">
@@ -50,7 +50,7 @@
         <span>可获得{{infoOne.productScore}}积分</span>
       </p>
     </div>
-    <div class="details" :style="{marginBottom:marginBottom}">
+    <div class="details">
       <p class="details_title">---- 商品详情 ----</p>
       <div class="details_content">
         <img v-lazy="infoOne.productIcon" alt="">
@@ -76,11 +76,11 @@ export default {
   mixins: [service],
   data() {
     return {
-      marginBottom: "50px",
       number: 1,
       show: false,
       show1: false,
       type: "",
+      ismarginIos:false,
       swiperOption: {
         loop: true,
         effect: "fade"
@@ -165,11 +165,13 @@ export default {
     }
   },
   beforeMount() {
+    let from = this.$route.query.from;
+    if(from) {
+      this.ismarginIos = true
+    }
     var staffId = this.getCookie("staffId");
     var token = this.getCookie("token");
     this.getTogetherOrderInfo({
-      staffId,
-      token,
       productId: this.$route.params.productId,
       id: this.$route.params.id
     }).then(res => {

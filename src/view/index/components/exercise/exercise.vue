@@ -60,6 +60,7 @@ export default {
             this.$router.push(`/myCoupon/${activeId.id}`);
             this.$store.commit("setcurrentActiveName", activeId.title);
           } else {
+            sessionStorage.link = window.location.href;
             this.$router.push(`/login`);
           }
         }
@@ -79,6 +80,7 @@ export default {
           if (this.getCookie("token")) {
             this.$router.push(`/teamwork/${activeId.id}`);
           } else {
+            sessionStorage.link = window.location.href;
             this.$router.push(`/login`);
           }
         }

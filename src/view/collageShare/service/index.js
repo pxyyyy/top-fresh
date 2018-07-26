@@ -46,9 +46,7 @@ export default {
     addUserTogetherOrder(json) {
       return api.post('fresh_show/togetherOrder/addUserTogetherOrder', json)
         .then(res => {
-          if (res.data.code == 100000) {
-            return res.data.data;
-          }
+            return res.data;
         })
         .catch(function (error) {
           console.log(error);

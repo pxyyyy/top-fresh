@@ -77,7 +77,7 @@
       <p>
         <span>商品类型:</span>
         <span>
-          <span class="type">{{product.productPtype == 2 ? "大闸蟹 · 现货" : "大闸蟹 · 礼品卡"}}</span>
+          <span class="type">{{product.productPtype == 2 ? "现货" : "礼品卡"}}</span>
         </span>
       </p>
       <p>
@@ -116,7 +116,7 @@
               </van-row>
               <van-row class="evaluationPic">
                 <van-col span="8" v-for="(usaePic,index) in item.prourl">
-                  <img v-lazy="usaePic" alt="" @click='goEvaluation(item.prourl,index)'>
+                  <img v-lazy="usaePic + '?x-oss-process=image/resize,m_fixed,h_110,w_110'" alt="" @click='goEvaluation(item.prourl,index)'>
                 </van-col>
               </van-row>
             </div>
@@ -137,14 +137,16 @@
       </van-tabs>
     </div>
     <!-- 图片查看 -->
-    <div class="evaluationa" v-if="pictureCorridor" @click="closeCorridor">
+   <div class="evaluationa" v-if="pictureCorridor" @click="closeCorridor">
       <div class="wrapper">
         <swiper :options="swiperOption">
           <swiper-slide v-for="item in swipePic" :key="item.id">
-            <img class="swiper-img" :src="item" alt="">
+            <img class="swiper-img" :src="item + '?x-oss-process=image/resize,m_fixed,h_375,w_375'" alt="">
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
+      </div>
+    </div>
       </div>
     </div>
     <!-- 商品图文详情 -->
@@ -207,29 +209,7 @@ export default {
         { id: 2, text: "评价()" },
         { id: 3, text: "推荐" }
       ],
-      info: [
-        {
-          id: "1", //商品ID
-          title: "澄阳湖大闸蟹六对礼盒装AB双套餐可选 2.9-2.9两  12只", //商品标题
-          subtitle: "澄阳湖大闸蟹 AB双套餐", //商品副标题
-          oldprice: 288.0, //商品原价
-          newprice: 188.0,
-          discount: "7.0", //折扣
-          number: 12, //商品数量
-          type: "0",
-          productType: ["大闸蟹·现货", "2018.2.10"], //商品类型
-          images: [
-            "https://img14.360buyimg.com/popWaterMark/jfs/t17218/268/2177078914/177141/2f4cfd87/5ae920d7N7605a758.jpg",
-            "https://img13.360buyimg.com/popWaterMark/jfs/t18838/254/2140707395/230948/d2c13ef6/5ae920d4N82d84a7f.jpg",
-            "https://img14.360buyimg.com/popWaterMark/jfs/t18088/257/2187333638/209669/c11169a0/5ae920d8N05bc65e2.jpg",
-            "https://img30.360buyimg.com/popWaterMark/jfs/t17695/164/1073632144/214246/a74ac508/5ab8ae48N058b7c22.jpg"
-          ], //商品主图
-          content: '<div class="d-content"><img src="' + img + '"></div>', //详情,//详情
-          distribution: "顺丰空运", //配送方式
-          integral: "200", //购买可获得的积分数
-          origin: "阳澄湖" //商品产地
-        }
-      ],
+      info: [],
       product: "",
       staffId: this.getCookie("staffId"),
       token: this.getCookie("token"),
@@ -417,10 +397,12 @@ export default {
     }
   },
   async beforeMount() {
+    sessionStorage.link = window.location.href;
     this.$bridge.registerHandler("giveShareInfo", (data, responseCallback) => {
       responseCallback({
         title: `${this.product.productName}`,
-        toProductInfo: `${this.product.productInfo}`
+        toProductInfo: `${this.product.productInfo}`,
+        link:window.location.href
       });
     });
     this.$bridge.registerHandler("closePicture", (data, responseCallback) => {

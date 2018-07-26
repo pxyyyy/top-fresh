@@ -81,7 +81,7 @@ export default {
             adId: item.adId
           }).then(res => {
             Toast("邮寄成功");
-            this.$route.push("/login");
+            this.$route.push("/");
           });
         })
         .catch(() => {});

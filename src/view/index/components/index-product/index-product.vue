@@ -50,7 +50,7 @@
         </div>
       </van-tab>
     </van-tabs>
-    <div class="r-more" @click="goGoodListVC('all',0)">
+    <div class="r-more" @click="goGoodListVC()">
       <span>查看全部</span>
       <van-icon name="more" />
     </div>
@@ -61,9 +61,10 @@ import indexService from "../../service/index.js";
 export default {
   mixins: [indexService],
   data() {
-    return {
+  return {
       active: 0,
-      imgList: ""
+      imgList: "",
+      name: '礼卡'
     };
   },
   beforeMount() {
@@ -76,11 +77,13 @@ export default {
     getInfo(index) {
       if (index == 0) {
         this.active = 0;
+        this.name = "礼卡";
         this.getproducts(index + 1).then(res => {
           this.imgList = res;
           console.log(this.imgList);
         });
       } else {
+        this.name = "现货";
         this.active = 1;
         this.getproducts(index + 1).then(res => {
           this.imgList = res;
@@ -91,11 +94,11 @@ export default {
     goGoodListVC(name, index) {
       let from = this.$route.query.from;
       if (from == "IOS") {
-        this.$bridge.callHandler("goGoodListVC", { name: name }, data => {
+        this.$bridge.callHandler("goGoodListVC", { name: this.name }, data => {
           console.log("success");
         });
       } else if (from == "Android") {
-        this.$bridge.callHandler("goGoodListVC", { name: name }, data => {
+        this.$bridge.callHandler("goGoodListVC", { name: this.name }, data => {
           console.log("success");
         });
       } else {

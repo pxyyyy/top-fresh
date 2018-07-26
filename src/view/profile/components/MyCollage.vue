@@ -20,11 +20,10 @@
           </div>
         </div>
         <div class="MyCollage-bottom">
-          <p class="MyCollage-bottom-state" v-if="item.status == 2">拼团中</p>
+           <p class="MyCollage-bottom-state" v-if="item.status == 2">拼团中</p>
           <p class="MyCollage-bottom-state" v-else-if="item.status == 3">拼团失败</p>
           <p class="MyCollage-bottom-state" v-else-if="item.status == 4">拼团成功</p>
-          <!-- <p class="MyCollage-bottom-state" v-else>拼团失败</p> -->
-          <p class="cancel" @click="cancelPt(item.id)">取消拼团</p>
+          <p class="cancel" @click="cancelPt(item.id)" v-if="item.status == 2">取消拼团</p>
           <p>
             <button @click="details(item)">订单详情</button>
           </p>
@@ -63,10 +62,11 @@ export default {
           ).then(res => {
             Toast("取消拼团成功,钱将原价返回");
             this.getTogetherOrderInfo({
-              staffId,
-              token
+              staffId:this.getCookie('staffId'),
+              token:this.getCookie('token')
             }).then(res => {
               this.MyCollage = res;
+              console.log(this.MyCollage)
               if (this.MyCollage == "") {
                 this.learyShow = true;
               }

@@ -81,7 +81,14 @@ export default {
   mixins: [service],
   methods: {
     history() {
-      this.$router.push('/');
+      this.$router.push("/");
+    },
+    pushHistory() {
+      var state = {
+        title: "title",
+        url: "#"
+      };
+      window.history.pushState(state, "title", "#");
     },
     // 获取cook
     getCookie(name) {

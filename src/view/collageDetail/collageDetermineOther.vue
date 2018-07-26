@@ -67,7 +67,9 @@
           <div class="select">
             <div class="border-top" style="padding:2px 0;">
               <p>积分优惠</p>
-              <p class="black">-￥{{10.00}}
+              <p class="black" v-if="checked">-￥{{this.integral[1]}}
+              </p>
+              <p class="black" v-else>-￥{{0.00}}
               </p>
             </div>
           </div>
@@ -278,12 +280,18 @@ export default {
   // 优惠的价格
   computed: {
     orderAllmoney() {
-      if (sessionStorage.getItem("teamworkMoney")) {
-        return (
-          this.info.priceTogether - sessionStorage.getItem("teamworkMoney")
-        );
-      } else {
-        return this.info.priceTogether;
+      if(this.checked) {
+        if(sessionStorage.getItem("teamworkMoney")){
+          return this.info.priceTogether - sessionStorage.getItem("teamworkMoney") - this.integral[1];
+        }else{
+          return this.info.priceTogether - this.integral[1];
+        }
+      }else{
+        if(sessionStorage.getItem("teamworkMoney")) {
+          return this.info.priceTogether - sessionStorage.getItem("teamworkMoney") 
+        }else{
+          return this.info.priceTogether  
+        }
       }
     }
   },
@@ -299,7 +307,7 @@ export default {
     }
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");
-    this.getTogetherOrderInfo22({
+    await this.getTogetherOrderInfo22({
       staffId,
       token,
       id: this.$route.params.id

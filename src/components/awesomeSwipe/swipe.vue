@@ -93,6 +93,7 @@ export default {
               this.$router.push(`/myCoupon/${activeId.link}`);
               this.$store.commit("setcurrentActiveName", activeId.acTitle);
             } else {
+              sessionStorage.link = window.location.href;
               this.$router.push("/login");
             }
           }
@@ -106,6 +107,7 @@ export default {
             if (this.getCookie("token")) {
               this.$router.push(`/teamwork/${activeId.acId}`);
             } else {
+              sessionStorage.link = window.location.href;
               this.$router.push("/login");
             }
           }

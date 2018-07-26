@@ -60,6 +60,7 @@ export default {
     }
   },
   beforeMount() {
+    sessionStorage.link = window.location.href;
     document.title = this.title;
     if (!this.getCookie("staffId")) {
       this.$router.push("/login");
@@ -86,5 +87,4 @@ export default {
       this.teamworkList = res;
     });
   }
-};
 </script>
