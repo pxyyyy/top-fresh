@@ -87,5 +87,4 @@ export default {
       this.teamworkList = res;
     });
   }
-};
 </script>

@@ -115,14 +115,14 @@ export default {
   },
   beforeMount() {
     // 返回事件
-    this.pushHistory();
-    window.addEventListener(
-      "popstate",
-      function(e) {
-        window.location = "http://shop.jiweishengxian.com";
-      },
-      false
-    );
+    // this.pushHistory();
+    // window.addEventListener(
+    //   "popstate",
+    //   function(e) {
+    //     window.location = "http://shop.jiweishengxian.com";
+    //   },
+    //   false
+    // );
     // 订单详情
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");

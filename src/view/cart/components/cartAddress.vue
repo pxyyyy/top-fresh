@@ -97,7 +97,7 @@ export default {
     },
     goEditing: function() {
       if (this.selectStaffAddressList.length == 0) {
-        this.type = 0;
+         this.type = 0;  
       }
       this.$router.push(`/cartAddressEditing/${this.type}`);
     },

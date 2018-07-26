@@ -81,8 +81,7 @@ export default {
             adId: item.adId
           }).then(res => {
             Toast("邮寄成功");
-            sessionStorage.link = window.location.href;
-            this.$route.push("/login");
+            this.$route.push("/");
           });
         })
         .catch(() => {});

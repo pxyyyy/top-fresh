@@ -3,6 +3,7 @@
 </style>
 <template>
   <div class="event-index">
+  <div class="event-index">
     <van-row class="e-row" v-if="!this.$route.query.from">
       <van-col class="event-list" span="8" @click.native="goGoodListVC('礼卡',0)"><img src="../../../../assets/icon/lipin.png" width="50" height="50"> 礼卡区</van-col>
       <van-col class="event-list" span="8" @click.native="goGoodListVC('现货',1)"><img src="../../../../assets/icon/xianhuo.png" width="50" height="50">现货区</van-col>

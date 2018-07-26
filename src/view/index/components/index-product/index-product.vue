@@ -61,7 +61,7 @@ import indexService from "../../service/index.js";
 export default {
   mixins: [indexService],
   data() {
-    return {
+  return {
       active: 0,
       imgList: "",
       name: '礼卡'
@@ -91,7 +91,7 @@ export default {
         });
       }
     },
-    goGoodListVC() {
+    goGoodListVC(name, index) {
       let from = this.$route.query.from;
       if (from == "IOS") {
         this.$bridge.callHandler("goGoodListVC", { name: this.name }, data => {

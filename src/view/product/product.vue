@@ -137,7 +137,7 @@
       </van-tabs>
     </div>
     <!-- 图片查看 -->
-    <div class="evaluationa" v-if="pictureCorridor" @click="closeCorridor">
+   <div class="evaluationa" v-if="pictureCorridor" @click="closeCorridor">
       <div class="wrapper">
         <swiper :options="swiperOption">
           <swiper-slide v-for="item in swipePic" :key="item.id">
@@ -145,6 +145,8 @@
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
+      </div>
+    </div>
       </div>
     </div>
     <!-- 商品图文详情 -->

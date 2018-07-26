@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="MyCollage-bottom">
-          <p class="MyCollage-bottom-state" v-if="item.status == 2">拼团中</p>
+           <p class="MyCollage-bottom-state" v-if="item.status == 2">拼团中</p>
           <p class="MyCollage-bottom-state" v-else-if="item.status == 3">拼团失败</p>
           <p class="MyCollage-bottom-state" v-else-if="item.status == 4">拼团成功</p>
           <p class="cancel" @click="cancelPt(item.id)" v-if="item.status == 2">取消拼团</p>
