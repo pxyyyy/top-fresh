@@ -51,7 +51,7 @@
 import address from "../address/index.js";
 import service from "../service/index.js";
 export default {
-  name: "cartAddressEditing",
+  name: "cartAddressEditinge",
   mixins: [service],
   data() {
     return {

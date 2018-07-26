@@ -11,7 +11,7 @@
     <!--返回弹出-->
     <van-popup v-model="away" class="away">
       <p>正在离开结算页面</p>
-      <p>确定不要了吗</p>
+      <p>您确定不要了吗</p>
       <van-button size="small" class="Payment-button awayColor" @click="goaway">去意已决</van-button>
       <van-button size="small" class="Payment-button" @click="want">朕在想想</van-button>
     </van-popup>
@@ -25,7 +25,7 @@
               <p class="item-title">{{info.product.productName}}</p>
               <p class="item-desc">{{info.product.productInfo}}</p>
               <p class="item-button">
-                <strong class="money">￥{{info.priceTogether}}</strong>
+                <strong class="money">￥{{info.priceTogether}}.00</strong>
                 <span>x1</span>
               </p>
             </div>
@@ -35,13 +35,14 @@
         <!--是否邮寄提货券弹出-->
         <div style="padding-top:30px;background:#fff;">
           <div class="select">
-            <div class="border-top" style="padding:2px 0;" @click='usingaVouchers'>
+            <div class="" style="padding:2px 0;" @click='usingaVouchers'>
               <p>使用代金券</p>
               <p v-if="this.offer">
                 -{{this.offer}}元
                 <span class="iconfont arrow-icon">&#xe66b;</span>
               </p>
-              <p v-else>选择代金券
+              <p v-else>
+                <span v-text="offerText"></span>
                 <span class="iconfont arrow-icon">&#xe66b;</span>
               </p>
             </div>
@@ -58,23 +59,27 @@
             <div class="border-top" style="padding:2px 0;">
               <p>商品总额</p>
               <p class="black">
-                ￥{{info.priceTogether}}
+                ￥{{info.priceTogether}}.00
               </p>
             </div>
           </div>
           <div class="select">
             <div class="border-top" style="padding:2px 0;">
               <p>代金券优惠</p>
-              <p class="black" v-if="this.offer">-￥{{this.offer}}
+              <p class="black" v-if="this.offer">-￥{{this.offer}}.00
               </p>
-              <p class="black" v-else>-￥0
+              <p class="black" v-else>-￥0.00
               </p>
             </div>
           </div>
           <div class="select">
             <div class="border-top" style="padding:2px 0;">
               <p>积分优惠</p>
-              <p class="black">-￥{{10.00}}
+              <p class="black" v-if="checked">
+                -￥{{this.integral[1]}}.00
+              </p>
+              <p class="black" v-else>
+                -￥0.00
               </p>
             </div>
           </div>
@@ -84,7 +89,7 @@
           <div class="border-top price-content">
             <van-row class="price-bottom">
               <van-col span="24" class="price_right">实付款
-                <strong class="money">￥{{orderAllmoney}}</strong>
+                <strong class="money">￥{{orderAllmoney}}.00</strong>
               </van-col>
             </van-row>
           </div>
@@ -146,6 +151,7 @@ export default {
       zfb: false,
       wx: true,
       yl: false,
+      offerText: "选择代金券",
       integral: "",
       wxPic: wxpicActive,
       zfbPic: zfbpic,
@@ -285,12 +291,24 @@ export default {
   // 优惠的价格
   computed: {
     orderAllmoney() {
-      if (sessionStorage.getItem("teamworkMoney")) {
-        return (
-          this.info.priceTogether - sessionStorage.getItem("teamworkMoney")
-        );
+      if (this.checked) {
+        if (sessionStorage.getItem("teamworkMoney")) {
+          return (
+            this.info.priceTogether -
+            sessionStorage.getItem("teamworkMoney") -
+            this.integral[1]
+          );
+        } else {
+          return this.info.priceTogether - this.integral[1];
+        }
       } else {
-        return this.info.priceTogether;
+        if (sessionStorage.getItem("teamworkMoney")) {
+          return (
+            this.info.priceTogether - sessionStorage.getItem("teamworkMoney")
+          );
+        } else {
+          return this.info.priceTogether;
+        }
       }
     }
   },
@@ -306,7 +324,7 @@ export default {
     }
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");
-    this.getTogetherOrderInfo22({
+    await this.getTogetherOrderInfo22({
       staffId,
       token,
       id: this.$route.params.id
@@ -320,6 +338,16 @@ export default {
       money: this.info.priceTogether
     }).then(res => {
       this.integral = res;
+    });
+    // 拼团优惠券
+    this.getCoupnsListByMoney({
+      token: this.getCookie("token"),
+      staffId: this.getCookie("staffId"),
+      money: this.info.priceTogether
+    }).then(res => {
+      if (!res) {
+        this.offerText = "无可用代金券";
+      }
     });
   }
 };

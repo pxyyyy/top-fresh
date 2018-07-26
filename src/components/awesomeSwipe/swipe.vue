@@ -11,17 +11,12 @@
 }
 </style>
 <template>
-  <van-swipe>
-    <van-swipe-item v-for="(image, index) in sysbanners" :key="index">
-      <img v-lazy="image.imgUrl" @click="toTeacher(image)" style="width:100%" />
-    </van-swipe-item>
-  </van-swipe>
-  <!-- <swiper :options="swiperOption">
+  <swiper :options="swiperOption" v-if="showSwiper">
     <swiper-slide v-for="item in sysbanners" :key="item.id">
       <img class="swiper-img" :src="item.imgUrl" alt="" @click="toTeacher(item)">
     </swiper-slide>
     <div class="swiper-pagination" slot="pagination"></div>
-  </swiper> -->
+  </swiper>
 </template>
 
 <script>
@@ -32,12 +27,10 @@ export default {
     return {
       bannerPic: require("../../assets/img/banner.png"),
       swiperOption: {
+        // 园点配置
+        pagination: ".swiper-pagination",
+        // 循环切换
         loop: true,
-        effect: "coverflow",
-        // autoplay: {
-        // delay: 6000,
-        // disableOnInteraction: false
-        // },
         pagination: {
           el: ".swiper-pagination",
           clickable: true
@@ -100,6 +93,7 @@ export default {
               this.$router.push(`/myCoupon/${activeId.link}`);
               this.$store.commit("setcurrentActiveName", activeId.acTitle);
             } else {
+              sessionStorage.link = window.location.href;
               this.$router.push("/login");
             }
           }
@@ -113,6 +107,7 @@ export default {
             if (this.getCookie("token")) {
               this.$router.push(`/teamwork/${activeId.acId}`);
             } else {
+              sessionStorage.link = window.location.href;
               this.$router.push("/login");
             }
           }
@@ -188,6 +183,11 @@ export default {
       }
       //   console.log(1);
       //   this.$router.push(item.link);
+    }
+  },
+  computed: {
+    showSwiper() {
+      return this.sysbanners.length;
     }
   },
   mounted() {

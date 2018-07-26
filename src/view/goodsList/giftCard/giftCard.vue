@@ -11,7 +11,7 @@
                 <img :src='product.imgUrl ? product.imgUrl : "../../../assets/img/product.png"' alt="" class="img">
             </div> -->
       <div v-for="(product,index) in giftCard" :key="index" class="list" @click="toProductInfo(product.id)">
-        <img :src="product.imgUrl + '?x-oss-process=image/crop,x_0,y_0,h_150,g_center'" alt="" class="img">
+        <img :src="product.imgUrl" alt="" class="img">
         <div class="title">{{product.proName}}</div>
         <div class="gg">{{product.proDetail}}</div>
         <div class="price">&yen;{{product.proPrice}}</div>

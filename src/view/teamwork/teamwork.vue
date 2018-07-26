@@ -14,7 +14,7 @@
           </p>
           <p class="teamwork-info-bottom">
             ￥{{item.priceTogether}}
-            <span>单买价￥{{item.originalPrice}}</span>
+            <span @click="alone">单买价￥{{item.originalPrice}}</span>
             <button v-if="item.canPay == 1" style="background:#ccc;">不可购买</button>
             <button @click="goCollage(item.id,item.productId)" v-else>去开团</button>
           </p>
@@ -25,6 +25,7 @@
 </template>
 <script>
 import service from "./service/order.js";
+import { mapState } from "vuex";
 export default {
   name: "teamwork",
   mixins: [service],
@@ -34,7 +35,13 @@ export default {
       teamworkList: ""
     };
   },
+  computed: {
+    title() {
+      return this.$store.state.app.currentActiveName;
+    }
+  },
   methods: {
+    alone() {},
     goCollage(id, productId) {
       this.$router.push(`/collageDetail/${id}/${productId}`);
     },
@@ -53,10 +60,11 @@ export default {
     }
   },
   beforeMount() {
-    document.title = "我的商品";
-    // if (!this.getCookie("staffId")) {
-    //   this.$router.push("/login");
-    // }
+    sessionStorage.link = window.location.href;
+    document.title = this.title;
+    if (!this.getCookie("staffId")) {
+      this.$router.push("/login");
+    }
     // 个人信息{
     this.getStaffInfo({
       staffId: this.getCookie("staffId"),

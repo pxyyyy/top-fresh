@@ -18,6 +18,19 @@ export default {
           console.log(error);
         });
     },
+    // 拼团优惠券
+    getCoupnsListByMoney(json) {
+      return api.post(`fresh_show/order/getCoupnsListByMoney`, json)
+        .then(res => {
+          if (res.data.code == 100000) {
+            return res.data.data;
+          }
+
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     // 微信支付
     weixinPay(json) {
       return api.post('fresh_show/pay/weixin/weixinPay2', json)

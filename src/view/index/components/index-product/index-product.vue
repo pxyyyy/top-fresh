@@ -27,11 +27,11 @@
 <template>
   <div class="r-product">
     <div class="r-title">
-      <p>倾情推荐</p>
-      <span>寻找舌尖的味道</span>
+      <p>用心推荐</p>
+      <span>给您更好的享受</span>
     </div>
     <van-tabs type="card" class="r-tab commodityList" @click="getInfo">
-      <van-tab v-for="index in 2" :title="index == 1 ? '礼券' : '现货'" :key="index">
+      <van-tab v-for="index in 2" :title="index == 1 ? '礼卡' : '现货'" :key="index">
         <div class="gy" v-if="index == 1">
           <div v-for="(product,index) in imgList" :key="index" class="list">
             <img :src="product.imgUrl" class="img" @click="goGoodInfoVC(product.id)">
@@ -50,7 +50,7 @@
         </div>
       </van-tab>
     </van-tabs>
-    <div class="r-more" @click="goGoodListVC('all')">
+    <div class="r-more" @click="goGoodListVC()">
       <span>查看全部</span>
       <van-icon name="more" />
     </div>
@@ -62,7 +62,9 @@ export default {
   mixins: [indexService],
   data() {
     return {
-      imgList: ""
+      active: 0,
+      imgList: "",
+      name: '礼卡'
     };
   },
   beforeMount() {
@@ -74,29 +76,33 @@ export default {
   methods: {
     getInfo(index) {
       if (index == 0) {
+        this.active = 0;
+        this.name = "礼卡";
         this.getproducts(index + 1).then(res => {
           this.imgList = res;
           console.log(this.imgList);
         });
       } else {
+        this.name = "现货";
+        this.active = 1;
         this.getproducts(index + 1).then(res => {
           this.imgList = res;
           console.log(this.imgList);
         });
       }
     },
-    goGoodListVC(name) {
+    goGoodListVC() {
       let from = this.$route.query.from;
       if (from == "IOS") {
-        this.$bridge.callHandler("goGoodListVC", { name: name }, data => {
+        this.$bridge.callHandler("goGoodListVC", { name: this.name }, data => {
           console.log("success");
         });
       } else if (from == "Android") {
-        this.$bridge.callHandler("goGoodListVC", { name: name }, data => {
+        this.$bridge.callHandler("goGoodListVC", { name: this.name }, data => {
           console.log("success");
         });
       } else {
-        this.$router.push(`/goodsList/0`);
+        this.$router.push(`/goodsList/${this.active}`);
       }
     },
     goGoodInfoVC(productId) {

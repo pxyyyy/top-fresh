@@ -17,8 +17,8 @@
 <template>
   <div>
     <div class="e-title">
-      <p>极味生鲜</p>
-      <span>公司简介</span>
+      <p>关于我们</p>
+      <span>给您更好的信赖</span>
     </div>
     <div class="wrapper" v-html="content">
     </div>

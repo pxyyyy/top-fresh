@@ -60,8 +60,9 @@
                   </div>
                 </div>
                 <div class="item-bottom">
-                  <p>取消订单
-                    <button @click="payment(item.odOrderId)">立即付款</button>
+                  <p>
+                    <span @click="cancel(order.orderId)">取消订单</span>
+                    <button @click.stop="payment(item.odOrderId)">立即付款</button>
                   </p>
                 </div>
               </li>
@@ -108,7 +109,7 @@
                 <div class="item-bottom">
                   <p>
                     <button class="item-bottom-three">确认收货</button>
-                    <button>查看物流</button>
+                    <button @click="viewLogistics(order.orderCode)">查看物流</button>
                   </p>
                 </div>
               </li>
@@ -131,7 +132,28 @@
                   </div>
                 </div>
                 <div class="item-bottom">
-                  <button @click='gotDetails(item)'>查看详情</button>
+                  <!-- <button v-if="order.orderState == 1" @click="viewLogistics(order.orderCode)">查看物流</button>
+                  <button v-if="order.orderState == 4" @click='gotDetails(item)'>查看详情</button>
+                  <p v-else-if="order.orderState == 5">已取消</p> -->
+                  <div v-if="order.orderState == 1">
+                    <span @click="cancel(order.orderId)">取消订单</span>
+                    <button @click.stop="payment(item.odOrderId)">立即付款</button>
+                  </div>
+                  <div v-if="order.orderState == 2">
+                    <div class="item-bottom">
+                      <p class="item-bottom-two">等待发货</p>
+                    </div>
+                  </div>
+                  <div v-if="order.orderState == 3">
+                    <button class="item-bottom-three">确认收货</button>
+                    <button @click="viewLogistics(order.orderCode)">查看物流</button>
+                  </div>
+                  <div v-if="order.orderState == 4">
+                    <button v-if="order.orderState == 4" @click='gotDetails(item)'>查看详情</button>
+                  </div>
+                  <div v-if="order.orderState == 5">
+                    <p>已取消</p>
+                  </div>
                 </div>
               </li>
             </ul>
@@ -154,6 +176,7 @@
                 </div>
                 <div class="item-bottom">
                   <p>
+                    <button @click="viewLogistics(order.orderCode)">查看物流</button>
                     <button @click="goEvaluation(item)">立即评价</button>
                   </p>
                 </div>
@@ -167,6 +190,7 @@
 </template>
 <script>
 import order from "../service/order.js";
+import { Dialog, Toast } from "vant";
 export default {
   mixins: [order],
   name: "orders",
@@ -207,6 +231,29 @@ export default {
     this.init();
   },
   methods: {
+    viewLogistics(code) {
+      this.$router.push(`/expressdelivery/shunfeng/${code}`);
+    },
+    // 取消订单
+    cancel(id) {
+      Dialog.confirm({
+        title: "取消订单",
+        message: "您确认取消订单吗"
+      })
+        .then(() => {
+          alert(id);
+          this.cancelOrder({
+            staffId: this.getCookie("staffId"),
+            token: this.getCookie("token"),
+            orderId: id
+          }).then(res => {
+            Toast("取消成功");
+          });
+        })
+        .catch(() => {
+          // on cancel
+        });
+    },
     // 评价
     goEvaluation(item) {
       this.$router.push(`/evaluationOrder/${item.odProductId}`);

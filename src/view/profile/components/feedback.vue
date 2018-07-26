@@ -1,8 +1,11 @@
 <template>
   <div>
     <div class="inner">
-      <textarea v-model="text">
+      <textarea v-model="text" placeholder="请输入您诚恳的建议">
       </textarea>
+    </div>
+    <div class="mailbox">
+      <input type="text" v-model="mailbox" placeholder="请输入您的邮箱或者电话（非必填）">
     </div>
     <div class="btnsave-wrapper" @click="save">
       <van-button type="primary" class="btnsave">保存</van-button>
@@ -11,12 +14,13 @@
 </template>
 
 <script>
-import { Toast } from "vant";
+import { Toast, Dialog } from "vant";
 import oreder from "../service/order.js";
 export default {
   data() {
     return {
-      text: ""
+      text: "",
+      mailbox: ""
     };
   },
   mixins: [oreder],
@@ -43,18 +47,21 @@ export default {
         token: this.getCookie("token"),
         feedbackStaffid: this.getCookie("staffId"),
         feedbackContent: this.text,
-        feedbackPhone: this.$route.params.phone
+        feedbackPhone: this.$route.params.phonem,
+        feedbackBeizhu: this.mailbox
       }).then(res => {
         if (res.code == 100000) {
-          Toast("反馈成功");
-          setTimeout(() => {
-            this.$router.go(-1);
-          }, 1000);
+          Dialog.confirm({
+            title: "意见反馈",
+            message: "感谢您的建议，我们会及时查看并联系您，祝您生活愉快！"
+          })
+            .then(() => {
+              this.$router.go(-1);
+            })
+            .catch(() => {
+              // on cancel
+            });
         } else {
-          Toast("反馈失败");
-          setTimeout(() => {
-            this.$router.go(-1);
-          }, 1000);
         }
       });
       //   this.$router.go(-1);
@@ -97,6 +104,15 @@ export default {
   margin: 0 auto;
   width: 100px;
   height: 40px;
+}
+.mailbox {
+  width: 100%;
+  input {
+    width: 100%;
+    height: 35px;
+    border-radius: 5px;
+    text-indent: 1rem;
+  }
 }
 </style>
 

@@ -72,7 +72,8 @@ export default {
     this.$bridge.registerHandler("giveShareInfo", (data, responseCallback) => {
       responseCallback({
         title: `${this.title}`,
-        toProductInfo: ""
+        toProductInfo: "",
+        linl:window.location.href
       });
     });
     document.title = this.title;

@@ -5,6 +5,9 @@
 .van-hairline--top-bottom::after {
   border: none;
 }
+.van-icon__info{
+  background: #e2bf85 !important;
+}
 </style>
 <template>
   <div class="profile">
@@ -44,8 +47,8 @@
       <!--订单详情-->
       <van-row class="user-links">
         <van-col v-for="(item,index) of informations" :key="item.id" style="width:20%;">
-          <van-tabbar class="Nofixed">
-            <van-tabbar-item icon="" @click="Orders(index)">
+          <van-tabbar class="Nofixed" info="5">
+            <van-tabbar-item icon="" @click="Orders(index)" :info="item.info">
               <span>
                 {{item.text}}
               </span>
@@ -107,27 +110,32 @@ export default {
           id: "001",
           Url: require("../../assets/img/userIcon1.png"),
           text: "待付款",
-          phone: ""
+          phone: "",
+          info: ""
         },
         {
           id: "002",
           Url: require("../../assets/img/userIcon2.png"),
-          text: "待发货"
+          text: "待发货",
+          info: ""
         },
         {
           id: "003",
           Url: require("../../assets/img/userIcon3.png"),
-          text: "待收货"
+          text: "待收货",
+          info: ""
         },
         {
           id: "005",
           Url: require("../../assets/img/userIcon5.png"),
-          text: "待评价"
+          text: "待评价",
+          info: ""
         },
         {
           id: "004",
           Url: require("../../assets/img/userIcon4.png"),
-          text: "全部订单"
+          text: "全部订单",
+          info: ""
         }
       ],
       FeaturesList: [
@@ -140,7 +148,7 @@ export default {
         {
           id: "002",
           Url: require("../../assets/img/FeaturesList2.png"),
-          text: "收货地址",
+          text: "我的收货地址",
           phone: ""
         },
         {
@@ -210,6 +218,9 @@ export default {
         case 2:
           this.$router.push("/MyCollage");
           break;
+        case 3:
+           window.location.href = "tel:400-010-5777";
+          break;
         case 4:
           this.$router.push(`/feedback/${this.ueseInfo.staffPhone}`);
           break;
@@ -223,6 +234,7 @@ export default {
     }
   },
   beforeMount() {
+    sessionStorage.link = window.location.href;
     document.title = "个人";
     this.selectProByType().then(res => {
       this.products = res.data;
@@ -233,6 +245,10 @@ export default {
       token: this.getCookie("token")
     }).then(res => {
       this.ueseInfo = res.data;
+      this.informations[0].info = this.ueseInfo.fuNum;
+      this.informations[1].info = this.ueseInfo.faNum;
+      this.informations[2].info = this.ueseInfo.shouNum;
+      this.informations[3].info = this.ueseInfo.pingNum;
       if (this.ueseInfo == "") {
         this.$router.push("/login");
       }

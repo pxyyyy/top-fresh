@@ -3,10 +3,16 @@
 </style>
 <template>
   <div class="event-index">
-    <van-row class="e-row">
-      <van-col class="event-list" span="6" @click.native="goGoodListVC('礼券',0)"><img src="../../../../assets/icon/lipin.png" width="50" height="50"> 礼券区</van-col>
+    <van-row class="e-row" v-if="!this.$route.query.from">
+      <van-col class="event-list" span="8" @click.native="goGoodListVC('礼卡',0)"><img src="../../../../assets/icon/lipin.png" width="50" height="50"> 礼卡区</van-col>
+      <van-col class="event-list" span="8" @click.native="goGoodListVC('现货',1)"><img src="../../../../assets/icon/xianhuo.png" width="50" height="50">现货区</van-col>
+      <van-col class="event-list" span="8" @click.native="goPickupVC()"><img src="../../../../assets/icon/tihuo.png" width="50" height="50">礼卡提货</van-col>
+      <!-- <van-col class="event-list" span="6" @click.native="Traceability()"><img src="../../../../assets/icon/candi.png" width="50" height="50">产地溯源</van-col> -->
+    </van-row>
+    <van-row class="e-row" v-else>
+      <van-col class="event-list" span="6" @click.native="goGoodListVC('礼卡',0)"><img src="../../../../assets/icon/lipin.png" width="50" height="50"> 礼卡区</van-col>
       <van-col class="event-list" span="6" @click.native="goGoodListVC('现货',1)"><img src="../../../../assets/icon/xianhuo.png" width="50" height="50">现货区</van-col>
-      <van-col class="event-list" span="6" @click.native="goPickupVC()"><img src="../../../../assets/icon/tihuo.png" width="50" height="50">礼券提货</van-col>
+      <van-col class="event-list" span="6" @click.native="goPickupVC()"><img src="../../../../assets/icon/tihuo.png" width="50" height="50">礼卡提货</van-col>
       <van-col class="event-list" span="6" @click.native="Traceability()"><img src="../../../../assets/icon/candi.png" width="50" height="50">产地溯源</van-col>
     </van-row>
   </div>

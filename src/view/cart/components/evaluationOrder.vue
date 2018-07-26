@@ -10,6 +10,9 @@
           </textarea>
         </van-col>
       </van-row>
+      <div class="btnsave-wrapper" @click="release">
+        <van-button type="primary" class="btnsave">保存</van-button>
+      </div>
       <van-row style="padding: 0 50px;">
         <!-- <van-col span="6" style="text-align:left;">
           <div style="width:60px;height:60px;border:1px dashed #c7c7c7; margin:3px 0;     display: flex;    justify-content: center;    align-items: center;">
@@ -52,7 +55,7 @@ export default {
       this.addEvaluation({
         staffId: this.getCookie("staffId"),
         token: this.getCookie("token"),
-        productid: this.$route.params.id,
+        orderId: this.$route.params.id,
         evaluationStaffid: this.getCookie("staffId"),
         evaluationContent: this.text,
         evaluationPraiseNum: this.value //星
@@ -125,7 +128,12 @@ export default {
     font-size: 14px;
   }
 }
-
+.btnsave-wrapper {
+  button {
+    background: #e1bf8a;
+    border: none;
+  }
+}
 .shareIt {
   width: 100%;
   position: absolute;

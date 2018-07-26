@@ -12,13 +12,6 @@
 </style>
 <template>
   <div>
-    <!--返回弹出-->
-    <van-popup v-model="away" class="away">
-      <p>正在离开结算页面</p>
-      <p>确定不要了吗</p>
-      <van-button size="small" class="Payment-button awayColor" @click="goaway">去意已决</van-button>
-      <van-button size="small" class="Payment-button" @click="want">朕在想想</van-button>
-    </van-popup>
     <div class="cart_min">
       <!-- 收货地址 -->
       <div class="address" @click="goAddress()">
@@ -27,10 +20,13 @@
             <img src="../../../assets/img/cartDeteemine.png" alt="">
           </van-col>
           <van-col span="20">
-            <p>收货人: {{cartList[0].adName}}
-              <span>{{cartList[0].adPhone}}</span>
+            <p>收货人: 
+              <i v-if="cartList[0]">{{cartList[0].adPhone}}</i>
+              <span v-if="cartList[0]">{{cartList[0].adName}}</span>
             </p>
-            <p style="margin-top:5px;">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</p>
+            <p style="margin-top:5px;">收货地址: 
+              <span v-if="cartList[0]">{{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
+            </p>
           </van-col>
           <van-col span="2" class="address-right">
             <img src="../../../assets/img/Arrow.png" alt="">
@@ -81,7 +77,8 @@
           </van-row>
         </van-popup>
         <div style="padding-top:30px;background:#fff;">
-          <div class="select" @click="showOne">
+          <!-- v-if="!infoList.orderdetails[0].odPtypeId == 2" -->
+          <div class="select" @click="showOne" v-if="this.datas.orderdetails[0].odPtypeId != 2">
             <p>是否邮寄提货券</p>
             <p>
               {{MailingText}}
@@ -95,7 +92,8 @@
                 -{{this.offer}}元
                 <span class="iconfont arrow-icon">&#xe66b;</span>
               </p>
-              <p v-else>选择代金券
+              <p v-else>
+                <span v-text="offerText"></span>
                 <span class="iconfont arrow-icon">&#xe66b;</span>
               </p>
             </div>
@@ -122,16 +120,20 @@
           <div class="select">
             <div class="border-top" style="padding:2px 0;">
               <p>代金券优惠</p>
-              <p class="black" v-if="this.offer">-￥{{this.offer}}
+              <p class="black" v-if="this.offer">-￥{{this.offer}}.00
               </p>
-              <p class="black" v-else>-￥0
+              <p class="black" v-else>-￥0.00
               </p>
             </div>
           </div>
           <div class="select">
             <div class="border-top" style="padding:2px 0;">
               <p>积分优惠</p>
-              <p class="black">-￥{{this.integral[1]}}
+              <p class="black" v-if="checked">
+                -￥{{this.integral[1]}}.00
+              </p>
+              <p v-else>
+                -￥0.00
               </p>
             </div>
           </div>
@@ -201,14 +203,15 @@ export default {
     return {
       imageURL: FeaturesIcon5,
       checked: false,
+      offerText: "选择代金券",
       zfb: false,
       wx: true,
       yl: false,
       wxPic: wxpicActive,
       zfbPic: zfbpic,
       ylpic: ylpic,
-      MailingTwoPic: MailingTwoPic,
-      MailingOnePic: ActiveMailingOnePic,
+      MailingTwoPic: ActiveMailingTwoPic,
+      MailingOnePic: MailingOnePic,
       Mailing: false,
       MailingActiveOne: true,
       MailingActiveTwo: false,
@@ -233,21 +236,26 @@ export default {
   // 优惠的价格
   computed: {
     orderAllmoney() {
-      if (sessionStorage.getItem("money")) {
-        return this.datas.orderAllmoney - sessionStorage.getItem("money");
+      if (this.checked) {
+        if (sessionStorage.getItem("money")) {
+          return (
+            this.datas.orderAllmoney -
+            sessionStorage.getItem("money") -
+            this.integral[1]
+          );
+        } else {
+          return this.datas.orderAllmoney - this.integral[1];
+        }
       } else {
-        return this.datas.orderAllmoney;
+        if (sessionStorage.getItem("money")) {
+          return this.datas.orderAllmoney - sessionStorage.getItem("money");
+        } else {
+          return this.datas.orderAllmoney;
+        }
       }
     }
   },
   methods: {
-    pushHistory() {
-      var state = {
-        title: "title",
-        url: "#"
-      };
-      window.history.pushState(state, "title", "#");
-    },
     GetRequest() {
       var url = location.search; //获取url中"?"符后的字串
       var theRequest = new Object();
@@ -305,21 +313,24 @@ export default {
     MailingOne() {
       this.MailingActiveOne = true;
       this.MailingActiveTwo = false;
-      this.MailingOnePic = ActiveMailingOnePic;
-      this.MailingTwoPic = MailingTwoPic;
+      this.MailingOnePic = MailingOnePic;
+      this.MailingTwoPic = ActiveMailingTwoPic;
       this.MailingText = "邮件提货券";
     },
     MailingTwo() {
       this.MailingActiveOne = false;
       this.MailingActiveTwo = true;
-      this.MailingOnePic = MailingOnePic;
-      this.MailingTwoPic = ActiveMailingTwoPic;
+      this.MailingOnePic = ActiveMailingOnePic;
+      this.MailingTwoPic = MailingTwoPic;
       this.MailingText = "虚拟提货券";
     },
     goDetails: function() {
       if (!this.cartList[0].adName) {
         Toast("请选择收货地址");
-      } else if (this.MailingText == "请选择") {
+      } else if (
+        this.MailingText == "请选择" &&
+        this.datas.orderdetails[0].odPtypeId != 2
+      ) {
         Toast("请选择提货券类型");
       } else {
         this.Payment = true;
@@ -329,29 +340,55 @@ export default {
           this.orderSendlading = 2;
         }
         if (this.checked) {
-          this.updateOrderBeginPay({
-            staffId: this.getCookie("staffId"),
-            token: this.getCookie("token"),
-            orderId: this.$route.params.orderId,
-            adId: this.cartList[0].adId,
-            orderSendlading: this.orderSendlading,
-            staffCouponId: sessionStorage.getItem("scId") || "",
-            orderScore: this.integral[0],
-            orderScoremoney: this.integral[1]
-          }).then(res => {
-            this.jmoney = res.data[0];
-          });
+          if (this.datas.orderdetails[0].odPtypeId != 2) {
+            this.updateOrderBeginPay({
+              staffId: this.getCookie("staffId"),
+              token: this.getCookie("token"),
+              orderId: this.$route.params.orderId,
+              adId: this.cartList[0].adId,
+              orderSendlading: this.orderSendlading,
+              staffCouponId: sessionStorage.getItem("scId") || "",
+              orderScore: this.integral[0],
+              orderScoremoney: this.integral[1]
+            }).then(res => {
+              this.jmoney = res.data[0];
+            });
+          } else {
+            this.updateOrderBeginPay({
+              staffId: this.getCookie("staffId"),
+              token: this.getCookie("token"),
+              orderId: this.$route.params.orderId,
+              adId: this.cartList[0].adId,
+              staffCouponId: sessionStorage.getItem("scId") || "",
+              orderScore: this.integral[0],
+              orderScoremoney: this.integral[1]
+            }).then(res => {
+              this.jmoney = res.data[0];
+            });
+          }
         } else {
-          this.updateOrderBeginPay({
-            staffId: this.getCookie("staffId"),
-            token: this.getCookie("token"),
-            orderId: this.$route.params.orderId,
-            adId: this.cartList[0].adId,
-            orderSendlading: this.orderSendlading,
-            staffCouponId: sessionStorage.getItem("scId") || ""
-          }).then(res => {
-            this.jmoney = res.data[0];
-          });
+          if (this.datas.orderdetails[0].odPtypeId != 2) {
+            this.updateOrderBeginPay({
+              staffId: this.getCookie("staffId"),
+              token: this.getCookie("token"),
+              orderId: this.$route.params.orderId,
+              orderSendlading: this.orderSendlading,
+              adId: this.cartList[0].adId,
+              staffCouponId: sessionStorage.getItem("scId") || ""
+            }).then(res => {
+              this.jmoney = res.data[0];
+            });
+          } else {
+            this.updateOrderBeginPay({
+              staffId: this.getCookie("staffId"),
+              token: this.getCookie("token"),
+              orderId: this.$route.params.orderId,
+              adId: this.cartList[0].adId,
+              staffCouponId: sessionStorage.getItem("scId") || ""
+            }).then(res => {
+              this.jmoney = res.data[0];
+            });
+          }
         }
       }
     },
@@ -400,25 +437,17 @@ export default {
     }
   },
   async beforeMount() {
-    // 返回事件
-    var that = this;
-    this.pushHistory();
-    window.addEventListener(
-      "popstate",
-      function(e) {
-        that.$router.push("/");
-      },
-      false
-    );
     document.title = "确认订单";
     this.GetRequest;
     var Request = new Object();
     Request = this.GetRequest();
     this.code = Request["code"];
-    // if (!this.code) {
-    //   var url = window.location.href;
-    //   window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
-    // }
+    if (!this.code) {
+      var url = `http://shop.jiweishengxian.com/cartDetermine/${
+        this.$route.params.orderId
+      }`;
+      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
+    }
     // 地址、
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");
@@ -454,6 +483,16 @@ export default {
       token: this.getCookie("token")
     }).then(res => {
       this.ueseInfo = res.data;
+    });
+    // 优惠券;
+    this.getCoupnsListByOrderId({
+      token: this.getCookie("token"),
+      staffId: this.getCookie("staffId"),
+      orderId: this.$route.params.orderId
+    }).then(res => {
+      if (!res) {
+        this.offerText = "无可用代金券";
+      }
     });
   }
 };

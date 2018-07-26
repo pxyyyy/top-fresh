@@ -4,8 +4,8 @@
 <template>
   <div class="exercise">
     <div class="e-title">
-      <p>极味生鲜活动</p>
-      <span>给您更好的推荐</span>
+      <p>限时活动</p>
+      <span>给您更好的优惠</span>
     </div>
     <div class="exercise-active">
       <div class="left" @click="goActiveInfo(activities[0])">
@@ -60,6 +60,7 @@ export default {
             this.$router.push(`/myCoupon/${activeId.id}`);
             this.$store.commit("setcurrentActiveName", activeId.title);
           } else {
+            sessionStorage.link = window.location.href;
             this.$router.push(`/login`);
           }
         }
@@ -79,6 +80,7 @@ export default {
           if (this.getCookie("token")) {
             this.$router.push(`/teamwork/${activeId.id}`);
           } else {
+            sessionStorage.link = window.location.href;
             this.$router.push(`/login`);
           }
         }

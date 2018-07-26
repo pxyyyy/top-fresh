@@ -1,26 +1,24 @@
 <template>
-    <div>
-        <div class="top">
-            <h4>顺丰快递</h4>
-        </div>
-        <div class="wrapper">
-            <ul class="wrapper-center">
-                <li class="wrapper-center-item" v-for="(item,index) in logisticsList" :key="index">
-                    <div class="center-item-left">
-                        <p>{{item.time}}</p>
-                        <h3></h3>
-                    </div>
-                    <div class="center-item-right">
-                        <p>{{item.context}}</p>
-                    </div>
-                </li>
-            </ul>
-        </div>
+  <div>
+    <div class="wrapper">
+      <ul class="wrapper-center">
+        <li class="wrapper-center-item" v-for="(item,index) in logisticsList" :key="index">
+          <div class="center-item-left">
+            <p>{{item.time}}</p>
+            <h3></h3>
+          </div>
+          <div class="center-item-right">
+            <p>{{item.context}}</p>
+          </div>
+        </li>
+      </ul>
     </div>
+  </div>
 </template>
 
 <script>
 import { Decrypt, Encrypt } from "@/assets/js/crypto.js";
+import { Dialog } from 'vant';
 import service from "./service/index";
 export default {
   mixins: [service],
@@ -32,6 +30,7 @@ export default {
     };
   },
   beforeMount() {
+    document.title = "顺丰快递";
     this.code = this.$route.params.name + "," + this.$route.params.number;
     console.log(this.code);
     let dd = Encrypt(this.code);
@@ -40,22 +39,24 @@ export default {
       code: this.d2
     }).then(res => {
       this.logisticsList = res.data.data;
-      console.log(this.logisticsList);
+      if (!res.data.result) {
+        Dialog.confirm({
+          title: "物流查询",
+          message: res.data.message
+        })
+          .then(() => {
+            this.$router.go(-1)
+          })
+          .catch(() => {
+            // on cancel
+          });
+      }
     });
   }
 };
 </script>
 
 <style lang="less" scoped>
-.top {
-  background: #3d3d3d;
-  text-align: center;
-  height: 45px;
-  line-height: 45px;
-  h4 {
-    color: #e1bf8a;
-  }
-}
 .wrapper-center {
   background: #fff;
   .wrapper-center-item {

@@ -5,7 +5,8 @@
   <div>
     <!-- 订单详情 -->
     <div class="order">
-      <span>订单号：{{orders.orderCode}}</span>
+      <span>
+        <i class="iconfont" style="font-size:14px;margin-right:10px;" @click="history">&#xe65c;</i>订单号：{{orders.orderCode}}</span>
     </div>
     <div>
       <ul v-for="item in infoList" :key="item.odId">
@@ -28,19 +29,20 @@
       <div class="border-top price-content">
         <van-row>
           <van-col span="12">商品总额</van-col>
-          <van-col span="12" class="price_right">￥199.00</van-col>
+          <van-col span="12" class="price_right">￥{{orders.orderPmoney}}</van-col>
         </van-row>
         <van-row>
           <van-col span="12">代金券优惠</van-col>
-          <van-col span="12" class="price_right">-￥10.00</van-col>
+          <van-col span="12" class="price_right">-￥{{orders.orderCouponsmoney}}.00</van-col>
         </van-row>
         <van-row>
           <van-col span="12">积分优惠</van-col>
-          <van-col span="12" class="price_right">-￥10.00</van-col>
+          <van-col span="12" class="price_right" v-if="orders.orderScoremoney">-￥{{orders.orderScoremoney}}.00</van-col>
+          <van-col span="12" class="price_right" v-else>-￥0.00</van-col>
         </van-row>
         <van-row class="price-bottom">
           <van-col span="24" class="price_right">实付款
-            <strong class="money">￥{{orders.orderPmoney}}.00</strong>
+            <strong class="money">￥{{orders.orderAllmoney}}</strong>
           </van-col>
         </van-row>
       </div>
@@ -54,8 +56,13 @@
         <span>——</span>继续选购
         <span>——</span>
       </p>
-      <div class="img-conent" @click="toProductInfo(item.id)" v-for="item in products" :key="item.id">
-        <img v-lazy="item.imgUrl" alt="">
+      <div class="gy">
+        <div v-for="(product,index) in products" :key="index" class="list">
+          <img :src="product.imgUrl" class="img" @click="toProductInfo(product.id)">
+          <div class="title">{{product.proName}}</div>
+          <div class="gg">{{product.proDetail}}</div>
+          <div class="price">&yen;{{product.proPrice}}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -73,6 +80,9 @@ export default {
   },
   mixins: [service],
   methods: {
+    history() {
+      this.$router.push("/");
+    },
     pushHistory() {
       var state = {
         title: "title",

@@ -93,6 +93,15 @@ export default {
         console.log(err)
       });
     },
+    // 邮寄实体卡
+    sendMyLading(json) {
+      return api.post(`fresh_show/orderTail/sendMyLading`, json).then((res) => {
+        const data = res.data.data;
+        return data;
+      }).catch((err) => {
+        console.log(err)
+      });
+    },
     // 收货地址列表
     getAddress(staffId, token, carId) {
       return api.get(`fresh_show/staffAddress/selectStaffAddressList?staffId=${staffId}&token=${token}`).then((res) => {
@@ -103,6 +112,19 @@ export default {
       }).catch((err) => {
         console.log(err)
       });
+    },
+    // 根据订单查询可用优惠券
+    getCoupnsListByOrderId(json) {
+      return api.post(`fresh_show/order/getCoupnsListByOrderId`, json)
+        .then(res => {
+          if (res.data.code == 100000) {
+            return res.data.data;
+          }
+
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     // 新增收货地址
     addStaffAddress(json) {

@@ -22,7 +22,7 @@
   </div>
 </template>
 <script>
-import { Toast } from "vant";
+import { Toast, Dialog } from "vant";
 import coupon from "../service/coupon.js";
 export default {
   mixins: [coupon],
@@ -64,15 +64,20 @@ export default {
         var link = window.location.href;
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${link}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
       } else {
-        this.clearOpenId({
-          staffId: this.getCookie("staffId"),
-          token: this.getCookie("token"),
-          type: 2
-        }).then(res => {
-          if (res.code == 100000) {
-            Toast("解绑成功");
-            this.$router.push("/profile");
-          }
+        Dialog.confirm({
+          title: "解绑微信账号",
+          message: "你确定要解绑吗？"
+        }).then(() => {
+          this.clearOpenId({
+            staffId: this.getCookie("staffId"),
+            token: this.getCookie("token"),
+            type: 2
+          }).then(res => {
+            if (res.code == 100000) {
+              Toast("解绑成功");
+              this.$router.push("/profile");
+            }
+          });
         });
       }
     },

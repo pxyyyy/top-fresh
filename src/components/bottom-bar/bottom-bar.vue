@@ -21,7 +21,7 @@
 				<span>活动</span>
 			</div>
 		</router-link>
-		<router-link class="index-bottom-bar__item" v-bind:class="{index_bottom_bar__active : router == 'cart'}" :to="token ? '/cart' : '/login'">
+		<router-link class="index-bottom-bar__item" v-bind:class="{index_bottom_bar__active : router == 'cart'}" :to="token ? '/cart' : '/cart'">
 			<div class="index-bottom-bar__icon">
 				<img src="../../assets/icon/购物车@2x.png" v-if="router == 'cart'">
 				<img src="../../assets/icon/cart.png" v-else>
@@ -30,7 +30,7 @@
 				<span>购物车</span>
 			</div>
 		</router-link>
-		<router-link class="index-bottom-bar__item" v-bind:class="{index_bottom_bar__active : router == 'profile'}" :to="token ? '/profile' : '/login' ">
+		<router-link class="index-bottom-bar__item" v-bind:class="{index_bottom_bar__active : router == 'profile'}" :to="token ? '/profile' : '/profile' ">
 			<div class="index-bottom-bar__icon">
 				<img src="../../assets/icon/个人@2x.png" v-if="router == 'profile'">
 				<img src="../../assets/icon/profile.png" v-else>
