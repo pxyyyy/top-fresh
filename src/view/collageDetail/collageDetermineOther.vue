@@ -79,7 +79,8 @@
           <div class="border-top price-content">
             <van-row class="price-bottom">
               <van-col span="24" class="price_right">实付款
-                <strong class="money">￥{{orderAllmoney}}</strong>
+                <strong class="money" v-if="orderAllmoney < 0">￥{{0.01}}</strong>
+                <strong class="money" v-else>￥{{orderAllmoney}}</strong>
               </van-col>
             </van-row>
           </div>
@@ -100,7 +101,10 @@
       <!-- 支付订单 -->
       <div class="cart-foot" v-if="info">
         <p>付款 :
-          <span>￥{{orderAllmoney}}</span>
+          <span v-if="orderAllmoney < 0">
+            ￥{{0.01}}
+          </span>
+          <span v-else>￥{{orderAllmoney}}</span>
         </p>
         <p>
           <van-button size="normal" class="btnColor" @click="goDetails()">支付订单</van-button>
@@ -109,7 +113,10 @@
       <!--付款方式弹出-->
       <van-popup v-model="Payment" class="Payment" v-if="info">
         <p>付款金额：
-          <span>￥{{orderAllmoney}}</span>
+           <span v-if="orderAllmoney < 0">
+            ￥{{0.01}}
+          </span>
+          <span v-else>￥{{orderAllmoney}}</span>
         </p>
         <p>付款方式：
           <span v-text="PaymentType"></span>
@@ -280,17 +287,23 @@ export default {
   // 优惠的价格
   computed: {
     orderAllmoney() {
-      if(this.checked) {
-        if(sessionStorage.getItem("teamworkMoney")){
-          return this.info.priceTogether - sessionStorage.getItem("teamworkMoney") - this.integral[1];
-        }else{
+      if (this.checked) {
+        if (sessionStorage.getItem("teamworkMoney")) {
+          return (
+            this.info.priceTogether -
+            sessionStorage.getItem("teamworkMoney") -
+            this.integral[1]
+          );
+        } else {
           return this.info.priceTogether - this.integral[1];
         }
-      }else{
-        if(sessionStorage.getItem("teamworkMoney")) {
-          return this.info.priceTogether - sessionStorage.getItem("teamworkMoney") 
-        }else{
-          return this.info.priceTogether  
+      } else {
+        if (sessionStorage.getItem("teamworkMoney")) {
+          return (
+            this.info.priceTogether - sessionStorage.getItem("teamworkMoney")
+          );
+        } else {
+          return this.info.priceTogether;
         }
       }
     }

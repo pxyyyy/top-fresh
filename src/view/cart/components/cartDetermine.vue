@@ -20,12 +20,14 @@
             <img src="../../../assets/img/cartDeteemine.png" alt="">
           </van-col>
           <van-col span="20">
-            <p>收货人: 
-              <i v-if="cartList[0]">{{cartList[0].adPhone}}</i>
-              <span v-if="cartList[0]">{{cartList[0].adName}}</span>
+            <p class="addwrap">
+              <span>收货人: </span>
+              <span v-if="cartList[0]" class="adname">{{cartList[0].adName}}</span>
+              <span v-if="cartList[0]" class="adphone">{{cartList[0].adPhone}}</span>
             </p>
-            <p style="margin-top:5px;">收货地址: 
-              <span v-if="cartList[0]">{{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
+            <p style="margin-top:5px;">
+              <span>收货地址: </span>
+              <span class="userAddress" v-if="cartList[0]">{{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
             </p>
           </van-col>
           <van-col span="2" class="address-right">
@@ -120,7 +122,7 @@
           <div class="select">
             <div class="border-top" style="padding:2px 0;">
               <p>代金券优惠</p>
-              <p class="black" v-if="this.offer">-￥{{this.offer}}.00
+              <p class="black" v-if="this.offer">-￥{{this.offer}}
               </p>
               <p class="black" v-else>-￥0.00
               </p>
@@ -130,7 +132,7 @@
             <div class="border-top" style="padding:2px 0;">
               <p>积分优惠</p>
               <p class="black" v-if="checked">
-                -￥{{this.integral[1]}}.00
+                -￥{{this.integral[1]}}
               </p>
               <p v-else>
                 -￥0.00
@@ -143,7 +145,8 @@
           <div class="border-top price-content">
             <van-row class="price-bottom">
               <van-col span="24" class="price_right">实付款
-                <strong class="money">￥{{orderAllmoney}}</strong>
+                <strong class="money" v-if="orderAllmoney < 0">￥{{0.01}}</strong>
+                <strong class="money" v-else>￥{{orderAllmoney}}</strong>
               </van-col>
             </van-row>
           </div>
@@ -164,7 +167,10 @@
       <!-- 支付订单 -->
       <div class="cart-foot">
         <p>付款 :
-          <span>￥{{orderAllmoney}}</span>
+          <span v-if="orderAllmoney < 0">
+            ￥{{0.01}}
+          </span>
+          <span v-else>￥{{orderAllmoney}}</span>
         </p>
         <p>
           <van-button size="normal" class="btnColor" @click="goDetails()">支付订单</van-button>
@@ -173,7 +179,10 @@
       <!--付款方式弹出-->
       <van-popup v-model="Payment" class="Payment">
         <p>付款金额：
-          <span>￥{{orderAllmoney}}</span>
+           <span v-if="orderAllmoney < 0">
+            ￥{{0.01}}
+          </span>
+          <span v-else>￥{{orderAllmoney}}</span>
         </p>
         <p>付款方式：
           <span v-text="PaymentType"></span>
@@ -184,20 +193,18 @@
   </div>
 </template>
 <script>
-import wxpic from "../../../assets/img/wx.png";
-import zfbpic from "../../../assets/img/zfb.png";
-import ylpic from "../../../assets/img/yl.png";
-import wxpicActive from "../../../assets/img/active_wx.png";
-import zfbpicActive from "../../../assets/img/active_zfb.png";
-import ylpicActive from "../../../assets/img/ylActive.png";
-import FeaturesIcon5 from "../../../assets/img/product.png";
-import MailingOnePic from "../../../assets/img/volume-one.png";
-import MailingTwoPic from "../../../assets/img/volume-two.png";
-import ActiveMailingOnePic from "../../../assets/img/active-volume-one.png";
-import ActiveMailingTwoPic from "../../../assets/img/active-volume-two.png";
-import service from "../service/index.js";
-import { Toast, Dialog } from "vant";
-export default {
+  import zfbpic from "../../../assets/img/zfb.png";
+  import ylpic from "../../../assets/img/yl.png";
+  import wxpicActive from "../../../assets/img/active_wx.png";
+  import FeaturesIcon5 from "../../../assets/img/product.png";
+  import MailingOnePic from "../../../assets/img/volume-one.png";
+  import MailingTwoPic from "../../../assets/img/volume-two.png";
+  import ActiveMailingOnePic from "../../../assets/img/active-volume-one.png";
+  import ActiveMailingTwoPic from "../../../assets/img/active-volume-two.png";
+  import service from "../service/index.js";
+  import {Dialog, Toast} from "vant";
+
+  export default {
   mixins: [service],
   data() {
     return {
@@ -397,6 +404,13 @@ export default {
         name: "cartAddress"
       });
     },
+    pushHistory() {
+      var state = {
+        title: "title",
+        url: "#"
+      };
+      window.history.pushState(state, "title", "#");
+    },
     returnCart: function() {
       this.away = true;
     },
@@ -437,6 +451,16 @@ export default {
     }
   },
   async beforeMount() {
+    let that = this;
+    this.pushHistory()
+    window.addEventListener("popstate", function(e) {
+        if (!sessionStorage.getItem("isAddressTop")) {
+          that.$router.push("/");
+          sessionStorage.removeItem('isAddressTop')
+        }
+      }, false
+    );
+
     document.title = "确认订单";
     this.GetRequest;
     var Request = new Object();

@@ -73,7 +73,7 @@ export default {
       responseCallback({
         title: `${this.title}`,
         toProductInfo: "",
-        linl:window.location.href
+        link:window.location.href
       });
     });
     document.title = this.title;

@@ -6,7 +6,8 @@
     <!-- 订单详情 -->
     <div class="order">
       <span>
-        <i class="iconfont" style="font-size:14px;margin-right:10px;" @click="history">&#xe65c;</i>订单号：{{orders.orderCode}}</span>
+       订单号：{{orders.orderCode}}
+      </span>
     </div>
     <div>
       <ul v-for="item in infoList" :key="item.odId">
@@ -33,12 +34,18 @@
         </van-row>
         <van-row>
           <van-col span="12">代金券优惠</van-col>
-          <van-col span="12" class="price_right">-￥{{orders.orderCouponsmoney}}.00</van-col>
+          <van-col span="12" class="price_right">-￥{{orders.orderCouponsmoney}}</van-col>
         </van-row>
         <van-row>
           <van-col span="12">积分优惠</van-col>
-          <van-col span="12" class="price_right" v-if="orders.orderScoremoney">-￥{{orders.orderScoremoney}}.00</van-col>
+          <van-col span="12" class="price_right" v-if="orders.orderScoremoney">-￥{{orders.orderScoremoney}}</van-col>
           <van-col span="12" class="price_right" v-else>-￥0.00</van-col>
+        </van-row>
+         <van-row>
+          <van-col span="12">商品类型</van-col>
+          <van-col span="12" class="price_right" v-if="orders.type == 1">实货</van-col>
+          <van-col span="12" class="price_right" v-if="orders.type == 2">礼卡</van-col>
+          <van-col span="12" class="price_right" v-if="orders.type == 3">虚拟提货券</van-col>
         </van-row>
         <van-row class="price-bottom">
           <van-col span="24" class="price_right">实付款
@@ -59,9 +66,6 @@
       <div class="gy">
         <div v-for="(product,index) in products" :key="index" class="list">
           <img :src="product.imgUrl" class="img" @click="toProductInfo(product.id)">
-          <div class="title">{{product.proName}}</div>
-          <div class="gg">{{product.proDetail}}</div>
-          <div class="price">&yen;{{product.proPrice}}</div>
         </div>
       </div>
     </div>
@@ -80,9 +84,6 @@ export default {
   },
   mixins: [service],
   methods: {
-    history() {
-      this.$router.push("/");
-    },
     pushHistory() {
       var state = {
         title: "title",
@@ -115,14 +116,14 @@ export default {
   },
   beforeMount() {
     // 返回事件
-    // this.pushHistory();
-    // window.addEventListener(
-    //   "popstate",
-    //   function(e) {
-    //     window.location = "http://shop.jiweishengxian.com";
-    //   },
-    //   false
-    // );
+    this.pushHistory();
+    window.addEventListener(
+      "popstate",
+      function(e) {
+        window.location = "http://shop.jiweishengxian.com";
+      },
+      false
+    );
     // 订单详情
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");

@@ -1,96 +1,35 @@
 <template>
-  <div>
-    <swiper :options="swiperOption">
-      <swiper-slide v-for="(image, index) in product.proImgs" :key="index">
-        <img v-lazy="image.imgUrl" class="img" />
-      </swiper-slide>
-    </swiper>
-    <div class="discript">
-      <img src="" alt="">
-      <p class="title">{{product.productName}}</p>
-      <p class="subtitle">{{product.productInfo}}</p>
-      <p class="price" v-if="product.productPrice">
-        <span>&yen;{{product.productPrice}}/{{product.productNum}}只</span>
-        <span class="old">&yen;{{product.productOprice}}</span>
-      </p>
-      <p class="price" v-else>
-        <span>&yen;{{product.productOprice}}/{{product.productNum}}只</span>
-      </p>
+  <div class="wrapper-a">
+    <div class="bg-top">
+      <img src="../../../assets/img/GiftcardText.png" alt="">
     </div>
-    <div class="phone">
-      <p>
-        <input class="phoneNumer" type="number" placeholder="请输入手机号" v-model="phone" maxlength="11" pattern="[0-9]*" oninput="if(value.length>11)value=value.slice(0,11)" />
-      </p>
-      <p class="verificationwrap">
-        <input type="text" placeholder="请输入验证码" class="verificationCode" v-model="yzm">
-        <button class="verification" v-if="verificationText == '获取验证码' ||verificationText == '重新发送验证码' " @click="Countdown" v-text="verificationText"></button>
-        <button class="verification" v-else v-text="verificationText"></button>
-      </p>
-      <p style="text-align:center">
-        <button class="receive" @click="receivecoupons">领取</button>
-      </p>
+    <div class="bg-bottom">
+      <div class="wrap-text">
+        <div class="product-img">
+          <img :src="product.productIcon + '?x-oss-process=image/crop,x_0,y_0,h_120,g_center'" alt="">
+        </div>
+        <div class="product-title">
+          <h3>{{product.productName}}</h3>
+          <h4>{{product.productDetail}}</h4>
+          <h1 class="gitcard-money">￥{{product.productPrice}}</h1>
+        </div>
+      </div>
+      <div class="bg-s">
+        <div class="product-bottom">
+          <p> <input type="number" placeholder="请输入手机号" v-model="phone"> </p>
+          <p><input type="number" placeholder="请输入验证码" @keyup="hideKeyboard" v-model="verificationCodenumber"></p>
+          <p @click="verificationCode">
+            <span>{{content}}</span>
+          </p>
+          <button @click="immediately">立即领取</button>
+        </div>
+      </div>
     </div>
-    <div class="xinxi">
-      <p>
-        <span>商品类型:</span>
-        <span>
-          <span class="type">{{product.productPtype == 2 ? "大闸蟹 · 现货" : "大闸蟹 · 礼品卡"}}</span>
-        </span>
-      </p>
-      <p>
-        <span>商品产地:</span>
-        <span>{{product.productAddress}}</span>
-      </p>
-      <p>
-        <span>配送方式:</span>
-        <span>{{product.productSendType}}</span>
-      </p>
-      <p>
-        <span>可得积分:</span>
-        <span>可获得{{product.productScore}}积分</span>
-      </p>
-    </div>
-    <div class="details">
-      <van-tabs type="card" v-model="active">
-        <van-tab v-for="item in ordersList" :title="item.text" :key="item.id">
-          <div class="details_content" v-html="product.productImg" v-if="item.id == 1"></div>
-          <div class="evaluation" v-if="item.id == 2">
-            <div class="evaluationList" v-for="item in 10" :key="item">
-              <van-row style="margin-top:10px;">
-                <van-col span="3.5" offset="1">
-                  <img src="../../../assets/img/Avatar.png" alt="">
-                </van-col>
-                <van-col span="7.5">
-                  <p class="evaluationName">2018旺旺网</p>
-                  <van-rate v-model="evaluationicon" disabled :size="16" disabled-color="#fdd951" />
-                </van-col>
-                <van-col span="14" class="date">2018-02-28</van-col>
-              </van-row>
-              <van-row>
-                <van-col span="24" class="evaluationText">
-                  你为人热情,性格开朗,亦能说会道。对待学习态度端正,上课能够专心听讲,课下能够认真完成作业。不用去想能攀多高,即使路途遥远,只要一步一个脚印,目标...
-                </van-col>
-              </van-row>
-              <van-row class="evaluationPic">
-                <van-col span="8" v-for="item in 10" :key="item">
-                  <img v-lazy="valuationPic" alt="" @click='goEvaluation'>
-                </van-col>
-              </van-row>
-            </div>
-          </div>
-          <div v-if="item.id == 3">
-            <div class="keepOn">
-              <p>
-                <span>——</span> 推荐商品
-                <span>——</span>
-              </p>
-              <div class="img-conent" @click="toProductInfo(item.id)" v-for="item in products" :key="item.id">
-                <img v-lazy="item.imgUrl" alt="">
-              </div>
-            </div>
-          </div>
-        </van-tab>
-      </van-tabs>
+    <div class="shareIt" v-if="showshareIt" @click="shareItClick">
+      <div>
+        <img src="../../../assets/img/shareitj.png" alt="">
+        <p>请点击右上角分享</p>
+      </div>
     </div>
   </div>
 </template>
@@ -104,46 +43,61 @@ export default {
   data() {
     return {
       product: "",
-      active: "",
-      yzm: "",
-      evaluationicon: 3,
-      valuationPic: require("../../../assets/img/评价DEMO.png"),
-      ordersList: [
-        { id: 1, text: "详情" },
-        { id: 2, text: "评价(201)" },
-        { id: 3, text: "推荐" }
-      ],
-      products: "",
-      swiperOption: {
-        loop: true,
-        effect: "fade"
-      },
-      verificationText: "获取验证码",
+      content: "发送验证码", // 按钮里显示的内容
+      total: 10, //记录具体倒计时时间
+      verificationCodenumber: "",
       phone: "",
-      show: true,
-      count: "",
-      timer: null
+      d2: "",
+      codeValue: "",
+      showshareIt: false
     };
   },
   methods: {
-    goEvaluation() {
-      this.$router.push(`/evaluation`);
+    immediately() {
+      const TIME_COUNT = 60;
+      let reg = /^[1][3,4,5,7,8][0-9]{9}$/;
+      if (this.phone == "") {
+        Toast("请输入手机号");
+      } else if (!reg.test(this.phone) || this.phone.length < 11) {
+        Toast("请输入正确手机号");
+      } else if (this.verificationCodenumber == "") {
+        Toast("请输入验证码");
+      } else {
+        this.getFriend({
+          phone: this.phone,
+          msgcode: this.verificationCodenumber,
+          odId: this.$route.params.id
+        }).then(res => {
+          if (res.code == "100000") {
+            Toast("领取成功");
+            setTimeout(() => {
+              window.location.href = "http://shop.jiweishengxian.com";
+            }, 2000);
+          } else {
+            Toast(res.message);
+          }
+        });
+      }
     },
-    receivecoupons() {
-      this.getFriend({
-        phone: this.phone,
-        msgcode: this.yzm,
-        odId: this.$route.params.id
-      }).then(res => {
-        if (res.code == "100000") {
-          Toast("领取成功");
-        } else {
-          Toast(res.message);
-        }
-      });
+    getCookie(name) {
+      var arr,
+        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+      if ((arr = document.cookie.match(reg))) {
+        return unescape(arr[2]);
+      } else {
+        return null;
+      }
     },
-    // 验证码倒计时
-    Countdown() {
+    hideKeyboard() {
+      if (this.verificationCode.length == 6) {
+        document.activeElement.blur(); // ios隐藏键盘
+        this.$refs.input.blur(); // android隐藏键盘
+      }
+    },
+    shareItClick() {
+      this.showshareIt = false;
+    },
+    verificationCode() {
       const TIME_COUNT = 60;
       let reg = /^[1][3,4,5,7,8][0-9]{9}$/;
       if (this.phone == "") {
@@ -151,93 +105,128 @@ export default {
       } else if (!reg.test(this.phone) || this.phone.length < 11) {
         Toast("请输入正确手机号");
       } else {
-        if (!this.timer) {
-          this.count = TIME_COUNT;
-          this.show = false;
-          this.timer = setInterval(() => {
-            if (this.count > 0 && this.count <= TIME_COUNT) {
-              this.count--;
-              this.verificationText = this.count + "秒后重新获取";
-            } else {
-              this.show = true;
-              clearInterval(this.timer);
-              this.timer = null;
-              this.verificationText = "重新发送验证码";
+        let dd = Encrypt(this.phone);
+        this.d2 = dd;
+        if (this.content == "发送验证码" || this.content == "重新发送验证码") {
+          this.getCode(this.d2).then(res => {
+            this.codeValue = res[0].codeValue;
+          });
+          let time = setInterval(() => {
+            this.total--;
+            this.content = this.total + "s后重新发送";
+            console.log(11);
+            if (this.total == 0) {
+              this.content = "重新发送验证码";
+              this.total = 10;
+              clearInterval(time);
             }
           }, 1000);
         }
-        let dd = Encrypt(this.phone);
-        console.log(dd);
-        this.d2 = dd;
-        console.log(this.d2);
-        this.getCode(this.d2);
       }
     }
   },
   beforeMount() {
+    var loc = location.href;
+    var n1 = loc.length; //地址的总长度
+    var n2 = loc.indexOf("="); //取得=号的位置
+    var staffid = loc.substr(n2 + 1, n1 - n2); //从=号后面的内容
     document.title = "提货券领取";
     this.getLadingPrimaryKey({
       odId: this.$route.params.id
     }).then(res => {
       this.product = res;
     });
-    this.selectProByType().then(res => {
-      this.products = res.data;
-    });
+    if (staffid == this.getCookie("staffId")) {
+      this.showshareIt = true;
+    }
   }
 };
 </script>
 
-<style lang="less" scoped>
-@import "./collectCoupons.less";
+<style scoped lang="less">
+img {
+  vertical-align: top;
+}
+.wrapper-a {
+  background: url(../../../assets/img/GiftcardBg.png) no-repeat center;
+  background-size: cover;
+  .bg-top {
+    img {
+      width: 100%;
+      margin-top: 100px;
+    }
+  }
+  .bg-bottom {
+    width: 100%;
+    height: 300px;
+    background: url(../../../assets/img/GiftcardProduct.png) no-repeat center;
+    background-size: cover;
+  }
+  .gitcard-money {
+    color: #e11c44;
+  }
+  .wrap-text {
+    padding-top: 20px;
+    .product-img {
+      width: 300px;
+      margin: 0 auto;
+      img {
+        width: 300px;
+        height: 150px;
+      }
+    }
+    .product-title {
+      text-align: center;
+      height: 130px;
+    }
+  }
+  .bg-s {
+    width: 100%;
+    height: 300px;
+    background: url(../../../assets/img/GiftcardBg.png) no-repeat center;
+  }
+  .product-bottom {
+    width: 300px;
+    height: auto;
+    text-align: center;
+    margin: 0 auto;
+    input {
+      text-align: center;
+      margin: 5px;
+      padding: 5px;
+    }
+    span {
+      font-size: 12px;
+      color: #fff;
+      display: inline-block;
+      margin: 30px 0;
+    }
+    button {
+      width: 150px;
+      height: 40px;
+      background: yellow;
+    }
+  }
+}
+.shareIt {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100 !important;
+  img {
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    width: 100px;
+  }
+  p {
+    position: absolute;
+    top: 100px;
+    right: 30px;
+    color: #fff;
+  }
+}
 </style>
-<style>
-.details_content img {
-  width: 100%;
-  border: 0;
-  vertical-align: middle;
-}
-
-.details .van-tabs__nav--card .van-tab.van-tab--active {
-  background: #fff !important;
-  color: #e2c083 !important;
-}
-
-.details .van-tabs__nav--card .van-tab.van-tab--active span {
-  border-bottom: 2px solid #e2c083;
-}
-
-.details .van-tabs__nav--card .van-tab {
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  color: black;
-}
-
-.details .van-tabs__nav--card {
-  border: none;
-  width: 90%;
-}
-
-.details .van-tabs__nav--card {
-  margin: 10px 15px;
-}
-
-.details .van-tabs--card {
-  padding-top: 45px;
-}
-
-.details .van-tabs--card .van-tabs__wrap {
-  height: 45px;
-}
-
-.details .van-tabs__nav {
-  justify-content: center;
-}
-
-.details .van-tab {
-  flex: inherit;
-  padding: 0 20px;
-}
-</style>
-

@@ -14,15 +14,15 @@
     <!-- 商品主图  有赞轮播组件-->
     <swiper :options="swiperOption" :class="{marginIos:ismarginIos}">
       <swiper-slide v-for="(image, index) in infoOne.proImgs" :key="index">
-        <img v-lazy="image.imgUrl" class="img" />
+        <img v-lazy="image.imgUrl" class="img"  />
       </swiper-slide>
     </swiper>
     <!-- 商品详细信息 -->
     <div class="discript" >
       <p class="title">{{infoOne.productName}}</p>
-      <p class="price">
+      <p class="price" style="font-size:36px;">
         <span class="collage">
-          ￥{{infoTwo.priceTogether}}
+          ￥{{infoTwo.priceTogether}}/{{infoOne.productUnit}}
         </span>
         <span class="alone">
           单价买 ￥{{infoTwo.originalPrice}}
@@ -46,14 +46,17 @@
         <span>{{infoOne.productSendType}}</span>
       </p>
       <p>
-        <span>获得积分:</span>
-        <span>可获得{{infoOne.productScore}}积分</span>
+        <span>商品规格:</span>
+        <span>{{infoOne.productDetail}}</span>
+      </p>
+      <p>
+        <span>提货周期:</span>
+        <span>{{infoOne.productBeginDate}} <span style="color:#e2c083 ">—</span>  {{infoOne.productEndDate}}</span>
       </p>
     </div>
     <div class="details">
       <p class="details_title">---- 商品详情 ----</p>
-      <div class="details_content">
-        <img v-lazy="infoOne.productIcon" alt="">
+      <div class="details_content" v-html="infoOne.productImg">
       </div>
     </div>
     <!-- 商品图文详情 -->

@@ -52,17 +52,19 @@
 .swiper-wrapper img {
   border-radius: 0;
 }
+.details .van-tabs__nav--card {
+  margin: 10px 15px !important;
+}
 </style>
 <template>
   <!-- 商品详情 页面-->
   <div :class="{top:top}">
-    <swiper :options="swiperOption">
-      <swiper-slide v-for="(image, index) in product.proImgs" :key="index">
-        <img v-lazy="image.imgUrl" class="img" />
+    <swiper :options="swiperOption" v-if="showswiper">
+      <swiper-slide v-for="(image, index) in product.proImgs" :key="index" class="Crop">
+        <img v-lazy="image.imgUrl" class="img">
       </swiper-slide>
     </swiper>
     <div class="discript">
-      <img src="" alt="">
       <p class="title">{{product.productName}}</p>
       <p class="subtitle">{{product.productInfo}}</p>
       <p class="price" v-if="product.productPrice">
@@ -91,6 +93,11 @@
       <p>
         <span>商品规格:</span>
         <span>{{product.productDetail}}</span>
+      </p>
+      <p>
+        <span>提货周期:</span>
+        <span>{{product.productBeginDate}}
+          <span style="color:#e2c083 ">—</span> {{product.productEndDate}}</span>
       </p>
     </div>
     <div class="details" :style="{marginBottom:marginBottom}">
@@ -126,9 +133,6 @@
               <div class="gy">
                 <div v-for="(product,index) in products" :key="index" class="list">
                   <img :src="product.imgUrl" class="img" @click="toProductInfo(product.id)">
-                  <div class="title">{{product.proName}}</div>
-                  <div class="gg">{{product.proDetail}}</div>
-                  <div class="price">&yen;{{product.proPrice}}</div>
                 </div>
               </div>
             </div>
@@ -137,7 +141,7 @@
       </van-tabs>
     </div>
     <!-- 图片查看 -->
-   <div class="evaluationa" v-if="pictureCorridor" @click="closeCorridor">
+    <div class="evaluationa" v-if="pictureCorridor" @click="closeCorridor">
       <div class="wrapper">
         <swiper :options="swiperOption">
           <swiper-slide v-for="item in swipePic" :key="item.id">
@@ -145,8 +149,6 @@
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
-      </div>
-    </div>
       </div>
     </div>
     <!-- 商品图文详情 -->
@@ -195,11 +197,13 @@ export default {
       swiperOption: {
         // 园点配置
         pagination: ".swiper-pagination",
+        autoHeight:true,
         // 循环切换
-        loop: true,
+        loop: false,
         pagination: {
           el: ".swiper-pagination",
-          clickable: true
+          clickable: true,
+          autoHeight:true,
         }
       },
       total: 1,
@@ -218,7 +222,11 @@ export default {
       swipePic: ""
     };
   },
-  computed: {},
+  computed: {
+    showswiper () {
+      return this.product.proImgs
+    }
+  },
   methods: {
     closeCorridor() {
       let from = this.$route.query.from;
@@ -269,7 +277,15 @@ export default {
       if (istoken) {
         var id = this.$route.params.id;
         this.addOrder(this.token, this.staffId, num, this.number).then(res => {
+          if (res.code == 100003) {
+            Dialog.alert({
+              title: "购买失败",
+              message: res.message
+            }).then(() => {
+            });
+          }else {
           this.$router.push(`/cartDetermine/${res[0].orderId}`);
+          }
         });
       } else {
         Dialog.alert({
@@ -377,7 +393,7 @@ export default {
   },
   watch: {
     number() {
-      if (this.number > 999) {
+      if (this.number > 99) {
         this.number = this.total;
       }
     }
@@ -402,7 +418,7 @@ export default {
       responseCallback({
         title: `${this.product.productName}`,
         toProductInfo: `${this.product.productInfo}`,
-        link:window.location.href
+        link: window.location.href
       });
     });
     this.$bridge.registerHandler("closePicture", (data, responseCallback) => {

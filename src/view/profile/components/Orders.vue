@@ -366,6 +366,22 @@ export default {
     returnProfile() {
       this.$router.push("/profile");
     }
+  },
+  beforeMount() {
+    sessionStorage.link = window.location.href
+    if (!this.staffId) {
+      this.$router.push("/login");
+    } else {
+      this.getStaffInfo({
+        staffId: this.getCookie("staffId"),
+        token: this.getCookie("token")
+      }).then(res => {
+        this.ueseInfo = res.data;
+        if (this.ueseInfo == "") {
+          this.$router.push("/login");
+        }
+      });
+    }
   }
 };
 </script>

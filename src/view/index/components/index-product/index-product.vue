@@ -35,17 +35,11 @@
         <div class="gy" v-if="index == 1">
           <div v-for="(product,index) in imgList" :key="index" class="list">
             <img :src="product.imgUrl" class="img" @click="goGoodInfoVC(product.id)">
-            <div class="title">{{product.proName}}</div>
-            <div class="gg">{{product.proDetail}}</div>
-            <div class="price">&yen;{{product.proPrice}}</div>
           </div>
         </div>
         <div class="gy" v-if="index == 2">
           <div v-for="(product,index) in imgList" :key="index" class="list">
             <img :src="product.imgUrl" class="img" @click="goGoodInfoVC(product.id)">
-            <div class="title">{{product.proName}}</div>
-            <div class="gg">{{product.proDetail}}</div>
-            <div class="price">&yen;{{product.proPrice}}</div>
           </div>
         </div>
       </van-tab>
