@@ -25,9 +25,6 @@
       <p>—当前供应—</p>
       <div v-for="(product,index) in list" :key="index" class="list" @click="toProductInfo(product.id)">
         <img :src="product.imgUrl" alt="" class="img">
-        <div class="title">{{product.proName}}</div>
-        <div class="gg">{{product.proDetail}}</div>
-        <div class="price">&yen;{{product.proPrice}}</div>
       </div>
     </div>
   </div>

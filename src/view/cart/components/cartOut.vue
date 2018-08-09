@@ -66,9 +66,6 @@
       <div class="gy">
         <div v-for="(product,index) in products" :key="index" class="list">
           <img :src="product.imgUrl" class="img" @click="toProductInfo(product.id)">
-          <div class="title">{{product.proName}}</div>
-          <div class="gg">{{product.proDetail}}</div>
-          <div class="price">&yen;{{product.proPrice}}</div>
         </div>
       </div>
     </div>
