@@ -24,12 +24,12 @@
 			<img src="" alt="">
 			<p class="title">{{info.productName}}</p>
 			<p class="subtitle">{{info.productInfo}}</p>
-			<p class="price" v-if="info.productDiscount">
+			<p class="price" v-if="info.productDiscount"  style="font-size:36px;">
 				<span>&yen;{{info.productPrice}}/{{info.productUnit}}只</span>
 				<span class="old">&yen;{{info.productOprice}}</span>
 				<span class="discount">{{info.productDiscount}}折</span>
 			</p>
-			<p class="price" v-else>
+			<p class="price" v-else  style="font-size:36px;">
 				<span>&yen;{{info.productOprice}}/{{info.productUnit}}只</span>
 			</p>
 		</div>
@@ -49,10 +49,14 @@
 				<span>配送方式:</span>
 				<span>{{info.productSendType}}</span>
 			</p>
-			<!-- <p>
-				<span>提货周期:</span>
-				<span>{{info[0].integral}}</span>
-			</p> -->
+			<p>
+				<span>配送方式:</span>
+				<span>{{info.productSendType}}</span>
+			</p>
+        <p>
+        <span>提货周期:</span>
+        <span>{{info.productBeginDate}} <span style="color:#e2c083 ">—</span>     {{info.productEndDate}}</span>
+      </p>
 		</div>
 		<div class="details">
 			<p class="details_title">---- 商品详情 ----</p>

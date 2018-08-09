@@ -25,7 +25,7 @@
         </div>
         <div class="Cell border-top">
           <p>
-            <textarea name="" id="" cols="20" rows="2" :placeholder="checkadAddressInfo" v-model="from.adAddressInfo"></textarea>
+            <textarea name="" id="" :placeholder="checkadAddressInfo" v-model="from.adAddressInfo"></textarea>
           </p>
         </div>
         <div class="editing-foot">

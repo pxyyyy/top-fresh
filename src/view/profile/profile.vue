@@ -5,8 +5,9 @@
 .van-hairline--top-bottom::after {
   border: none;
 }
-.van-icon__info{
+.van-icon__info {
   background: #e2bf85 !important;
+  font-size: 15px !important;
 }
 </style>
 <template>
@@ -32,15 +33,17 @@
           </van-row>
           <!--积分和代金券-->
           <van-row class="info info-one">
-            <van-col span="12">
-              <h3 v-if="ueseInfo.staffScore" @click="integralShow">{{ueseInfo.staffScore}}</h3>
-              <h3 v-else @click="integralShow">0</h3>
-              <p @click="integralShow">积分</p>
-            </van-col>
-            <van-col span="12">
-              <h3 @click="goCoupon">{{ueseInfo.couoponSize}}</h3>
-              <p @click="goCoupon">代金券</p>
-            </van-col>
+            <van-row class="info-one-wrap">
+              <van-col span="12">
+                <h3 v-if="ueseInfo.staffScore" @click="integralShow">{{ueseInfo.staffScore}}</h3>
+                <h3 v-else @click="integralShow">0</h3>
+                <p @click="integralShow">积分</p>
+              </van-col>
+              <van-col span="12">
+                <h3 @click="goCoupon">{{ueseInfo.couoponSize}}</h3>
+                <p @click="goCoupon">代金券</p>
+              </van-col>
+            </van-row>
           </van-row>
         </div>
       </div>
@@ -48,7 +51,7 @@
       <van-row class="user-links">
         <van-col v-for="(item,index) of informations" :key="item.id" style="width:20%;">
           <van-tabbar class="Nofixed" info="5">
-            <van-tabbar-item icon="" @click="Orders(index)" :info="item.info">
+            <van-tabbar-item icon="" @click="Orders(index)" :info="item.info == 0 ? '' : item.info ">
               <span>
                 {{item.text}}
               </span>
@@ -219,7 +222,7 @@ export default {
           this.$router.push("/MyCollage");
           break;
         case 3:
-           window.location.href = "tel:400-010-5777";
+          window.location.href = "tel:400-010-5777";
           break;
         case 4:
           this.$router.push(`/feedback/${this.ueseInfo.staffPhone}`);

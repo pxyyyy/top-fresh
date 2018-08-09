@@ -11,7 +11,7 @@
 						<p class="item-title">{{product.title}}</p>
 						<!-- <p class="item-desc">{{item.odProductDes}}</p> -->
 						<p class="item-button">
-							<strong class="money">￥{{product.priceTogether}}.00</strong>
+							<strong class="money">￥{{product.priceTogether}}</strong>
 							<!-- <span v-if="item.odProductNum">x{{item.odProductNum}}</span> -->
 							<span>x1</span>
 						</p>
@@ -22,21 +22,21 @@
 				<div class="border-top price-content">
 					<van-row>
 						<van-col span="12">商品总额</van-col>
-						<van-col span="12" class="price_right">￥{{product.priceTogether}}.00</van-col>
+						<van-col span="12" class="price_right">￥{{product.priceTogether}}</van-col>
 					</van-row>
 					<van-row>
 						<van-col span="12">代金券优惠</van-col>
-						<van-col span="12" class="price_right" v-if="product.togetherCouponsmoney">-￥{{product.togetherCouponsmoney}}.00</van-col>
+						<van-col span="12" class="price_right" v-if="product.togetherCouponsmoney">-￥{{product.togetherCouponsmoney}}</van-col>
 						<van-col span="12" class="price_right" v-else>-￥0.00</van-col>
 					</van-row>
 					<van-row>
 						<van-col span="12">积分优惠</van-col>
-						<van-col span="12" class="price_right" v-if="product.togetherScoremoney">-￥{{product.togetherScoremoney}}.00</van-col>
+						<van-col span="12" class="price_right" v-if="product.togetherScoremoney">-￥{{product.togetherScoremoney}}</van-col>
 						<van-col span="12" class="price_right" v-else>-￥0.00</van-col>
 					</van-row>
 					<van-row class="price-bottom">
 						<van-col span="24" class="price_right">实付款
-							<strong class="money">￥{{product.priceTogether}}.00</strong>
+							<strong class="money">￥{{product.priceTogether}}</strong>
 						</van-col>
 					</van-row>
 				</div>

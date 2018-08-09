@@ -130,6 +130,7 @@ export default {
             this.$store.commit("setcurrentActiveName", activeId.acTitle);
           }
         } else if (activeId.actype == 4) {
+          console.log(1)
           // 静态
           if (from == "IOS" || from == "Android") {
             this.$bridge.callHandler(

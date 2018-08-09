@@ -4,7 +4,7 @@ const api = new API();
 export default {
   methods: {
     getGiftCard(id) {
-      return api.get(`fresh_show/pro/selectProList?productPtype=${id}`)
+      return api.get(`fresh_show/pro/selectProList?productPtype=${id}&pageSize=20&pageSize=1`)
         .then(res => {
           console.log(res.data)
           if (res.data.code == 100000) {

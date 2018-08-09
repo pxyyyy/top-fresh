@@ -70,7 +70,8 @@
               <div class="content-group" v-for="info in pickupVolume">
                 <div class="content-top" style="border-bottom: 1px solid #d3d3d3;">
                   <div class="content-top-img">
-                    <img :src="info.odProductIcon" alt="">
+                    <img :src="info.odProductIcon" alt=""  @click="copyLink(info.odId)" v-if="info.state == 4">
+                    <img :src="info.odProductIcon" alt="" v-else>
                   </div>
                   <div class="content-top-info">
                     <p>{{info.odProductName}}</p>
@@ -82,7 +83,11 @@
                   </div>
                 </div>
                 <div style="margin-top:5px;">
-                  <van-button disabled size="mini">已用</van-button>
+                  <van-button disabled size="mini" v-if="info.state == 3">自用</van-button>
+                  <van-button disabled size="mini" v-if="info.state == 4">
+                    已赠送
+                  </van-button >
+                    <span v-if="info.state == 4" class="fiphone">领取人手机号：{{info.sendPhone}}</span>
                 </div>
               </div>
             </div>
@@ -114,6 +119,9 @@ export default {
     };
   },
   methods: {
+    copyLink (odId) {
+      this.$router.push(`/collectCoupons/${odId}?staffid=${this.getCookie('staffId')}`);
+    },
     // 获取cook
     getCookie(name) {
       var arr,

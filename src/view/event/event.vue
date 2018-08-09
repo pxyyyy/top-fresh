@@ -4,7 +4,7 @@
 <template>
   <div class="event-main">
     <div class="imgs" v-for="item in eventList" :key="item.id" @click="goActiveInfo(item)">
-      <img v-lazy="item.acIcon" alt="">
+      <img :src="item.acIcon" alt="" :style="{height: proportion + 'px' }">
       <span>{{item.acTitle}}</span>
     </div>
     <div class="keepOn">
@@ -32,7 +32,8 @@ export default {
     return {
       cartLictPic: require("../../assets/img/组7@2x.png"),
       products: "",
-      eventList: []
+      eventList: [],
+      proportion: ''
     };
   },
   methods: {
@@ -45,7 +46,7 @@ export default {
           this.$bridge.callHandler(
             "goActiveInfoVC",
             {
-              link: activeId.acId,
+              link: window.location.href,
               type: 1
             },
             data => {
@@ -82,7 +83,7 @@ export default {
           this.$bridge.callHandler(
             "goActiveInfoVC",
             {
-              link: activeId.acId,
+              link:  window.location.href,
               type: 3
             },
             data => {
@@ -99,7 +100,7 @@ export default {
           this.$bridge.callHandler(
             "goActiveInfoVC",
             {
-              link: activeId.acId,
+              link: window.location.href,
               type: 4
             },
             data => {
@@ -114,7 +115,7 @@ export default {
           this.$bridge.callHandler(
             "goActiveInfoVC",
             {
-              activeid: activeId.acId,
+              activeid:  window.location.href,
               type: 5
             },
             data => {
@@ -144,6 +145,7 @@ export default {
     }
   },
   beforeMount() {
+    this.proportion = document.documentElement.clientWidth  * 3/4
     document.title = "活动";
     // 活动列表
     this.selectlist({

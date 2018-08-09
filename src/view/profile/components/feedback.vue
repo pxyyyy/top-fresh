@@ -27,6 +27,9 @@ export default {
   beforeMount() {
     document.title = "意见反馈";
   },
+   created() {
+    window.callHandler = this.callHandler;
+  },
   methods: {
     // 获取cook
     getCookie(name) {
@@ -42,6 +45,7 @@ export default {
       this.$router.go(-1);
     },
     save() {
+      let from = this.$route.query.from;
       this.addFeedback({
         staffId: this.getCookie("staffId"),
         token: this.getCookie("token"),
@@ -56,7 +60,18 @@ export default {
             message: "感谢您的建议，我们会及时查看并联系您，祝您生活愉快！"
           })
             .then(() => {
-              this.$router.go(-1);
+            if (from == "IOS" || from == "Android") {
+                  this.$bridge.callHandler(
+                    "closePage",
+                    {
+                    },
+                    data => {
+                      console.log("success");
+                    }
+                  );
+                }else{
+                  this.$router.go(-1);
+                }
             })
             .catch(() => {
               // on cancel
