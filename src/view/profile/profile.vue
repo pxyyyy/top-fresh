@@ -34,16 +34,22 @@
           <!--积分和代金券-->
           <van-row class="info info-one">
             <van-row class="info-one-wrap">
-              <van-col span="12">
+              <van-col span="8">
                 <h3 v-if="ueseInfo.staffScore" @click="integralShow">{{ueseInfo.staffScore}}</h3>
                 <h3 v-else @click="integralShow">0</h3>
                 <p @click="integralShow">积分</p>
               </van-col>
-              <van-col span="12">
+              <van-col span="8">
+                <h3 @click="goMyLading">{{ this.myLadingNum }}</h3>
+                <p @click="goMyLading">我的提货券</p>
+              </van-col>
+              <van-col span="8">
                 <h3 @click="goCoupon">{{ueseInfo.couoponSize}}</h3>
                 <p @click="goCoupon">代金券</p>
               </van-col>
             </van-row>
+
+
           </van-row>
         </div>
       </div>
@@ -105,6 +111,7 @@ export default {
       cartLictPic: require("../../assets/img/组7@2x.png"),
       goldVolume: "",
       ueseInfo: "",
+      myLadingNum: 0,
       informations: [
         {
           id: "001",
@@ -231,6 +238,9 @@ export default {
     },
     toProductInfo(productId) {
       this.$router.push(`/product/${productId}`);
+    },
+    goMyLading () {
+      this.$router.push(`/LadingRoll`);
     }
   },
   beforeMount() {
@@ -252,6 +262,24 @@ export default {
       if (this.ueseInfo == "") {
         this.$router.push("/login");
       }
+    });
+    this.selectMyLadingByStaffId({
+        token: this.getCookie("token"),
+        staffId: this.getCookie("staffId"),
+        state: "2",
+        pageNum: this.pageNum,
+        pageSize: 7
+    }).then(res => {
+      this.myLadingNum = res.data.length;
+    });
+    this.selectMyLadingByStaffId({
+        token: this.getCookie("token"),
+        staffId: this.getCookie("staffId"),
+        state: "3",
+        pageNum: this.pageNum,
+        pageSize: 7
+    }).then(res => {
+      this.myLadingNum += res.data.length;
     });
   }
 };
