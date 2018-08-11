@@ -8,7 +8,9 @@
       <span>给您更好的优惠</span>
     </div>
     <div class="exercise-active">
-      <div class="left" @click="goActiveInfo(activities[0])">
+
+      
+      <!-- <div class="left" @click="goActiveInfo(activities[0])">
         <img v-if="activities" :src="activities[0].imgUrl" alt="">
       </div>
       <div class="right">
@@ -18,7 +20,21 @@
         <div class="right-info" @click="goActiveInfo(activities[2])">
           <img v-if="activities" :src="activities[2].imgUrl" alt="">
         </div>
+      </div> -->
+
+      <div class="top" @click="goActiveInfo(activities[0])">
+        <img v-if="activities" :src="activities[0].imgUrl" alt="">
       </div>
+      <div class="bottom">
+        <div class="bottom-info" @click="goActiveInfo(activities[1])">
+          <img v-if="activities" :src="activities[1].imgUrl" alt="" >
+        </div>
+        <div class="bottom-info" @click="goActiveInfo(activities[2])">
+          <img v-if="activities" :src="activities[2].imgUrl" alt="">
+        </div>
+      </div>
+
+
     </div>
   </div>
 </template>
