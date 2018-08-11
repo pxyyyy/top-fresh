@@ -57,12 +57,11 @@ export default {
     },
     // 商品评价
     selectevaluationlist(json) {
-      return api.post(`fresh_show/evaluation/selectevaluationlist`, json)
+      return api.get(`fresh_show/evaluation/selectevaluationlist`, json)
         .then(res => {
           if (res.data.code == 100000) {
             return res.data.data;
           }
-
         })
         .catch(function (error) {
           console.log(error);
