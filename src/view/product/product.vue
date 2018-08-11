@@ -155,7 +155,7 @@
     <van-goods-action v-show="show">
       <!-- <van-goods-action-mini-btn icon="like-o" text="收藏" /> -->
       <van-goods-action-mini-btn icon="cart" text="购物车" @click="toCart" />
-      <van-goods-action-mini-btn icon="chat" text="客服" v-if="this.$route.query.from" />
+      <van-goods-action-mini-btn icon="chat" text="客服" v-if="this.$route.query.from == 'ios' || this.$route.query.from == 'android'" />
       <van-goods-action-big-btn text="加入购物车" @click="openCart" />
       <van-goods-action-big-btn text="立即购买" primary @click="openPay(product.productId)" />
     </van-goods-action>

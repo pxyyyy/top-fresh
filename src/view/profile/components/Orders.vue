@@ -241,7 +241,6 @@ export default {
         message: "您确认取消订单吗"
       })
         .then(() => {
-          alert(id);
           this.cancelOrder({
             staffId: this.getCookie("staffId"),
             token: this.getCookie("token"),

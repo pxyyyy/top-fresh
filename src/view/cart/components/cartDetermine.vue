@@ -17,22 +17,22 @@
       <div class="address" @click="goAddress()">
         <van-row class="address-content">
           <van-col span="2" class="address-left">
-            <img src="../../../assets/img/cartDeteemine.png" alt="">
+            <img src="../../../assets/icon/收货地址@2x.png" alt="">
           </van-col>
           <van-col span="20">
             <p class="addwrap">
-              <span>收货人: </span>
+              <!-- <span>收货人: </span> -->
               <span v-if="cartList[0]" class="adname">{{cartList[0].adName}}</span>
               <span v-if="cartList[0]" class="adphone">{{cartList[0].adPhone}}</span>
             </p>
             <p style="margin-top:5px;">
-              <span>收货地址: </span>
+              <!-- <span>收货地址: </span> -->
               <span class="userAddress" v-if="cartList[0]">{{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
             </p>
           </van-col>
-          <van-col span="2" class="address-right">
-            <img src="../../../assets/img/Arrow.png" alt="">
-          </van-col>
+          <!-- <van-col span="2" class="address-right"> -->
+            <!-- <img src="../../../assets/img/Arrow.png" alt=""> -->
+          <!-- </van-col> -->
         </van-row>
       </div>
       <!-- 订单详情 -->
