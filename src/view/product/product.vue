@@ -291,7 +291,7 @@ export default {
             }).then(() => {
             });
           }else {
-          this.$router.push(`/cartDetermine/${res[0].orderId}`);
+          this.$router.push(`/cartDetermine/${res.data[0].orderId}`);
           }
         });
       } else {

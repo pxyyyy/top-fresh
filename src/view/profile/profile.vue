@@ -146,12 +146,12 @@ export default {
         }
       ],
       FeaturesList: [
-        {
-          id: "001",
-          Url: require("../../assets/img/FeaturesList1.png"),
-          text: "我的提货券",
-          phone: ""
-        },
+        // {
+        //   id: "001",
+        //   Url: require("../../assets/img/FeaturesList1.png"),
+        //   text: "我的提货券",
+        //   phone: ""
+        // },
         {
           id: "002",
           Url: require("../../assets/img/FeaturesList2.png"),

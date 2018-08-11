@@ -79,7 +79,6 @@
 										<div class="content-top-info-date color-ccc">
 											<p v-if="info.state == 3 && !info.sendPhone">使用日期</p>
 											<p v-if="info.state == 3 && !info.sendPhone">{{info.usetime}}</p>
-											<p v-if="info.state == 4 || info.state == 3 && info.sendPhone">领取人手机号：{{info.sendPhone}}</p>
 										</div>
 									</div>
 								</div>
@@ -89,6 +88,7 @@
 									<van-button disabled size="mini" v-if="info.state == 4">
 										赠送中
 									</van-button>
+									<p v-if="info.state == 4 || info.state == 3 && info.sendPhone" style="font-size: 13px;">领取人手机号：{{info.sendPhone}}</p>
 									<van-button size="mini" type="danger" v-if="info.state == 3" @click="deleteRoll(info.odId)">删除</van-button>
 								</div>
 							</div>
