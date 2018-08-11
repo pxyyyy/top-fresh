@@ -2,6 +2,9 @@
 @import "./product.less";
 </style>
 <style>
+.details_content {
+  padding-bottom: 50px;
+}
 .details_content img {
   width: 100%;
   border: 0;
@@ -105,6 +108,9 @@
         <van-tab v-for="item in ordersList" :title="item.text" :key="item.id">
           <div class="details_content" v-html="product.productImg" v-if="item.id == 1"></div>
           <div class="evaluation" v-if="item.id == 2">
+            <div class="evaluation-img" v-if="pinglunNum == 0">
+              <img src="../../assets/img/leary.png" />
+            </div>
             <div class="evaluationList" v-for="item in pinglun" :key="item.evaluationId">
               <van-row style="margin-top:10px;">
                 <van-col span="3.5" offset="1" class="userPic">
@@ -208,6 +214,7 @@ export default {
       },
       total: 1,
       pinglun: "",
+      pinglunNum: -1,
       ordersList: [
         { id: 1, text: "详情" },
         { id: 2, text: "评价()" },
@@ -430,6 +437,7 @@ export default {
         this.product = res;
         this.ordersList[1].text = `评价(${this.product.productPinglunnum})`;
         document.title = `${this.product.productName}`;
+        this.pinglunNum = this.product.productPinglunnum;
       });
     await this.selectevaluationlist({
       productId: this.$route.params.id,
@@ -442,7 +450,6 @@ export default {
           this.pinglun[item].evaluationPraiseNum
         );
       }
-      console.log(this.pinglun);
     });
     this.selectProByType().then(res => {
       this.products = res.data;
