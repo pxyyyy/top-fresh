@@ -216,22 +216,22 @@ export default {
     },
     secondLevel(index) {
       switch (index) {
+        // case 0:
+        //   this.$router.push("/LadingRoll");
+        //   break;
         case 0:
-          this.$router.push("/LadingRoll");
-          break;
-        case 1:
           this.$router.push("/cartAddress");
           break;
-        case 2:
+        case 1:
           this.$router.push("/MyCollage");
           break;
-        case 3:
+        case 2:
           window.location.href = "tel:400-010-5777";
           break;
-        case 4:
+        case 3:
           this.$router.push(`/feedback/${this.ueseInfo.staffPhone}`);
           break;
-        case 5:
+        case 4:
           this.$router.push("/Settings");
           break;
       }
