@@ -97,7 +97,7 @@ export default {
     },
     goEditing: function() {
       if (this.selectStaffAddressList.length == 0) {
-         this.type = 0;  
+         this.type = 0;
       }
       this.$router.push(`/cartAddressEditing/${this.type}`);
     },
@@ -112,10 +112,16 @@ export default {
     }
   },
   beforeMount() {
+    sessionStorage.setItem('isAddressTop',true)
     this.getAddress(this.staffId, this.token).then(res => {
       this.selectStaffAddressList = res;
     });
     document.title = "收货地址";
+  },
+  beforeDestroy () {
+    setTimeout(()=>{
+      sessionStorage.removeItem('isAddressTop')
+    },1000)
   }
 };
 </script>

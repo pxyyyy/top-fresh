@@ -5,8 +5,9 @@
 .van-hairline--top-bottom::after {
   border: none;
 }
-.van-icon__info{
+.van-icon__info {
   background: #e2bf85 !important;
+  font-size: 15px !important;
 }
 </style>
 <template>
@@ -32,15 +33,23 @@
           </van-row>
           <!--积分和代金券-->
           <van-row class="info info-one">
-            <van-col span="12">
-              <h3 v-if="ueseInfo.staffScore" @click="integralShow">{{ueseInfo.staffScore}}</h3>
-              <h3 v-else @click="integralShow">0</h3>
-              <p @click="integralShow">积分</p>
-            </van-col>
-            <van-col span="12">
-              <h3 @click="goCoupon">{{ueseInfo.couoponSize}}</h3>
-              <p @click="goCoupon">代金券</p>
-            </van-col>
+            <van-row class="info-one-wrap">
+              <van-col span="8">
+                <h3 v-if="ueseInfo.staffScore" @click="integralShow">{{ueseInfo.staffScore}}</h3>
+                <h3 v-else @click="integralShow">0</h3>
+                <p @click="integralShow">积分</p>
+              </van-col>
+              <van-col span="8">
+                <h3 @click="goMyLading">{{ this.myLadingNum }}</h3>
+                <p @click="goMyLading">我的提货券</p>
+              </van-col>
+              <van-col span="8">
+                <h3 @click="goCoupon">{{ueseInfo.couoponSize}}</h3>
+                <p @click="goCoupon">代金券</p>
+              </van-col>
+            </van-row>
+
+
           </van-row>
         </div>
       </div>
@@ -48,7 +57,7 @@
       <van-row class="user-links">
         <van-col v-for="(item,index) of informations" :key="item.id" style="width:20%;">
           <van-tabbar class="Nofixed" info="5">
-            <van-tabbar-item icon="" @click="Orders(index)" :info="item.info">
+            <van-tabbar-item icon="" @click="Orders(index)" :info="item.info == 0 ? '' : item.info ">
               <span>
                 {{item.text}}
               </span>
@@ -83,9 +92,6 @@
       <div class="gy">
         <div v-for="(product,index) in products" :key="index" class="list">
           <img :src="product.imgUrl" class="img" @click="toProductInfo(product.id)">
-          <div class="title">{{product.proName}}</div>
-          <div class="gg">{{product.proDetail}}</div>
-          <div class="price">&yen;{{product.proPrice}}</div>
         </div>
       </div>
     </div>
@@ -105,6 +111,7 @@ export default {
       cartLictPic: require("../../assets/img/组7@2x.png"),
       goldVolume: "",
       ueseInfo: "",
+      myLadingNum: 0,
       informations: [
         {
           id: "001",
@@ -139,12 +146,12 @@ export default {
         }
       ],
       FeaturesList: [
-        {
-          id: "001",
-          Url: require("../../assets/img/FeaturesList1.png"),
-          text: "我的提货券",
-          phone: ""
-        },
+        // {
+        //   id: "001",
+        //   Url: require("../../assets/img/FeaturesList1.png"),
+        //   text: "我的提货券",
+        //   phone: ""
+        // },
         {
           id: "002",
           Url: require("../../assets/img/FeaturesList2.png"),
@@ -209,28 +216,31 @@ export default {
     },
     secondLevel(index) {
       switch (index) {
+        // case 0:
+        //   this.$router.push("/LadingRoll");
+        //   break;
         case 0:
-          this.$router.push("/LadingRoll");
-          break;
-        case 1:
           this.$router.push("/cartAddress");
           break;
-        case 2:
+        case 1:
           this.$router.push("/MyCollage");
           break;
-        case 3:
-           window.location.href = "tel:400-010-5777";
+        case 2:
+          window.location.href = "tel:400-010-5777";
           break;
-        case 4:
+        case 3:
           this.$router.push(`/feedback/${this.ueseInfo.staffPhone}`);
           break;
-        case 5:
+        case 4:
           this.$router.push("/Settings");
           break;
       }
     },
     toProductInfo(productId) {
       this.$router.push(`/product/${productId}`);
+    },
+    goMyLading () {
+      this.$router.push(`/LadingRoll`);
     }
   },
   beforeMount() {
@@ -252,6 +262,24 @@ export default {
       if (this.ueseInfo == "") {
         this.$router.push("/login");
       }
+    });
+    this.selectMyLadingByStaffId({
+        token: this.getCookie("token"),
+        staffId: this.getCookie("staffId"),
+        state: "2",
+        pageNum: this.pageNum,
+        pageSize: 7
+    }).then(res => {
+      this.myLadingNum = res.data.length;
+    });
+    this.selectMyLadingByStaffId({
+        token: this.getCookie("token"),
+        staffId: this.getCookie("staffId"),
+        state: "3",
+        pageNum: this.pageNum,
+        pageSize: 7
+    }).then(res => {
+      this.myLadingNum += res.data.length;
     });
   }
 };

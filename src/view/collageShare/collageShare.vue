@@ -21,8 +21,8 @@
     <div class="discript" v-if="infoProduct">
       <p class="title">{{infoProduct.productName}}</p>
       <p class="priceaa">
-        <span class="collage">
-          ￥{{infoProduct.pingMoney}}
+        <span class="collage" style="font-size:36px;">
+          ￥{{infoProduct.pingMoney}}/{{infoProduct.product.productUnit}}
         </span>
         <span class="alone">
           单价买 ￥{{infoProduct.product.productPrice}}
@@ -33,9 +33,6 @@
         <li v-for="(item,index) in infoProductUser" :key="index">
           <img :src="item.staffPhotourl ? item.staffPhotourl : defaultavatar">
         </li>
-        <!-- <li v-if="infoProductUser && infoProduct.successPeopleNum < 5">
- <img :src="xhdpiPic"  v-for="item in (infoProduct.successPeopleNum - infoProductUser.length )" :key="item">
-        </li> -->
         <li v-for="item in (infoProduct.successPeopleNum - infoProductUser.length )" :key="item" v-if="infoProduct.successPeopleNum < 5 && infoProductUser">
           <img :src="xhdpiPic">
         </li>
@@ -51,7 +48,7 @@
         <button @click="participate" v-text="riend"></button>
       </p>
       <p class="collage-success-info-bottom">
-        <span>邀请好友参团 </span> > 拼团成功分别发货 >人数不足自动退款</p>
+        <span :class="{spanActive1:isspan1}">邀请好友参团 </span> > <span :class="{spanActive2:isspan2}">拼团成功分别发货</span> > <span>人数不足自动退款</span></p>
     </div>
     <div class="xinxi" v-if="infoProduct">
       <p>
@@ -70,8 +67,12 @@
         <span>{{infoProduct.product.productSendType}}</span>
       </p>
       <p>
-        <span>获得积分:</span>
-        <span>可获得{{infoProduct.product.productScore}}积分</span>
+        <span>商品规格:</span>
+        <span>{{infoProduct.product.productDetail}}</span>
+      </p>
+      <p>
+        <span>提货周期:</span>
+        <span>{{infoProduct.product.productBeginDate}} <span style="color:#e2c083 ">—</span>  {{infoProduct.product.productEndDate}}</span>
       </p>
     </div>
     <div class="details" :style="{marginBottom:marginBottom}" v-if="infoProduct.product.productImg">
@@ -101,6 +102,8 @@ export default {
   mixins: [service],
   data() {
     return {
+      isspan1:true,
+      isspan2:false,
       defaultavatar: defaultavatar,
       riend: "立即参团",
       ismarginTop: false,
@@ -177,10 +180,10 @@ export default {
           }
         );
       } else {
-        if (!this.staffId) {
+        if (!this.staffId && this.riend == "立即参团") {
           sessionStorage.link = window.location.href;
           this.$router.push("/login");
-        } else if (this.staffId != this.$route.params.startUser) {
+        } else if (this.staffId != this.$route.params.startUser  && this.riend == "立即参团") {
           // 个人信息
           await this.getStaffInfo({
             staffId: this.getCookie("staffId"),
@@ -191,26 +194,28 @@ export default {
               sessionStorage.link = window.location.href;
               this.$router.push("/login");
             } else {
-              this.addUserTogetherOrder({
-                staffId: this.getCookie("staffId"),
-                token: this.getCookie("token"),
-                togetherOrderId: this.infoProduct.togetherOrderId,
-                flagTO: 1,
-                togetherId: this.infoProduct.togetherId,
-                startUser: this.infoProduct.startUser
-              }).then(result => {
-                sessionStorage.teamworkMoney = "";
-                if (result.code == 100003) {
-                  Dialog.alert({
-                    title: "参团提醒",
-                    message: "亲,你已经参加过此类团购"
-                  }).then(() => {
-                    window.location.href = "http://shop.jiweishengxian.com";
-                  });
-                }else{
-                  this.$router.push(`/collageDetermineOther/${result.data[0]}`);
-                }
-              });
+              if(this.riend == "立即参团"){
+                this.addUserTogetherOrder({
+                  staffId: this.getCookie("staffId"),
+                  token: this.getCookie("token"),
+                  togetherOrderId: this.infoProduct.togetherOrderId,
+                  flagTO: 1,
+                  togetherId: this.infoProduct.togetherId,
+                  startUser: this.infoProduct.startUser
+                }).then(result => {
+                  sessionStorage.teamworkMoney = "";
+                  if (result.code == 100003) {
+                    Dialog.alert({
+                      title: "参团提醒",
+                      message: "亲,你已经参加过此类团购"
+                    }).then(() => {
+                      window.location.href = "http://shop.jiweishengxian.com";
+                    });
+                  }else{
+                    this.$router.push(`/collageDetermineOther/${result.data[0]}`);
+                  }
+                });
+              }
             }
           });
         }
@@ -251,6 +256,12 @@ export default {
           } else {
             this.riend = "立即参团";
           }
+        }
+        if(this.infoProductUser.length == this.infoProduct.successPeopleNum) {
+          this.riend = "拼团成功";
+          this.showshareIt = false;
+          this.isspan1 = false;
+          this.isspan2 = true;
         }
       }
       // if (this.staffId == this.$route.params.startUser) {

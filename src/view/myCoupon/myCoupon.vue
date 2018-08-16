@@ -137,14 +137,17 @@ export default {
   margin-top: 10px;
   .wrapperLeft {
     border-right: 1px dashed #d3d3d3;
+    height: 80px;
+    line-height: 80px;
     h2 {
-      font-size: 50px;
+      // font-size: 50px;
     }
     span {
       font-size: 16px;
     }
   }
   .wrapper-center {
+    height: 80px;
     font-size: 12px;
     color: #9f9f9f;
     line-height: 20px;
@@ -155,6 +158,7 @@ export default {
   }
   .wrapper-right {
     padding: 8px;
+    height: 80px;
   }
   .wrapper-right-button {
     text-align: center;

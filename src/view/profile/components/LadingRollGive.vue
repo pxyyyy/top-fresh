@@ -2,26 +2,20 @@
 @import "./LadingRollGive.less";
 </style>
 <template>
-  <div>
+  <div class="Give-wrap">
     <div class="Give">
-      <p>请填写朋友手机号以便本人验证</p>
-      <p style="line-height:30px;"><input type="number" v-model="phone" maxlength="11" pattern="[0-9]*" oninput="if(value.length>11)value=value.slice(0,11)" /> </p>
-      <p class="Give-Friends" @click="copyLink">
-        <button class="receive">立即赠送</button>
-      </p>
-      <!-- <div class="Give-type">
-        <div class="Give-type-icon">
-          <p><img src="../../../assets/img/shareWx.png"></p>
-          <p class="icon-desc">微信好友</p>
+      <div class="Give-banner">
+        <div class="Give-title">
+          <p>请填写朋友手机号以便本人验证</p>
+          <div class="Give-input">
+            <input type="text" v-model="phone">
+          </div>
         </div>
-        <div class="Give-type-icon">
-          <p><img src="../../../assets/img/sharePyq.png"></p>
-          <p class="icon-desc">朋友圈</p>
-        </div>
-        <div class="Give-type-icon">
-          <p><img src="../../../assets/img/shareUrl.png"></p>
-          <p class="icon-desc">复制链接</p>
-        </div> -->
+      </div>
+    </div>
+    <div class='user-link'>
+      <p>提货卷赠送好友至</p>
+      <button @click="copyLink">立即赠送</button>
     </div>
   </div>
 </template>
@@ -67,7 +61,7 @@ export default {
           sendPhone: this.phone,
           odId: this.$route.params.id
         }).then(res => {});
-        this.$router.push(`/collectCoupons/${this.$route.params.id}`);
+        this.$router.push(`/collectCoupons/${this.$route.params.id}?staffid=${this.getCookie('staffId')}`);
       }
     }
   },

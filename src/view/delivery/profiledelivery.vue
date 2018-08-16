@@ -13,6 +13,14 @@
   font-weight: bold;
   position: static !important;
 }
+.btntype{
+  display: inline-table;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 2px;
+  background: #e7bf7a;
+  border-radius: 5px;
+}
 </style>
 
 <template>
@@ -30,21 +38,21 @@
       <img src="" alt="">
       <p class="titlebug">{{info.productName}}</p>
       <p class="subtitlebug">{{info.productInfo}}</p>
-      <p class="pricebug" v-if="info.productDiscount">
+      <p class="pricebug" v-if="info.productDiscount"  style="font-size:36px;">
         <span>&yen;{{info.productPrice}}/{{info.productUnit}}只</span>
         <span class="old">&yen;{{info.productOprice}}</span>
         <span class="discount">{{info.productDiscount}}折</span>
       </p>
-      <p class="pricebug" v-else>
-        <span>&yen;{{info.productOprice}}/{{info.productUnit}}只</span>
+      <p class="pricebug" v-else  style="font-size:36px;">
+        <span>&yen;{{info.productOprice}}/{{info.productUnit}}</span>
       </p>
     </div>
     <div class="xinxi">
       <p>
         <span>商品类型:</span>
         <span v-for="(type,index) in info.productPtype" :key="index">
-          <span class="type" v-if="type == 1">礼品卡</span>
-          <span class="type" v-else>礼品卡</span>
+          <span class="btntype" v-if="type == 1">礼品卡</span>
+          <span class="btntype" v-else>礼品卡</span>
         </span>
       </p>
       <p>
@@ -55,16 +63,19 @@
         <span>配送方式:</span>
         <span>{{info.productSendType}}</span>
       </p>
-      <!-- <p>
-				<span>提货周期:</span>
-				<span>{{info[0].integral}}</span>
-			</p> -->
+      <p>
+				<span>商品规格:</span>
+				<span>{{info.productDetail}}</span>
+			</p>
+      <p>
+        <span>提货周期:</span>
+        <span>{{info.productBeginDate}}<span style="color:#e2c083 ">—</span>  {{info.productEndDate}}</span>
+      </p>
     </div>
     <div class="details">
       <p class="details_title">---- 商品详情 ----</p>
       <div class="details_content">
-        <div class="d-content">
-          <img src="//img30.360buyimg.com/popWaterMark/jfs/t19498/108/2431894716/126463/a3756bf0/5af28a62Ne2cd4e4e.jpg">
+        <div class="d-content" v-html="info.productImg">
         </div>
       </div>
     </div>

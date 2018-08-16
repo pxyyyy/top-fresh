@@ -8,13 +8,6 @@
 </style>
 <template>
   <div>
-    <!--返回弹出-->
-    <van-popup v-model="away" class="away">
-      <p>正在离开结算页面</p>
-      <p>您确定不要了吗</p>
-      <van-button size="small" class="Payment-button awayColor" @click="goaway">去意已决</van-button>
-      <van-button size="small" class="Payment-button" @click="want">朕在想想</van-button>
-    </van-popup>
     <div class="cart_min">
       <!-- 订单详情 -->
       <div>
@@ -25,7 +18,7 @@
               <p class="item-title">{{info.product.productName}}</p>
               <p class="item-desc">{{info.product.productInfo}}</p>
               <p class="item-button">
-                <strong class="money">￥{{info.priceTogether}}.00</strong>
+                <strong class="money">￥{{info.priceTogether}}</strong>
                 <span>x1</span>
               </p>
             </div>
@@ -59,14 +52,14 @@
             <div class="border-top" style="padding:2px 0;">
               <p>商品总额</p>
               <p class="black">
-                ￥{{info.priceTogether}}.00
+                ￥{{info.priceTogether}}
               </p>
             </div>
           </div>
           <div class="select">
             <div class="border-top" style="padding:2px 0;">
               <p>代金券优惠</p>
-              <p class="black" v-if="this.offer">-￥{{this.offer}}.00
+              <p class="black" v-if="this.offer">-￥{{this.offer}}
               </p>
               <p class="black" v-else>-￥0.00
               </p>
@@ -76,7 +69,7 @@
             <div class="border-top" style="padding:2px 0;">
               <p>积分优惠</p>
               <p class="black" v-if="checked">
-                -￥{{this.integral[1]}}.00
+                -￥{{this.integral[1]}}
               </p>
               <p class="black" v-else>
                 -￥0.00
@@ -89,7 +82,8 @@
           <div class="border-top price-content">
             <van-row class="price-bottom">
               <van-col span="24" class="price_right">实付款
-                <strong class="money">￥{{orderAllmoney}}.00</strong>
+                <strong class="money" v-if="orderAllmoney < 0">￥{{0.01}}</strong>
+                <strong class="money" v-else>￥{{orderAllmoney}}</strong>
               </van-col>
             </van-row>
           </div>
@@ -110,7 +104,10 @@
       <!-- 支付订单 -->
       <div class="cart-foot" v-if="info">
         <p>付款 :
-          <span>￥{{orderAllmoney}}</span>
+          <span v-if="orderAllmoney < 0">
+            ￥{{0.01}}
+          </span>
+          <span v-else>￥{{orderAllmoney}}</span>
         </p>
         <p>
           <van-button size="normal" class="btnColor" @click="goDetails()">支付订单</van-button>
@@ -119,7 +116,10 @@
       <!--付款方式弹出-->
       <van-popup v-model="Payment" class="Payment" v-if="info">
         <p>付款金额：
-          <span>￥{{orderAllmoney}}</span>
+            <span v-if="orderAllmoney < 0">
+            ￥{{0.01}}
+          </span>
+          <span v-else>￥{{orderAllmoney}}</span>
         </p>
         <p>付款方式：
           <span v-text="PaymentType"></span>
