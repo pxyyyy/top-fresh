@@ -1,58 +1,3 @@
-<style lang="less" scoped>
-@import "./product.less";
-</style>
-<style>
-.details_content img {
-  width: 100%;
-  border: 0;
-  vertical-align: middle;
-}
-
-.details .van-tabs__nav--card .van-tab.van-tab--active {
-  background: #fff !important;
-  color: #e2c083 !important;
-}
-
-.details .van-tabs__nav--card .van-tab.van-tab--active span {
-  border-bottom: 2px solid #e2c083;
-}
-
-.details .van-tabs__nav--card .van-tab {
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  color: black;
-}
-
-.details .van-tabs__nav--card {
-  border: none;
-  width: 90%;
-}
-
-.details .van-tabs__nav--card {
-  margin: 10px 15px;
-}
-
-.details .van-tabs--card {
-  padding-top: 45px;
-}
-
-.details .van-tabs--card .van-tabs__wrap {
-  height: 45px;
-}
-
-.details .van-tabs__nav {
-  justify-content: center;
-}
-
-.details .van-tab {
-  flex: inherit;
-  padding: 0 20px;
-}
-.swiper-wrapper img {
-  border-radius: 0;
-}
-</style>
 <template>
   <!-- 商品详情 页面-->
   <div :class="{top:top}">
@@ -146,9 +91,7 @@
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
       </div>
-    </div>
-      </div>
-    </div>
+   </div>
     <!-- 商品图文详情 -->
     <van-goods-action v-show="show">
       <!-- <van-goods-action-mini-btn icon="like-o" text="收藏" /> -->
@@ -158,7 +101,7 @@
       <van-goods-action-big-btn text="立即购买" primary @click="openPay(product.productId)" />
     </van-goods-action>
     <van-actionsheet v-model="show1" title="选择数量">
-      <p style="display:fixed">
+      <p style="display:fixed;">
         <span style="padding-left:1.5rem"></span>
         <van-stepper v-model="number"></van-stepper>
       </p>
@@ -218,163 +161,7 @@ export default {
       swipePic: ""
     };
   },
-  computed: {},
-  methods: {
-    closeCorridor() {
-      let from = this.$route.query.from;
-      if (from == "IOS" || from == "Android") {
-        this.$bridge.callHandler(
-          "previewPicture",
-          {
-            type: "1"
-          },
-          data => {
-            console.log("success");
-          }
-        );
-      }
-      this.pictureCorridor = false;
-    },
-    // 获取cook
-    getCookie(name) {
-      var arr,
-        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-      if ((arr = document.cookie.match(reg))) {
-        return unescape(arr[2]);
-      } else {
-        return null;
-      }
-    },
-    // 判断用户是否登录
-    isToken() {
-      var token = this.getCookie("token");
-      if (token) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    openPay(num) {
-      // 个人信息{
-      this.getStaffInfo({
-        staffId: this.getCookie("staffId"),
-        token: this.getCookie("token")
-      }).then(res => {
-        this.ueseInfo = res.data;
-        if (this.ueseInfo == "") {
-          this.$router.push("/login");
-        }
-      });
-      var istoken = this.isToken();
-      if (istoken) {
-        var id = this.$route.params.id;
-        this.addOrder(this.token, this.staffId, num, this.number).then(res => {
-          this.$router.push(`/cartDetermine/${res[0].orderId}`);
-        });
-      } else {
-        Dialog.alert({
-          title: "提示",
-          message: "亲,游客模式,如需购买,请先登录"
-        }).then(() => {
-          this.$router.push(`/login`); // on close
-        });
-      }
-    },
-    async toCart1() {
-      var id = this.$route.params.id;
-      // 个人信息{
-      await this.getStaffInfo({
-        staffId: this.getCookie("staffId"),
-        token: this.getCookie("token")
-      }).then(res => {
-        console.log(this.ueseInfo);
-        this.ueseInfo = res.data;
-        if (this.ueseInfo == "") {
-          this.$router.push("/login");
-        }
-      });
-      this.addCart(this.token, this.staffId, id, this.number).then(res => {
-        Dialog.alert({
-          title: "提示",
-          message: "添加成功"
-        }).then(() => {
-          this.$router.push(`/cart?number=` + this.number); // on close
-        });
-      });
-    },
-    openCart(type) {
-      var istoken = this.isToken();
-      if (istoken) {
-        this.show1 = true;
-        this.type = type;
-      } else {
-        Dialog.alert({
-          title: "提示",
-          message: "亲,游客模式,请先登录"
-        }).then(() => {
-          this.$router.push(`/login`); // on close
-        });
-      }
-    },
-    toCart() {
-      var istoken = this.isToken();
-      if (istoken) {
-        this.$router.push(`/cart?number=` + this.number);
-      } else {
-        Dialog.alert({
-          title: "提示",
-          message: "亲，如需购买，请先登录"
-        }).then(() => {
-          this.$router.push(`/login`); // on close
-        });
-      }
-    },
-    goEvaluation(item, index) {
-      let from = this.$route.query.from;
-      if (from == "IOS" || from == "Android") {
-        this.$bridge.callHandler(
-          "previewPicture",
-          {
-            type: "0"
-          },
-          data => {
-            console.log("success");
-          }
-        );
-      }
-      this.swipePic = item;
-      this.picIndex = index;
-      this.pictureCorridor = true;
-    },
-    toProductInfo(productId) {
-      let from = this.$route.query.from;
-      if (from == "IOS" || from == "Android") {
-        this.$bridge.callHandler(
-          "goGoodInfoVC",
-          {
-            productId: `${productId}`
-          },
-          data => {
-            console.log("success");
-          }
-        );
-      } else {
-        this.$router.push(`/product/${productId}`);
-      }
-      this.$router.push(`/product/${productId}`);
-      this.active = 0;
-    },
-    giveShareInfo() {
-      // 标题，副标题
-      Android.giveShareInfo(
-        `${this.product.productName}`,
-        `${this.product.productInfo}`
-      );
-    },
-    closePicture() {
-      this.pictureCorridor = false;
-    }
-  },
+
   watch: {
     number() {
       if (this.number > 999) {
@@ -431,6 +218,230 @@ export default {
     this.selectProByType().then(res => {
       this.products = res.data;
     });
-  }
+  },
+
+  methods: {
+
+    closeCorridor() {
+      let from = this.$route.query.from;
+      if (from == "IOS" || from == "Android") {
+        this.$bridge.callHandler(
+          "previewPicture",
+          {
+            type: "1"
+          },
+          data => {
+            console.log("success");
+          }
+        );
+      }
+      this.pictureCorridor = false;
+    },
+
+    // 获取cook
+    getCookie(name) {
+      var arr,
+        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+      if ((arr = document.cookie.match(reg))) {
+        return unescape(arr[2]);
+      } else {
+        return null;
+      }
+    },
+
+    // 判断用户是否登录
+    isToken() {
+      var token = this.getCookie("token");
+      if (token) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    openPay(num) {
+      // 个人信息{
+      this.getStaffInfo({
+        staffId: this.getCookie("staffId"),
+        token: this.getCookie("token")
+      }).then(res => {
+        this.ueseInfo = res.data;
+        if (this.ueseInfo == "") {
+          this.$router.push("/login");
+        }
+      });
+      var istoken = this.isToken();
+      if (istoken) {
+        var id = this.$route.params.id;
+        this.addOrder(this.token, this.staffId, num, this.number).then(res => {
+          this.$router.push(`/cartDetermine/${res[0].orderId}`);
+        });
+      } else {
+        Dialog.alert({
+          title: "提示",
+          message: "亲,游客模式,如需购买,请先登录"
+        }).then(() => {
+          this.$router.push(`/login`); // on close
+        });
+      }
+    },
+
+    async toCart1() {
+      var id = this.$route.params.id;
+      // 个人信息{
+      await this.getStaffInfo({
+        staffId: this.getCookie("staffId"),
+        token: this.getCookie("token")
+      }).then(res => {
+        console.log(this.ueseInfo);
+        this.ueseInfo = res.data;
+        if (this.ueseInfo == "") {
+          this.$router.push("/login");
+        }
+      });
+      this.addCart(this.token, this.staffId, id, this.number).then(res => {
+        Dialog.alert({
+          title: "提示",
+          message: "添加成功"
+        }).then(() => {
+          this.$router.push(`/cart?number=` + this.number); // on close
+        });
+      });
+    },
+
+    openCart(type) {
+      var istoken = this.isToken();
+      if (istoken) {
+        this.show1 = true;
+        this.type = type;
+      } else {
+        Dialog.alert({
+          title: "提示",
+          message: "亲,游客模式,请先登录"
+        }).then(() => {
+          this.$router.push(`/login`); // on close
+        });
+      }
+    },
+
+    toCart() {
+      var istoken = this.isToken();
+      if (istoken) {
+        this.$router.push(`/cart?number=` + this.number);
+      } else {
+        Dialog.alert({
+          title: "提示",
+          message: "亲，如需购买，请先登录"
+        }).then(() => {
+          this.$router.push(`/login`); // on close
+        });
+      }
+    },
+
+    goEvaluation(item, index) {
+      let from = this.$route.query.from;
+      if (from == "IOS" || from == "Android") {
+        this.$bridge.callHandler(
+          "previewPicture",
+          {
+            type: "0"
+          },
+          data => {
+            console.log("success");
+          }
+        );
+      }
+      this.swipePic = item;
+      this.picIndex = index;
+      this.pictureCorridor = true;
+    },
+
+    toProductInfo(productId) {
+      let from = this.$route.query.from;
+      if (from == "IOS" || from == "Android") {
+        this.$bridge.callHandler(
+          "goGoodInfoVC",
+          {
+            productId: `${productId}`
+          },
+          data => {
+            console.log("success");
+          }
+        );
+      } else {
+        this.$router.push(`/product/${productId}`);
+      }
+      this.$router.push(`/product/${productId}`);
+      this.active = 0;
+    },
+
+    giveShareInfo() {
+      // 标题，副标题
+      Android.giveShareInfo(
+        `${this.product.productName}`,
+        `${this.product.productInfo}`
+      );
+    },
+
+    closePicture() {
+      this.pictureCorridor = false;
+    }
+  },
+
 };
 </script>
+<style lang="less" scoped>
+  @import "./product.less";
+</style>
+<style>
+  .details_content img {
+    width: 100%;
+    border: 0;
+    vertical-align: middle;
+  }
+
+  .details .van-tabs__nav--card .van-tab.van-tab--active {
+    background: #fff !important;
+    color: #e2c083 !important;
+  }
+
+  .details .van-tabs__nav--card .van-tab.van-tab--active span {
+    border-bottom: 2px solid #e2c083;
+  }
+
+  .details .van-tabs__nav--card .van-tab {
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: black;
+  }
+
+  .details .van-tabs__nav--card {
+    border: none;
+    width: 90%;
+  }
+
+  .details .van-tabs__nav--card {
+    margin: 10px 15px;
+  }
+
+  .details .van-tabs--card {
+    padding-top: 45px;
+  }
+
+  .details .van-tabs--card .van-tabs__wrap {
+    height: 45px;
+  }
+
+  .details .van-tabs__nav {
+    justify-content: center;
+  }
+
+  .details .van-tab {
+    flex: inherit;
+    padding: 0 20px;
+  }
+  .swiper-wrapper img {
+    border-radius: 0;
+  }
+</style>

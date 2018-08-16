@@ -41,7 +41,8 @@ export default {
     }
   },
   methods: {
-    alone() {},
+    alone() {
+    },
     goCollage(id, productId) {
       this.$router.push(`/collageDetail/${id}/${productId}`);
     },
@@ -87,4 +88,5 @@ export default {
       this.teamworkList = res;
     });
   }
+}
 </script>
