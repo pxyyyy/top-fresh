@@ -258,7 +258,7 @@ export default {
           }
         }
         if(this.infoProductUser.length == this.infoProduct.successPeopleNum) {
-          this.riend = "拼图成功";
+          this.riend = "拼团成功";
           this.showshareIt = false;
           this.isspan1 = false;
           this.isspan2 = true;

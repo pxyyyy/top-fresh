@@ -294,7 +294,8 @@ export default {
       // 待付款
       this.loading1 = true;
       this.pageNum++;
-      this.getOrder(this.staffId, this.token, 1, 7, this.pageNum).then(res => {
+      this.getOrder(this.staffId, this.token, 1, 7, this.pageNum)
+        .then(res => {
         this.loading1 = false;
         this.code = res.code;
         this.orders = this.orders.concat(res.data);
@@ -307,7 +308,8 @@ export default {
       // 待发货
       this.loading2 = true;
       this.pageNum++;
-      this.getOrder(this.staffId, this.token, 2, 7, this.pageNum).then(res => {
+      this.getOrder(this.staffId, this.token, 2, 7, this.pageNum)
+        .then(res => {
         this.loading2 = false;
         this.code = res.code;
         this.orders = this.orders.concat(res.data);
@@ -320,7 +322,8 @@ export default {
       // 待收货
       this.loading3 = true;
       this.pageNum++;
-      this.getOrder(this.staffId, this.token, 3, 7, this.pageNum).then(res => {
+      this.getOrder(this.staffId, this.token, 3, 7, this.pageNum)
+        .then(res => {
         this.loading3 = false;
         this.code = res.code;
         this.orders = this.orders.concat(res.data);
@@ -333,7 +336,8 @@ export default {
       // 全部订单
       this.loading4 = true;
       this.pageNum++;
-      this.getOrder(this.staffId, this.token, "", 7, this.pageNum).then(res => {
+      this.getOrder(this.staffId, this.token, "", 7, this.pageNum)
+        .then(res => {
         this.loading4 = false;
         this.code = res.code;
         this.orders = this.orders.concat(res.data);
@@ -345,7 +349,8 @@ export default {
     onLoad5() {
       this.loading5 = true;
       this.pageNum++;
-      this.getOrder(this.staffId, this.token, "4", 7, this.pageNum).then(
+      this.getOrder(this.staffId, this.token, "4", 7, this.pageNum)
+        .then(
         res => {
           this.loading5 = false;
           this.code = res.code;
