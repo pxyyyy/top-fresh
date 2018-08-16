@@ -13,6 +13,9 @@
   padding: 0 10px;
   background: #fff;
 }
+  .wrapper img:last-child {
+    margin-bottom: 45px;
+  }
 </style>
 <template>
   <div>
