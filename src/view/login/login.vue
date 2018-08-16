@@ -178,7 +178,7 @@ export default {
           if (res.code == 100000) {
             this.setCookie("token", res.data[0].staffToken);
             this.setCookie("staffId", res.data[0].staffId);
-            this.$router.go(-1);
+            window.location.href = "http://shop.jiweishengxian.com"
           } else {
             Toast(res.message);
           }

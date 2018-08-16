@@ -1,13 +1,12 @@
 <template>
   <!-- 商品详情 页面-->
   <div :class="{top:top}">
-    <swiper :options="swiperOption">
-      <swiper-slide v-for="(image, index) in product.proImgs" :key="index">
-        <img v-lazy="image.imgUrl" class="img" />
+    <swiper :options="swiperOption" v-if="showswiper">
+      <swiper-slide v-for="(image, index) in product.proImgs" :key="index" class="Crop">
+        <img v-lazy="image.imgUrl" class="img">
       </swiper-slide>
     </swiper>
     <div class="discript">
-      <img src="" alt="">
       <p class="title">{{product.productName}}</p>
       <p class="subtitle">{{product.productInfo}}</p>
       <p class="price" v-if="product.productPrice">
@@ -37,12 +36,20 @@
         <span>商品规格:</span>
         <span>{{product.productDetail}}</span>
       </p>
+      <p>
+        <span>提货周期:</span>
+        <span>{{product.productBeginDate}}
+          <span style="color:#e2c083 ">—</span> {{product.productEndDate}}</span>
+      </p>
     </div>
     <div class="details" :style="{marginBottom:marginBottom}">
       <van-tabs type="card" v-model="active">
         <van-tab v-for="item in ordersList" :title="item.text" :key="item.id">
           <div class="details_content" v-html="product.productImg" v-if="item.id == 1"></div>
           <div class="evaluation" v-if="item.id == 2">
+            <div class="evaluation-img" v-if="pinglunNum == 0">
+              <img src="../../assets/img/leary.png" />
+            </div>
             <div class="evaluationList" v-for="item in pinglun" :key="item.evaluationId">
               <van-row style="margin-top:10px;">
                 <van-col span="3.5" offset="1" class="userPic">
@@ -71,9 +78,6 @@
               <div class="gy">
                 <div v-for="(product,index) in products" :key="index" class="list">
                   <img :src="product.imgUrl" class="img" @click="toProductInfo(product.id)">
-                  <div class="title">{{product.proName}}</div>
-                  <div class="gg">{{product.proDetail}}</div>
-                  <div class="price">&yen;{{product.proPrice}}</div>
                 </div>
               </div>
             </div>
@@ -82,7 +86,7 @@
       </van-tabs>
     </div>
     <!-- 图片查看 -->
-   <div class="evaluationa" v-if="pictureCorridor" @click="closeCorridor">
+    <div class="evaluationa" v-if="pictureCorridor" @click="closeCorridor">
       <div class="wrapper">
         <swiper :options="swiperOption">
           <swiper-slide v-for="item in swipePic" :key="item.id">
@@ -96,7 +100,7 @@
     <van-goods-action v-show="show">
       <!-- <van-goods-action-mini-btn icon="like-o" text="收藏" /> -->
       <van-goods-action-mini-btn icon="cart" text="购物车" @click="toCart" />
-      <van-goods-action-mini-btn icon="chat" text="客服" v-if="this.$route.query.from" />
+      <van-goods-action-mini-btn icon="chat" text="客服" v-if="this.$route.query.from == 'ios' || this.$route.query.from == 'android'" />
       <van-goods-action-big-btn text="加入购物车" @click="openCart" />
       <van-goods-action-big-btn text="立即购买" primary @click="openPay(product.productId)" />
     </van-goods-action>
@@ -138,15 +142,18 @@ export default {
       swiperOption: {
         // 园点配置
         pagination: ".swiper-pagination",
+        autoHeight:true,
         // 循环切换
-        loop: true,
+        loop: false,
         pagination: {
           el: ".swiper-pagination",
-          clickable: true
+          clickable: true,
+          autoHeight:true,
         }
       },
       total: 1,
       pinglun: "",
+      pinglunNum: -1,
       ordersList: [
         { id: 1, text: "详情" },
         { id: 2, text: "评价()" },
@@ -161,7 +168,6 @@ export default {
       swipePic: ""
     };
   },
-
   watch: {
     number() {
       if (this.number > 999) {
@@ -219,7 +225,6 @@ export default {
       this.products = res.data;
     });
   },
-
   methods: {
 
     closeCorridor() {
@@ -274,7 +279,15 @@ export default {
       if (istoken) {
         var id = this.$route.params.id;
         this.addOrder(this.token, this.staffId, num, this.number).then(res => {
-          this.$router.push(`/cartDetermine/${res[0].orderId}`);
+          if (res.code == 100003) {
+            Dialog.alert({
+              title: "购买失败",
+              message: res.message
+            }).then(() => {
+            });
+          }else {
+          this.$router.push(`/cartDetermine/${res.data[0].orderId}`);
+          }
         });
       } else {
         Dialog.alert({
@@ -387,7 +400,6 @@ export default {
       this.pictureCorridor = false;
     }
   },
-
 };
 </script>
 <style lang="less" scoped>

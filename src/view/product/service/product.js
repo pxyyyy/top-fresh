@@ -57,12 +57,11 @@ export default {
     },
     // 商品评价
     selectevaluationlist(json) {
-      return api.post(`fresh_show/evaluation/selectevaluationlist`, json)
+      return api.get(`fresh_show/evaluation/selectevaluationlist`, json)
         .then(res => {
           if (res.data.code == 100000) {
             return res.data.data;
           }
-
         })
         .catch(function (error) {
           console.log(error);
@@ -71,11 +70,7 @@ export default {
     addOrder(token, staffId, productId, productNum) {
       return api.get(`fresh_show/addOrder?productId=${productId}&staffId=${staffId}&token=${token}&proNum=${productNum}`)
         .then(res => {
-          console.log(res.data)
-          if (res.data.code == 100000) {
-            return res.data.data;
-          }
-
+            return res.data
         })
         .catch(function (error) {
           console.log(error);

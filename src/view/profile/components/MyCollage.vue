@@ -10,7 +10,7 @@
       <div class="MyCollage-item" v-for="item in MyCollage" :key="item.id">
         <div class="MyCollage-item-content">
           <div class="MyCollage-img">
-            <img src="../../../assets/img/Crab.png" alt="">
+            <img :src="item.productIcon" alt="">
           </div>
           <div class="MyCollage-info">
             <p>{{item.title}}</p>

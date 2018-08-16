@@ -8,13 +8,6 @@
 </style>
 <template>
   <div>
-    <!--返回弹出-->
-    <van-popup v-model="away" class="away">
-      <p>正在离开领取页面</p>
-      <p>您确定不要了吗</p>
-      <van-button size="small" class="Payment-button awayColor" @click="goaway">去意已决</van-button>
-      <van-button size="small" class="Payment-button" @click="want">朕在想想</van-button>
-    </van-popup>
     <div class="cart_min">
       <!-- 收货地址 -->
       <div class="address" @click="goAddress()">

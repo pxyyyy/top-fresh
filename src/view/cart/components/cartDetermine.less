@@ -20,11 +20,14 @@
 }
 .integral {
 }
+
 .address {
   background: #fff;
   margin: 0 0 5px 0;
   padding: 3px 8px;
   .address-content {
+	    display: flex;
+  align-items: center;
     background: #fff;
     font-size: 13px;
     padding: 13px 0;
@@ -34,13 +37,30 @@
     }
     img {
       width: 20px;
-      height: 20px;
-      margin-top: 18px;
+	  height: 20px;
+	  margin-left: 5px;
+    //   margin-top: 18px;
     }
     span {
-      float: right;
+      float: left;
+    }
+    .addwrap{
+      overflow: hidden;
+      span{
+        float: left;
+      }
+      .adname{
+        margin-left: 10px;
+      }
+      .adphone{
+		// float: right;
+		margin-left: 15px;
+      }
     }
   }
+}
+.userAddress{
+  margin-left: 10px;
 }
 .item {
   overflow: hidden;
