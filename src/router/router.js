@@ -13,6 +13,17 @@ export const loginRouter = {
   },
 
 };
+export const SettingloginRouter = {
+	path: '/Settings/login',
+	name: 'Settingslogin',
+	meta: {
+	  title: '手机号绑定'
+	},
+	component: resolve => {
+	  require(['@/view/profile/components/login.vue'], resolve);
+	},
+  
+  };
 export const appRouter = {
   path: '/',
   name: 'main',
@@ -412,6 +423,7 @@ export const otherRouter = [{
 ]
 export const routers = [
   loginRouter,
+  SettingloginRouter,
   appRouter,
   ...productRouter,
   ...otherRouter,

@@ -16,20 +16,9 @@
 							<input type="text" placeholder="手机号" v-model="phone" class="input">
 						</div>
 						<van-button size="large" @click="nextStep">提交</van-button>
-						<div class="input-title">未注册手机验证后自动登录</div>
 					</div>
 					<div class="other">
-						<div class="other_title">——————— 其他登录方式 ———————</div>
-						<div class="fang">
-							<div @click="transferWeChat">
-								<van-row gutter="20">
-									<van-col span="24">
-										<img src="../../assets/icon/weixin.png" alt="">
-									</van-col>
-								</van-row>
-							</div>
-						</div>
-						<div class="foot">注册即代表你同意《极味生鲜协议》和《隐私政策》</div>
+						<div class="foot">提交即代表你同意《极味生鲜协议》和《隐私政策》</div>
 					</div>
 				</div>
 			</div>
@@ -39,18 +28,18 @@
 					<div class="subtitle">验证码已发送至+86 {{phone}}</div>
 					<div class="security-code-wrap">
 						<label for="code">
-              <ul class="security-code-container">
-                <li class="field-wrap" v-for="(item, index) in number" :key="index">
-                  <i class="char-field">{{value[index] || placeholder}}</i>
-                </li>
-              </ul>
-            </label>
+							<ul class="security-code-container">
+								<li class="field-wrap" v-for="(item, index) in number" :key="index">
+								<i class="char-field">{{value[index] || placeholder}}</i>
+								</li>
+							</ul>
+						</label>
 						<input ref="input" class="input-code" @keyup="handleInput($event)" v-model="value" id="code" name="code" type="tel" :maxlength="number"
 						 autocorrect="off" autocomplete="off" autocapitalize="off">
 					</div>
 					<div class="time color" v-show="show" @click="reset">重新获取验证码</div>
 					<div class="time" v-show="!show">{{count}}秒后可重新获取</div>
-					<van-button class="sure" size="large" @click.lazy="sureStep" >确定</van-button>
+					<van-button class="sure" size="large" @click="sureStep">确定</van-button>
 				</div>
 			</div>
 		</transition>
@@ -60,7 +49,7 @@
 <script>
 	import { Decrypt, Encrypt } from "@/assets/js/crypto.js";
 	import { Toast } from "vant";
-	import login from "./service/login.js";
+	import login from "../service/coupon.js";
 	export default {
 		mixins: [login],
 		name: "login",
@@ -95,20 +84,8 @@
 			}
 		},
 		methods: {
-			transferWeChat() {
-				window.location.href =
-					"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http%3a%2f%2fshop.jiweishengxian.com%2findex&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-			},
 			shutdown() {
 				this.$router.push("/");
-			},
-			// setCookieMethods
-			setCookie(token, staffId) {
-				var Days = 30; //cookie 将被保存30天
-				var exp = new Date(); //获得当前时间
-				exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000); //换成毫秒
-				document.cookie =
-					token + "=" + staffId + "; expires=" + exp.toGMTString();
 			},
 			// 点击下一步获取验证码
 			nextStep: function () {
@@ -144,21 +121,7 @@
 				});
 			},
 			sureStep: function () {
-				alert(111111)
-				this.toLogin({
-					codePhone: this.d2,
-					codeValue: this.value
-				}).then(res => {
-					console.log(res.data.code);
-					if (res.code == 100000) {
-						this.setCookie("token", res.data[0].staffToken);
-						this.setCookie("staffId", res.data[0].staffId);
-						window.location.href = "http://shop.jiweishengxian.com"
-					} else {
-						Toast(res.message);
-					}
-				});
-
+			
 			},
 			timeout() {
 				const TIME_COUNT = 60;
@@ -197,10 +160,18 @@
 				return window.innerHeight + "px";
 			}
 		},
-		beforeMount() {
-			document.title = "登陆"
+		mounted() {
+			console.log(this.$route)
+			var phone=this.$route.query.phone
+			console.log(phone)
+			if(phone != undefined){
+				console.log(phone)
+				this.phone=phone;
+			}
+			console.log(this.phone)
 
-
-		}
+			
+		},
+		
 	};
 </script>

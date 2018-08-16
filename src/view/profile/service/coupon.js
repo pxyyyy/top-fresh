@@ -1,8 +1,8 @@
 /*
  * @Author: By.zhangTeng 
  * @Date: 2018-06-04 15:27:53 
- * @Last Modified by: By.zhangTeng
- * @Last Modified time: 2018-06-05 14:37:21
+ * @Last Modified by: ZT.zhangTeng
+ * @Last Modified time: 2018-08-16 14:43:03
  */
 import API from '../../../api/API.js'
 const api = new API();
@@ -21,7 +21,20 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
-    },
+	},
+	getCode(phone) {
+		return api.get(`fresh_show/staffC/sendCode?codePhone=${phone}`)
+		  .then(res => {
+			console.log(res.data)
+			if (res.data.code == 100000) {
+			  return res.data.data;
+			}
+  
+		  })
+		  .catch(function (error) {
+			console.log(error);
+		  });
+	  },
     // 根据订单查询可用优惠券
     getCoupnsListByOrderId(json) {
       return api.post(`fresh_show/order/getCoupnsListByOrderId`, json)
