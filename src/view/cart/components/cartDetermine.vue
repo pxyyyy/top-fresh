@@ -238,7 +238,8 @@
 				orderId: "",
 				jmoney: "",
 				code: "",
-				orderCode: ""
+				orderCode: "",
+				isBack:true,
 			};
 		},
 		// 优惠的价格
@@ -305,6 +306,7 @@
 				this.Mailing = true;
 			},
 			usingaVouchers() {
+				this.isBack=false;
 				this.$router.push(`/coupon/${this.$route.params.orderId}/0`);
 			},
 			// 邮寄提货券确定点击
@@ -411,6 +413,7 @@
 				}
 			},
 			goAddress: function () {
+				this.isBack=false
 				this.$router.push({
 					name: "cartAddress"
 				});
@@ -453,6 +456,11 @@
 						}
 					);
 				});
+			}
+		},
+		destroyed() {
+			if(this.isBack){
+				this.$route.push("/")
 			}
 		},
 		beforeMount() {
