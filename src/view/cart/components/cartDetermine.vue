@@ -427,6 +427,15 @@
 			want: function () {
 				this.away = false;
 			},
+			pushHistory() {
+				var state = {
+					title: "确认订单",
+					url: ""
+				};
+				window.history.pushState(state, state.title, state.url);
+			},
+
+
 			// 微信支付
 			async gocartOut() {
 				var staffWechat = this.getCookie("staffWechat")
@@ -458,20 +467,24 @@
 				});
 			}
 		},
-		destroyed() {
-			console.log(this.isBack)
-			if(this.isBack){
-				console.log("页面被干掉了")
-				// this.$route.push("/")
-				window.location.href = `http://shop.jiweishengxian.com`
-			}
-		},
+		// destroyed() {
+		// 	console.log(this.isBack)
+		// 	if(this.isBack){
+		// 		console.log("页面被干掉了")
+		// 		// this.$route.push("/")
+		// 		window.location.href = `http://shop.jiweishengxian.com`
+		// 	}
+		// },
 		beforeMount() {
-			
+			pushHistory(); 
+			window.addEventListener("popstate", function(e) {  //回调函数中实现需要的功能
+				// alert("我监听到了浏览器的返回按钮事件啦");
+				window.location.href = `http://shop.jiweishengxian.com`
+				// window.location.href='/';  //在这里指定其返回的地址
+			}, false);
 			let that = this;
 			document.title = "确认订单";
 			this.GetRequest;
-			
 			var Request = new Object();
 			Request = this.GetRequest();
 			this.code = Request["code"];
