@@ -14,10 +14,10 @@
   <div>
     <div class="top">
       <van-cell-group>
-        <van-field v-model="value" placeholder="请输入提货码" />
+        <van-field v-model="value" placeholder="请输入卡号" />
       </van-cell-group>
       <van-cell-group>
-        <van-field v-model="password" placeholder="请输入提货码密码" />
+        <van-field v-model="password" placeholder="请输入提货码" />
       </van-cell-group>
       <van-button size="large" @click="goDetails()">确定提货</van-button>
     </div>
@@ -62,9 +62,9 @@ export default {
     },
     goDetails: function() {
       if (this.value == "") {
-        Toast("请输入提货码");
+        Toast("请输入卡号");
       } else if (this.password == "") {
-        Toast("请输入提货码密码");
+        Toast("请输入提货码");
       } else {
         this.getLadingDetail({
           staffId: this.getCookie("staffId"),

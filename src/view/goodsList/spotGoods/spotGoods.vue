@@ -1,6 +1,6 @@
 /*
- * @Author: By.zhangTeng 
- * @Date: 2018-05-22 17:13:39 
+ * @Author: By.zhangTeng
+ * @Date: 2018-05-22 17:13:39
  * @Last Modified by: By.zhangTeng
  * @Last Modified time: 2018-06-08 10:26:27
  */
@@ -17,9 +17,9 @@
             </div> -->
       <div v-for="(product,index) in giftCard" :key="index" class="list" @click="toProductInfo(product.id)">
         <img :src="product.imgUrl" alt="" class="img">
-        <!-- <div class="title">{{product.proName}}</div>
-        <div class="gg">{{product.proDetail}}</div>
-        <div class="price">&yen;{{product.proPrice}}</div> -->
+        <!--<div class="title">{{product.proName}}</div>-->
+        <!--<div class="gg">{{product.proDetail}}</div>-->
+        <!--<div class="price">&yen;{{product.proPrice}}</div>-->
       </div>
     </div>
   </div>

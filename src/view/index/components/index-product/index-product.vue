@@ -63,7 +63,6 @@ export default {
   },
   beforeMount() {
     this.getproducts(1).then(res => {
-      console.log(res);
       this.imgList = res;
     });
   },
@@ -74,14 +73,12 @@ export default {
         this.name = "礼卡";
         this.getproducts(index + 1).then(res => {
           this.imgList = res;
-          console.log(this.imgList);
         });
       } else {
         this.name = "现货";
         this.active = 1;
         this.getproducts(index + 1).then(res => {
           this.imgList = res;
-          console.log(this.imgList);
         });
       }
     },
