@@ -140,7 +140,6 @@ export default {
         }
       } else {
         this.getCoupon(this.staffId, this.token, 1).then(res => {
-          console.log(res);
           this.coupon1 = res;
         });
       }
@@ -156,7 +155,13 @@ export default {
       }
     }
   },
+  beforeDestroy() {
+			setTimeout(() => {
+				sessionStorage.removeItem('isAddressTop')
+			}, 1000)
+},
   beforeMount() {
+	sessionStorage.setItem('isAddressTop', true)
     if (this.$route.params.type == 0) {
       this.getCoupnsListByOrderId({
         token: this.token,

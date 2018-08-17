@@ -114,7 +114,6 @@ export default {
           let time = setInterval(() => {
             this.total--;
             this.content = this.total + "s后重新发送";
-            console.log(11);
             if (this.total == 0) {
               this.content = "重新发送验证码";
               this.total = 10;

@@ -138,14 +138,12 @@ export default {
             adIsdefault: this.radio
           });
         } catch (e) {
-          console.log(e);
         }
         this.$router.go(-1);
       }
     }
   },
   mounted() {
-    console.log(this.$route.params.id);
     document.title = "收货地址管理";
   }
 };

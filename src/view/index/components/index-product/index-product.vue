@@ -63,7 +63,6 @@ export default {
   },
   beforeMount() {
     this.getproducts(1).then(res => {
-      console.log(res);
       this.imgList = res;
     });
   },
@@ -74,14 +73,12 @@ export default {
         this.name = "礼卡";
         this.getproducts(index + 1).then(res => {
           this.imgList = res;
-          console.log(this.imgList);
         });
       } else {
         this.name = "现货";
         this.active = 1;
         this.getproducts(index + 1).then(res => {
           this.imgList = res;
-          console.log(this.imgList);
         });
       }
     },
@@ -89,11 +86,9 @@ export default {
       let from = this.$route.query.from;
       if (from == "IOS") {
         this.$bridge.callHandler("goGoodListVC", { name: this.name }, data => {
-          console.log("success");
         });
       } else if (from == "Android") {
         this.$bridge.callHandler("goGoodListVC", { name: this.name }, data => {
-          console.log("success");
         });
       } else {
         this.$router.push(`/goodsList/${this.active}`);
@@ -106,7 +101,6 @@ export default {
           "goGoodInfoVC",
           { productId: productId },
           data => {
-            console.log("success");
           }
         );
       } else if (from == "Android") {
@@ -114,7 +108,6 @@ export default {
           "goGoodInfoVC",
           { productId: productId },
           data => {
-            console.log("success");
           }
         );
       } else {

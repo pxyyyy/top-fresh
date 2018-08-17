@@ -25,7 +25,6 @@ export default {
   methods: {
     Traceability() {
       let from = this.$route.query.from;
-      console.log("from", from);
       if (from == "IOS") {
         this.$bridge.callHandler(
           "goGoodOriginVC",
@@ -33,7 +32,6 @@ export default {
             name: name
           },
           data => {
-            console.log("IOS success");
           }
         );
       } else if (from == "Android") {
@@ -43,14 +41,12 @@ export default {
             name: name
           },
           data => {
-            console.log("Android success");
           }
         );
       }
     },
     goGoodListVC(name, id) {
       let from = this.$route.query.from;
-      console.log("from", from);
       if (from == "IOS") {
         this.$bridge.callHandler(
           "goGoodListVC",
@@ -58,7 +54,6 @@ export default {
             name: name
           },
           data => {
-            console.log("IOS success");
           }
         );
       } else if (from == "Android") {
@@ -68,7 +63,6 @@ export default {
             name: name
           },
           data => {
-            console.log("Android success");
           }
         );
       } else {
@@ -76,16 +70,12 @@ export default {
       }
     },
     goPickupVC() {
-      console.log("success");
       let from = this.$route.query.from;
-      console.log("from", from);
       if (from == "IOS") {
         this.$bridge.callHandler("goPickupVC", data => {
-          console.log("IOS  success");
         });
       } else if (from == "Android") {
         this.$bridge.callHandler("goPickupVC", data => {
-          console.log("Android success");
         });
       } else {
         this.$router.push(`/pick`);
@@ -93,14 +83,11 @@ export default {
     },
     goGoodOriginVC() {
       let from = this.$route.query.from;
-      console.log("from", from);
       if (from == "IOS") {
         this.$bridge.callHandler("goGoodOriginVC", data => {
-          console.log("success");
         });
       } else if (from == "Android") {
         this.$bridge.callHandler("goGoodOriginVC", data => {
-          console.log("success");
         });
       } else {
         this.$router.push(`/pick`);

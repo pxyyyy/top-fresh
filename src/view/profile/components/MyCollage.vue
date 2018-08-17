@@ -66,7 +66,6 @@ export default {
               token:this.getCookie('token')
             }).then(res => {
               this.MyCollage = res;
-              console.log(this.MyCollage)
               if (this.MyCollage == "") {
                 this.learyShow = true;
               }

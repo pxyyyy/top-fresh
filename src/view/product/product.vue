@@ -244,7 +244,6 @@ export default {
             type: "1"
           },
           data => {
-            console.log("success");
           }
         );
       }
@@ -310,7 +309,6 @@ export default {
         staffId: this.getCookie("staffId"),
         token: this.getCookie("token")
       }).then(res => {
-        console.log(this.ueseInfo);
         this.ueseInfo = res.data;
         if (this.ueseInfo == "") {
           this.$router.push("/login");
@@ -361,7 +359,6 @@ export default {
             type: "0"
           },
           data => {
-            console.log("success");
           }
         );
       }
@@ -378,7 +375,7 @@ export default {
             productId: `${productId}`
           },
           data => {
-            console.log("success");
+            
           }
         );
       } else {

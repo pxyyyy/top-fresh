@@ -113,7 +113,6 @@ export default {
             id: id
           },
           data => {
-            console.log("IOS success");
           }
         );
       } else if (from == "Android") {
@@ -123,7 +122,6 @@ export default {
             id: id
           },
           data => {
-            console.log("Android success");
           }
         );
       } else {
@@ -139,7 +137,6 @@ export default {
             id: id
           },
           data => {
-            console.log("IOS success");
           }
         );
       } else if (from == "Android") {
@@ -149,7 +146,6 @@ export default {
             id: id
           },
           data => {
-            console.log("Android success");
           }
         );
       } else {

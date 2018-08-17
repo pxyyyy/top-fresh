@@ -176,7 +176,6 @@ export default {
             link: window.location.href
           },
           data => {
-            console.log("success");
           }
         );
       } else {

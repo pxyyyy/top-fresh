@@ -169,7 +169,7 @@
 						id: "004",
 						Url: require("../../assets/img/FeaturesList4.png"),
 						text: "电话客服",
-						phone: "400-010-5777"
+						// phone: "400-010-5777"
 					},
 					{
 						id: "005",
@@ -216,7 +216,6 @@
 				this.$router.push("/Orders");
 			},
 			secondLevel(index) {
-				console.log(index)
 				switch (index) {
 					case 0:
 						this.$router.push("/cartAddress");

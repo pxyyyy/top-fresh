@@ -131,7 +131,7 @@
                       <div class="van-card__desc cart-card__desc" v-else>现货</div>
                     </div>
                     <div class="van-card__row">
-                      <div class="cart-card__price">¥{{item.carProductPprice}}.00</div>
+                      <div class="cart-card__price">¥{{item.carProductPprice}}</div>
                     </div>
                   </div>
                   <div class="van-card__footer">
@@ -152,7 +152,7 @@
         </div>
         <div data-v-7f845944="" class="van-cell__value">
           <span data-v-7f845944="">合计：
-            <span class="cart-info__price" v-text=" '￥' + totalPrice + '.00'"></span>
+            <span class="cart-info__price" v-text=" '￥' + totalPrice"></span>
           </span>
           <van-button size="small" class="cart-info__btn" @click="goDetails">结算</van-button>
         </div>
@@ -281,7 +281,6 @@ export default {
             this.orderId = res.data.data;
             sessionStorage.money = "";
             sessionStorage.scId = "";
-            console.log(this.orderId,'orderId')
             this.$router.push(`cartDetermine/${this.orderId}`);
           }
         });

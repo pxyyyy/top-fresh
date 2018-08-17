@@ -91,11 +91,6 @@
 				d2: ""
 			};
 		},
-		watch: {
-			login: function () {
-				console.log(this.login);
-			}
-		},
 		components: {
 			SecurityCode
 		},
@@ -141,14 +136,8 @@
 					this.show = false;
 					this.timeout();
 					let dd = Encrypt(this.phone);
-					console.log(dd);
 					this.d2 = dd;
-					console.log(this.d2);
-					// 解密
-					// let ss = Decrypt(this.d2);
-					// console.log(ss);
 					this.getCode(this.d2).then(res => {
-						console.log(res);
 					});
 				}
 			},
@@ -157,7 +146,6 @@
 				this.show = false;
 				this.timeout();
 				this.getCode(this.d2).then(res => {
-					console.log(res);
 				});
 			},
 			sureStep: function () {
@@ -181,7 +169,6 @@
 						codePhone: this.d2,
 						codeValue: this.value
 					}).then(res => {
-						console.log(res.data.code);
 						if (res.code == 100000) {
 							this.setCookie("token", res.data[0].staffToken);
 							this.setCookie("staffId", res.data[0].staffId);
@@ -235,7 +222,6 @@
 			var Request = new Object();
 			Request = this.GetRequest();
 			let code = Request["code"];
-			console.log(code);
 			if (code) {
 				this.getOpenId({
 					type: 3,

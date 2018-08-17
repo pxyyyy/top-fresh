@@ -17,7 +17,7 @@
       <div class="address" @click="goAddress()">
         <van-row class="address-content">
           <van-col span="2" class="address-left">
-            <img src="../../../assets/icon/收货地址@2x.png" alt="">
+            <img src="../../../assets/icon/确认订单地址@2x.png" alt="">
           </van-col>
           <van-col span="20">
             <p class="addwrap">
@@ -193,7 +193,7 @@
     </div>
   </div>
 </template>
-<script>
+<script scopedSlots>
   import zfbpic from "../../../assets/img/zfb.png";
   import ylpic from "../../../assets/img/yl.png";
   import wxpicActive from "../../../assets/img/active_wx.png";
@@ -453,15 +453,15 @@
     }
   },
   async beforeMount() {
-    let that = this;
-    this.pushHistory();
-    window.addEventListener("popstate", function(e) {
-        if (!sessionStorage.getItem("isAddressTop")) {
-          that.$router.push("/");
-          sessionStorage.removeItem('isAddressTop')
-        }
-      }, false
-    );
+    // let that = this;
+    // this.pushHistory();
+    // window.addEventListener("popstate", function(e) {
+    //     if (!sessionStorage.getItem("isAddressTop")) {
+    //       that.$router.push("/");
+    //       sessionStorage.removeItem('isAddressTop')
+    //     }
+    //   }, false
+    // );
 
     document.title = "确认订单";
     this.GetRequest;

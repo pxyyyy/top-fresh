@@ -66,7 +66,6 @@ export default {
               productId: `${activeId.link}`
             },
             data => {
-              console.log("success");
             }
           );
         } else {
@@ -75,7 +74,6 @@ export default {
         // 活动
       } else if (activeId.type == 2) {
         if (activeId.actype == 1) {
-          console.log(activeId);
           if (from == "IOS" || from == "Android") {
             this.$bridge.callHandler(
               "goActiveInfoVC",
@@ -85,7 +83,6 @@ export default {
                 title: activeId.title
               },
               data => {
-                console.log("success");
               }
             );
           } else {
@@ -101,7 +98,6 @@ export default {
         } else if (activeId.actype == 2) {
           if (from == "IOS" || from == "Android") {
             this.$bridge.callHandler("goActiveInfoVC", data => {
-              console.log("success");
             });
           } else {
             if (this.getCookie("token")) {
@@ -122,7 +118,6 @@ export default {
                 title: activeId.title
               },
               data => {
-                console.log("success");
               }
             );
           } else {
@@ -130,7 +125,6 @@ export default {
             this.$store.commit("setcurrentActiveName", activeId.acTitle);
           }
         } else if (activeId.actype == 4) {
-          console.log(1)
           // 静态
           if (from == "IOS" || from == "Android") {
             this.$bridge.callHandler(
@@ -141,7 +135,6 @@ export default {
                 title: activeId.title
               },
               data => {
-                console.log("success");
               }
             );
           } else {
@@ -156,7 +149,6 @@ export default {
                 type: 5
               },
               data => {
-                console.log("success");
               }
             );
           } else {
@@ -173,7 +165,6 @@ export default {
               type: 5
             },
             data => {
-              console.log("success");
             }
           );
         } else {
@@ -182,8 +173,6 @@ export default {
       } else if (activeId.type == 4) {
         // 置空
       }
-      //   console.log(1);
-      //   this.$router.push(item.link);
     }
   },
   computed: {
@@ -191,8 +180,5 @@ export default {
       return this.sysbanners.length;
     }
   },
-  mounted() {
-    console.log(this.sysbanners);
-  }
 };
 </script>

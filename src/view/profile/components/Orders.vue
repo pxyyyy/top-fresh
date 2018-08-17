@@ -366,7 +366,6 @@ export default {
       this.active = this.changeActive;
     },
     gotDetails(item) {
-		console.log(item,123)
       this.$router.push(`OrderDetails/${item.orderId}`);
     },
     returnProfile() {

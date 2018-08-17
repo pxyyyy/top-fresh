@@ -92,7 +92,6 @@ export default {
   },
   beforeMount() {
 		document.title = "订单详情";
-		console.log(this.title)
   }
 };
 </script>

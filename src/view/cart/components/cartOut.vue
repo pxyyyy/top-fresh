@@ -93,7 +93,6 @@ export default {
     },
     // 获取cook
     getCookie(name) {
-      console.log(this);
       var arr,
         reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
       if ((arr = document.cookie.match(reg))) {

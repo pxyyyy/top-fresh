@@ -123,7 +123,6 @@ export default {
             type: 1
           },
           data => {
-            console.log("success");
           }
         );
       } else {

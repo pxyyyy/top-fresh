@@ -66,7 +66,7 @@ export default {
                     {
                     },
                     data => {
-                      console.log("success");
+                      
                     }
                   );
                 }else{

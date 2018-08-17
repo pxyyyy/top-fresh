@@ -60,7 +60,6 @@ export default {
         staffId: this.staffId,
         id: this.$route.params.idone
       }).then(res => {
-        console.log(res);
         this.Url = res[0];
       });
       this.$router.push(
@@ -79,7 +78,6 @@ export default {
       startUser: this.$route.params.id
     }).then(res => {
       this.teamworkId = res;
-      console.log(res);
     });
   }
 };
