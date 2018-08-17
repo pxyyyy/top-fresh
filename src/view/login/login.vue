@@ -164,8 +164,8 @@
 							this.setCookie("token", res.data[0].staffToken);
 							this.setCookie("staffId", res.data[0].staffId);
 							this.setCookie("staffWechat", res.data[0].staffWechat);
-							window.location.href = "http://shop.jiweishengxian.com"
-							// window.location.href = "http://192.168.10.158:8080"
+							// window.location.href = "http://shop.jiweishengxian.com"
+							window.location.href = "http://192.168.10.158:8080"
 						} else {
 							Toast(res.message);
 						}
