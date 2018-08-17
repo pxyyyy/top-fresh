@@ -294,6 +294,13 @@
 					return null;
 				}
 			},
+			setCookie(token, staffId) {
+				var Days = 30; //cookie 将被保存30天
+				var exp = new Date(); //获得当前时间
+				exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000); //换成毫秒
+				document.cookie =
+					token + "=" + staffId + "; expires=" + exp.toGMTString();
+			},
 			showOne() {
 				this.Mailing = true;
 			},
