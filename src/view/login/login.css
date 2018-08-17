@@ -94,11 +94,10 @@
   width: 40px;
   margin: 0 auto;
 }
-//   验证码页面样式
 .title1 {
   text-align: center;
   color: #e2bf84;
-  padding-top:3rem;
+  padding-top: 3rem;
   font-size: 1.5rem;
 }
 .subtitle {
@@ -108,9 +107,8 @@
   font-size: 0.75rem;
 }
 .security-code {
-    margin-top:30px;
-  }
-
+  margin-top: 30px;
+}
 .index-nav-bar {
   display: none;
 }
