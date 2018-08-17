@@ -37,20 +37,21 @@
 				<div class="container" :style='{"height":viewHeight}'>
 					<div class="title1">请您输入验证码</div>
 					<div class="subtitle">验证码已发送至+86 {{phone}}</div>
-					<div class="security-code-wrap">
+					<!-- <div class="security-code-wrap">
 						<label for="code">
-              <ul class="security-code-container">
-                <li class="field-wrap" v-for="(item, index) in number" :key="index">
-                  <i class="char-field">{{value[index] || placeholder}}</i>
-                </li>
-              </ul>
-            </label>
+							<ul class="security-code-container">
+								<li class="field-wrap" v-for="(item, index) in number" :key="index">
+								<i class="char-field">{{value[index] || placeholder}}</i>
+								</li>
+							</ul>
+						</label>
 						<input ref="input" class="input-code" @keyup="handleInput($event)" v-model="value" id="code" name="code" type="tel" :maxlength="number"
 						 autocorrect="off" autocomplete="off" autocapitalize="off">
-					</div>
+					</div> -->
+					<security-code class="security-code" v-model="value" theme="line" :length="6"></security-code>
 					<div class="time color" v-show="show" @click="reset">重新获取验证码</div>
 					<div class="time" v-show="!show">{{count}}秒后可重新获取</div>
-					<van-button class="sure" size="large" @click.lazy="sureStep" >确定</van-button>
+					<van-button class="sure" size="large" @click="sureStep">确定</van-button>
 				</div>
 			</div>
 		</transition>
@@ -61,6 +62,7 @@
 	import { Decrypt, Encrypt } from "@/assets/js/crypto.js";
 	import { Toast } from "vant";
 	import login from "./service/login.js";
+	import SecurityCode from './conponents/security-code'
 	export default {
 		mixins: [login],
 		name: "login",
@@ -94,10 +96,25 @@
 				console.log(this.login);
 			}
 		},
+		components: {
+			SecurityCode
+		},
 		methods: {
 			transferWeChat() {
 				window.location.href =
-					"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http%3a%2f%2fshop.jiweishengxian.com%2findex&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+					"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http%3a%2f%2fshop.jiweishengxian.com%2flogin&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+			},
+			GetRequest() {
+				var url = location.search; //获取url中"?"符后的字串
+				var theRequest = new Object();
+				if (url.indexOf("?") != -1) {
+					var str = url.substr(1);
+					var strs = str.split("&");
+					for (var i = 0; i < strs.length; i++) {
+						theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+					}
+				}
+				return theRequest;
 			},
 			shutdown() {
 				this.$router.push("/");
@@ -144,21 +161,36 @@
 				});
 			},
 			sureStep: function () {
-				alert(111111)
-				this.toLogin({
-					codePhone: this.d2,
-					codeValue: this.value
-				}).then(res => {
-					console.log(res.data.code);
-					if (res.code == 100000) {
-						this.setCookie("token", res.data[0].staffToken);
-						this.setCookie("staffId", res.data[0].staffId);
-						window.location.href = "http://shop.jiweishengxian.com"
-					} else {
-						Toast(res.message);
-					}
-				});
-
+				if (this.weChat) {
+					this.toLogin({
+						codePhone: this.d2,
+						codeValue: this.value,
+						openid: this.weChat,
+						type: 2
+					}).then(res => {
+						if (res.code == 100000) {
+							this.setCookie("token", res.data[0].staffToken);
+							this.setCookie("staffId", res.data[0].staffId);
+							this.$router.go(-1);
+						} else {
+							Toast(res.message);
+						}
+					});
+				} else {
+					this.toLogin({
+						codePhone: this.d2,
+						codeValue: this.value
+					}).then(res => {
+						console.log(res.data.code);
+						if (res.code == 100000) {
+							this.setCookie("token", res.data[0].staffToken);
+							this.setCookie("staffId", res.data[0].staffId);
+							window.location.href = "http://shop.jiweishengxian.com"
+						} else {
+							Toast(res.message);
+						}
+					});
+				}
 			},
 			timeout() {
 				const TIME_COUNT = 60;
@@ -199,8 +231,26 @@
 		},
 		beforeMount() {
 			document.title = "登陆"
-
-
+			this.GetRequest;
+			var Request = new Object();
+			Request = this.GetRequest();
+			let code = Request["code"];
+			console.log(code);
+			if (code) {
+				this.getOpenId({
+					type: 3,
+					code
+				}).then(res => {
+					this.weChat = res.data.staffWechat;
+					if (!res.data.staffId) {
+						Toast("请绑定手机号~");
+					} else {
+						this.setCookie("token", res.data.staffToken);
+						this.setCookie("staffId", res.data.staffId);
+						window.location.href = sessionStorage.link;
+					}
+				});
+			}
 		}
 	};
 </script>
