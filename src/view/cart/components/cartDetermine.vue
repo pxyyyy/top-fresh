@@ -460,7 +460,9 @@
 		},
 		destroyed() {
 			if(this.isBack){
-				this.$route.push("/")
+				console.log("页面被干掉了")
+				// this.$route.push("/")
+				window.location.href = `http://shop.jiweishengxian.com`
 			}
 		},
 		beforeMount() {
