@@ -28,6 +28,7 @@
             <p style="margin-top:5px;">
               <!-- <span>收货地址: </span> -->
               <span class="userAddress" v-if="cartList[0]">{{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
+              <span class="userAddress" v-else>请设置收件信息</span>
             </p>
           </van-col>
           <!-- <van-col span="2" class="address-right"> -->
@@ -262,6 +263,7 @@
       }
     }
   },
+
   methods: {
     GetRequest() {
       var url = location.search; //获取url中"?"符后的字串
@@ -452,7 +454,7 @@
   },
   async beforeMount() {
     let that = this;
-    this.pushHistory()
+    this.pushHistory();
     window.addEventListener("popstate", function(e) {
         if (!sessionStorage.getItem("isAddressTop")) {
           that.$router.push("/");
@@ -472,6 +474,7 @@
       }`;
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
     }
+
     // 地址、
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");

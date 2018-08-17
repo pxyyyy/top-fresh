@@ -62,7 +62,7 @@
                 <div class="item-bottom">
                   <p>
                     <span @click="cancel(order.orderId)">取消订单</span>
-                    <button @click.stop="payment(item.odOrderId)">立即付款</button>
+                    <button @click.stop="payment(order.orderId)">立即付款</button>
                   </p>
                 </div>
               </li>
@@ -137,7 +137,7 @@
                   <p v-else-if="order.orderState == 5">已取消</p> -->
                   <div v-if="order.orderState == 1">
                     <span @click="cancel(order.orderId)">取消订单</span>
-                    <button @click.stop="payment(item.odOrderId)">立即付款</button>
+                    <button @click.stop="payment(order.orderId)">立即付款</button>
                   </div>
                   <div v-if="order.orderState == 2">
                     <div class="item-bottom">
