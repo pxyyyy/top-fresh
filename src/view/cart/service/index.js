@@ -177,7 +177,17 @@ export default {
       }).catch((err) => {
         console.log(err)
       });
-    },
+	},
+	// 绑定微信
+    updateOpenId(json) {
+		return api.post(`fresh_show/staff/updateOpenId`, json)
+		  .then(res => {
+			return res.data;
+		  })
+		  .catch(function (error) {
+			console.log(error);
+		  });
+	  },
     // 订单详情
     selectOrderPrimaryKey(json) {
       return api.post('fresh_show/order/selectOrderPrimaryKey', json).then((res) => {

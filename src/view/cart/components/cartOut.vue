@@ -87,10 +87,10 @@ export default {
     pushHistory() {
       var state = {
         title: "title",
-        url: "#"
+        url: ""
       };
-      window.history.pushState(state, "title", "#");
-    },
+      window.history.pushState(state, "title", "");
+	},
     // 获取cook
     getCookie(name) {
       var arr,
