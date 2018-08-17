@@ -1,8 +1,8 @@
 /*
  * @Author: By.zhangTeng 
  * @Date: 2018-06-04 16:50:54 
- * @Last Modified by: ZT.zhangTeng
- * @Last Modified time: 2018-08-14 15:25:59
+ * @Last Modified by: tarn.tianrun
+ * @Last Modified time: 2018-08-17 13:41:58
  */
 import API from '../../../api/API.js'
 const api = new API();
@@ -31,6 +31,13 @@ export default {
           console.log(error);
         });
     },
-    
+	getOpenId(json) {
+		return api.get(`fresh_show/staffC/getOpenId`, json).then((res) => {
+			console.log(res)
+			return res.data
+		}).catch((err) => {
+			console.log(err)
+		});
+	},
   }
 }
