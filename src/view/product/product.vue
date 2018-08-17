@@ -1,3 +1,64 @@
+<style lang="less" scoped>
+@import "./product.less";
+</style>
+<style>
+.details_content {
+  padding-bottom: 50px;
+}
+.details_content img {
+  width: 100%;
+  border: 0;
+  vertical-align: middle;
+}
+
+.details .van-tabs__nav--card .van-tab.van-tab--active {
+  background: #fff !important;
+  color: #e2c083 !important;
+}
+
+.details .van-tabs__nav--card .van-tab.van-tab--active span {
+  border-bottom: 2px solid #e2c083;
+}
+
+.details .van-tabs__nav--card .van-tab {
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: black;
+}
+
+.details .van-tabs__nav--card {
+  border: none;
+  width: 90%;
+}
+
+.details .van-tabs__nav--card {
+  margin: 10px 15px;
+}
+
+.details .van-tabs--card {
+  padding-top: 45px;
+}
+
+.details .van-tabs--card .van-tabs__wrap {
+  height: 45px;
+}
+
+.details .van-tabs__nav {
+  justify-content: center;
+}
+
+.details .van-tab {
+  flex: inherit;
+  padding: 0 20px;
+}
+.swiper-wrapper img {
+  border-radius: 0;
+}
+.details .van-tabs__nav--card {
+  margin: 10px 15px !important;
+}
+</style>
 <template>
   <!-- 商品详情 页面-->
   <div :class="{top:top}">
@@ -95,7 +156,7 @@
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
       </div>
-   </div>
+    </div>
     <!-- 商品图文详情 -->
     <van-goods-action v-show="show">
       <!-- <van-goods-action-mini-btn icon="like-o" text="收藏" /> -->
@@ -105,7 +166,7 @@
       <van-goods-action-big-btn text="立即购买" primary @click="openPay(product.productId)" />
     </van-goods-action>
     <van-actionsheet v-model="show1" title="选择数量">
-      <p style="display:fixed;">
+      <p style="display:fixed">
         <span style="padding-left:1.5rem"></span>
         <van-stepper v-model="number"></van-stepper>
       </p>
@@ -168,65 +229,12 @@ export default {
       swipePic: ""
     };
   },
-  watch: {
-    number() {
-      if (this.number > 999) {
-        this.number = this.total;
-      }
+  computed: {
+    showswiper () {
+      return this.product.proImgs
     }
-  },
-  created() {
-    window.giveShareInfo = this.giveShareInfo;
-    window.closePicture = this.closePicture;
-  },
-  mounted() {
-    let from = this.$route.query.from;
-    if (from == "IOS" || from == "Android") {
-      this.show = false;
-      this.top = true;
-      this.marginBottom = "0px";
-    } else {
-      this.show = true;
-    }
-  },
-  async beforeMount() {
-    sessionStorage.link = window.location.href;
-    this.$bridge.registerHandler("giveShareInfo", (data, responseCallback) => {
-      responseCallback({
-        title: `${this.product.productName}`,
-        toProductInfo: `${this.product.productInfo}`,
-        link:window.location.href
-      });
-    });
-    this.$bridge.registerHandler("closePicture", (data, responseCallback) => {
-      this.pictureCorridor = false;
-    });
-    var id = this.$route.params.id;
-    await this.getProductInfo(id) //获取列表
-      .then(res => {
-        this.product = res;
-        this.ordersList[1].text = `评价(${this.product.productPinglunnum})`;
-        document.title = `${this.product.productName}`;
-      });
-    await this.selectevaluationlist({
-      productId: this.$route.params.id,
-      pageNum: 1,
-      pageSize: 100
-    }).then(res => {
-      this.pinglun = res;
-      for (let item in this.pinglun) {
-        this.pinglun[item].evaluationPraiseNum = parseInt(
-          this.pinglun[item].evaluationPraiseNum
-        );
-      }
-      console.log(this.pinglun);
-    });
-    this.selectProByType().then(res => {
-      this.products = res.data;
-    });
   },
   methods: {
-
     closeCorridor() {
       let from = this.$route.query.from;
       if (from == "IOS" || from == "Android") {
@@ -242,7 +250,6 @@ export default {
       }
       this.pictureCorridor = false;
     },
-
     // 获取cook
     getCookie(name) {
       var arr,
@@ -253,7 +260,6 @@ export default {
         return null;
       }
     },
-
     // 判断用户是否登录
     isToken() {
       var token = this.getCookie("token");
@@ -263,7 +269,6 @@ export default {
         return false;
       }
     },
-
     openPay(num) {
       // 个人信息{
       this.getStaffInfo({
@@ -298,7 +303,6 @@ export default {
         });
       }
     },
-
     async toCart1() {
       var id = this.$route.params.id;
       // 个人信息{
@@ -321,7 +325,6 @@ export default {
         });
       });
     },
-
     openCart(type) {
       var istoken = this.isToken();
       if (istoken) {
@@ -336,7 +339,6 @@ export default {
         });
       }
     },
-
     toCart() {
       var istoken = this.isToken();
       if (istoken) {
@@ -350,7 +352,6 @@ export default {
         });
       }
     },
-
     goEvaluation(item, index) {
       let from = this.$route.query.from;
       if (from == "IOS" || from == "Android") {
@@ -368,7 +369,6 @@ export default {
       this.picIndex = index;
       this.pictureCorridor = true;
     },
-
     toProductInfo(productId) {
       let from = this.$route.query.from;
       if (from == "IOS" || from == "Android") {
@@ -387,7 +387,6 @@ export default {
       this.$router.push(`/product/${productId}`);
       this.active = 0;
     },
-
     giveShareInfo() {
       // 标题，副标题
       Android.giveShareInfo(
@@ -395,65 +394,66 @@ export default {
         `${this.product.productInfo}`
       );
     },
-
     closePicture() {
       this.pictureCorridor = false;
     }
   },
+  watch: {
+    number() {
+      if (this.number > 99) {
+        this.number = this.total;
+      }
+    }
+  },
+  created() {
+    window.giveShareInfo = this.giveShareInfo;
+    window.closePicture = this.closePicture;
+  },
+  mounted() {
+    let from = this.$route.query.from;
+    if (from == "IOS" || from == "Android") {
+      this.show = false;
+      this.top = true;
+      this.marginBottom = "0px";
+    } else {
+      this.show = true;
+    }
+  },
+  async beforeMount() {
+    sessionStorage.link = window.location.href;
+    this.$bridge.registerHandler("giveShareInfo", (data, responseCallback) => {
+      responseCallback({
+        title: `${this.product.productName}`,
+        toProductInfo: `${this.product.productInfo}`,
+        link: window.location.href
+      });
+    });
+    this.$bridge.registerHandler("closePicture", (data, responseCallback) => {
+      this.pictureCorridor = false;
+    });
+    var id = this.$route.params.id;
+    await this.getProductInfo(id) //获取列表
+      .then(res => {
+        this.product = res;
+        this.ordersList[1].text = `评价(${this.product.productPinglunnum})`;
+        document.title = `${this.product.productName}`;
+        this.pinglunNum = this.product.productPinglunnum;
+      });
+    await this.selectevaluationlist({
+      productId: this.$route.params.id,
+      pageNum: 1,
+      pageSize: 100
+    }).then(res => {
+      this.pinglun = res;
+      for (let item in this.pinglun) {
+        this.pinglun[item].evaluationPraiseNum = parseInt(
+          this.pinglun[item].evaluationPraiseNum
+        );
+      }
+    });
+    this.selectProByType().then(res => {
+      this.products = res.data;
+    });
+  }
 };
 </script>
-<style lang="less" scoped>
-  @import "./product.less";
-</style>
-<style>
-  .details_content img {
-    width: 100%;
-    border: 0;
-    vertical-align: middle;
-  }
-
-  .details .van-tabs__nav--card .van-tab.van-tab--active {
-    background: #fff !important;
-    color: #e2c083 !important;
-  }
-
-  .details .van-tabs__nav--card .van-tab.van-tab--active span {
-    border-bottom: 2px solid #e2c083;
-  }
-
-  .details .van-tabs__nav--card .van-tab {
-    border: none;
-    font-size: 14px;
-    font-weight: 600;
-    color: black;
-  }
-
-  .details .van-tabs__nav--card {
-    border: none;
-    width: 90%;
-  }
-
-  .details .van-tabs__nav--card {
-    margin: 10px 15px;
-  }
-
-  .details .van-tabs--card {
-    padding-top: 45px;
-  }
-
-  .details .van-tabs--card .van-tabs__wrap {
-    height: 45px;
-  }
-
-  .details .van-tabs__nav {
-    justify-content: center;
-  }
-
-  .details .van-tab {
-    flex: inherit;
-    padding: 0 20px;
-  }
-  .swiper-wrapper img {
-    border-radius: 0;
-  }
-</style>

@@ -281,6 +281,7 @@ export default {
             this.orderId = res.data.data;
             sessionStorage.money = "";
             sessionStorage.scId = "";
+            console.log(this.orderId,'orderId')
             this.$router.push(`cartDetermine/${this.orderId}`);
           }
         });
