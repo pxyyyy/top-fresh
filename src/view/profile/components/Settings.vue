@@ -109,6 +109,7 @@
 				setTimeout(() => {
 					this.delCookie("token");
 					this.delCookie("staffId");
+					this.delCookie("staffWechat");
 					this.$router.push("/");
 				}, 1000);
 			}
