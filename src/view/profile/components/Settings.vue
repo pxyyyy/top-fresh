@@ -28,16 +28,12 @@
 		mixins: [coupon],
 		data() {
 			return {
-				staffPhone:"",
+				staffPhone: "",
 				FeaturesList: [
 					{
 						id: "001",
 						text: "绑定微信账号"
 					},
-					{
-						id: "002",
-						text: "绑定手机号"
-					}
 				]
 			};
 		},
@@ -65,42 +61,26 @@
 				return theRequest;
 			},
 			binding(index) {
-				if (index == 0) {
-					if (this.FeaturesList[index].text == "绑定微信账号") {
-						var link = window.location.href;
-						window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${link}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
-					} else {
-						Dialog.confirm({
-							title: "解绑微信账号",
-							message: "你确定要解绑吗？"
-						}).then(() => {
-							this.clearOpenId({
-								staffId: this.getCookie("staffId"),
-								token: this.getCookie("token"),
-								type: 2
-							}).then(res => {
-								if (res.code == 100000) {
-									Toast("解绑成功");
-									this.$router.push("/profile");
-								}
-							});
+				if (this.FeaturesList[index].text == "绑定微信账号") {
+					var link = window.location.href;
+					window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${link}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
+				} else {
+					Dialog.confirm({
+						title: "解绑微信账号",
+						message: "你确定要解绑吗？"
+					}).then(() => {
+						this.clearOpenId({
+							staffId: this.getCookie("staffId"),
+							token: this.getCookie("token"),
+							type: 2
+						}).then(res => {
+							if (res.code == 100000) {
+								Toast("解绑成功");
+								this.$router.push("/profile");
+							}
 						});
-					}
-				}else if(index==1){
-					if (this.FeaturesList[1].text == "绑定手机号") {
-						// 跳转绑定手机号页面
-						this.$router.push("/Settings/login");
-					} else {
-						Dialog.confirm({
-							title: "换绑手机号",
-							message: "你确定要换绑手机号吗？"
-						}).then(() => {
-							// 跳转绑定手机号页面，传入手机号
-							this.$router.push("/Settings/login?phone="+this.staffPhone);
-						});
-					}
+					});
 				}
-
 			},
 			last() {
 				this.$router.go(-1);
@@ -142,10 +122,6 @@
 				if (this.ueseInfo.staffWechat) {
 					this.FeaturesList[0].text = "解绑微信账号";
 				}
-				if (this.ueseInfo.staffPhone) {
-					this.staffPhone=this.ueseInfo.staffPhone
-					this.FeaturesList[1].text = "已绑定手机号： " + this.ueseInfo.staffPhone
-				}
 			});
 		},
 		mounted() {
@@ -163,7 +139,7 @@
 				}).then(res => {
 					if (res.code == 100000) {
 						Toast("绑定成功");
-						window.location.href = "http://shop.jiweishengxian.com";
+						window.location.href = "http://shop.jiweishengxian.com/profile";
 					} else {
 					}
 				});
