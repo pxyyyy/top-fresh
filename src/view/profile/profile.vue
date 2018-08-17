@@ -7,7 +7,7 @@
 	}
 
 	.van-icon__info {
-		background: #e2bf85 !important;
+		background:red !important;
 		font-size: 15px !important;
 	}
 </style>
@@ -28,7 +28,7 @@
 				<div class="posi">
 					<!--名字及电话-->
 					<van-row class="info">
-						<h3 v-if="ueseInfo.staffNickname">{{ueseInfo.staffNickname}}</h3>
+						<h3 v-if="ueseInfo.staffNickname" style="margin-top:10px;">{{ueseInfo.staffNickname}}</h3>
 						<span class="telicon"></span>
 						<strong class="tel">{{ueseInfo.staffPhone}}</strong>
 					</van-row>
@@ -259,9 +259,9 @@
 				this.informations[1].info = this.ueseInfo.faNum;
 				this.informations[2].info = this.ueseInfo.shouNum;
 				this.informations[3].info = this.ueseInfo.pingNum;
-				// if (this.ueseInfo == "") {
-				// 	this.$router.push("/login");
-				// }
+				if (this.ueseInfo == "") {
+					this.$router.push("/login");
+				}
 			});
 			this.selectMyLadingByStaffId({
 				token: this.getCookie("token"),

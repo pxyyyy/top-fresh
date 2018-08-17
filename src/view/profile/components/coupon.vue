@@ -55,7 +55,7 @@
           <!-- 个人中心进入 -->
           <van-row v-if="$route.params.type == 1" class="wrapper-content">
             <van-col span="6" class="wrapperLeft">
-              <h3>
+              <h3 style="font-size:34px;text-align: center;margin-right: 13px;">
                 <span>￥</span>{{item.coupons.couponsValue}}</h3>
             </van-col>
             <van-col span="11" class="wrapper-center" offset="1">
@@ -76,7 +76,7 @@
         <div v-if="index == 2" class="coupon-content coupon-Expired" v-for="(item,num) in coupon1" :key='num' @click="Unused">
           <van-row class="wrapper-content" style="border:1px solid #ccc;">
             <van-col span="6" class="wrapperLeft">
-              <h3 style="color:#ccc;">
+              <h3 style="color:#ccc;font-size:34px;text-align: center;margin-right: 13px;">
                 <span>￥</span>{{item.coupons.couponsValue}}</h3>
             </van-col>
             <van-col span="11" class="wrapper-center" offset="1">

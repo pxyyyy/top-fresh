@@ -22,10 +22,11 @@
 
 .van-tabs--card .van-tabs__wrap {
   background: #fff;
+  padding: 7px 0;
 }
 
 .orders .van-tabs__content {
-  margin: 0;
+  margin: 14px 0;
 }
 
 .orders .van-tabs__wrap--scrollable .van-tab {
@@ -149,7 +150,7 @@
                     <button @click="viewLogistics(order.orderCode)">查看物流</button>
                   </div>
                   <div v-if="order.orderState == 4">
-                    <button v-if="order.orderState == 4" @click='gotDetails(item)'>查看详情</button>
+                    <button v-if="order.orderState == 4" @click='gotDetails(order)'>查看详情</button>
                   </div>
                   <div v-if="order.orderState == 5">
                     <p>已取消</p>
@@ -365,7 +366,8 @@ export default {
       this.active = this.changeActive;
     },
     gotDetails(item) {
-      this.$router.push(`OrderDetails/${item.odOrderId}`);
+		console.log(item,123)
+      this.$router.push(`OrderDetails/${item.orderId}`);
     },
     returnProfile() {
       this.$router.push("/profile");
