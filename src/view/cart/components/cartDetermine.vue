@@ -456,7 +456,9 @@
 			}
 		},
 		beforeMount() {
-			this.setCookie("isLogin","0");
+			if(!this.getCookie("isLogin")){
+				this.setCookie("isLogin","0")
+			}
 			let that = this;
 			document.title = "确认订单";
 			this.GetRequest;
