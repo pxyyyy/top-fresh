@@ -333,10 +333,6 @@
 				this.MailingText = "虚拟提货券";
 			},
 			goDetails: function () {
-				var url = `http://shop.jiweishengxian.com/cartDetermine/${
-				this.$route.params.orderId
-				}`;
-				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
 				var staffWechat = this.getCookie("staffWechat")
 				if (this.cartList.length == 0) {
 					Toast("请选择收货地址");
@@ -453,12 +449,20 @@
 			}
 		},
 		beforeMount() {
+			this.setCookie("isLogin","0");
 			let that = this;
 			document.title = "确认订单";
 			this.GetRequest;
+			if(this.getCookie("isLogin") == 0){
+				var url = `http://shop.jiweishengxian.com/cartDetermine/${
+				this.$route.params.orderId
+				}`;
+				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+			}
 			var Request = new Object();
 			Request = this.GetRequest();
 			this.code = Request["code"];
+			this.setCookie("isLogin","1")
 			var staffWechat = this.getCookie("staffWechat")
 			if (this.code && !staffWechat) {
 				this.updateOpenId({
