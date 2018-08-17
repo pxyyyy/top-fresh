@@ -1,8 +1,8 @@
 /*
  * @Author: By.zhangTeng 
  * @Date: 2018-06-04 16:50:54 
- * @Last Modified by: By.zhangTeng
- * @Last Modified time: 2018-06-04 17:11:16
+ * @Last Modified by: ZT.zhangTeng
+ * @Last Modified time: 2018-08-14 15:25:59
  */
 import API from '../../../api/API.js'
 const api = new API();
@@ -31,13 +31,6 @@ export default {
           console.log(error);
         });
     },
-    // 微信登录
-    getOpenId(json) {
-      return api.post(`fresh_show/staffC/getOpenId`, json).then((res) => {
-        return res.data
-      }).catch((err) => {
-        console.log(err)
-      });
-    },
+    
   }
 }

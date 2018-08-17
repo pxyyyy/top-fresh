@@ -16,6 +16,8 @@ class API {
     })
   }
   post = function (url, params) {
+	  console.log(url)
+	  console.log(params)
     return new Promise((resolve, reject) => {
         axios({
             method: 'post',
