@@ -3,7 +3,7 @@
 </style>
 <style>
 	.van-radio .van-icon-checked {
-		color: #f77b17;
+		color: #e2bf84;
 		font-size: 15px;
 		margin-top: 3px;
 	}
@@ -81,6 +81,7 @@
 				}
 			},
 			editAddress(id) {
+				console.log(id)
 				this.$router.push({
 					name: "editAddress",
 					params: {

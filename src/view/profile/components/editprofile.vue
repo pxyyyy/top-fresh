@@ -13,8 +13,8 @@
         </van-col>
       </van-row>
       <van-row class="wrapperList border-top ">
-        <van-col span="17">昵称</van-col>
-        <van-col span="7" class="wrapperName">
+        <van-col span="14">昵称</van-col>
+        <van-col span="10" class="wrapperName">
           <input type="text " v-model="ueseInfo.staffNickname">
         </van-col>
       </van-row>
@@ -152,6 +152,10 @@ export default {
   overflow: hidden;
   text-align: center;
   input {
+	  width:100%;
+	padding-right:18%;
+	text-align:right;
+	box-sizing: border-box	
   }
 }
 </style>

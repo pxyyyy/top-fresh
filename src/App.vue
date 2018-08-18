@@ -38,7 +38,7 @@
 		border: none !important;
 	}
 	.van-radio .van-icon-checked{
-		color: #f77b17 !important;
+		color: #e2bf84 !important;
 	}
 	.van-radio .van-icon{
 		font-size: 15px !important;

@@ -40,10 +40,12 @@
             </van-radio-group>
           </p>
           <van-area :area-list="areaList" v-if="Area" class="Area" @cancel="Area=false" @confirm="determine" />
-        </div>
-        <div class="btnsave-wrapper" @click="save">
-          <van-button type="primary" class="btnsave">保存</van-button>
-        </div>
+		</div>
+		<div class="Placeholder">
+			<div class="address-footer" @click="save">
+				保存
+			</div>
+		</div>
       </div>
     </div>
   </div>

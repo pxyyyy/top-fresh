@@ -19,31 +19,31 @@
   overflow: hidden;
   padding: 6px 7px;
   position: relative;
-  p:nth-child(1) {
-    float: left;
-    margin-left: 10px;
-    line-height: 32px;
-  }
-  p:nth-child(2) {
-    height: 31px;
-    float: right;
-    line-height: 31px;
-    padding: 0 3px 0 5px;
-    color: #818181;
-    margin-right: 10px;
-    text-align: right;
-  }
-  .Cell-input {
-    width: 70%;
-    text-indent: 1rem;
-    padding: 0 5px;
-  }
-  input {
-    flex: 1;
-    color: #777;
-    text-align: right;
-    width: 80%;
-  }
+}
+.Cell p:nth-child(1) {
+  float: left;
+  margin-left: 10px;
+  line-height: 32px;
+}
+.Cell p:nth-child(2) {
+  height: 31px;
+  float: right;
+  line-height: 31px;
+  padding: 0 3px 0 5px;
+  color: #818181;
+  margin-right: 10px;
+  text-align: right;
+}
+.Cell .Cell-input {
+  width: 70%;
+  text-indent: 1rem;
+  padding: 0 5px;
+}
+.Cell input {
+  flex: 1;
+  color: #777;
+  text-align: right;
+  width: 80%;
 }
 .btnsave-wrapper {
   width: 100px;
@@ -53,10 +53,10 @@
   overflow: hidden;
   margin-top: 40px;
 }
-.Area{
+.Area {
   z-index: 2;
 }
-textarea{
+textarea {
   width: 100vw;
   height: 50px;
 }
@@ -74,15 +74,15 @@ textarea{
   top: 0;
   bottom: 0;
   background: #efeff7;
-  .editing-foot {
-    background: #fff;
-    margin-top: 10px;
-    font-size: 14px;
-    padding: 5px 5px;
-    p {
-      margin-top: 5px;
-    }
-  }
+}
+.cart_min .editing-foot {
+  background: #fff;
+  margin-top: 10px;
+  font-size: 14px;
+  padding: 5px 5px;
+}
+.cart_min .editing-foot p {
+  margin-top: 5px;
 }
 .Area {
   position: absolute;
@@ -106,19 +106,18 @@ input:-ms-input-placeholder {
   color: red;
 }
 .Placeholder {
-	background: #efeff7;
-	width: 100%;
-  }
-  .address-footer {
-	position: fixed;
-	left: 0;
-	bottom: 0;
-	background: #e2bf84;
-	color: #fff;
-	text-align: center;
-	width: 100%;
-	height: 40px;
-	line-height: 40px;
-	font-size: 16px;
-  }
-  
+  background: #efeff7;
+  width: 100%;
+}
+.address-footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: #e2bf84;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  font-size: 16px;
+}
