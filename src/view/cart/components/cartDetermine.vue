@@ -476,7 +476,7 @@
 		// 	}
 		// },
 		beforeMount() {
-			pushHistory(); 
+			this.pushHistory(); 
 			window.addEventListener("popstate", function(e) {  //回调函数中实现需要的功能
 				// alert("我监听到了浏览器的返回按钮事件啦");
 				window.location.href = `http://shop.jiweishengxian.com`
