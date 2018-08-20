@@ -68,6 +68,9 @@
 			<p>发货时间:
 				<span>{{list.orderSendtime}}</span>
 			</p>
+			<p>提货类型:
+				<span>{{list.type == 1 ? "实货" : list.type== 2 ? "礼卡" : "虚拟提货券"}}</span>
+			</p>
 			<p class="OrderDetails-bottom-button">
 				<!-- <button>查看物流</button> -->
 				<!-- <button class="button-confirm">确认收货</button> -->
