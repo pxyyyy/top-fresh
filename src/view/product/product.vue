@@ -10,7 +10,9 @@
   border: 0;
   vertical-align: middle;
 }
-
+.swiper-wrapper{
+	height: auto !important;
+}
 .details .van-tabs__nav--card .van-tab.van-tab--active {
   background: #fff !important;
   color: #e2c083 !important;
@@ -103,7 +105,7 @@
           <span style="color:#e2c083 ">—</span> {{product.productEndDate}}</span>
       </p>
     </div>
-    <div class="details" :style="{marginBottom:marginBottom}">
+    <div class="details" :style="{paddingBottom:marginBottom}">
       <van-tabs type="card" v-model="active">
         <van-tab v-for="item in ordersList" :title="item.text" :key="item.id">
           <div class="details_content" v-html="product.productImg" v-if="item.id == 1"></div>
@@ -178,6 +180,7 @@
 <script>
 import img from "../../assets/img/介绍.png";
 import { Dialog, Rate } from "vant";
+import { Toast } from "vant";
 import traceabilityVue from "../traceability/traceability.vue";
 import productInfo from "./service/product.js";
 import defaultavatar from "../../assets/img/defaultavatar.png";
@@ -191,7 +194,7 @@ export default {
       pictureCorridor: false,
       cartLictPic: require("../../assets/img/组7@2x.png"),
       valuationPic: require("../../assets/img/评价DEMO.png"),
-      marginBottom: "50px",
+      marginBottom: "100px",
       show: false,
       show1: false,
       show2: false,
@@ -283,6 +286,7 @@ export default {
       if (istoken) {
         var id = this.$route.params.id;
         this.addOrder(this.token, this.staffId, num, this.number).then(res => {
+			console.log(res)
           if (res.code == 100003) {
             Dialog.alert({
               title: "购买失败",
@@ -315,12 +319,21 @@ export default {
         }
       });
       this.addCart(this.token, this.staffId, id, this.number).then(res => {
-        Dialog.alert({
-          title: "提示",
-          message: "添加成功"
-        }).then(() => {
-          this.$router.push(`/cart?number=` + this.number); // on close
-        });
+        if(res.code==100000){
+			Dialog.alert({
+				title: "提示",
+				message: "添加成功"
+			}).then(() => {
+				this.$router.push(`/cart?number=` + this.number); // on close
+			});
+		}else{
+			Dialog.alert({
+				title: "提示",
+				message: res.message
+			}).then(() => {
+				
+			});
+		}
       });
     },
     openCart(type) {

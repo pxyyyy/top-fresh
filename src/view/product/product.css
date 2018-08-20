@@ -1,0 +1,247 @@
+img {
+  width: 100%;
+  border: 0;
+  vertical-align: middle;
+}
+.top {
+  margin-top: 0 !important;
+}
+#app {
+  background-color: #efeff7;
+  overflow: auto;
+}
+p {
+  margin: 20px 0px;
+}
+.img {
+  width: 100%;
+}
+.discript {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  padding-bottom: 1px;
+  padding-top: 1px;
+  margin-top: -10px;
+  font-size: 18px;
+  background-color: #030303;
+  text-align: left;
+  color: #fff;
+}
+.gy {
+  margin-top: 15px;
+  background-color: #fff;
+}
+.gy .list {
+  width: 100%;
+  position: relative;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  margin-left: 0 !important;
+}
+.gy .img {
+  width: 100%;
+  height: 150px;
+  border-radius: 10px;
+}
+.gy .price {
+  position: absolute !important;
+  bottom: 20px;
+  right: 20px;
+  font-size: 40px;
+  color: #e7bf79;
+}
+.gy .gg {
+  position: absolute;
+  bottom: 50px;
+  right: 20px;
+  font-size: 14px !important;
+  color: #fff;
+}
+.gy .title {
+  position: absolute !important;
+  bottom: 70px;
+  right: 20px;
+  font-size: 16px !important;
+  color: #fff;
+}
+.gy > p {
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+}
+.title {
+  margin-bottom: 5px;
+  position: static !important;
+  font-size: 20px !important;
+}
+.subtitle {
+  font-size: 12px;
+  color: #b5b5b5;
+  margin: 0px;
+}
+.price {
+  font-size: 36px;
+  color: #e7bf7a;
+  font-weight: bold;
+  position: static !important;
+}
+.old {
+  text-decoration: line-through;
+  color: #b5b5b5;
+  font-size: 14px;
+  margin-left: 20px;
+}
+.discount {
+  float: right;
+  margin-right: 20px;
+}
+.xinxi {
+  background-color: #fff;
+  text-align: left;
+  font-size: 12px;
+  color: #000;
+  padding: 1px 20px;
+}
+.type {
+  display: inline-table;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 2px;
+  background: #e7bf7a;
+  border-radius: 5px;
+}
+.xinxi p > span:last-child {
+  margin-left: 10px;
+}
+.details {
+  width: 100%;
+  margin-top: 15px;
+  background-color: #fff;
+}
+.details_title {
+  padding-top: 10px;
+  font-size: 12px;
+  color: #737373;
+  text-align: center;
+}
+img {
+  width: 100%;
+}
+.van-goods-action {
+  background-color: #1e1e1e;
+  color: #fff;
+  z-index: 2000;
+}
+.van-goods-action-mini-btn {
+  color: #fff;
+  background-color: transparent;
+}
+.van-goods-action-mini-btn::after {
+  border: none;
+}
+.van-button--bottom-action {
+  height: 35px;
+  line-height: 35px;
+  margin-top: 7.5px;
+  color: #000;
+  background-color: #fff;
+  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 1rem;
+  font-size: 12px;
+}
+.van-button--bottom-action.van-button--primary {
+  color: #fff;
+  background-color: #ebc890;
+  border-radius: 0px;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  margin-right: 7.5px;
+}
+.van-stepper {
+  float: right;
+  margin-right: 1.5rem;
+}
+.evaluation {
+  background: #efeff7;
+}
+.evaluation .userPic img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+.evaluation p {
+  margin: 0;
+  font-size: 14px;
+  color: black;
+}
+.evaluation .evaluationName {
+  margin-left: 4px;
+}
+.evaluation .date {
+  font-size: 12px;
+  color: #939393;
+  text-align: right;
+  margin-top: 20px;
+}
+.evaluation .evaluationList {
+  margin-top: 10px;
+  background: #fff;
+  padding-top: 6px;
+}
+.evaluation .evaluationText {
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden;
+  padding: 15px;
+  font-size: 14px;
+}
+.evaluation .evaluationPic {
+  padding: 15px;
+}
+.evaluation .evaluationPic img {
+  width: 110px;
+  margin-top: 5px;
+}
+.keepOn {
+  background: #fff;
+  margin-top: 10px;
+  padding: 10px 10px;
+  text-align: center;
+  font-size: 14px;
+  color: #565656;
+}
+.keepOn p {
+  margin: 5px 0;
+}
+.keepOn .img-conent img {
+  width: 100%;
+  margin: 3px 0;
+}
+.evaluationa {
+  background: #1e1e1e;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 3000;
+}
+.evaluationa .wrapper {
+  background: #1e1e1e !important;
+  height: 0;
+  padding-bottom: 100%;
+}
+.evaluationa .wrapper img {
+  width: 100%;
+}
+.evaluation-img {
+  text-align: center;
+}
+.evaluation-img img {
+  width: 50%;
+  height: 50%;
+}

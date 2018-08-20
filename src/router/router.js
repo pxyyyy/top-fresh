@@ -260,7 +260,7 @@ export const otherRouter = [{
     }
   },
   {
-    path: '/editAddress',
+    path: '/editAddress/:id',
     name: 'editAddress',
     component: resolve => {
       require(['@/view/cart/components/editAddress.vue'], resolve);
