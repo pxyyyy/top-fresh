@@ -7,8 +7,8 @@
 	}
 
 	.van-icon__info {
-		background:red !important;
-		font-size: 15px !important;
+		background:#e2bf85 !important;
+		font-size: 13px !important;
 	}
 </style>
 <template>
@@ -169,7 +169,7 @@
 						id: "004",
 						Url: require("../../assets/img/FeaturesList4.png"),
 						text: "电话客服",
-						// phone: "400-010-5777"
+						phone: "400-010-5777"
 					},
 					{
 						id: "005",
@@ -221,10 +221,10 @@
 						this.$router.push("/cartAddress");
 						break;
 					case 1:
-						this.$router.push("/LadingRoll");
+						this.$router.push("/MyCollage");
+						// this.$router.push("/LadingRoll");
 						break;
 					case 2:
-						// this.$router.push("/MyCollage");
 						window.location.href = "tel:400-010-5777";
 						break;
 					case 3:

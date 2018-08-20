@@ -70,10 +70,10 @@
             </ul>
           </van-list>
         </div>
-        <div class="coupon-content" v-if="item.id == 2">
+        <div class="coupon-content" v-if="item.id == 2" >
           <van-list v-model="loading2" :finished="finished2" @load="onLoad2">
             <ul v-for="(order,index) in orders" :key="index">
-              <li class="item" v-for="item in order.orderdetails" :key="item.odId">
+              <li class="item" v-for="item in order.orderdetails" :key="item.odId" @click="gotDetails(order.orderId)">
                 <div class="item-content">
                   <img :src="item.odProductIcon ? item.odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
                   <div class="item-info">
@@ -95,7 +95,7 @@
         <div class="coupon-content" v-if="item.id == 3">
           <van-list v-model="loading3" :finished="finished3" @load="onLoad3">
             <ul v-for="(order,index) in orders" :key="index" v-if="order.orderState=='3'">
-              <li class="item" v-for="item in order.orderdetails" :key="item.odId">
+              <li class="item" v-for="item in order.orderdetails" :key="item.odId" @click="gotDetails(order.orderId)">
                 <div class="item-content">
                   <img :src="item.odProductIcon ? item.odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
                   <div class="item-info">
@@ -110,7 +110,7 @@
                 <div class="item-bottom">
                   <p>
                     <button class="item-bottom-three">确认收货</button>
-                    <button @click="viewLogistics(order.orderCode)">查看物流</button>
+                    <button @click.stop="viewLogistics(order.orderCode)">查看物流</button>
                   </p>
                 </div>
               </li>
@@ -120,7 +120,7 @@
         <div class="coupon-content" v-if="item.id == 4">
           <van-list v-model="loading4" :finished="finished4" @load="onLoad4">
             <ul v-for="(order,index) in orders" :key="index">
-              <li class="item" v-for="item in order.orderdetails" :key="item.odId">
+              <li class="item" v-for="item in order.orderdetails" :key="index" @click="gotDetails(order.orderId)">
                 <div class="item-content">
                   <img :src="item.odProductIcon ? item.odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
                   <div class="item-info">
@@ -147,10 +147,10 @@
                   </div>
                   <div v-if="order.orderState == 3">
                     <button class="item-bottom-three">确认收货</button>
-                    <button @click="viewLogistics(order.orderCode)">查看物流</button>
+                    <button @click.stop="viewLogistics(order.orderCode)">查看物流</button>
                   </div>
                   <div v-if="order.orderState == 4">
-                    <button v-if="order.orderState == 4" @click='gotDetails(order)'>查看详情</button>
+                    <button v-if="order.orderState == 4" @click.stop='gotDetails(order.orderId)'>查看详情</button>
                   </div>
                   <div v-if="order.orderState == 5">
                     <p>已取消</p>
@@ -163,7 +163,7 @@
         <div class="coupon-content" v-if="item.id == 5">
           <van-list v-model="loading5" :finished="finished5" @load="onLoad5">
             <ul v-for="(order,index) in orders" :key="index">
-              <li class="item" v-for="item in order.orderdetails" :key="item.odId">
+              <li class="item" v-for="item in order.orderdetails" :key="item.odId" @click="gotDetails(order.orderId)">
                 <div class="item-content">
                   <img :src="item.odProductIcon ? item.odProductIcon : '../../../assets/img/Crab.png' " alt="" class="item-img">
                   <div class="item-info">
@@ -177,8 +177,8 @@
                 </div>
                 <div class="item-bottom">
                   <p>
-                    <button @click="viewLogistics(order.orderCode)">查看物流</button>
-                    <button @click="goEvaluation(item)">立即评价</button>
+                    <button @click.stop="viewLogistics(order.orderCode)">查看物流</button>
+                    <button @click.stop="goEvaluation(item)">立即评价</button>
                   </p>
                 </div>
               </li>
@@ -299,7 +299,8 @@ export default {
         .then(res => {
         this.loading1 = false;
         this.code = res.code;
-        this.orders = this.orders.concat(res.data);
+		this.orders = this.orders.concat(res.data);
+		console.log(this.orders)
         if (res.data == "") {
           this.finished1 = true;
         }
@@ -365,8 +366,8 @@ export default {
     init() {
       this.active = this.changeActive;
     },
-    gotDetails(item) {
-      this.$router.push(`OrderDetails/${item.orderId}`);
+    gotDetails(orderId) {
+      this.$router.push(`OrderDetails/${orderId}`);
     },
     returnProfile() {
       this.$router.push("/profile");
