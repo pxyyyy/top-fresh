@@ -239,7 +239,7 @@
 				jmoney: "",
 				code: "",
 				orderCode: "",
-				isBack:false,
+				isBack:true,
 			};
 		},
 		// 优惠的价格
@@ -475,28 +475,33 @@
 		// 		window.location.href = `http://shop.jiweishengxian.com`
 		// 	}
 		// },
-		beforeMount() {
+		mounted() {
 			this.pushHistory(); 
+			let that = this;
 			window.addEventListener("popstate", function(e) {  //回调函数中实现需要的功能
-				// alert("我监听到了浏览器的返回按钮事件啦");
-				window.location.href = `http://shop.jiweishengxian.com`
+				console.log(that.isBack)
+				console.log(that.isBack == false)
+				alert("我监听到了浏览器的返回按钮事件啦")
+				if(that.isBack){
+					window.location.href = `/`
+				}
+				// window.location.href = `http://shop.jiweishengxian.com`
 				// window.location.href='/';  //在这里指定其返回的地址
 			}, false);
-			let that = this;
 			document.title = "确认订单";
 			this.GetRequest;
 			var Request = new Object();
 			Request = this.GetRequest();
 			this.code = Request["code"];
-			if (!this.code) {
-				this.isBack=false
-				var url = `http://shop.jiweishengxian.com/cartDetermine/${
-					this.$route.params.orderId
-				}`;
-				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-			}else{
-				this.isBack=true
-			}
+			// if (!this.code) {
+			// 	this.isBack=false
+			// 	var url = `http://shop.jiweishengxian.com/cartDetermine/${
+			// 		this.$route.params.orderId
+			// 	}`;
+			// 	window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+			// }else{
+			// 	this.isBack=true
+			// }
 			var staffWechat = this.getCookie("staffWechat")
 			if (this.code && !staffWechat) {
 				this.updateOpenId({
@@ -518,6 +523,7 @@
 				this.cartList = res.filter((item, index, arr) => {
 					return item.adIsdefault == "1";
 				});
+				console.log(this.cartList)
 			});
 			// 订单详情
 			this.selectOrderPrimaryKey({
