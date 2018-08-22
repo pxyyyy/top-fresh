@@ -286,7 +286,6 @@ export default {
       if (istoken) {
         var id = this.$route.params.id;
         this.addOrder(this.token, this.staffId, num, this.number).then(res => {
-			console.log(res)
           if (res.code == 100003) {
             Dialog.alert({
               title: "购买失败",
@@ -331,7 +330,7 @@ export default {
 				title: "提示",
 				message: res.message
 			}).then(() => {
-				
+
 			});
 		}
       });
@@ -388,7 +387,7 @@ export default {
             productId: `${productId}`
           },
           data => {
-            
+
           }
         );
       } else {

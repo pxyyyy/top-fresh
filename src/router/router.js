@@ -22,7 +22,7 @@ export const SettingloginRouter = {
 	component: resolve => {
 	  require(['@/view/profile/components/login.vue'], resolve);
 	},
-  
+
   };
 export const appRouter = {
   path: '/',
@@ -195,6 +195,13 @@ export const otherRouter = [{
     //     require(['@/view/goodsList/goodList.vue'], resolve);
     //   }
     // }, ]
+  },
+  {
+    path: '/paymentOrder/:orderId',
+    name: 'paymentOrder',
+    component: resolve => {
+      require(['@/view/cart/components/paymentOrder.vue'], resolve);
+    }
   },
   {
     path: '/cartDetermine/:orderId',

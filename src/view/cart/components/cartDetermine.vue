@@ -22,12 +22,12 @@
 					<van-col span="20">
 						<p class="addwrap">
 							<!-- <span>收货人: </span> -->
-							<span v-if="cartList" class="adname">{{cartList[0].adName}}</span>
-							<span v-if="cartList" class="adphone">{{cartList[0].adPhone}}</span>
+							<span v-if="cartList !== null" class="adname">收货人: {{cartList[0].adName}}</span>
+							<span v-if="cartList !== null" class="adphone">{{cartList[0].adPhone}}</span>
 						</p>
 						<p style="margin-top:5px;">
 							<!-- <span>收货地址: </span> -->
-							<span class="userAddress" v-if="cartList">{{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
+							<span class="userAddress" v-if="cartList !== null">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
 							<span class="userAddress" v-else>请设置收件信息</span>
 						</p>
 					</van-col>
@@ -112,7 +112,7 @@
 							</p>
 						</div>
 					</div>
-					<div class="select">
+					<div class="selects">
 						<div class="border-top" style="padding:2px 0;">
 							<p>商品总额</p>
 							<p class="black">
@@ -120,8 +120,8 @@
 							</p>
 						</div>
 					</div>
-					<div class="select">
-						<div class="border-top" style="padding:2px 0;">
+					<div class="selects">
+						<div style="padding:2px 0;">
 							<p>代金券优惠</p>
 							<p class="black" v-if="this.offer">-￥{{this.offer}}
 							</p>
@@ -129,8 +129,8 @@
 							</p>
 						</div>
 					</div>
-					<div class="select">
-						<div class="border-top" style="padding:2px 0;">
+					<div class="selects">
+						<div style="padding:2px 0;">
 							<p>积分优惠</p>
 							<p class="black" v-if="checked">
 								-￥{{this.integral[1]}}
@@ -143,7 +143,7 @@
 				</div>
 				<!--价格详情-->
 				<div class="myInfo">
-					<div class="border-top price-content">
+					<div class="price-content">
 						<van-row class="price-bottom">
 							<van-col span="24" class="price_right">实付款
 								<strong class="money" v-if="orderAllmoney < 0">￥{{0.01}}</strong>
@@ -153,17 +153,17 @@
 					</div>
 				</div>
 				<!-- 付款方式 -->
-				<div class='payment'>
-					<p>付款方式：</p>
-					<van-row>
-						<van-col span="24">
-							<div :class="{wx: true ,wxactive: wx }" @click='wxActive'>
-								<img :src="wxPic" alt="">
-								<p>微信支付</p>
-							</div>
-						</van-col>
-					</van-row>
-				</div>
+				<!--<div class='payment'>-->
+					<!--<p>付款方式：</p>-->
+					<!--<van-row>-->
+						<!--<van-col span="24">-->
+							<!--<div :class="{wx: true ,wxactive: wx }" @click='wxActive'>-->
+								<!--<img :src="wxPic" alt="">-->
+								<!--<p>微信支付</p>-->
+							<!--</div>-->
+						<!--</van-col>-->
+					<!--</van-row>-->
+				<!--</div>-->
 			</div>
 			<!-- 支付订单 -->
 			<div class="cart-foot">
@@ -178,18 +178,18 @@
 				</p>
 			</div>
 			<!--付款方式弹出-->
-			<van-popup v-model="Payment" class="Payment">
-				<p>付款金额：
-					<span v-if="orderAllmoney < 0">
-						￥{{0.01}}
-					</span>
-					<span v-else>￥{{orderAllmoney}}</span>
-				</p>
-				<p>付款方式：
-					<span v-text="PaymentType"></span>
-				</p>
-				<van-button size="small" class="Payment-button" @click="gocartOut">去支付</van-button>
-			</van-popup>
+			<!--<van-popup v-model="Payment" class="Payment">-->
+				<!--<p>付款金额：-->
+					<!--<span v-if="orderAllmoney < 0">-->
+						<!--￥{{0.01}}-->
+					<!--</span>-->
+					<!--<span v-else>￥{{orderAllmoney}}</span>-->
+				<!--</p>-->
+				<!--<p>付款方式：-->
+					<!--<span v-text="PaymentType"></span>-->
+				<!--</p>-->
+				<!--<van-button size="small" class="Payment-button" @click="gocartOut">去支付</van-button>-->
+			<!--</van-popup>-->
 		</div>
 	</div>
 </template>
@@ -342,7 +342,7 @@
 				this.MailingText = "虚拟提货券";
 			},
 			goDetails: function () {
-				var staffWechat = this.getCookie("staffWechat")
+				var staffWechat = this.getCookie("staffWechat");
 				if (this.cartList.length == 0) {
 					Toast("请选择收货地址");
 				} else if (
@@ -350,68 +350,12 @@
 					this.datas.orderdetails[0].odPtypeId != 2
 				) {
 					Toast("请选择提货券类型");
-				} else if (!staffWechat) {
-					// Toast("未绑定微信，将进行微信绑定")
 				} else {
-					this.Payment = true;
-					if (this.MailingText == "邮寄提货券") {
-						this.orderSendlading = 1;
-					} else {
-						this.orderSendlading = 2;
-					}
-					if (this.checked) {
-						if (this.datas.orderdetails[0].odPtypeId != 2) {
-							this.updateOrderBeginPay({
-								staffId: this.getCookie("staffId"),
-								token: this.getCookie("token"),
-								orderId: this.$route.params.orderId,
-								adId: this.cartList[0].adId,
-								orderSendlading: this.orderSendlading,
-								staffCouponId: sessionStorage.getItem("scId") || "",
-								orderScore: this.integral[0],
-								orderScoremoney: this.integral[1]
-							}).then(res => {
-								this.jmoney = res.data[0];
-							});
-						} else {
-							this.updateOrderBeginPay({
-								staffId: this.getCookie("staffId"),
-								token: this.getCookie("token"),
-								orderId: this.$route.params.orderId,
-								adId: this.cartList[0].adId,
-								staffCouponId: sessionStorage.getItem("scId") || "",
-								orderScore: this.integral[0],
-								orderScoremoney: this.integral[1]
-							}).then(res => {
-								this.jmoney = res.data[0];
-							});
-						}
-					} else {
-						if (this.datas.orderdetails[0].odPtypeId != 2) {
-							this.updateOrderBeginPay({
-								staffId: this.getCookie("staffId"),
-								token: this.getCookie("token"),
-								orderId: this.$route.params.orderId,
-								orderSendlading: this.orderSendlading,
-								adId: this.cartList[0].adId,
-								staffCouponId: sessionStorage.getItem("scId") || ""
-							}).then(res => {
-								this.jmoney = res.data[0];
-							});
-						} else {
-							this.updateOrderBeginPay({
-								staffId: this.getCookie("staffId"),
-								token: this.getCookie("token"),
-								orderId: this.$route.params.orderId,
-								adId: this.cartList[0].adId,
-								staffCouponId: sessionStorage.getItem("scId") || ""
-							}).then(res => {
-								this.jmoney = res.data[0];
-							});
-						}
-					}
-				}
-			},
+          this.$router.push(`/paymentOrder/${this.orderId}`);
+
+        }
+
+      },
 			goAddress: function () {
 				this.isBack=false
 				this.$router.push({
@@ -437,35 +381,35 @@
 
 
 			// 微信支付
-			async gocartOut() {
-				var staffWechat = this.getCookie("staffWechat")
-				await this.weixinPay({
-					staffId: this.getCookie("staffId"),
-					token: this.getCookie("token"),
-					orderCode: this.orderCode,
-					jmoney: this.jmoney,
-					title: "支付订单",
-					ttt: this.code
-				}).then(res => {
-					var orderId = this.$route.params.orderId;
-					WeixinJSBridge.invoke(
-						"getBrandWCPayRequest",
-						{
-							appId: res.data.info.appId, //公众号名称，由商户传入
-							timeStamp: res.data.info.timeStamp, //时间戳，自1970年以来的秒数
-							nonceStr: res.data.info.nonceStr, //随机串
-							package: res.data.info.package,
-							signType: res.data.info.signType, //微信签名方式：
-							paySign: res.data.info.sign //微信签名
-						},
-						function (re) {
-							if (re.err_msg == "get_brand_wcpay_request:ok") {
-								window.location.href = `http://shop.jiweishengxian.com/cartOut/${orderId}`;
-							}
-						}
-					);
-				});
-			}
+			// async gocartOut() {
+				// var staffWechat = this.getCookie("staffWechat")
+				// await this.weixinPay({
+				// 	staffId: this.getCookie("staffId"),
+				// 	token: this.getCookie("token"),
+				// 	orderCode: this.orderCode,
+				// 	jmoney: this.jmoney,
+				// 	title: "支付订单",
+				// 	ttt: this.code
+				// }).then(res => {
+				// 	var orderId = this.$route.params.orderId;
+				// 	WeixinJSBridge.invoke(
+				// 		"getBrandWCPayRequest",
+				// 		{
+				// 			appId: res.data.info.appId, //公众号名称，由商户传入
+				// 			timeStamp: res.data.info.timeStamp, //时间戳，自1970年以来的秒数
+				// 			nonceStr: res.data.info.nonceStr, //随机串
+				// 			package: res.data.info.package,
+				// 			signType: res.data.info.signType, //微信签名方式：
+				// 			paySign: res.data.info.sign //微信签名
+				// 		},
+				// 		function (re) {
+				// 			if (re.err_msg == "get_brand_wcpay_request:ok") {
+				// 				window.location.href = `http://shop.jiweishengxian.com/cartOut/${orderId}`;
+				// 			}
+				// 		}
+				// 	);
+				// });
+			// }
 		},
 		// destroyed() {
 		// 	console.log(this.isBack)
@@ -476,7 +420,7 @@
 		// 	}
 		// },
 		mounted() {
-			this.pushHistory(); 
+			this.pushHistory();
 			let that = this;
 			window.addEventListener("popstate", function(e) {  //回调函数中实现需要的功能
 				console.log(that.isBack)
@@ -494,7 +438,7 @@
 			Request = this.GetRequest();
 			this.code = Request["code"];
 			// if (!this.code) {
-			// 	this.isBack=false
+			// 	this.isBack=false;
 			// 	var url = `http://shop.jiweishengxian.com/cartDetermine/${
 			// 		this.$route.params.orderId
 			// 	}`;
@@ -523,7 +467,7 @@
 				this.cartList = res.filter((item, index, arr) => {
 					return item.adIsdefault == "1";
 				});
-				console.log(this.cartList)
+				console.log(this.cartList,'cartList')
 			});
 			// 订单详情
 			this.selectOrderPrimaryKey({
@@ -531,7 +475,7 @@
 				token,
 				orderId: this.$route.params.orderId
 			}).then(res => {
-				console.log(res)
+				console.log(res,'reeeee')
 				this.datas = res;
 				this.infoList = res.orderdetails;
 				this.orderId = res.orderId;
