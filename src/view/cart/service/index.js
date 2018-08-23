@@ -14,6 +14,18 @@ export default {
           console.log(error);
         });
     },
+    // 新的确认订单
+    newAddOrder(json) {
+      return api.post('fresh_show/order/newAddOrder', json)
+        .then(res => {
+          if (res.data.code == 100000) {
+            return res.data.data;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     fetchList(staffId, token) {
       return api.get(`fresh_show/prCar/selectProCarList?staffId=${staffId}&token=${token}`).then((res) => {
         const data = res.data;

@@ -45,17 +45,14 @@
       mixins: [service],
       data() {
         return {
-          orderCode: '',
+          all: sessionStorage.getItem('all'),
           orderAllmoney: '',
           checked: false,
           Payment: false,
           code: '',
           isBack: true,
-          orderCreatetime: '',
           lastPayTime: '',
           await: ''
-
-
         }
       } ,
       computed: {
@@ -79,32 +76,19 @@
         var Request = new Object();
         Request = this.GetRequest();
         this.code = Request["code"];
-        // if (!this.code) {
-        //   this.isBack=false;
-        //   var url = `http://shop.jiweishengxian.com/paymentOrder/${
-        //     this.$route.params.orderId
-        //     }`;
-        //   window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-        // }else{
-        //   this.isBack=true
-        // }
-        const staffId = this.getCookie("staffId");
-        const token = this.getCookie("token");
-        this.selectOrderPrimaryKey({
-          staffId: staffId,
-          token: token,
-          orderId: this.$route.params.orderId
-        }).then(res => {
-          console.log(res,'res');
-          this.orderAllmoney = res.orderAllmoney;
-          // this.infoList = res.orderdetails;
-          this.orderCreatetime = res.orderCreatetime;
-          this.orderCode = res.orderCode;
-        });
-
+        if (!this.code) {
+          this.isBack=false;
+          var url = `http://shop.jiweishengxian.com/paymentOrder`;
+          window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+        }else{
+          this.isBack=true
+        }
+        this.all = JSON.parse(this.all);
+        const { orderCreatetime, orderAllmoney } = this.all;
+        this.orderAllmoney = orderAllmoney;
         setInterval(()=> {
-          let createTime = Date.parse(this.orderCreatetime) / 1000;
-          let endTime = createTime + 1800;
+          let createTime = Date.parse(orderCreatetime) / 1000;
+          let endTime = createTime + 1795;
           let clientTime = Date.parse(new Date()) / 1000;
           let lastTime = endTime - clientTime;
           let int_minute;
@@ -155,12 +139,13 @@
 
          //微信支付
         async gocartOut() {
+          const { orderAllmoney, orderCode} = this.all;
         var staffWechat = this.getCookie("staffWechat");
         await this.weixinPay({
         	staffId: this.getCookie("staffId"),
         	token: this.getCookie("token"),
-        	orderCode: this.orderCode,
-        	jmoney: this.orderAllmoney,
+        	orderCode: orderCode,
+        	jmoney: orderAllmoney,
         	title: "支付订单",
         	ttt: this.code
         }).then(res => {

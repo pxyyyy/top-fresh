@@ -63,7 +63,7 @@
                 <div class="item-bottom">
                   <p>
                     <span @click="cancel(order.orderId)">取消订单</span>
-                    <button @click.stop="payment(order.orderId)">立即付款</button>
+                    <button @click.stop="payment(order.orderId, item.odProductId)">立即付款</button>
                   </p>
                 </div>
               </li>
@@ -268,8 +268,19 @@ export default {
         return null;
       }
     },
-    payment(id) {
-      this.$router.push(`/cartDetermine/${id}`);
+    payment(id,productId) {
+      const arr = [];
+      this.orders.forEach((x) =>{
+        if(x.orderId === id) {
+         x.orderdetails.forEach(i => {
+           if(i.odProductId === productId){
+             arr.push(i)
+           }
+        })
+      }
+      });
+      sessionStorage.productArr =  JSON.stringify(arr);
+      this.$router.push(`/cartDetermine`);
     },
     onClick(index) {
       this.pageNum = 0;
@@ -300,7 +311,6 @@ export default {
         this.loading1 = false;
         this.code = res.code;
 		this.orders = this.orders.concat(res.data);
-		console.log(this.orders)
         if (res.data == "") {
           this.finished1 = true;
         }

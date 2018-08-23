@@ -165,7 +165,7 @@
       <van-goods-action-mini-btn icon="cart" text="购物车" @click="toCart" />
       <van-goods-action-mini-btn icon="chat" text="客服" v-if="this.$route.query.from == 'ios' || this.$route.query.from == 'android'" />
       <van-goods-action-big-btn text="加入购物车" @click="openCart" />
-      <van-goods-action-big-btn text="立即购买" primary @click="openPay(product.productId)" />
+      <van-goods-action-big-btn text="立即购买" primary @click="openPay()" />
     </van-goods-action>
     <van-actionsheet v-model="show1" title="选择数量">
       <p style="display:fixed">
@@ -271,7 +271,7 @@ export default {
         return false;
       }
     },
-    openPay(num) {
+    openPay() {
       // 个人信息{
       this.getStaffInfo({
         staffId: this.getCookie("staffId"),
@@ -284,18 +284,9 @@ export default {
       });
       var istoken = this.isToken();
       if (istoken) {
-        var id = this.$route.params.id;
-        this.addOrder(this.token, this.staffId, num, this.number).then(res => {
-          if (res.code == 100003) {
-            Dialog.alert({
-              title: "购买失败",
-              message: res.message
-            }).then(() => {
-            });
-          }else {
-          this.$router.push(`/cartDetermine/${res.data[0].orderId}`);
-          }
-        });
+        let productArr =  JSON.stringify([this.product]);
+        sessionStorage.productArr = productArr;
+        this.$router.push(`/cartDetermine`);
       } else {
         Dialog.alert({
           title: "提示",
