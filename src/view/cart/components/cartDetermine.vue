@@ -426,14 +426,9 @@
 			this.pushHistory();
 			let that = this;
 			window.addEventListener("popstate", function(e) {  //回调函数中实现需要的功能
-				console.log(that.isBack)
-				console.log(that.isBack == false)
-				alert("我监听到了浏览器的返回按钮事件啦")
 				if(that.isBack){
 					window.location.href = `/`
 				}
-				// window.location.href = `http://shop.jiweishengxian.com`
-				// window.location.href='/';  //在这里指定其返回的地址
 			}, false);
 			document.title = "确认订单";
 			this.GetRequest;
@@ -447,7 +442,7 @@
 			}else{
 				this.isBack=true
 			}
-			var staffWechat = this.getCookie("staffWechat");
+			var staffWechat = this.getCookie("staffWechat")
 			if (this.code && !staffWechat) {
 				this.updateOpenId({
 					staffId: this.getCookie("staffId"),
