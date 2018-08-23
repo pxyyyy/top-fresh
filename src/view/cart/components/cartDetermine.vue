@@ -22,35 +22,64 @@
 					<van-col span="20">
 						<p class="addwrap">
 							<!-- <span>收货人: </span> -->
-							<span v-if="cartList" class="adname">{{cartList[0].adName}}</span>
-							<span v-if="cartList" class="adphone">{{cartList[0].adPhone}}</span>
+							<span v-if="cartList !== null" class="adname">收货人: {{cartList.adName}}</span>
+							<span v-if="cartList !== null" class="adphone">{{cartList.adPhone}}</span>
 						</p>
 						<p style="margin-top:5px;">
 							<!-- <span>收货地址: </span> -->
-							<span class="userAddress" v-if="cartList">{{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
+							<span class="userAddress" v-if="cartList !== null">收货地址: {{cartList.adAddress}} {{cartList.adAddressInfo}}</span>
 							<span class="userAddress" v-else>请设置收件信息</span>
 						</p>
 					</van-col>
-					<!-- <van-col span="2" class="address-right"> -->
-					<!-- <img src="../../../assets/img/Arrow.png" alt=""> -->
-					<!-- </van-col> -->
 				</van-row>
 			</div>
-			<!-- 订单详情 -->
-			<div>
-				<ul v-for="item in infoList" :key="item.odProductId" v-if="infoList">
-					<li class="item">
-						<img :src="item.odProductIcon" alt="" class="item-img">
-						<div class="item-info">
-							<p class="item-title">{{item.odProductName}}</p>
-							<p class="item-desc">{{item.odProductDes}}</p>
-							<p class="item-button">
-								<strong class="money">￥{{item.odProductPprice}}</strong>
-								<span>x{{item.odProductNum}}</span>
-							</p>
-						</div>
-					</li>
-				</ul>
+			<!-- 商品详情 -->
+			<!--<div>-->
+        <div v-if="showProduct">
+          <ul v-for="item in productArr" :key="item.productId">
+              <li class="item">
+                <img :src="item.proImgs[0].imgUrl" alt="" class="item-img">
+                <div class="item-info">
+                  <p class="item-title">{{item.productName}}</p>
+                  <p class="item-desc">{{item.productInfo}}</p>
+                  <p class="item-button">
+                    <strong class="money">￥{{item.productPrice}}</strong>
+                    <span>x{{1}}</span>
+                  </p>
+                </div>
+              </li>
+          </ul>
+        </div>
+      <div v-if="buyNow">
+        <ul v-for="item in productArr" :key="item.odProductId">
+          <li class="item">
+            <img :src="item.odProductIcon" alt="" class="item-img">
+            <div class="item-info">
+              <p class="item-title">{{item.odProductName}}</p>
+              <p class="item-desc">{{item.odProductDes}}</p>
+              <p class="item-button">
+                <strong class="money">￥{{item.odProductPprice}}</strong>
+                <span>x{{item.odProductNum}}</span>
+              </p>
+            </div>
+          </li>
+        </ul>
+      </div>
+        <div v-if="car">
+          <ul v-for="item in productArr" :key="item.carProductId">
+            <li class="item">
+              <img :src="item.carProductIcon" alt="" class="item-img">
+              <div class="item-info">
+                <p class="item-title">{{item.carProductName}}</p>
+                <p class="item-desc">{{item.carProductDes}}</p>
+                <p class="item-button">
+                  <strong class="money">￥{{item.carProductPprice}}</strong>
+                  <span>x{{item.carProductNum}}</span>
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
 				<!--是否邮寄提货券弹出-->
 				<van-popup v-model="Mailing">
 					<van-row class="Mailing">
@@ -80,8 +109,7 @@
 					</van-row>
 				</van-popup>
 				<div style="padding-top:30px;background:#fff;">
-					<!-- v-if="!infoList.orderdetails[0].odPtypeId == 2" -->
-					<div class="select" @click="showOne" v-if="this.datas.orderdetails[0].odPtypeId != 2">
+					<div class="select" @click="showOne" v-if="showMail">
 						<p>是否邮寄提货券</p>
 						<p>
 							{{MailingText}}
@@ -92,7 +120,7 @@
 						<div class="border-top" style="padding:2px 0;" @click='usingaVouchers'>
 							<p>使用代金券</p>
 							<p v-if="this.offer">
-								-{{this.offer}}元
+								     -{{this.offer}}元
 								<span class="iconfont arrow-icon">&#xe66b;</span>
 							</p>
 							<p v-else>
@@ -104,7 +132,7 @@
 					<div class="Cell">
 						<div class="border-top" style="padding:2px 0;">
 							<p>
-								可用{{this.integral[0]}}积分,抵扣{{this.integral[1]}}元
+								可用{{this.integralZero}}积分,抵扣{{this.integralOne}}元
 								<span class="iconfont integral" @click="help">&#xe62a;</span>
 							</p>
 							<p class="checked">
@@ -112,16 +140,16 @@
 							</p>
 						</div>
 					</div>
-					<div class="select">
-						<div class="border-top" style="padding:2px 0;">
-							<p>商品总额</p>
-							<p class="black">
-								￥{{datas.orderAllmoney}}
-							</p>
-						</div>
-					</div>
-					<div class="select">
-						<div class="border-top" style="padding:2px 0;">
+          <div class="selects">
+            <div class="border-top" style="padding-top: 10px">
+              <p>商品总额</p>
+              <p class="black">
+                ￥{{this.allPrice}}
+              </p>
+            </div>
+          </div>
+					<div class="selects">
+						<div>
 							<p>代金券优惠</p>
 							<p class="black" v-if="this.offer">-￥{{this.offer}}
 							</p>
@@ -129,22 +157,21 @@
 							</p>
 						</div>
 					</div>
-					<div class="select">
-						<div class="border-top" style="padding:2px 0;">
+					<div class="selects">
+						<div>
 							<p>积分优惠</p>
 							<p class="black" v-if="checked">
-								-￥{{this.integral[1]}}
+								    -￥{{this.integralOne}}
 							</p>
 							<p v-else>
-								-￥0.00
+								    -￥0.00
 							</p>
 						</div>
 					</div>
 				</div>
-				<!--价格详情-->
 				<div class="myInfo">
-					<div class="border-top price-content">
-						<van-row class="price-bottom">
+					<div class="price-content">
+						<van-row>
 							<van-col span="24" class="price_right">实付款
 								<strong class="money" v-if="orderAllmoney < 0">￥{{0.01}}</strong>
 								<strong class="money" v-else>￥{{orderAllmoney}}</strong>
@@ -152,20 +179,7 @@
 						</van-row>
 					</div>
 				</div>
-				<!-- 付款方式 -->
-				<div class='payment'>
-					<p>付款方式：</p>
-					<van-row>
-						<van-col span="24">
-							<div :class="{wx: true ,wxactive: wx }" @click='wxActive'>
-								<img :src="wxPic" alt="">
-								<p>微信支付</p>
-							</div>
-						</van-col>
-					</van-row>
-				</div>
 			</div>
-			<!-- 支付订单 -->
 			<div class="cart-foot">
 				<p>付款 :
 					<span v-if="orderAllmoney < 0">
@@ -176,20 +190,6 @@
 				<p>
 					<van-button size="normal" class="btnColor" @click="goDetails()">支付订单</van-button>
 				</p>
-			</div>
-			<!--付款方式弹出-->
-			<van-popup v-model="Payment" class="Payment">
-				<p>付款金额：
-					<span v-if="orderAllmoney < 0">
-						￥{{0.01}}
-					</span>
-					<span v-else>￥{{orderAllmoney}}</span>
-				</p>
-				<p>付款方式：
-					<span v-text="PaymentType"></span>
-				</p>
-				<van-button size="small" class="Payment-button" @click="gocartOut">去支付</van-button>
-			</van-popup>
 		</div>
 	</div>
 </template>
@@ -202,11 +202,12 @@
 	import MailingTwoPic from "../../../assets/img/volume-two.png";
 	import ActiveMailingOnePic from "../../../assets/img/active-volume-one.png";
 	import ActiveMailingTwoPic from "../../../assets/img/active-volume-two.png";
+	import productInfo from "../../product/service/product.js";
 	import service from "../service/index.js";
 	import { Dialog, Toast } from "vant";
 
 	export default {
-		mixins: [service],
+		mixins: [service, productInfo],
 		data() {
 			return {
 				imageURL: FeaturesIcon5,
@@ -226,20 +227,38 @@
 				Payment: false,
 				away: false,
 				cartList: null,
-				infoList: null,
+				infoList: sessionStorage.getItem("infoList"),
 				datas: "",
 				PaymentType: "微信支付",
 				MailingText: "请选择",
 				MailingType: "",
 				offer: sessionStorage.getItem("money"),
-				integral: "",
-				userInfo: "",
-				orderSendlading: "",
-				orderId: "",
-				jmoney: "",
-				code: "",
-				orderCode: "",
+        scId: sessionStorage.getItem("scId"),
+        integralZero: "",
+        integralOne: "",
+        code: "",
 				isBack:true,
+        product: "",
+        imgUrl: "",
+        showMail: false,
+        showProduct: false,
+        buyNow: false,
+        number: '',
+        proNum: '',
+        carPrice: sessionStorage.getItem('carPrice'),
+        allPrice: null,
+        productArr: sessionStorage.getItem('productArr'),
+        staffId: this.getCookie("staffId"),
+        token: this.getCookie("token"),
+        orderSendlading: '',
+        staffCouponId: '',
+        orderScore: '',
+        orderScoremoney: '',
+        types: '',
+        carIds: '',
+        adId: '',
+        car: false,
+        allmoney: null
 			};
 		},
 		// 优惠的价格
@@ -248,18 +267,18 @@
 				if (this.checked) {
 					if (sessionStorage.getItem("money")) {
 						return (
-							this.datas.orderAllmoney -
+							this.allPrice -
 							sessionStorage.getItem("money") -
-							this.integral[1]
+							this.integralOne
 						);
 					} else {
-						return this.datas.orderAllmoney - this.integral[1];
+						return this.allPrice - this.integralOne;
 					}
 				} else {
 					if (sessionStorage.getItem("money")) {
-						return this.datas.orderAllmoney - sessionStorage.getItem("money");
+						return this.allPrice - sessionStorage.getItem("money");
 					} else {
-						return this.datas.orderAllmoney;
+						return this.allPrice;
 					}
 				}
 			}
@@ -307,15 +326,15 @@
 			},
 			usingaVouchers() {
 				this.isBack=false;
-				this.$router.push(`/coupon/${this.$route.params.orderId}/0`);
+				this.$router.push(`/coupon/${this.productId}/0`);
 			},
 			// 邮寄提货券确定点击
 			determine() {
-				if (this.MailingText == "请选择") {
-					this.MailingText = "邮件提货券";
-				}
-				this.Mailing = false;
-			},
+          if (this.MailingText == "请选择") {
+            this.MailingText = "邮件提货券";
+          }
+          this.Mailing = false;
+      },
 			// 付款图标点击
 			wxActive() {
 				this.wx = true;
@@ -342,78 +361,45 @@
 				this.MailingText = "虚拟提货券";
 			},
 			goDetails: function () {
-				var staffWechat = this.getCookie("staffWechat")
-				if (this.cartList.length == 0) {
+				var staffWechat = this.getCookie("staffWechat");
+				if (this.cartList === null) {
 					Toast("请选择收货地址");
 				} else if (
 					this.MailingText == "请选择" &&
-					this.datas.orderdetails[0].odPtypeId != 2
+					this.showMail === true
 				) {
 					Toast("请选择提货券类型");
-				} else if (!staffWechat) {
-					// Toast("未绑定微信，将进行微信绑定")
 				} else {
-					this.Payment = true;
-					if (this.MailingText == "邮寄提货券") {
-						this.orderSendlading = 1;
-					} else {
-						this.orderSendlading = 2;
-					}
-					if (this.checked) {
-						if (this.datas.orderdetails[0].odPtypeId != 2) {
-							this.updateOrderBeginPay({
-								staffId: this.getCookie("staffId"),
-								token: this.getCookie("token"),
-								orderId: this.$route.params.orderId,
-								adId: this.cartList[0].adId,
-								orderSendlading: this.orderSendlading,
-								staffCouponId: sessionStorage.getItem("scId") || "",
-								orderScore: this.integral[0],
-								orderScoremoney: this.integral[1]
-							}).then(res => {
-								this.jmoney = res.data[0];
-							});
-						} else {
-							this.updateOrderBeginPay({
-								staffId: this.getCookie("staffId"),
-								token: this.getCookie("token"),
-								orderId: this.$route.params.orderId,
-								adId: this.cartList[0].adId,
-								staffCouponId: sessionStorage.getItem("scId") || "",
-								orderScore: this.integral[0],
-								orderScoremoney: this.integral[1]
-							}).then(res => {
-								this.jmoney = res.data[0];
-							});
-						}
-					} else {
-						if (this.datas.orderdetails[0].odPtypeId != 2) {
-							this.updateOrderBeginPay({
-								staffId: this.getCookie("staffId"),
-								token: this.getCookie("token"),
-								orderId: this.$route.params.orderId,
-								orderSendlading: this.orderSendlading,
-								adId: this.cartList[0].adId,
-								staffCouponId: sessionStorage.getItem("scId") || ""
-							}).then(res => {
-								this.jmoney = res.data[0];
-							});
-						} else {
-							this.updateOrderBeginPay({
-								staffId: this.getCookie("staffId"),
-								token: this.getCookie("token"),
-								orderId: this.$route.params.orderId,
-								adId: this.cartList[0].adId,
-								staffCouponId: sessionStorage.getItem("scId") || ""
-							}).then(res => {
-								this.jmoney = res.data[0];
-							});
-						}
-					}
-				}
-			},
+				  if(this.MailingText === '邮件提货券') {
+				    this.orderSendlading = '1'
+          }
+            this.orderSendlading = '2';
+
+				  const param = {
+            proNum: this.number,
+            staffCouponId: this.scId,
+            orderScore: this.integralZero,
+            orderScoremoney: this.integralOne,
+            types: this.type,
+            productId: this.productId,
+            staffId: this.staffId,
+            token: this.token,
+            adId: this.cartList.adId,
+            carIds:this.carIds
+          };
+          this.newAddOrder(param)
+            .then(res =>{
+              sessionStorage.all = JSON.stringify(res[0]);
+              sessionStorage.removeItem('money');
+              sessionStorage.removeItem('scId');
+              this.$router.push(`/paymentOrder`);
+            });
+
+        }
+
+      },
 			goAddress: function () {
-				this.isBack=false
+				this.isBack=false;
 				this.$router.push({
 					name: "cartAddress"
 				});
@@ -434,49 +420,10 @@
 				};
 				window.history.pushState(state, state.title, state.url);
 			},
-
-
-			// 微信支付
-			async gocartOut() {
-				var staffWechat = this.getCookie("staffWechat")
-				await this.weixinPay({
-					staffId: this.getCookie("staffId"),
-					token: this.getCookie("token"),
-					orderCode: this.orderCode,
-					jmoney: this.jmoney,
-					title: "支付订单",
-					ttt: this.code
-				}).then(res => {
-					var orderId = this.$route.params.orderId;
-					WeixinJSBridge.invoke(
-						"getBrandWCPayRequest",
-						{
-							appId: res.data.info.appId, //公众号名称，由商户传入
-							timeStamp: res.data.info.timeStamp, //时间戳，自1970年以来的秒数
-							nonceStr: res.data.info.nonceStr, //随机串
-							package: res.data.info.package,
-							signType: res.data.info.signType, //微信签名方式：
-							paySign: res.data.info.sign //微信签名
-						},
-						function (re) {
-							if (re.err_msg == "get_brand_wcpay_request:ok") {
-								window.location.href = `http://shop.jiweishengxian.com/cartOut/${orderId}`;
-							}
-						}
-					);
-				});
-			}
 		},
-		// destroyed() {
-		// 	console.log(this.isBack)
-		// 	if(this.isBack){
-		// 		console.log("页面被干掉了")
-		// 		// this.$route.push("/")
-		// 		window.location.href = `http://shop.jiweishengxian.com`
-		// 	}
-		// },
+
 		mounted() {
-			this.pushHistory(); 
+			this.pushHistory();
 			let that = this;
 			window.addEventListener("popstate", function(e) {  //回调函数中实现需要的功能
 				if(that.isBack){
@@ -489,10 +436,8 @@
 			Request = this.GetRequest();
 			this.code = Request["code"];
 			if (!this.code) {
-				this.isBack=false
-				var url = `http://shop.jiweishengxian.com/cartDetermine/${
-					this.$route.params.orderId
-				}`;
+				this.isBack=false;
+				var url = `http://shop.jiweishengxian.com/cartDetermine`;
 				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
 			}else{
 				this.isBack=true
@@ -512,51 +457,104 @@
 				});
 			}
 			// 地址、
-			const staffId = this.getCookie("staffId");
-			const token = this.getCookie("token");
-			this.getAddress(staffId, token).then(res => {
-				this.cartList = res.filter((item, index, arr) => {
-					return item.adIsdefault == "1";
-				});
-				console.log(this.cartList)
-			});
-			// 订单详情
-			this.selectOrderPrimaryKey({
-				staffId,
-				token,
-				orderId: this.$route.params.orderId
-			}).then(res => {
-				console.log(res)
-				this.datas = res;
-				this.infoList = res.orderdetails;
-				this.orderId = res.orderId;
-				this.orderCode = res.orderCode;
-			});
-			// 积分
-			this.getScoreByOrderId({
-				staffId,
-				token,
-				orderId: this.$route.params.orderId
-			}).then(res => {
-				this.integral = res.data;
-			});
-			// 个人信息
+      const staffId = this.getCookie("staffId");
+      const token = this.getCookie("token");
+      this.getAddress(staffId, token)
+        .then(res => {
+          this.cartList =  res.filter((item) => {
+                 return item.adIsdefault == "1";
+            });
+          if(this.cartList !== null) {
+          this.cartList = this.cartList[0];
+          }
+        });
+
+      // 个人信息
 			this.getStaffInfo({
 				staffId: this.getCookie("staffId"),
 				token: this.getCookie("token")
 			}).then(res => {
 				this.ueseInfo = res.data;
 			});
-			// 优惠券;
-			this.getCoupnsListByOrderId({
-				token: this.getCookie("token"),
-				staffId: this.getCookie("staffId"),
-				orderId: this.$route.params.orderId
-			}).then(res => {
-				if (!res) {
-					this.offerText = "无可用代金券";
-				}
-			});
-		}
+
+
+		},
+    async beforeMount() {
+        this.productArr = JSON.parse(this.productArr);
+        var allprice = 0;
+        const number = [];
+        const carProductId = [];
+        const carIds = [];
+        this.productArr.forEach(x =>{
+          if (x.productId) {
+            this.showProduct = true;
+            if(x.productPtype !== '2') {
+              this.showMail = true
+            }
+            this.number = '1';
+            this.allmoney =  this.productArr.productPrice;
+            allprice += parseFloat(x.productPrice);
+            this.type = this.productArr[0].productPtype;
+            this.productId =  this.productArr[0].productId;
+            this.allPrice = allprice;
+          } if (x.carProductId){
+            this.car = true;
+            if(x.carPtype !== '2') {
+              this.showMail = true
+            }
+            number.push(x.carProductNum) ;
+            carProductId.push(x.carProductId);
+            carIds.push(x.carId);
+            this.allmoney = JSON.parse(this.carPrice);
+            this.allPrice = JSON.parse(this.carPrice);
+            this.type = this.productArr[0].carPtype;
+          } if (x.odProductId) {
+            this.buyNow = true;
+            if(x.odPtypeId !== '2') {
+              this.showMail = true
+            }
+            this.number = this.productArr[0].odProductNum;
+            carProductId.push(x.odProductId);
+            this.allmoney =  this.productArr[0].odProductPprice;
+            allprice += parseFloat(x.odProductPprice);
+            this.type = this.productArr[0].odPtypeId;
+            this.productId =  this.productArr[0].odProductId;
+            this.allPrice = this.number*this.allmoney ;
+          }
+        });
+            if(number.length !== 0) {
+              this.number = number.join(",")
+            }
+            if(carProductId.length !== 0) {
+              this.productId = carProductId.join(",")
+            }
+            if(carIds.length !== 0) {
+              this.carIds = carIds.join(",")
+            }
+
+      this.getCoupnsListByOrderId({
+        token: this.getCookie("token"),
+        staffId: this.getCookie("staffId"),
+        allmoney: this.allmoney
+      }).then(res => {
+        if (!res) {
+          this.offerText = "无可用代金券";
+        }
+      });
+      // 积分
+      this.getScoreByOrderId({
+        token: this.getCookie("token"),
+        staffId: this.getCookie("staffId"),
+        allmoney: this.allmoney
+      }).then(res => {
+        this.integralZero = res.data[0];
+        this.integralOne = res.data[1];
+      });
+    }
+
+
+
+
+
 	};
 </script>

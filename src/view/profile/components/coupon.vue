@@ -99,9 +99,10 @@
 </template>
 <script>
 import coupon from "../service/coupon.js";
+import productInfo from "../../product/service/product.js";
 export default {
   name: "coupon",
-  mixins: [coupon],
+  mixins: [coupon, productInfo],
   data() {
     return {
       active: 2,
@@ -117,7 +118,7 @@ export default {
       // 优惠券价格保存
       sessionStorage.money = money;
       sessionStorage.scId = scId;
-      this.$router.push(`/cartDetermine/${this.$route.params.orderId}`);
+      this.$router.push(`/cartDetermine`);
     },
     returnProfile() {
       this.$router.go(-1);
@@ -126,10 +127,11 @@ export default {
     Unused(index) {
       if (index == 0) {
         if (this.$route.params.type == 0) {
+          var allmoney = this.product.productPtype * this.product.productPrice;
           this.getCoupnsListByOrderId({
             token: this.token,
             staffId: this.staffId,
-            orderId: this.$route.params.orderId
+            allmoney: allmoney
           }).then(res => {
             this.coupon = res;
           });
@@ -160,21 +162,27 @@ export default {
 				sessionStorage.removeItem('isAddressTop')
 			}, 1000)
 },
-  beforeMount() {
-	sessionStorage.setItem('isAddressTop', true)
-    if (this.$route.params.type == 0) {
-      this.getCoupnsListByOrderId({
-        token: this.token,
-        staffId: this.staffId,
-        orderId: this.$route.params.orderId
-      }).then(res => {
-        this.coupon = res;
+  async beforeMount() {
+    var id = this.$route.params.id;
+    await this.getProductInfo(id) //获取列表
+      .then(res => {
+        this.product = res;
       });
-    } else {
-      this.getCoupon(this.staffId, this.token, 0).then(res => {
-        this.coupon = res;
-      });
+    sessionStorage.setItem('isAddressTop', true);
+      if (this.$route.params.type == 0) {
+        var allmoney = this.product.productPtype * this.product.productPrice;
+        this.getCoupnsListByOrderId({
+          token: this.token,
+          staffId: this.staffId,
+          allmoney: allmoney
+        }).then(res => {
+          this.coupon = res;
+        });
+      } else {
+        this.getCoupon(this.staffId, this.token, 0).then(res => {
+          this.coupon = res;
+        });
+      }
     }
-  }
 };
 </script>
