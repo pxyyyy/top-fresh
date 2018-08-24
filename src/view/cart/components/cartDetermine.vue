@@ -129,11 +129,7 @@
 							</p>
 						</div>
 					</div>
-          <!--<van-popup v-model="show">-->
-            <!--<van- -->
-          <!--</van-popup>-->
-
-          <div class="Cell">
+					<div class="Cell">
 						<div class="border-top" style="padding:2px 0;">
 							<p>
 								可用{{this.integralZero}}积分,抵扣{{this.integralOne}}元
@@ -332,9 +328,6 @@
 			},
 			usingaVouchers() {
 				this.isBack=false;
-				if(this.offer !== null) {
-
-        }
 				this.$router.push(`/coupon/${this.productId}/0`);
 			},
 			// 邮寄提货券确定点击
@@ -435,28 +428,23 @@
 			this.pushHistory();
 			let that = this;
 			window.addEventListener("popstate", function(e) {  //回调函数中实现需要的功能
-				console.log(that.isBack)
-				console.log(that.isBack == false)
-				alert("我监听到了浏览器的返回按钮事件啦")
-				if(that.isBack){
+                if(that.isBack){
 					window.location.href = `/`
 				}
-				// window.location.href = `http://shop.jiweishengxian.com`
-				// window.location.href='/';  //在这里指定其返回的地址
 			}, false);
 			document.title = "确认订单";
 			this.GetRequest;
 			var Request = new Object();
 			Request = this.GetRequest();
 			this.code = Request["code"];
-			// if (!this.code) {
-			// 	this.isBack=false;
-			// 	var url = `http://shop.jiweishengxian.com/cartDetermine`;
-			// 	window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-			// }else{
-			// 	this.isBack=true
-			// }
-			var staffWechat = this.getCookie("staffWechat");
+			if (!this.code) {
+				this.isBack=false;
+				var url = `http://shop.jiweishengxian.com/cartDetermine`;
+				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+			}else{
+				this.isBack=true
+			}
+			var staffWechat = this.getCookie("staffWechat")
 			if (this.code && !staffWechat) {
 				this.updateOpenId({
 					staffId: this.getCookie("staffId"),
