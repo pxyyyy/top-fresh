@@ -20,15 +20,15 @@
 						<img src="../../../assets/icon/确认订单地址@2x.png" alt="">
 					</van-col>
 					<van-col span="20">
-						<p class="addwrap">
+						<p class="addwrap"  v-if="adress">
 							<!-- <span>收货人: </span> -->
-							<span v-if="cartList !== null" class="adname">收货人: {{cartList.adName}}</span>
-							<span v-if="cartList !== null" class="adphone">{{cartList.adPhone}}</span>
+							<span class="adname">收货人: {{cartList.adName}}</span>
+							<span class="adphone">{{cartList.adPhone}}</span>
 						</p>
 						<p style="margin-top:5px;">
 							<!-- <span>收货地址: </span> -->
-							<span class="userAddress" v-if="cartList !== null">收货地址: {{cartList.adAddress}} {{cartList.adAddressInfo}}</span>
-							<span class="userAddress" v-else>请设置收件信息</span>
+							<span class="userAddress" v-if="adress">收货地址: {{cartList.adAddress}} {{cartList.adAddressInfo}}</span>
+							<span class="userAddress" v-if="showAdress">请设置收件信息</span>
 						</p>
 					</van-col>
 				</van-row>
@@ -129,7 +129,11 @@
 							</p>
 						</div>
 					</div>
-					<div class="Cell">
+          <!--<van-popup v-model="show">-->
+            <!--<van- -->
+          <!--</van-popup>-->
+
+          <div class="Cell">
 						<div class="border-top" style="padding:2px 0;">
 							<p>
 								可用{{this.integralZero}}积分,抵扣{{this.integralOne}}元
@@ -258,7 +262,9 @@
         carIds: '',
         adId: '',
         car: false,
-        allmoney: null
+        allmoney: null,
+        showAdress: false,
+        adress: false
 			};
 		},
 		// 优惠的价格
@@ -326,6 +332,9 @@
 			},
 			usingaVouchers() {
 				this.isBack=false;
+				if(this.offer !== null) {
+
+        }
 				this.$router.push(`/coupon/${this.productId}/0`);
 			},
 			// 邮寄提货券确定点击
@@ -362,7 +371,7 @@
 			},
 			goDetails: function () {
 				var staffWechat = this.getCookie("staffWechat");
-				if (this.cartList === null) {
+				if (this.cartList.length === 0) {
 					Toast("请选择收货地址");
 				} else if (
 					this.MailingText == "请选择" &&
@@ -440,13 +449,13 @@
 			var Request = new Object();
 			Request = this.GetRequest();
 			this.code = Request["code"];
-			if (!this.code) {
-				this.isBack=false;
-				var url = `http://shop.jiweishengxian.com/cartDetermine`;
-				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-			}else{
-				this.isBack=true
-			}
+			// if (!this.code) {
+			// 	this.isBack=false;
+			// 	var url = `http://shop.jiweishengxian.com/cartDetermine`;
+			// 	window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+			// }else{
+			// 	this.isBack=true
+			// }
 			var staffWechat = this.getCookie("staffWechat");
 			if (this.code && !staffWechat) {
 				this.updateOpenId({
@@ -469,9 +478,13 @@
           this.cartList =  res.filter((item) => {
                  return item.adIsdefault == "1";
             });
-          if(this.cartList !== null) {
+          if(this.cartList.length !== 0) {
           this.cartList = this.cartList[0];
+          this.adress = true;
+          }else {
+            this.showAdress = true;
           }
+          console.log(this.cartList,'cartList')
         });
 
       // 个人信息

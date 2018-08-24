@@ -55,7 +55,7 @@
 	// 地址数据
 	import address from "../address/index.js";
 	import service from "../service/index.js";
-	import { Dialog, Toast } from "vant";
+	import { Toast } from "vant";
 	export default {
 		name: "cartAddressEditinge",
 		mixins: [service],
@@ -112,21 +112,23 @@
 				}
 			},
 			 save() {
+         var myreg = /^1[3|4|5|6|7|8|9][0-9]\d{4,8}$/;
 				if (this.from.adName == "") {
-					this.checkAdName = "请输入姓名";
+          Toast( "请输入姓名");
 				}
-				if (this.from.adPhone == "") {
-					this.checkAdPhone = "请输入电话";
+				if (!myreg.test(this.from.adPhone)) {
+          Toast("请输入真实号码");
+					return
 				}
-				if (this.from.area == "") {
-					this.placeholderArea = "请选择地区";
-				}
-				if (this.from.adAddressInfo == "") {
-					this.checkadAddressInfo = "请输入街道和门牌信息";
-				}
+        if (this.from.area == "") {
+         Toast("请选择地区") ;
+        }
+        if (this.from.adAddressInfo == "") {
+         Toast("请输入街道和门牌信息");
+        }
 				if (
 					this.from.adName != "" &&
-					this.from.adPhone != "" &&
+					!myreg.test(this.from.adPhone) === false &&
 					this.from.area != "" &&
 					this.from.adAddressInfo != ""
 				) {
@@ -142,11 +144,9 @@
 							adAddressInfo: this.from.adAddressInfo,
 							adIsdefault: this.radio
 					}).then(res => {
-						console.log(res)
-						Toast('地址修改完成')
-						
-					})
-					// this.$router.go(-1);
+						Toast('地址修改完成');
+            this.$router.go(-1);
+          })
 				}
 			}
 		},
