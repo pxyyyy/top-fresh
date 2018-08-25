@@ -48,7 +48,7 @@
         <button @click="participate" v-text="riend"></button>
       </p>
       <p class="collage-success-info-bottom">
-        <span :class="{spanActive1:isspan1}">邀请好友参团 </span> > <span :class="{spanActive2:isspan2}">拼团成功分别发货</span> > <span>人数不足自动退款</span></p>
+        <span :class="{spanActive1:isspan1}">邀请好友参团 </span> <span :class="{spanActive2:isspan2}">拼团成功分别发货</span> > <span>人数不足自动退款</span></p>
     </div>
     <div class="xinxi" v-if="infoProduct">
       <p>

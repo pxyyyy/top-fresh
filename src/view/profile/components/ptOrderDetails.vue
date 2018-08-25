@@ -52,6 +52,9 @@
 			<p>付款时间:
 				<span>{{product.payTime}}</span>
 			</p>
+      <p>提货类型:
+        <span>虚拟提货券</span>
+      </p>
 		</div>
 	</div>
 </template>
@@ -64,7 +67,8 @@ export default {
   data() {
     return {
 			list: "",
-			result: ''
+			result: '',
+      productPtype: []
     };
 	},
 	computed: {
@@ -90,8 +94,13 @@ export default {
       this.$router.go(-1);
     }
   },
-  beforeMount() {
+  async beforeMount() {
 		document.title = "订单详情";
+		var param = this.product.productId;
+    this.getProductInfo(param)
+      .then(res => {
+      this.productPtype = res.data.productPtype;
+    });
   }
 };
 </script>

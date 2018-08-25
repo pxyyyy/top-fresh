@@ -95,7 +95,9 @@
 							<p>至你提供的地址</p>
 							<p>可通过实体卡上的密码</p>
 							<p>进行提货操作</p>
-							<p class="active_volume" v-if="MailingActiveOne"><img src="../../../assets/img/active-volume.png" alt=""></p>
+							<p class="active_volume" v-if="MailingActiveOne">
+                <img src="../../../assets/img/active-volume.png" alt="">
+              </p>
 						</div>
 						<div :class="{Mailing_right:true, MailingActive:MailingActiveTwo}" @click="MailingTwo()">
 							<p>
@@ -106,7 +108,9 @@
 							<p>至你提供的地址</p>
 							<p>可通过实体卡上的密码</p>
 							<p>进行提货操作</p>
-							<p class="active_volume" v-if="MailingActiveTwo"><img src="../../../assets/img/active-volume.png" alt=""></p>
+							<p class="active_volume" v-if="MailingActiveTwo">
+                <img src="../../../assets/img/active-volume.png" alt="">
+              </p>
 						</div>
 						<van-button size="large" class="Mailing_button" @click="determine">确定</van-button>
 					</van-row>
@@ -517,7 +521,7 @@
               this.showMail = true
             }
             this.number = '1';
-            this.allmoney =  this.productArr.productPrice;
+            this.allmoney =  this.productArr[0].productPrice;
             allprice += parseFloat(x.productPrice);
             this.type = this.productArr[0].productPtype;
             this.productId =  this.productArr[0].productId;

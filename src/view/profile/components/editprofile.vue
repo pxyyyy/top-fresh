@@ -149,13 +149,13 @@ export default {
   opacity: 0;
 }
 .wrapperName {
-  overflow: hidden;
+  /*overflow: hidden;*/
   text-align: center;
   input {
 	  width:100%;
 	padding-right:18%;
 	text-align:right;
-	box-sizing: border-box	
+	box-sizing: border-box
   }
 }
 </style>

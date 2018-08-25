@@ -13,9 +13,9 @@ axios.interceptors.response.use(response => {
   if(response.data.code === '100003') {
     return Promise.reject(response.data)
   }
-  // if(response.data.code === '100002') {
-  //   return Promise.reject(response.data)
-  // }
+  if(response.data.code === '100002') {
+    return Promise.resolve(response.data)
+  }
     return Promise.resolve(response)
 
 }, error => {
@@ -44,6 +44,8 @@ class API {
 		} else {
 			resolve(res)
 		}
+      }) .catch(res => {
+        Toast(res.message)
       })
     })
   };
