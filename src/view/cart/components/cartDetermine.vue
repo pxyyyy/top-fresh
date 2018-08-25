@@ -9,6 +9,9 @@
 		z-index: 1;
 		margin-top: 0;
 	}
+  .van-dialog__confirm, .van-dialog__confirm:active {
+    color:#e2bf85
+  }
 </style>
 <template>
 	<div>
@@ -327,8 +330,23 @@
 				this.Mailing = true;
 			},
 			usingaVouchers() {
-				this.isBack=false;
-				this.$router.push(`/coupon/${this.productId}/0`);
+			  if(this.offer !== null) {
+          Dialog.confirm({
+            title: '是否重新选择优惠券',
+            confirmButtonText:'重新选择',
+            cancelButtonText: '取消选择'
+          }).then(() => {
+            this.isBack=false;
+            this.$router.push(`/coupon/${this.productId}/0`);
+          }).catch(() =>{
+            this.offer = null;
+          })
+        }else {
+          this.isBack=false;
+          this.$router.push(`/coupon/${this.productId}/0`);
+        }
+
+
 			},
 			// 邮寄提货券确定点击
 			determine() {
@@ -437,13 +455,13 @@
 			var Request = new Object();
 			Request = this.GetRequest();
 			this.code = Request["code"];
-			if (!this.code) {
-				this.isBack=false;
-				var url = `http://shop.jiweishengxian.com/cartDetermine`;
-				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-			}else{
-				this.isBack=true
-			}
+			// if (!this.code) {
+			// 	this.isBack=false;
+			// 	var url = `http://shop.jiweishengxian.com/cartDetermine`;
+			// 	window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+			// }else{
+			// 	this.isBack=true
+			// }
 			var staffWechat = this.getCookie("staffWechat")
 			if (this.code && !staffWechat) {
 				this.updateOpenId({
@@ -472,6 +490,7 @@
           }else {
             this.showAdress = true;
           }
+
           console.log(this.cartList,'cartList')
         });
 
