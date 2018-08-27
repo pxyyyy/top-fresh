@@ -51,8 +51,8 @@ export default {
         token: this.getCookie("token"),
         feedbackStaffid: this.getCookie("staffId"),
         feedbackContent: this.text,
-        feedbackPhone: this.$route.params.phonem,
         feedbackBeizhu: this.mailbox
+
       }).then(res => {
         if (res.code == 100000) {
           Dialog.confirm({
@@ -66,7 +66,7 @@ export default {
                     {
                     },
                     data => {
-                      
+
                     }
                   );
                 }else{

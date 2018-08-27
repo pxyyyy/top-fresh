@@ -9,6 +9,9 @@
 		z-index: 1;
 		margin-top: 0;
 	}
+  .van-dialog__confirm, .van-dialog__confirm:active {
+    color:#e2bf85
+  }
 </style>
 <template>
 	<div>
@@ -20,15 +23,15 @@
 						<img src="../../../assets/icon/确认订单地址@2x.png" alt="">
 					</van-col>
 					<van-col span="20">
-						<p class="addwrap">
+						<p class="addwrap"  v-if="adress">
 							<!-- <span>收货人: </span> -->
-							<span v-if="cartList !== null" class="adname">收货人: {{cartList.adName}}</span>
-							<span v-if="cartList !== null" class="adphone">{{cartList.adPhone}}</span>
+							<span class="adname">收货人: {{cartList.adName}}</span>
+							<span class="adphone">{{cartList.adPhone}}</span>
 						</p>
 						<p style="margin-top:5px;">
 							<!-- <span>收货地址: </span> -->
-							<span class="userAddress" v-if="cartList !== null">收货地址: {{cartList.adAddress}} {{cartList.adAddressInfo}}</span>
-							<span class="userAddress" v-else>请设置收件信息</span>
+							<span class="userAddress" v-if="adress">收货地址: {{cartList.adAddress}} {{cartList.adAddressInfo}}</span>
+							<span class="userAddress" v-if="showAdress">请设置收件信息</span>
 						</p>
 					</van-col>
 				</van-row>
@@ -92,7 +95,9 @@
 							<p>至你提供的地址</p>
 							<p>可通过实体卡上的密码</p>
 							<p>进行提货操作</p>
-							<p class="active_volume" v-if="MailingActiveOne"><img src="../../../assets/img/active-volume.png" alt=""></p>
+							<p class="active_volume" v-if="MailingActiveOne">
+                <img src="../../../assets/img/active-volume.png" alt="">
+              </p>
 						</div>
 						<div :class="{Mailing_right:true, MailingActive:MailingActiveTwo}" @click="MailingTwo()">
 							<p>
@@ -103,7 +108,9 @@
 							<p>至你提供的地址</p>
 							<p>可通过实体卡上的密码</p>
 							<p>进行提货操作</p>
-							<p class="active_volume" v-if="MailingActiveTwo"><img src="../../../assets/img/active-volume.png" alt=""></p>
+							<p class="active_volume" v-if="MailingActiveTwo">
+                <img src="../../../assets/img/active-volume.png" alt="">
+              </p>
 						</div>
 						<van-button size="large" class="Mailing_button" @click="determine">确定</van-button>
 					</van-row>
@@ -258,7 +265,9 @@
         carIds: '',
         adId: '',
         car: false,
-        allmoney: null
+        allmoney: null,
+        showAdress: false,
+        adress: false
 			};
 		},
 		// 优惠的价格
@@ -325,8 +334,23 @@
 				this.Mailing = true;
 			},
 			usingaVouchers() {
-				this.isBack=false;
-				this.$router.push(`/coupon/${this.productId}/0`);
+			  if(this.offer !== null) {
+          Dialog.confirm({
+            title: '是否重新选择优惠券',
+            confirmButtonText:'重新选择',
+            cancelButtonText: '取消选择'
+          }).then(() => {
+            this.isBack=false;
+            this.$router.push(`/coupon/${this.productId}/0`);
+          }).catch(() =>{
+            this.offer = null;
+          })
+        }else {
+          this.isBack=false;
+          this.$router.push(`/coupon/${this.productId}/0`);
+        }
+
+
 			},
 			// 邮寄提货券确定点击
 			determine() {
@@ -362,7 +386,7 @@
 			},
 			goDetails: function () {
 				var staffWechat = this.getCookie("staffWechat");
-				if (this.cartList === null) {
+				if (this.cartList.length === 0) {
 					Toast("请选择收货地址");
 				} else if (
 					this.MailingText == "请选择" &&
@@ -426,7 +450,7 @@
 			this.pushHistory();
 			let that = this;
 			window.addEventListener("popstate", function(e) {  //回调函数中实现需要的功能
-				if(that.isBack){
+                if(that.isBack){
 					window.location.href = `/`
 				}
 			}, false);
@@ -435,13 +459,13 @@
 			var Request = new Object();
 			Request = this.GetRequest();
 			this.code = Request["code"];
-			if (!this.code) {
-				this.isBack=false;
-				var url = `http://shop.jiweishengxian.com/cartDetermine`;
-				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-			}else{
-				this.isBack=true
-			}
+			// if (!this.code) {
+			// 	this.isBack=false;
+			// 	var url = `http://shop.jiweishengxian.com/cartDetermine`;
+			// 	window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+			// }else{
+			// 	this.isBack=true
+			// }
 			var staffWechat = this.getCookie("staffWechat")
 			if (this.code && !staffWechat) {
 				this.updateOpenId({
@@ -464,9 +488,14 @@
           this.cartList =  res.filter((item) => {
                  return item.adIsdefault == "1";
             });
-          if(this.cartList !== null) {
+          if(this.cartList.length !== 0) {
           this.cartList = this.cartList[0];
+          this.adress = true;
+          }else {
+            this.showAdress = true;
           }
+
+          console.log(this.cartList,'cartList')
         });
 
       // 个人信息
@@ -492,7 +521,7 @@
               this.showMail = true
             }
             this.number = '1';
-            this.allmoney =  this.productArr.productPrice;
+            this.allmoney =  this.productArr[0].productPrice;
             allprice += parseFloat(x.productPrice);
             this.type = this.productArr[0].productPtype;
             this.productId =  this.productArr[0].productId;

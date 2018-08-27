@@ -242,7 +242,7 @@
 				this.$router.push(`/LadingRoll`);
 			}
 		},
-		beforeMount() {
+		mounted() {
 			sessionStorage.link = window.location.href;
 			document.title = "个人";
 			this.selectProByType().then(res => {
@@ -270,15 +270,6 @@
 				pageSize: 7
 			}).then(res => {
 				this.myLadingNum = res.data.length;
-			});
-			this.selectMyLadingByStaffId({
-				token: this.getCookie("token"),
-				staffId: this.getCookie("staffId"),
-				state: "3",
-				pageNum: this.pageNum,
-				pageSize: 7
-			}).then(res => {
-				this.myLadingNum += res.data.length;
 			});
 		}
 	};

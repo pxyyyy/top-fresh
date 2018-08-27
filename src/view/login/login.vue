@@ -210,7 +210,7 @@
 			}
 		},
 		beforeMount() {
-			document.title = "登陆"
+			document.title = "登陆";
 			this.GetRequest;
 			var Request = new Object();
 			Request = this.GetRequest();

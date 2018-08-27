@@ -8,6 +8,7 @@
   vertical-align: middle;
 }
 </style>
+
 <template>
   <!-- 商品详情 页面-->
   <div>
@@ -48,7 +49,7 @@
         <button @click="participate" v-text="riend"></button>
       </p>
       <p class="collage-success-info-bottom">
-        <span :class="{spanActive1:isspan1}">邀请好友参团 </span> > <span :class="{spanActive2:isspan2}">拼团成功分别发货</span> > <span>人数不足自动退款</span></p>
+        <span :class="{spanActive1:isspan1}">邀请好友参团 </span> <span :class="{spanActive2:isspan2}">拼团成功分别发货</span> > <span>人数不足自动退款</span></p>
     </div>
     <div class="xinxi" v-if="infoProduct">
       <p>
@@ -91,6 +92,7 @@
     </div>
   </div>
 </template>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script>
 import img from "../../assets/img/介绍.png";
 import traceabilityVue from "../traceability/traceability.vue";
@@ -129,6 +131,55 @@ export default {
   methods: {
     shareItClick() {
       this.showshareIt = false;
+      $(function() {
+        var timestamp = $("#timestamp").val();//时间戳
+        var nonceStr = $("#noncestr").val();//随机串
+        var signature = $("#signature").val();//签名
+        wx.config({
+          debug : false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          appId : 'wx365ff8d24bc6fd9f', // 必填，公众号的唯一标识
+          timestamp : timestamp, // 必填，生成签名的时间戳
+          nonceStr : nonceStr, // 必填，生成签名的随机串
+          signature : signature,// 必填，签名，见附录1
+          jsApiList : [ 'scanQRCode','onMenuShareAppMessage','onMenuShareTimeline' ]
+          // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
+
+        wx.ready(function(){
+          // wx.hideOptionMenu();
+          wx.onMenuShareTimeline({
+            title: this.infoProduct.productName,
+            link: `http://192.168.10.119:8080/collageShare/${this.$route.params.id}/${this.$route.params.startUser}`,
+            imgUrl: this.infoProduct.proImgs[0].imgUrl,
+            success: function () {
+              // 用户确认分享后执行的回调函数
+              alert('分享到朋友圈成功');
+            },
+            cancel: function () {
+              // 用户取消分享后执行的回调函数
+              alert('你没有分享到朋友圈');
+            }
+          });
+          wx.onMenuShareAppMessage({
+            title: this.infoProduct.productName,
+            desc: this.infoProduct.productInfo,
+            link:  `http://192.168.10.119:8080/collageShare/${this.$route.params.id}/${this.$route.params.startUser}`,
+            imgUrl: this.infoProduct.proImgs[0].imgUrl,
+            trigger: function (res) {
+              // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+            },
+            success: function (res) {
+              alert('分享给朋友成功');
+            },
+            cancel: function (res) {
+              alert('你没有分享给朋友');
+            },
+            fail: function (res) {
+              alert(JSON.stringify(res));
+            }
+          });
+        });
+      });
     },
     giveShareInfo() {
       Android.giveShareInfo(

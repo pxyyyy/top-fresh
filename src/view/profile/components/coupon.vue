@@ -35,19 +35,20 @@
           <van-row class="wrapper-content" v-if="$route.params.type == 0">
             <div @click='useaCoupon(item.coupons.couponsValue,item.scId)'>
               <van-col span="6" class="wrapperLeft">
-                <h3>
+                <h3 class="h3">
                   <span>￥</span>{{item.coupons.couponsValue}}</h3>
               </van-col>
               <van-col span="11" class="wrapper-center" offset="1">
                 <p>{{item.coupons.couponsName}}</p>
-                <p>{{item.coupons.couponsStartTime}} - {{item.coupons.createtime}}</p>
-                <p class="weight">{{item.couponsType}}</p>
+                <p>{{item.coupons.couponsStartTime}} - {{item.coupons.couponsEndTime}}</p>
+                <p class="weight">{{item.coupons.couponsName}}</p>
               </van-col>
               <van-col span="6" class="wrapper-right">
                 <div class="wrapper-right-icon">
-                  <img src="../../../assets/img/myCoupon.png" alt="">
+                  <img src="../../../assets/img/虚拟提货券灰.png" alt="">
                 </div>
                 <div class="wrapper-right-button">
+                  已领取
                 </div>
               </van-col>
             </div>
@@ -76,12 +77,12 @@
         <div v-if="index == 2" class="coupon-content coupon-Expired" v-for="(item,num) in coupon1" :key='num' @click="Unused">
           <van-row class="wrapper-content" style="border:1px solid #ccc;">
             <van-col span="6" class="wrapperLeft">
-              <h3 style="color:#ccc;font-size:34px;text-align: center;margin-right: 13px;">
+              <h3 style="color:#ccc;font-size:18px;text-align: center;">
                 <span>￥</span>{{item.coupons.couponsValue}}</h3>
             </van-col>
             <van-col span="11" class="wrapper-center" offset="1">
               <p>{{item.coupons.couponsName}}</p>
-              <p>{{item.coupons.couponsStartTime}} - {{item.coupons.createtime}}</p>
+              <p>{{item.coupons.couponsStartTime}} - {{item.coupons.couponsEndTime}}</p>
               <p class="weight">{{item.couponsType}}</p>
             </van-col>
             <van-col span="6" class="wrapper-right">
@@ -89,6 +90,7 @@
                 <img src="../../../assets/img/myCouponUnused.png" alt="">
               </div>
               <div class="wrapper-right-button">
+                已过期
               </div>
             </van-col>
           </van-row>
@@ -163,6 +165,7 @@ export default {
 			}, 1000)
 },
   async beforeMount() {
+    document.title = "我的代金券";
     var id = this.$route.params.id;
     await this.getProductInfo(id) //获取列表
       .then(res => {

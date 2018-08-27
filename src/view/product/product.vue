@@ -69,6 +69,11 @@
         <img v-lazy="image.imgUrl" class="img">
       </swiper-slide>
     </swiper>
+    <div v-else>
+      <div class="Crop">
+        <img src="../../assets/img/loading.png" class="img">
+      </div>
+    </div>
     <div class="discript">
       <p class="title">{{product.productName}}</p>
       <p class="subtitle">{{product.productInfo}}</p>
@@ -366,6 +371,7 @@ export default {
         );
       }
       this.swipePic = item;
+      console.log(this.swipePic,'swipePic')
       this.picIndex = index;
       this.pictureCorridor = true;
     },
