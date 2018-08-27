@@ -257,7 +257,8 @@
 				this.show = true;
 				if (!code) {
 					var url = window.location.href;
-					window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collageShare/2018082515385111/1182&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+					var id = this.$route.params.id, stid = this.$route.params.startUser
+					window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collageShare/${id}/${stid}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
 				}
 			}
 
