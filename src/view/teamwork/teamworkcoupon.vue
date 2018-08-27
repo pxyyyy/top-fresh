@@ -23,7 +23,7 @@
 
 .coupon .van-tab {
   border: none !important;
-  padding: 0 55px !important;
+  padding: 0 40px !important;
 }
 </style>
 <template>

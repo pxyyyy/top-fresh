@@ -18,12 +18,12 @@
 .coupon .van-tabs__nav--card {
   border: none !important;
   border-bottom: 1px solid #ccc !important;
-  margin: 0 20px;
+  margin: 0;
 }
 
 .coupon .van-tab {
   border: none !important;
-  padding: 0 20px !important;
+  padding: 0 40px !important;
 }
 </style>
 <template>
@@ -35,7 +35,7 @@
           <van-row class="wrapper-content" v-if="$route.params.type == 0">
             <div @click='useaCoupon(item.coupons.couponsValue,item.scId)'>
               <van-col span="6" class="wrapperLeft">
-                <h3 style="font-size:34px;text-align: center;margin-right: 13px">
+                <h3 style="font-size:32px;text-align: center;margin-right: 13px">
                   <span>￥</span>{{item.coupons.couponsValue}}</h3>
               </van-col>
               <van-col span="11" class="wrapper-center" offset="1">
@@ -59,7 +59,7 @@
           <!-- 个人中心进入 -->
           <van-row v-if="$route.params.type == 1" class="wrapper-content">
             <van-col span="6" class="wrapperLeft">
-              <h3 style="font-size:34px;text-align: center;margin-right: 13px;">
+              <h3 style="font-size:32px;text-align: center;margin-right: 13px;">
                 <span>￥</span>{{item.coupons.couponsValue}}</h3>
             </van-col>
             <van-col span="11" class="wrapper-centers" offset="1">
@@ -83,7 +83,7 @@
         <div v-if="index == 2" class="coupon-content coupon-Expired" v-for="(item,num) in coupon1" :key='num' @click="Unused">
           <van-row class="wrapper-content" style="border:1px solid #ccc;">
             <van-col span="6" class="wrapperLeft">
-              <h3 style="font-size:34px;text-align: center;margin-right: 13px;color:#ccc;">
+              <h3 style="font-size:32px;text-align: center;margin-right: 13px;color:#ccc;">
                 <span>￥</span>{{item.coupons.couponsValue}}</h3>
             </van-col>
             <van-col span="11" class="wrapper-center" offset="1">
