@@ -20,7 +20,7 @@
 				<div class="Cell border-top">
 					<p>所在地区</p>
 					<p class="Cell-input" @click="showArea">
-						<input type="text" :placeholder="placeholderArea" v-model="from.area" disabled style="background: none">
+						<input type="text"  :placeholder="placeholderArea" v-model="from.area" disabled style="background: none;color:#000;">
 					</p>
 				</div>
 				<div class="Cell border-top">
