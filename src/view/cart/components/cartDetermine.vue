@@ -166,7 +166,7 @@
 							可用{{this.integralZero}}积分,抵扣{{this.integralOne}}元
 							<span class="iconfont integral" @click="help">&#xe62a;</span>
 						</p>
-						<p class="checked">
+						<p class="checkeds">
 							<van-checkbox v-model="checked"></van-checkbox>
 						</p>
 					</div>
@@ -237,6 +237,8 @@
 				<van-button size="small" class="Payment-button" @click="gocartOut">去支付</van-button>
 			</van-popup>
 		</div>
+		</div>
+
 </template>
 <script scopedSlots>
 	import zfbpic from "../../../assets/img/zfb.png";
@@ -620,14 +622,14 @@
 			var Request = new Object();
 			Request = this.GetRequest();
 			this.code = Request["code"];
-			if (!this.code) {
-				this.isBack=false;
+			// if (!this.code) {
+			// 	this.isBack=false;
 
-				var url = `http://shop.jiweishengxian.com/cartDetermine/${this.$route.params.orderId}`;
-				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-			} else {
-				this.isBack = true
-			}
+			// 	var url = `http://shop.jiweishengxian.com/cartDetermine/${this.$route.params.orderId}`;
+			// 	window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+			// } else {
+			// 	this.isBack = true
+			// }
 			var staffWechat = this.getCookie("staffWechat")
 			if (this.code && !staffWechat) {
 				this.updateOpenId({
