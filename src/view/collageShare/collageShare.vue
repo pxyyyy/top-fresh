@@ -279,7 +279,7 @@
 			var that = this;
 			var url = window.location.href;
 			wx.config({
-				debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+				debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 				appId: 'wx365ff8d24bc6fd9f', // 必填，企业号的唯一标识，此处填写企业号corpid
 				timestamp: this.timestamp, // 必填，生成签名的时间戳
 				nonceStr: this.nonceStr, // 必填，生成签名的随机串

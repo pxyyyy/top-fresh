@@ -239,7 +239,12 @@
 					} else {
 						this.setCookie("token", res.data.staffToken);
 						this.setCookie("staffId", res.data.staffId);
-						window.location.href = "http://shop.jiweishengxian.com"
+						if(sessionStorage.getItem('history')){
+								that.$router.push(sessionStorage.getItem('history'))
+							}else{
+								window.location.href = "http://shop.jiweishengxian.com"
+
+							}
 					}
 				});
 			}

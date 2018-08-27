@@ -6,6 +6,9 @@
   z-index: 0;
 }
 
+.coupon .van-tabs__nav--card{
+	width: 90% !important;
+}
 .coupon .van-tabs__nav--card .van-tab.van-tab--active {
   background: none !important;
   color: #e2bf85 !important;
@@ -23,7 +26,10 @@
 
 .coupon .van-tab {
   border: none !important;
-  padding: 0 40px !important;
+  padding: 0 60px !important;
+}
+.coupon .van-tabs__content{
+	margin: 20px 10px;
 }
 </style>
 <template>
