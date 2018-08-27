@@ -7,7 +7,7 @@
 	}
 
 	.van-icon__info {
-		background:#e2bf85 !important;
+		background: #e2bf85 !important;
 		font-size: 13px !important;
 	}
 </style>
@@ -261,16 +261,17 @@
 				if (this.ueseInfo == "") {
 					this.$router.push("/login");
 				}
+				this.selectMyLadingByStaffId({
+					token: this.getCookie("token"),
+					staffId: this.getCookie("staffId"),
+					state: "2",
+					pageNum: this.pageNum,
+					pageSize: 7
+				}).then(res => {
+					this.myLadingNum = res.data.length;
+				});
 			});
-			this.selectMyLadingByStaffId({
-				token: this.getCookie("token"),
-				staffId: this.getCookie("staffId"),
-				state: "2",
-				pageNum: this.pageNum,
-				pageSize: 7
-			}).then(res => {
-				this.myLadingNum = res.data.length;
-			});
+
 		}
 	};
 

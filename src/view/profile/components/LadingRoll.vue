@@ -33,6 +33,11 @@
 	.ladingRoll-item-list .van-tabs__content {
 		margin: 0;
 	}
+
+	.ladingRoll-item-list .van-tab {
+		border: none !important;
+		padding: 0 55px !important;
+	}
 </style>
 <template>
 	<div>

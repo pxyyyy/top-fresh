@@ -161,7 +161,7 @@ export const otherRouter = [{
     children: [{
       path: '',
       title: 'pick',
-      name: '提货',
+      name: 'pick_index',
       component: resolve => {
         require(['@/view/pick/pick.vue'], resolve);
       }
