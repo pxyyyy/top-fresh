@@ -113,7 +113,7 @@ export default {
       }
     },
     async save() {
-      var myreg = /^1[3|4|5|6|7|8|9][0-9]\d{4,8}$/;
+      var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
       if (this.from.adName == "") {
         Toast( "请输入姓名");
       }

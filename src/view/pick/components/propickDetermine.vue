@@ -119,7 +119,7 @@ export default {
         if (this.cartList[0].adName) {
           this.$router.push(`/cartOut/${res.data[0]}`);
         } else {
-          Toast("请选这收货地址~");
+          Toast("请选择收货地址~");
         }
       });
     },

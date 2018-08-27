@@ -24,18 +24,18 @@
 					<van-col span="2" class="address-left">
 						<img src="../../../assets/icon/确认订单地址@2x.png" alt="">
 					</van-col>
-					<van-col span="20">
-						<p class="addwrap" v-if="cartList !== null">
-							<!-- <span>收货人: </span> -->
-							<span class="adname">收货人: {{cartList[0].adName}}</span>
-							<span class="adphone">{{cartList[0].adPhone}}</span>
-						</p>
-						<p style="margin-top:5px;">
-							<!-- <span>收货地址: </span> -->
-							<span class="userAddress" v-if="cartList !== null">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
-							<span class="userAddress" v-if="cartList === null">请设置收件信息</span>
-						</p>
-					</van-col>
+          <van-col span="20">
+            <p class="addwrap">
+              <!-- <span>收货人: </span> -->
+              <span class="adname" v-if="cartList">收货人: {{cartList[0].adName}}</span>
+              <span class="adphone" v-if="cartList">{{cartList[0].adPhone}}</span>
+            </p>
+            <p style="margin-top:5px;">
+              <!-- <span>收货地址: </span> -->
+              <span class="userAddress" v-if="cartList">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
+              <span class="userAddress" v-else>请设置收件信息</span>
+            </p>
+          </van-col>
 				</van-row>
 			</div>
 			<!-- 商品详情 -->
@@ -140,7 +140,7 @@
 				<!--<span class="iconfont arrow-icon">&#xe66b;</span>-->
 				<!--</p>-->
 				<!--</div>-->
-				<div class="select" @click="showOne">
+        <div class="select" @click="showOne" v-if="showMail">
 					<p>是否邮寄提货券</p>
 					<p>
 						{{MailingText}}
@@ -237,8 +237,7 @@
 				<van-button size="small" class="Payment-button" @click="gocartOut">去支付</van-button>
 			</van-popup>
 		</div>
-		</div>
-
+  </div>
 </template>
 <script scopedSlots>
 	import zfbpic from "../../../assets/img/zfb.png";
@@ -275,7 +274,7 @@
 				away: false,
 				cartList: null,
 				// infoList: sessionStorage.getItem("infoList"),
-				infoList: null,
+				infoList: [],
 				datas: '',
 				PaymentType: "微信支付",
 				MailingText: "请选择",
@@ -303,6 +302,7 @@
 				orderScore: '',
 				orderScoremoney: '',
 				types: '',
+        adress: sessionStorage.getItem('adress'),
 				// carIds: '',
 				// adId: '',
 				// car: false,
@@ -402,7 +402,6 @@
 			},
 			usingaVouchers() {
 				sessionStorage.computedMoney = this.orderAllmoney;
-				console.log(this.offer, 'offer')
 				if (this.offer) {
 					Dialog.confirm({
 						title: '是否重新选择优惠券',
@@ -454,8 +453,8 @@
 				this.MailingText = "虚拟提货券";
 			},
 			goDetails: function () {
-				var staffWechat = this.getCookie("staffWechat");
-				if (this.cartList.length === 0) {
+        var staffWechat = this.getCookie("staffWechat");
+				if (this.cartList === null) {
 					Toast("请选择收货地址");
 				} else if (
 					this.MailingText == "请选择" &&
@@ -480,8 +479,8 @@
                 adId: this.cartList[0].adId,
                 orderSendlading: this.orderSendlading,
                 staffCouponId: sessionStorage.getItem("scId") || "",
-                orderScore: this.integral[0],
-                orderScoremoney: this.integral[1]
+                orderScore: this.integralZero,
+                orderScoremoney: this.integralOne
               }).then(res => {
                 this.jmoney = res.data[0];
               });
@@ -492,8 +491,8 @@
                 orderId: this.$route.params.orderId,
                 adId: this.cartList[0].adId,
                 staffCouponId: sessionStorage.getItem("scId") || "",
-                orderScore: this.integral[0],
-                orderScoremoney: this.integral[1]
+                orderScore: this.integralZero,
+                orderScoremoney: this.integralOne
               }).then(res => {
                 this.jmoney = res.data[0];
               });
@@ -579,7 +578,7 @@
 
 			// 微信支付
 			async gocartOut() {
-				var staffWechat = this.getCookie("staffWechat")
+				var staffWechat = this.getCookie("staffWechat");
 				await this.weixinPay({
 					staffId: this.getCookie("staffId"),
 					token: this.getCookie("token"),
@@ -588,6 +587,7 @@
 					title: "支付订单",
 					ttt: this.code
 				}).then(res => {
+				  sessionStorage.removeItem('adress');
 					var orderId = this.$route.params.orderId;
 					WeixinJSBridge.invoke(
 						"getBrandWCPayRequest",
@@ -622,15 +622,15 @@
 			var Request = new Object();
 			Request = this.GetRequest();
 			this.code = Request["code"];
-			// if (!this.code) {
-			// 	this.isBack=false;
+			if (!this.code) {
+			this.isBack=false;
+      var url = `http://shop.jiweishengxian.com/cartDetermine/${this.$route.params.orderId}`;
+				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+			} else {
+				this.isBack = true
+			}
+			var staffWechat = this.getCookie("staffWechat");
 
-			// 	var url = `http://shop.jiweishengxian.com/cartDetermine/${this.$route.params.orderId}`;
-			// 	window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-			// } else {
-			// 	this.isBack = true
-			// }
-			var staffWechat = this.getCookie("staffWechat")
 			if (this.code && !staffWechat) {
 				this.updateOpenId({
 					staffId: this.getCookie("staffId"),
@@ -658,11 +658,20 @@
 					// }else {
 					//   this.showAdress = true;
 					// }
-					this.cartList = res.filter((item, index, arr) => {
-						return item.adIsdefault == "1";
-					});
-				});
-			console.log(this.$route.params, 'param')
+          // console.log(this.adress,'adress')
+          if (res.length > 0 ){
+            this.cartList = res.filter((item, index, arr) => {
+              return item.adIsdefault == "1";
+            });
+          }else if(res.length === 0) {
+            this.cartList = null
+          }
+          this.adress = JSON.parse(this.adress);
+          if(this.adress) {
+            this.cartList = this.adress;
+          }
+
+        });
 			//订单详情
 			this.selectOrderPrimaryKey({
 				staffId,
@@ -691,6 +700,9 @@
 					}
 				});
 				this.infoList = res.orderdetails;
+				if (this.infoList[0].odPtypeId !== '2') {
+				  this.showMail = true;
+        }
 				this.orderId = res.orderId;
 				this.orderCode = res.orderCode;
 			});

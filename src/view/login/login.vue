@@ -151,6 +151,7 @@
 							this.setCookie("staffId", res.data[0].staffId);
 							// this.$router.go(-1);
 							window.location.href = "http://shop.jiweishengxian.com"
+
 						} else {
 							Toast(res.message);
 						}
