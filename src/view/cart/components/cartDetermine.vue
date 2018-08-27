@@ -237,6 +237,7 @@
 				<van-button size="small" class="Payment-button" @click="gocartOut">去支付</van-button>
 			</van-popup>
 		</div>
+	</div>
 </template>
 <script scopedSlots>
 	import zfbpic from "../../../assets/img/zfb.png";
