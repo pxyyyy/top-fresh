@@ -73,9 +73,9 @@
 					<van-list v-model="loading2" :finished="finished2" @load="onLoad2" v-if="item.id == 3">
 						<div class="coupon-content" v-if="item.id == 3">
 							<div class="content-group" v-for="info in pickupVolume">
-								<div class="content-top" style="border-bottom: 1px solid #d3d3d3;">
+								<div class="content-top" @click="copyLink(info.odId)"  style="border-bottom: 1px solid #d3d3d3;">
 									<div class="content-top-img">
-										<img :src="info.odProductIcon" alt="" @click="copyLink(info.odId)" v-if="info.state == 4">
+										<img :src="info.odProductIcon" alt="" v-if="info.state == 4">
 										<img :src="info.odProductIcon" alt="" v-else>
 									</div>
 									<div class="content-top-info">
