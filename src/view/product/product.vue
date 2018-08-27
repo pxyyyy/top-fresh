@@ -60,6 +60,13 @@
 .details .van-tabs__nav--card {
   margin: 10px 15px !important;
 }
+  .van-actionsheet__header {
+    color: #b7b4b4;
+    text-align: left;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+
+  }
 </style>
 <template>
   <!-- 商品详情 页面-->
@@ -172,12 +179,12 @@
       <van-goods-action-big-btn text="加入购物车" @click="openCart" />
       <van-goods-action-big-btn text="立即购买" primary @click="openPay()" />
     </van-goods-action>
-    <van-actionsheet v-model="show1" title="选择数量">
+    <van-actionsheet v-model="show1" title="选择数量" style="color:#b7b4b4" class="selectNum">
       <p style="display:fixed">
-        <span style="padding-left:1.5rem"></span>
+        <span style="padding-left:1.5rem;color:black">数量</span>
         <van-stepper v-model="number"></van-stepper>
       </p>
-      <van-button size="large" style="background-color:#1e1e1e;color:#fff" @click="toCart1">加入购物车</van-button>
+      <van-button size="large" style="background-color:#ebc890;color:#fff" @click="toCart1">加入购物车</van-button>
     </van-actionsheet>
     <van-popup v-model="show2" position="top" :overlay="false">{{message}}</van-popup>
   </div>
