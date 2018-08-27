@@ -209,6 +209,17 @@
 						</van-row>
 					</div>
 				</div>
+				<div class='payment'>
+					<p>付款方式：</p>
+					<van-row>
+						<van-col span="24">
+							<div :class="{wx: true ,wxactive: wx }" @click='wxActive'>
+								<img :src="wxPic" alt="">
+								<p>微信支付</p>
+							</div>
+						</van-col>
+					</van-row>
+				</div>
 			</div>
 			<div class="cart-foot">
 				<p>付款 :
@@ -220,8 +231,21 @@
 				<p>
 					<van-button size="normal" class="btnColor" @click="goDetails()">支付订单</van-button>
 				</p>
+			</div>
+			<!--付款方式弹出-->
+			<van-popup v-model="Payment" class="Payment">
+				<p>付款金额：
+					<span v-if="orderAllmoney < 0">
+						￥{{0.01}}
+					</span>
+					<span v-else>￥{{orderAllmoney}}</span>
+				</p>
+				<p>付款方式：
+					<span v-text="PaymentType"></span>
+				</p>
+				<van-button size="small" class="Payment-button" @click="gocartOut">去支付</van-button>
+			</van-popup>
 		</div>
-	</div>
 </template>
 <script scopedSlots>
 	import zfbpic from "../../../assets/img/zfb.png";
@@ -445,8 +469,68 @@
 					this.showMail === true
 				) {
 					Toast("请选择提货券类型");
+				} else if (!staffWechat) {
+					// Toast("未绑定微信，将进行微信绑定")
 				} else {
-          this.$router.push(`/paymentOrder/${this.orderId}`);
+          this.Payment = true;
+          if (this.MailingText == "邮寄提货券") {
+            this.orderSendlading = 1;
+          } else {
+            this.orderSendlading = 2;
+          }
+          if (this.checked) {
+            if (this.datas.orderdetails[0].odPtypeId != 2) {
+              this.updateOrderBeginPay({
+                staffId: this.getCookie("staffId"),
+                token: this.getCookie("token"),
+                orderId: this.$route.params.orderId,
+                adId: this.cartList[0].adId,
+                orderSendlading: this.orderSendlading,
+                staffCouponId: sessionStorage.getItem("scId") || "",
+                orderScore: this.integral[0],
+                orderScoremoney: this.integral[1]
+              }).then(res => {
+                this.jmoney = res.data[0];
+              });
+            } else {
+              this.updateOrderBeginPay({
+                staffId: this.getCookie("staffId"),
+                token: this.getCookie("token"),
+                orderId: this.$route.params.orderId,
+                adId: this.cartList[0].adId,
+                staffCouponId: sessionStorage.getItem("scId") || "",
+                orderScore: this.integral[0],
+                orderScoremoney: this.integral[1]
+              }).then(res => {
+                this.jmoney = res.data[0];
+              });
+            }
+          } else {
+            if (this.datas.orderdetails[0].odPtypeId != 2) {
+              this.updateOrderBeginPay({
+                staffId: this.getCookie("staffId"),
+                token: this.getCookie("token"),
+                orderId: this.$route.params.orderId,
+                orderSendlading: this.orderSendlading,
+                adId: this.cartList[0].adId,
+                staffCouponId: sessionStorage.getItem("scId") || ""
+              }).then(res => {
+                this.jmoney = res.data[0];
+              });
+            } else {
+              this.updateOrderBeginPay({
+                staffId: this.getCookie("staffId"),
+                token: this.getCookie("token"),
+                orderId: this.$route.params.orderId,
+                adId: this.cartList[0].adId,
+                staffCouponId: sessionStorage.getItem("scId") || ""
+              }).then(res => {
+                this.jmoney = res.data[0];
+              });
+            }
+          }
+
+          // this.$router.push(`/paymentOrder/${this.orderId}`);
 
           // 	  if(this.MailingText === '邮件提货券') {
 			// 	    this.orderSendlading = '1'
@@ -498,6 +582,38 @@
 				};
 				window.history.pushState(state, state.title, state.url);
 			},
+
+
+			// 微信支付
+			async gocartOut() {
+				var staffWechat = this.getCookie("staffWechat")
+				await this.weixinPay({
+					staffId: this.getCookie("staffId"),
+					token: this.getCookie("token"),
+					orderCode: this.orderCode,
+					jmoney: this.jmoney,
+					title: "支付订单",
+					ttt: this.code
+				}).then(res => {
+					var orderId = this.$route.params.orderId;
+					WeixinJSBridge.invoke(
+						"getBrandWCPayRequest",
+						{
+							appId: res.data.info.appId, //公众号名称，由商户传入
+							timeStamp: res.data.info.timeStamp, //时间戳，自1970年以来的秒数
+							nonceStr: res.data.info.nonceStr, //随机串
+							package: res.data.info.package,
+							signType: res.data.info.signType, //微信签名方式：
+							paySign: res.data.info.sign //微信签名
+						},
+						function (re) {
+							if (re.err_msg == "get_brand_wcpay_request:ok") {
+								window.location.href = `http://shop.jiweishengxian.com/cartOut/${orderId}`;
+							}
+						}
+					);
+				});
+			}
 		},
 
 		mounted() {
@@ -515,7 +631,7 @@
 			this.code = Request["code"];
 			if (!this.code) {
 				this.isBack=false;
-				var url = `http://shop.jiweishengxian.com/cartDetermine`;
+				var url = `http://shop.jiweishengxian.com/cartDetermine/${this.$route.params.orderId}`;
 				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
 			}else{
 				this.isBack=true
