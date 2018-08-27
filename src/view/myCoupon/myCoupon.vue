@@ -4,13 +4,16 @@
       <van-list v-model="loading" :finished="finished" @load="onLoad">
         <van-row class="wrapper-content" v-for="item in myCouponList" :key="item.couponsId">
           <van-col span="6" class="wrapperLeft">
-            <h2>
-              <span>￥</span>{{item.couponsValue}}</h2>
+            <h3 style="font-size:34px;text-align: center;margin-right: 13px">
+              <span>￥</span>{{item.couponsValue}}</h3>
           </van-col>
           <van-col span="10" class="wrapper-center" offset="1">
-            <p>{{item.couponsName}}</p>
-            <p>{{item.createtime}} - {{item.couponsEndTime}}</p>
-            <!-- <p class="weight">{{item.couponsType}}</p> -->
+            <p style="color: #fc5b7a;">{{item.couponsName}}</p>
+            <p>截止到{{item.couponsEndTime}}</p>
+            <p class="weight" v-if="item.couponsMin">满{{item.couponsMin}}元可用</p>
+            <p class="weight" v-else>直减{{item.couponsValue}}元</p>
+            <p class="weight">{{item.useScope}}</p>
+
           </van-col>
           <van-col span="7" class="wrapper-right">
             <div class="wrapper-right-icon">
@@ -74,6 +77,22 @@ export default {
         this.loading = false;
         this.code = res.code;
         this.myCouponList = this.myCouponList.concat(res.data);
+        console.log(this.myCouponList,'my')
+        if (res.data.length > 0) {
+          this.myCouponList.forEach(x =>{
+            console.log(x.useScope === 'ALL','x')
+
+            if(x.useScope === 'ALL') {
+              x.useScope = '全商品类代金券'
+            }else if (x.useScope === 'A1') {
+              x.useScope = '礼品卡'
+            }else if(x.useScope === 'A2') {
+              x.useScope = '现货'
+            }else{
+              x.useScope = '其他'
+            }
+          })
+        }
         if (res.data == "") {
           this.finished = true;
         }

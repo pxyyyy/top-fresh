@@ -176,7 +176,6 @@ export default {
       select: true,
       checked: false,
       checkedGoods: [],
-      productId: [],
       goods: [],
       Clearing: true,
       orderId: "",
@@ -266,37 +265,57 @@ export default {
     },
     // 结算
     goDetails: async function() {
-      let arr = [];
-      this.goods.forEach(x =>{
-        this.checkedGoods.forEach(y =>{
-          if (x.carId === y) {
-            arr.push(x)
-          }
-        });
-      });
-      let productArr = JSON.stringify([...arr]);
+      // let arr = [];
+      // this.goods.forEach(x =>{
+      //   this.checkedGoods.forEach(y =>{
+      //     if (x.carId === y) {
+      //       arr.push(x)
+      //     }
+      //   });
+      // });
+      // let productArr = JSON.stringify([...arr]);
+      // let carIds = JSON.stringify([...this.checkedGoods]);
+      // carIds = carIds.split("[")[1].split("]")[0];
+      // if (this.checkedGoods == "") {
+      //   Toast("请选择订单商品");
+      // } else if(arr.length > 1){
+      //   arr.forEach((x, i) =>{
+      //     if(i !== 0){
+      //       const { carPtype } = arr[i];
+      //       const { carPtype: preCarPtype } = arr[i - 1];
+      //       if(carPtype !== preCarPtype) {
+      //         Toast('礼券和现货不能同时结算')
+      //       }else{
+      //         sessionStorage.productArr = productArr;
+      //         sessionStorage.carPrice = this.totalPrice;
+      //         this.$router.push(`/cartDetermine`);
+      //       }
+      //     }
+      //   });
+      // }else {
+      //   sessionStorage.productArr = productArr;
+      //   sessionStorage.carPrice = this.totalPrice;
+      //   this.$router.push(`/cartDetermine`);
+      // }
       let carIds = JSON.stringify([...this.checkedGoods]);
       carIds = carIds.split("[")[1].split("]")[0];
       if (this.checkedGoods == "") {
         Toast("请选择订单商品");
-      } else if(arr.length > 1){
-        arr.forEach((x, i) =>{
-          if(i !== 0){
-            const { carPtype } = arr[i];
-            const { carPtype: preCarPtype } = arr[i - 1];
-            if(carPtype !== preCarPtype) {
-              Toast('礼券和现货不能同时结算')
-            }else{
-              sessionStorage.productArr = productArr;
-              sessionStorage.carPrice = this.totalPrice;
-              this.$router.push(`/cartDetermine`);
-            }
+      } else {
+        await this.carToOrder({
+          carIds,
+          staffId: this.staffId,
+          token: this.token
+        }).then(res => {
+          if (res.data.code == 100003) {
+            Toast("卡券和现货不能一起购买");
+          } else {
+            this.orderId = res.data.data;
+            sessionStorage.money = "";
+            sessionStorage.scId = "";
+            this.$router.push(`cartDetermine/${this.orderId}`);
           }
         });
-      }else {
-        sessionStorage.productArr = productArr;
-        sessionStorage.carPrice = this.totalPrice;
-        this.$router.push(`/cartDetermine`);
       }
     }
   },

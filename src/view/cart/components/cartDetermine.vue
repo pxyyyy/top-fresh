@@ -23,38 +23,22 @@
 						<img src="../../../assets/icon/确认订单地址@2x.png" alt="">
 					</van-col>
 					<van-col span="20">
-						<p class="addwrap"  v-if="adress">
+						<p class="addwrap"  v-if="cartList !== null">
 							<!-- <span>收货人: </span> -->
-							<span class="adname">收货人: {{cartList.adName}}</span>
-							<span class="adphone">{{cartList.adPhone}}</span>
+							<span class="adname">收货人: {{cartList[0].adName}}</span>
+							<span class="adphone">{{cartList[0].adPhone}}</span>
 						</p>
 						<p style="margin-top:5px;">
 							<!-- <span>收货地址: </span> -->
-							<span class="userAddress" v-if="adress">收货地址: {{cartList.adAddress}} {{cartList.adAddressInfo}}</span>
-							<span class="userAddress" v-if="showAdress">请设置收件信息</span>
+							<span class="userAddress" v-if="cartList !== null">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
+							<span class="userAddress" v-if="cartList === null">请设置收件信息</span>
 						</p>
 					</van-col>
 				</van-row>
 			</div>
 			<!-- 商品详情 -->
-			<!--<div>-->
-        <div v-if="showProduct">
-          <ul v-for="item in productArr" :key="item.productId">
-              <li class="item">
-                <img :src="item.proImgs[0].imgUrl" alt="" class="item-img">
-                <div class="item-info">
-                  <p class="item-title">{{item.productName}}</p>
-                  <p class="item-desc">{{item.productInfo}}</p>
-                  <p class="item-button">
-                    <strong class="money">￥{{item.productPrice}}</strong>
-                    <span>x{{1}}</span>
-                  </p>
-                </div>
-              </li>
-          </ul>
-        </div>
-      <div v-if="buyNow">
-        <ul v-for="item in productArr" :key="item.odProductId">
+      <div>
+        <ul v-for="item in infoList" :key="item.odProductId" v-if="infoList">
           <li class="item">
             <img :src="item.odProductIcon" alt="" class="item-img">
             <div class="item-info">
@@ -68,21 +52,52 @@
           </li>
         </ul>
       </div>
-        <div v-if="car">
-          <ul v-for="item in productArr" :key="item.carProductId">
-            <li class="item">
-              <img :src="item.carProductIcon" alt="" class="item-img">
-              <div class="item-info">
-                <p class="item-title">{{item.carProductName}}</p>
-                <p class="item-desc">{{item.carProductDes}}</p>
-                <p class="item-button">
-                  <strong class="money">￥{{item.carProductPprice}}</strong>
-                  <span>x{{item.carProductNum}}</span>
-                </p>
-              </div>
-            </li>
-          </ul>
-        </div>
+			<!--<div>-->
+        <!--<div v-if="showProduct">-->
+          <!--<ul v-for="item in productArr" :key="item.productId">-->
+              <!--<li class="item">-->
+                <!--<img :src="item.proImgs[0].imgUrl" alt="" class="item-img">-->
+                <!--<div class="item-info">-->
+                  <!--<p class="item-title">{{item.productName}}</p>-->
+                  <!--<p class="item-desc">{{item.productInfo}}</p>-->
+                  <!--<p class="item-button">-->
+                    <!--<strong class="money">￥{{item.productPrice}}</strong>-->
+                    <!--<span>x{{1}}</span>-->
+                  <!--</p>-->
+                <!--</div>-->
+              <!--</li>-->
+          <!--</ul>-->
+        <!--</div>-->
+      <!--<div v-if="buyNow">-->
+        <!--<ul v-for="item in productArr" :key="item.odProductId">-->
+          <!--<li class="item">-->
+            <!--<img :src="item.odProductIcon" alt="" class="item-img">-->
+            <!--<div class="item-info">-->
+              <!--<p class="item-title">{{item.odProductName}}</p>-->
+              <!--<p class="item-desc">{{item.odProductDes}}</p>-->
+              <!--<p class="item-button">-->
+                <!--<strong class="money">￥{{item.odProductPprice}}</strong>-->
+                <!--<span>x{{item.odProductNum}}</span>-->
+              <!--</p>-->
+            <!--</div>-->
+          <!--</li>-->
+        <!--</ul>-->
+      <!--</div>-->
+        <!--<div v-if="car">-->
+          <!--<ul v-for="item in productArr" :key="item.carProductId">-->
+            <!--<li class="item">-->
+              <!--<img :src="item.carProductIcon" alt="" class="item-img">-->
+              <!--<div class="item-info">-->
+                <!--<p class="item-title">{{item.carProductName}}</p>-->
+                <!--<p class="item-desc">{{item.carProductDes}}</p>-->
+                <!--<p class="item-button">-->
+                  <!--<strong class="money">￥{{item.carProductPprice}}</strong>-->
+                  <!--<span>x{{item.carProductNum}}</span>-->
+                <!--</p>-->
+              <!--</div>-->
+            <!--</li>-->
+          <!--</ul>-->
+        <!--</div>-->
 				<!--是否邮寄提货券弹出-->
 				<van-popup v-model="Mailing">
 					<van-row class="Mailing">
@@ -116,13 +131,20 @@
 					</van-row>
 				</van-popup>
 				<div style="padding-top:30px;background:#fff;">
-					<div class="select" @click="showOne" v-if="showMail">
-						<p>是否邮寄提货券</p>
-						<p>
-							{{MailingText}}
-							<span class="iconfont arrow-icon">&#xe66b;</span>
-						</p>
-					</div>
+					<!--<div class="select" @click="showOne" v-if="showMail">-->
+						<!--<p>是否邮寄提货券</p>-->
+						<!--<p>-->
+							<!--{{MailingText}}-->
+							<!--<span class="iconfont arrow-icon">&#xe66b;</span>-->
+						<!--</p>-->
+					<!--</div>-->
+          <div class="select" @click="showOne">
+            <p>是否邮寄提货券</p>
+            <p>
+              {{MailingText}}
+              <span class="iconfont arrow-icon">&#xe66b;</span>
+            </p>
+          </div>
 					<div class="select">
 						<div class="border-top" style="padding:2px 0;" @click='usingaVouchers'>
 							<p>使用代金券</p>
@@ -151,14 +173,15 @@
             <div class="border-top" style="padding-top: 10px">
               <p>商品总额</p>
               <p class="black">
-                ￥{{this.allPrice}}
+                <!--￥{{this.allPrice}}-->
+                ￥{{datas.orderAllmoney}}
               </p>
             </div>
           </div>
 					<div class="selects">
 						<div>
 							<p>代金券优惠</p>
-							<p class="black" v-if="this.offer">-￥{{this.offer}}
+							<p class="black" v-if="offer">-￥{{offer}}
 							</p>
 							<p class="black" v-else>-￥0.00
 							</p>
@@ -234,8 +257,9 @@
 				Payment: false,
 				away: false,
 				cartList: null,
-				infoList: sessionStorage.getItem("infoList"),
-				datas: "",
+				// infoList: sessionStorage.getItem("infoList"),
+        infoList: null,
+				datas: '',
 				PaymentType: "微信支付",
 				MailingText: "请选择",
 				MailingType: "",
@@ -262,36 +286,62 @@
         orderScore: '',
         orderScoremoney: '',
         types: '',
-        carIds: '',
-        adId: '',
-        car: false,
-        allmoney: null,
-        showAdress: false,
-        adress: false
+        // carIds: '',
+        // adId: '',
+        // car: false,
+        // allmoney: null,
+        // showAdress: false,
+        // adress: false
+        integral: "",
+        userInfo: "",
+        orderId: "",
+        jmoney: "",
+        orderCode: "",
 			};
 		},
 		// 优惠的价格
-		computed: {
-			orderAllmoney() {
-				if (this.checked) {
-					if (sessionStorage.getItem("money")) {
-						return (
-							this.allPrice -
-							sessionStorage.getItem("money") -
-							this.integralOne
-						);
-					} else {
-						return this.allPrice - this.integralOne;
-					}
-				} else {
-					if (sessionStorage.getItem("money")) {
-						return this.allPrice - sessionStorage.getItem("money");
-					} else {
-						return this.allPrice;
-					}
-				}
-			}
-		},
+		// computed: {
+		// 	orderAllmoney() {
+		// 		if (this.checked) {
+		// 			if (sessionStorage.getItem("money")) {
+		// 				return (
+		// 					this.allPrice -
+		// 					sessionStorage.getItem("money") -
+		// 					this.integralOne
+		// 				);
+		// 			} else {
+		// 				return this.allPrice - this.integralOne;
+		// 			}
+		// 		} else {
+		// 			if (sessionStorage.getItem("money")) {
+		// 				return this.allPrice - sessionStorage.getItem("money");
+		// 			} else {
+		// 				return this.allPrice;
+		// 			}
+		// 		}
+		// 	}
+		// },
+    computed: {
+      orderAllmoney() {
+        if (this.checked) {
+          if (sessionStorage.getItem("money")) {
+            return (
+              this.datas.orderAllmoney -
+              sessionStorage.getItem("money") -
+              this.integralOne
+            );
+          } else {
+            return this.datas.orderAllmoney - this.integralOne;
+          }
+        } else {
+          if (sessionStorage.getItem("money")) {
+            return this.datas.orderAllmoney - sessionStorage.getItem("money");
+          } else {
+            return this.datas.orderAllmoney;
+          }
+        }
+      }
+    },
 		methods: {
 			GetRequest() {
 				var url = location.search; //获取url中"?"符后的字串
@@ -334,20 +384,22 @@
 				this.Mailing = true;
 			},
 			usingaVouchers() {
-			  if(this.offer !== null) {
+        sessionStorage.computedMoney = this.orderAllmoney;
+        console.log(this.offer,'offer')
+        if(this.offer) {
           Dialog.confirm({
             title: '是否重新选择优惠券',
             confirmButtonText:'重新选择',
             cancelButtonText: '取消选择'
           }).then(() => {
             this.isBack=false;
-            this.$router.push(`/coupon/${this.productId}/0`);
+            this.$router.push(`/coupon/${this.$route.params.orderId}/0`);
           }).catch(() =>{
             this.offer = null;
           })
         }else {
           this.isBack=false;
-          this.$router.push(`/coupon/${this.productId}/0`);
+          this.$router.push(`/coupon/${this.$route.params.orderId}/0`);
         }
 
 
@@ -394,30 +446,32 @@
 				) {
 					Toast("请选择提货券类型");
 				} else {
-				  if(this.MailingText === '邮件提货券') {
-				    this.orderSendlading = '1'
-          }
-            this.orderSendlading = '2';
+          this.$router.push(`/paymentOrder/${this.orderId}`);
 
-				  const param = {
-            proNum: this.number,
-            staffCouponId: this.scId,
-            orderScore: this.integralZero,
-            orderScoremoney: this.integralOne,
-            types: this.type,
-            productId: this.productId,
-            staffId: this.staffId,
-            token: this.token,
-            adId: this.cartList.adId,
-            carIds:this.carIds
-          };
-          this.newAddOrder(param)
-            .then(res =>{
-              sessionStorage.all = JSON.stringify(res[0]);
-              sessionStorage.removeItem('money');
-              sessionStorage.removeItem('scId');
-              this.$router.push(`/paymentOrder`);
-            });
+          // 	  if(this.MailingText === '邮件提货券') {
+			// 	    this.orderSendlading = '1'
+          // }
+          //   this.orderSendlading = '2';
+
+			// 	  const param = {
+          //   proNum: this.number,
+          //   staffCouponId: this.scId,
+          //   orderScore: this.integralZero,
+          //   orderScoremoney: this.integralOne,
+          //   types: this.type,
+          //   productId: this.productId,
+          //   staffId: this.staffId,
+          //   token: this.token,
+          //   adId: this.cartList.adId,
+          //   carIds:this.carIds
+          // };
+          // this.newAddOrder(param)
+          //   .then(res =>{
+          //     sessionStorage.all = JSON.stringify(res[0]);
+          //     sessionStorage.removeItem('money');
+          //     sessionStorage.removeItem('scId');
+          //     this.$router.push(`/paymentOrder`);
+          //   });
 
         }
 
@@ -459,13 +513,13 @@
 			var Request = new Object();
 			Request = this.GetRequest();
 			this.code = Request["code"];
-			// if (!this.code) {
-			// 	this.isBack=false;
-			// 	var url = `http://shop.jiweishengxian.com/cartDetermine`;
-			// 	window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-			// }else{
-			// 	this.isBack=true
-			// }
+			if (!this.code) {
+				this.isBack=false;
+				var url = `http://shop.jiweishengxian.com/cartDetermine`;
+				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+			}else{
+				this.isBack=true
+			}
 			var staffWechat = this.getCookie("staffWechat")
 			if (this.code && !staffWechat) {
 				this.updateOpenId({
@@ -485,18 +539,52 @@
       const token = this.getCookie("token");
       this.getAddress(staffId, token)
         .then(res => {
-          this.cartList =  res.filter((item) => {
-                 return item.adIsdefault == "1";
-            });
-          if(this.cartList.length !== 0) {
-          this.cartList = this.cartList[0];
-          this.adress = true;
-          }else {
-            this.showAdress = true;
-          }
-
-          console.log(this.cartList,'cartList')
+          // this.cartList =  res.filter((item) => {
+          //        return item.adIsdefault == "1";
+          //   });
+          // if(this.cartList.length !== 0) {
+          // this.cartList = this.cartList[0];
+          // this.adress = true;
+          // }else {
+          //   this.showAdress = true;
+          // }
+          this.cartList = res.filter((item, index, arr) => {
+            return item.adIsdefault == "1";
+          });
         });
+      console.log(this.$route.params,'param')
+      //订单详情
+      this.selectOrderPrimaryKey({
+        staffId,
+        token,
+        orderId: this.$route.params.orderId
+      }).then(res => {
+        this.datas = res;
+        // 积分
+        this.getScoreByOrderId({
+          staffId,
+          token,
+          allmoney: this.datas.orderAllmoney,
+        }).then(res => {
+          this.integralZero = res.data[0];
+          this.integralOne = res.data[1];
+        });
+
+        // 优惠券;
+        this.getCoupnsListByOrderId({
+          token: this.getCookie("token"),
+          staffId: this.getCookie("staffId"),
+          allmoney: this.datas.orderAllmoney
+        }).then(res => {
+          if (!res) {
+            this.offerText = "无可用代金券";
+          }
+        });
+        this.infoList = res.orderdetails;
+        this.orderId = res.orderId;
+        this.orderCode = res.orderCode;
+      });
+
 
       // 个人信息
 			this.getStaffInfo({
@@ -508,78 +596,79 @@
 
 
 		},
-    async beforeMount() {
-        this.productArr = JSON.parse(this.productArr);
-        var allprice = 0;
-        const number = [];
-        const carProductId = [];
-        const carIds = [];
-        this.productArr.forEach(x =>{
-          if (x.productId) {
-            this.showProduct = true;
-            if(x.productPtype !== '2') {
-              this.showMail = true
-            }
-            this.number = '1';
-            this.allmoney =  this.productArr[0].productPrice;
-            allprice += parseFloat(x.productPrice);
-            this.type = this.productArr[0].productPtype;
-            this.productId =  this.productArr[0].productId;
-            this.allPrice = allprice;
-          } if (x.carProductId){
-            this.car = true;
-            if(x.carPtype !== '2') {
-              this.showMail = true
-            }
-            number.push(x.carProductNum) ;
-            carProductId.push(x.carProductId);
-            carIds.push(x.carId);
-            this.allmoney = JSON.parse(this.carPrice);
-            this.allPrice = JSON.parse(this.carPrice);
-            this.type = this.productArr[0].carPtype;
-          } if (x.odProductId) {
-            this.buyNow = true;
-            if(x.odPtypeId !== '2') {
-              this.showMail = true
-            }
-            this.number = this.productArr[0].odProductNum;
-            carProductId.push(x.odProductId);
-            this.allmoney =  this.productArr[0].odProductPprice;
-            allprice += parseFloat(x.odProductPprice);
-            this.type = this.productArr[0].odPtypeId;
-            this.productId =  this.productArr[0].odProductId;
-            this.allPrice = this.number*this.allmoney ;
-          }
-        });
-            if(number.length !== 0) {
-              this.number = number.join(",")
-            }
-            if(carProductId.length !== 0) {
-              this.productId = carProductId.join(",")
-            }
-            if(carIds.length !== 0) {
-              this.carIds = carIds.join(",")
-            }
+    // async beforeMount() {
 
-      this.getCoupnsListByOrderId({
-        token: this.getCookie("token"),
-        staffId: this.getCookie("staffId"),
-        allmoney: this.allmoney
-      }).then(res => {
-        if (!res) {
-          this.offerText = "无可用代金券";
-        }
-      });
-      // 积分
-      this.getScoreByOrderId({
-        token: this.getCookie("token"),
-        staffId: this.getCookie("staffId"),
-        allmoney: this.allmoney
-      }).then(res => {
-        this.integralZero = res.data[0];
-        this.integralOne = res.data[1];
-      });
-    }
+      // this.productArr = JSON.parse(this.productArr);
+        // var allprice = 0;
+        // const number = [];
+        // const carProductId = [];
+        // const carIds = [];
+        // this.productArr.forEach(x =>{
+        //   if (x.productId) {
+        //     this.showProduct = true;
+        //     if(x.productPtype !== '2') {
+        //       this.showMail = true
+        //     }
+        //     this.number = '1';
+        //     this.allmoney =  this.productArr[0].productPrice;
+        //     allprice += parseFloat(x.productPrice);
+        //     this.type = this.productArr[0].productPtype;
+        //     this.productId =  this.productArr[0].productId;
+        //     this.allPrice = allprice;
+        //   } if (x.carProductId){
+        //     this.car = true;
+        //     if(x.carPtype !== '2') {
+        //       this.showMail = true
+        //     }
+        //     number.push(x.carProductNum) ;
+        //     carProductId.push(x.carProductId);
+        //     carIds.push(x.carId);
+        //     this.allmoney = JSON.parse(this.carPrice);
+        //     this.allPrice = JSON.parse(this.carPrice);
+        //     this.type = this.productArr[0].carPtype;
+        //   } if (x.odProductId) {
+        //     this.buyNow = true;
+        //     if(x.odPtypeId !== '2') {
+        //       this.showMail = true
+        //     }
+        //     this.number = this.productArr[0].odProductNum;
+        //     carProductId.push(x.odProductId);
+        //     this.allmoney =  this.productArr[0].odProductPprice;
+        //     allprice += parseFloat(x.odProductPprice);
+        //     this.type = this.productArr[0].odPtypeId;
+        //     this.productId =  this.productArr[0].odProductId;
+        //     this.allPrice = this.number*this.allmoney ;
+        //   }
+        // });
+        //     if(number.length !== 0) {
+        //       this.number = number.join(",")
+        //     }
+        //     if(carProductId.length !== 0) {
+        //       this.productId = carProductId.join(",")
+        //     }
+        //     if(carIds.length !== 0) {
+        //       this.carIds = carIds.join(",")
+        //     }
+
+      // this.getCoupnsListByOrderId({
+      //   token: this.getCookie("token"),
+      //   staffId: this.getCookie("staffId"),
+      //   allmoney: this.allmoney
+      // }).then(res => {
+      //   if (!res) {
+      //     this.offerText = "无可用代金券";
+      //   }
+      // });
+    //   // 积分
+    //   this.getScoreByOrderId({
+    //     token: this.getCookie("token"),
+    //     staffId: this.getCookie("staffId"),
+    //     allmoney: this.allmoney
+    //   }).then(res => {
+    //     this.integralZero = res.data[0];
+    //     this.integralOne = res.data[1];
+    //   });
+    // }
 
 
 

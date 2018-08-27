@@ -18,7 +18,7 @@
 .coupon .van-tabs__nav--card {
   border: none !important;
   border-bottom: 1px solid #ccc !important;
-  margin: 0 7%;
+  margin: 0 20px;
 }
 
 .coupon .van-tab {
@@ -35,20 +35,23 @@
           <van-row class="wrapper-content" v-if="$route.params.type == 0">
             <div @click='useaCoupon(item.coupons.couponsValue,item.scId)'>
               <van-col span="6" class="wrapperLeft">
-                <h3 class="h3">
+                <h3 style="font-size:34px;text-align: center;margin-right: 13px">
                   <span>￥</span>{{item.coupons.couponsValue}}</h3>
               </van-col>
               <van-col span="11" class="wrapper-center" offset="1">
-                <p>{{item.coupons.couponsName}}</p>
-                <p>{{item.coupons.couponsStartTime}} - {{item.coupons.couponsEndTime}}</p>
-                <p class="weight">{{item.coupons.couponsName}}</p>
+                <p style="color: #fc5b7a;">{{item.coupons.couponsName}}</p>
+                <p>截止到{{item.coupons.couponsEndTime}}</p>
+                <p class="weight" v-if="item.coupons.couponsMin">满{{item.coupons.couponsMin}}元可用</p>
+                <p class="weight" v-else>直减{{item.coupons.couponsValue}}元</p>
+                <p class="weight">{{item.coupons.useScope}}</p>
+
               </van-col>
               <van-col span="6" class="wrapper-right">
                 <div class="wrapper-right-icon">
-                  <img src="../../../assets/img/虚拟提货券灰.png" alt="">
+                  <!--<img src="../../../assets/img/myCouponUnused.png" alt="">-->
                 </div>
                 <div class="wrapper-right-button">
-                  已领取
+                  <!--已领取-->
                 </div>
               </van-col>
             </div>
@@ -59,14 +62,17 @@
               <h3 style="font-size:34px;text-align: center;margin-right: 13px;">
                 <span>￥</span>{{item.coupons.couponsValue}}</h3>
             </van-col>
-            <van-col span="11" class="wrapper-center" offset="1">
+            <van-col span="11" class="wrapper-centers" offset="1">
               <p>{{item.coupons.couponsName}}</p>
-              <p>{{item.coupons.couponsStartTime}} - {{item.coupons.createtime}}</p>
-              <p class="weight">{{item.couponsType}}</p>
+              <p>截止到{{item.coupons.couponsEndTime}}</p>
+              <p class="weight" v-if="item.coupons.couponsMin">满{{item.coupons.couponsMin}}元可用</p>
+              <p class="weight" v-else>直减{{item.coupons.couponsValue}}元</p>
+              <p class="weight">{{item.coupons.useScope}}</p>
+
             </van-col>
             <van-col span="6" class="wrapper-right">
               <div class="wrapper-right-icon">
-                <img src="../../../assets/img/myCoupon.png" alt="">
+                <!--<img src="../../../assets/img/myCoupon.png" alt="">-->
               </div>
               <div class="wrapper-right-button">
               </div>
@@ -77,14 +83,15 @@
         <div v-if="index == 2" class="coupon-content coupon-Expired" v-for="(item,num) in coupon1" :key='num' @click="Unused">
           <van-row class="wrapper-content" style="border:1px solid #ccc;">
             <van-col span="6" class="wrapperLeft">
-              <h3 style="color:#ccc;font-size:18px;text-align: center;">
+              <h3 style="font-size:34px;text-align: center;margin-right: 13px;color:#ccc;">
                 <span>￥</span>{{item.coupons.couponsValue}}</h3>
             </van-col>
             <van-col span="11" class="wrapper-center" offset="1">
               <p>{{item.coupons.couponsName}}</p>
               <p>{{item.coupons.couponsStartTime}} - {{item.coupons.couponsEndTime}}</p>
-              <p class="weight">{{item.couponsType}}</p>
-            </van-col>
+              <p class="weight" v-if="item.coupons.couponsMin">满{{item.coupons.couponsMin}}元可用</p>
+              <p class="weight" v-else>直减{{item.coupons.couponsValue}}元</p>
+              <p class="weight">{{item.coupons.useScope}}</p>            </van-col>
             <van-col span="6" class="wrapper-right">
               <div class="wrapper-right-icon">
                 <img src="../../../assets/img/myCouponUnused.png" alt="">
@@ -111,7 +118,8 @@ export default {
       coupon: null,
       coupon1: null,
       token: this.getCookie("token"),
-      staffId: this.getCookie("staffId")
+      staffId: this.getCookie("staffId"),
+      allmoney: sessionStorage.getItem('computedMoney')
     };
   },
   methods: {
@@ -120,7 +128,7 @@ export default {
       // 优惠券价格保存
       sessionStorage.money = money;
       sessionStorage.scId = scId;
-      this.$router.push(`/cartDetermine`);
+      this.$router.push(`/cartDetermine/${this.$route.params.id}`);
     },
     returnProfile() {
       this.$router.go(-1);
@@ -129,22 +137,55 @@ export default {
     Unused(index) {
       if (index == 0) {
         if (this.$route.params.type == 0) {
-          var allmoney = this.product.productPtype * this.product.productPrice;
           this.getCoupnsListByOrderId({
             token: this.token,
             staffId: this.staffId,
-            allmoney: allmoney
+            allmoney: this.allmoney
           }).then(res => {
             this.coupon = res;
+            // console.log(res,'reeeeeeeee')
+            this.coupon.forEach(x =>{
+              if(x.coupons.useScope === 'ALL') {
+                x.coupons.useScope = '使用范围：全商品类代金券'
+              }else if (x.coupons.useScope === 'A1') {
+                x.coupons.useScope = '使用范围：礼品卡'
+              }else if(x.coupons.useScope === 'A2') {
+                x.coupons.useScope = '使用范围：现货'
+              }else{
+                x.coupons.useScope = '使用范围：其他'
+              }
+            })
           });
         } else {
           this.getCoupon(this.staffId, this.token, 0).then(res => {
             this.coupon = res;
+            this.coupon.forEach(x =>{
+              if(x.coupons.useScope === 'ALL') {
+                x.coupons.useScope = '使用范围：全商品类代金券'
+              }else if (x.coupons.useScope === 'A1') {
+                x.coupons.useScope = '使用范围：礼品卡'
+              }else if(x.coupons.useScope === 'A2') {
+                x.coupons.useScope = '使用范围：现货'
+              }else{
+                x.coupons.useScope = '使用范围：其他'
+              }
+            })
           });
         }
       } else {
         this.getCoupon(this.staffId, this.token, 1).then(res => {
           this.coupon1 = res;
+          this.coupon1.forEach(x =>{
+            if(x.coupons.useScope === 'ALL') {
+              x.coupons.useScope = '使用范围：全商品类代金券'
+            }else if (x.coupons.useScope === 'A1') {
+              x.coupons.useScope = '使用范围：礼品卡'
+            }else if(x.coupons.useScope === 'A2') {
+              x.coupons.useScope = '使用范围：现货'
+            }else{
+              x.coupons.useScope = '使用范围：其他'
+            }
+          })
         });
       }
     },
@@ -164,28 +205,67 @@ export default {
 				sessionStorage.removeItem('isAddressTop')
 			}, 1000)
 },
-  async beforeMount() {
+  // async beforeMount() {
+  //
+  //   var id = this.$route.params.id;
+  //   await this.getProductInfo(id) //获取列表
+  //     .then(res => {
+  //       this.product = res;
+  //     });
+  //   sessionStorage.setItem('isAddressTop', true);
+  //     if (this.$route.params.type == 0) {
+  //       var allmoney = this.product.productPtype * this.product.productPrice;
+  //       this.getCoupnsListByOrderId({
+  //         token: this.token,
+  //         staffId: this.staffId,
+  //         allmoney: allmoney
+  //       }).then(res => {
+  //         this.coupon = res;
+  //       });
+  //     } else {
+  //       this.getCoupon(this.staffId, this.token, 0).then(res => {
+  //         this.coupon = res;
+  //       });
+  //     }
+  //   }
+  beforeMount() {
     document.title = "我的代金券";
-    var id = this.$route.params.id;
-    await this.getProductInfo(id) //获取列表
-      .then(res => {
-        this.product = res;
+    sessionStorage.setItem('isAddressTop', true)
+    if (this.$route.params.type == 0) {
+      this.getCoupnsListByOrderId({
+        token: this.token,
+        staffId: this.staffId,
+        allmoney: this.allmoney
+      }).then(res => {
+        this.coupon = res;
+        this.coupon.forEach(x =>{
+          if(x.coupons.useScope === 'ALL') {
+            x.coupons.useScope = '使用范围：全商品类代金券'
+          }else if (x.coupons.useScope === 'A1') {
+            x.coupons.useScope = '使用范围：礼品卡'
+          }else if(x.coupons.useScope === 'A2') {
+            x.coupons.useScope = '使用范围：现货'
+          }else{
+            x.coupons.useScope = '使用范围：其他'
+          }
+        })
       });
-    sessionStorage.setItem('isAddressTop', true);
-      if (this.$route.params.type == 0) {
-        var allmoney = this.product.productPtype * this.product.productPrice;
-        this.getCoupnsListByOrderId({
-          token: this.token,
-          staffId: this.staffId,
-          allmoney: allmoney
-        }).then(res => {
-          this.coupon = res;
-        });
-      } else {
-        this.getCoupon(this.staffId, this.token, 0).then(res => {
-          this.coupon = res;
-        });
-      }
+    } else {
+      this.getCoupon(this.staffId, this.token, 0).then(res => {
+        this.coupon = res;
+        this.coupon.forEach(x =>{
+          if(x.coupons.useScope === 'ALL') {
+            x.coupons.useScope = '使用范围：全商品类代金券'
+          }else if (x.coupons.useScope === 'A1') {
+            x.coupons.useScope = '使用范围：礼品卡'
+          }else if(x.coupons.useScope === 'A2') {
+            x.coupons.useScope = '使用范围：现货'
+          }else{
+            x.coupons.useScope = '使用范围：其他'
+          }
+        })
+      });
     }
+  }
 };
 </script>
