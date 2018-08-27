@@ -10,8 +10,8 @@
           </textarea>
         </van-col>
       </van-row>
-      <div class="btnsave-wrapper" @click="release">
-        <van-button type="primary" class="btnsave">保存</van-button>
+      <div class="btnsave-wrapper" @click="release" style="padding: 40px;">
+        <van-button type="primary" class="btnsave" style="width: 100%;">保存</van-button>
       </div>
       <van-row style="padding: 0 50px;">
         <!-- <van-col span="6" style="text-align:left;">

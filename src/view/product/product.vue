@@ -198,7 +198,7 @@ import productInfo from "./service/product.js";
 import defaultavatar from "../../assets/img/defaultavatar.png";
 export default {
   name: "product_details",
-  mixins: [productInfo],
+  mixins: [productInfo, defaultavatar],
   data() {
     return {
       picIndex: "",
@@ -240,6 +240,7 @@ export default {
       staffId: this.getCookie("staffId"),
       token: this.getCookie("token"),
       products: "",
+      defaultavatar: defaultavatar,
       active: 0,
       swipePic: ""
     };

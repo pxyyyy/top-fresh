@@ -19,15 +19,15 @@
 		<div class="address-group">
 			<div class="address" v-for="item in selectStaffAddressList" :key="item.staffId">
 				<div class="address-top">
-					<div class="address-top-left">
+					<div class="address-top-left" @click="callback(item)">
 						收货人
 						<span>{{item.adName}}</span>
 					</div>
-					<div class="address-top-right">
+					<div class="address-top-right" @click="callback(item)">
 						{{item.adPhone}}
 					</div>
 				</div>
-				<div class="address-content">
+				<div class="address-content" @click="callback(item)">
 					收货地址:
 					<span>{{item.adAddress}}，{{item.adAddressInfo}}</span>
 				</div>
@@ -89,12 +89,19 @@
 					}
 				});
 			},
+      callback(item) {
+			  let arr = [];
+			  arr.push(item);
+			  const result = JSON.stringify(arr);
+			  sessionStorage.adress = result;
+        this.$router.go(-1);
+      },
 			async Switching(adId) {
 				await this.updateDefaultAddress({
 					staffId: this.staffId,
 					token: this.token,
 					adId
-				});
+				})
 			},
 			async returnDetermine(adId) {
 				this.$router.go(-1);
