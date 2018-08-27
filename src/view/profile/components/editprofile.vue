@@ -157,6 +157,9 @@ export default {
 	text-align:right;
 	box-sizing: border-box
   }
+  img {
+	  margin-bottom: 0;
+  }
 }
 </style>
 
