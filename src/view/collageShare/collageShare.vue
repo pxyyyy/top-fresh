@@ -42,7 +42,7 @@
 			</ul>
 			<p class="collage-success-info-success">
 				结束时间
-				<span class="time">{{infoProduct.product.productEndDate}}</span>
+				<span class="time">{{infoProduct.endTime}}</span>
 			</p>
 			<p class="collage-success-info-button">
 				<button @click="participate" v-text="riend"></button>
