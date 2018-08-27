@@ -45,12 +45,14 @@
       mixins: [service],
       data() {
         return {
-          all: sessionStorage.getItem('all'),
+          // all: sessionStorage.getItem('all'),
+          orderCode: '',
           orderAllmoney: '',
           checked: false,
           Payment: false,
           code: '',
           isBack: true,
+          orderCreatetime: '',
           lastPayTime: '',
           await: ''
         }
@@ -83,12 +85,24 @@
         }else{
           this.isBack=true
         }
-        this.all = JSON.parse(this.all);
-        const { orderCreatetime, orderAllmoney } = this.all;
-        this.orderAllmoney = orderAllmoney;
+        const staffId = this.getCookie("staffId");
+        const token = this.getCookie("token");
+        this.selectOrderPrimaryKey({
+          staffId: staffId,
+          token: token,
+          orderId: this.$route.params.orderId
+        }).then(res => {
+          console.log(res,'res');
+          this.orderAllmoney = res.orderAllmoney;
+          this.orderCreatetime = res.orderCreatetime;
+          this.orderCode = res.orderCode;
+        });
+        // this.all = JSON.parse(this.all);
+        // const { orderCreatetime, orderAllmoney } = this.all;
+        // this.orderAllmoney = orderAllmoney;
         setInterval(()=> {
-          let createTime = Date.parse(orderCreatetime) / 1000;
-          let endTime = createTime + 1795;
+          let createTime = Date.parse(this.orderCreatetime) / 1000;
+          let endTime = createTime + 1800;
           let clientTime = Date.parse(new Date()) / 1000;
           let lastTime = endTime - clientTime;
           let int_minute;
@@ -139,17 +153,18 @@
 
          //微信支付
         async gocartOut() {
-          const { orderAllmoney, orderCode} = this.all;
         var staffWechat = this.getCookie("staffWechat");
         await this.weixinPay({
         	staffId: this.getCookie("staffId"),
         	token: this.getCookie("token"),
-        	orderCode: orderCode,
-        	jmoney: orderAllmoney,
+        	orderCode: this.orderCode,
+        	jmoney: this.orderAllmoney,
         	title: "支付订单",
         	ttt: this.code
         }).then(res => {
-        	var orderId = this.$route.params.orderId;
+          sessionStorage.removeItem('money');
+          sessionStorage.removeItem('scId');
+          var orderId = this.$route.params.orderId;
         	WeixinJSBridge.invoke(
         		"getBrandWCPayRequest",
         		{

@@ -196,15 +196,29 @@ export const otherRouter = [{
     //   }
     // }, ]
   },
+  // {
+  //   path: '/paymentOrder',
+  //   name: 'paymentOrder',
+  //   component: resolve => {
+  //     require(['@/view/cart/components/paymentOrder.vue'], resolve);
+  //   }
+  // },
   {
-    path: '/paymentOrder',
+    path: '/paymentOrder/:orderId',
     name: 'paymentOrder',
     component: resolve => {
       require(['@/view/cart/components/paymentOrder.vue'], resolve);
     }
   },
+  // {
+  //   path: '/cartDetermine',
+  //   name: 'cartDetermine',
+  //   component: resolve => {
+  //     require(['@/view/cart/components/cartDetermine.vue'], resolve);
+  //   }
+  // },
   {
-    path: '/cartDetermine',
+    path: '/cartDetermine/:orderId',
     name: 'cartDetermine',
     component: resolve => {
       require(['@/view/cart/components/cartDetermine.vue'], resolve);

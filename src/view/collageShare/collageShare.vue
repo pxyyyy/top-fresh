@@ -149,7 +149,7 @@ export default {
           // wx.hideOptionMenu();
           wx.onMenuShareTimeline({
             title: this.infoProduct.productName,
-            link: `http://192.168.10.119:8080/collageShare/${this.$route.params.id}/${this.$route.params.startUser}`,
+            link: `http://shop.jiweishengxian.com/collageShare/${this.$route.params.id}/${this.$route.params.startUser}`,
             imgUrl: this.infoProduct.proImgs[0].imgUrl,
             success: function () {
               // 用户确认分享后执行的回调函数
@@ -163,7 +163,7 @@ export default {
           wx.onMenuShareAppMessage({
             title: this.infoProduct.productName,
             desc: this.infoProduct.productInfo,
-            link:  `http://192.168.10.119:8080/collageShare/${this.$route.params.id}/${this.$route.params.startUser}`,
+            link:  `http://shop.jiweishengxian.com/collageShare/${this.$route.params.id}/${this.$route.params.startUser}`,
             imgUrl: this.infoProduct.proImgs[0].imgUrl,
             trigger: function (res) {
               // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
