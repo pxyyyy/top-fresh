@@ -180,7 +180,7 @@
                 <div class="item-bottom">
                   <p>
                     <button @click.stop="viewLogistics(order.orderCode)">查看物流</button>
-                    <button @click.stop="goEvaluation(item)">立即评价</button>
+                    <button @click.stop="goEvaluation(order.orderId)">立即评价</button>
                   </p>
                 </div>
               </li>
@@ -258,7 +258,7 @@ export default {
     },
     // 评价
     goEvaluation(item) {
-      this.$router.push(`/evaluationOrder/${item.odProductId}`);
+      this.$router.push(`/evaluationOrder/${item}`);
     },
     // 获取cook
     getCookie(name) {
