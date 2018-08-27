@@ -224,6 +224,7 @@
 		beforeMount() {
 			document.title = "登陆";
 			this.GetRequest;
+			var that = this
 			var Request = new Object();
 			Request = this.GetRequest();
 			let code = Request["code"];
