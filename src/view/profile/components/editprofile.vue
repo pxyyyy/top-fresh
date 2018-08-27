@@ -47,7 +47,7 @@ export default {
       };
       axios
         .post(
-          `http://192.168.10.141:8080/fresh_show/User/uploadAll?staffId=${this.getCookie(
+          `http://39.106.31.12:8080/fresh_show/User/uploadAll?staffId=${this.getCookie(
             "staffId"
           )}&token=${this.getCookie("token")}&type=4`,
           param,
@@ -138,7 +138,8 @@ export default {
   overflow: hidden;
   img {
     width: 30px;
-    height: 30px;
+	height: 30px;
+	margin-bottom: 0;
   }
 }
 .van-uploader {
@@ -156,9 +157,6 @@ export default {
 	padding-right:18%;
 	text-align:right;
 	box-sizing: border-box
-  }
-  img {
-	  margin-bottom: 0;
   }
 }
 </style>
