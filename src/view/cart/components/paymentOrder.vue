@@ -80,7 +80,10 @@
         this.code = Request["code"];
         if (!this.code) {
           this.isBack=false;
-          var url = `http://shop.jiweishengxian.com/paymentOrder/${this.$route.params.orderId}`;
+          var url = `http://shop.jiweishengxian.com/paymentOrder/${
+            this.$route.params.orderId
+            }`;
+
           window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
         }else{
           this.isBack=true
