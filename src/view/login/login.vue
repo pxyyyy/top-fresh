@@ -138,6 +138,7 @@
 				});
 			},
 			sureStep: function () {
+				var that = this
 				if (this.weChat) {
 					this.toLogin({
 						codePhone: this.d2,
@@ -150,7 +151,12 @@
 							this.setCookie("staffWechat", res.data[0].staffWechat);
 							this.setCookie("staffId", res.data[0].staffId);
 							// this.$router.go(-1);
-							window.location.href = "http://shop.jiweishengxian.com"
+							if(sessionStorage.getItem('history')){
+								that.$router.push(sessionStorage.getItem('history'))
+							}else{
+								window.location.href = "http://shop.jiweishengxian.com"
+
+							}
 
 						} else {
 							Toast(res.message);
@@ -165,7 +171,12 @@
 							this.setCookie("token", res.data[0].staffToken);
 							this.setCookie("staffId", res.data[0].staffId);
 							this.setCookie("staffWechat", res.data[0].staffWechat);
-							window.location.href = "http://shop.jiweishengxian.com"
+							if(sessionStorage.getItem('history')){
+								that.$router.push(sessionStorage.getItem('history'))
+							}else{
+								window.location.href = "http://shop.jiweishengxian.com"
+
+							}
 							// window.location.href = "http://192.168.10.158:8080"
 						} else {
 							Toast(res.message);

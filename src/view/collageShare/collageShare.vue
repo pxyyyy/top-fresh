@@ -29,7 +29,6 @@
 					单价买 ￥{{infoProduct.product.productPrice}}
 				</span>
 			</p>
-
 			<ul class="collage-success-info-people" v-if="infoProduct.user">
 				<li v-for="(item,index) in infoProductUser" :key="index">
 					<img :src="item.staffPhotourl ? item.staffPhotourl : defaultavatar">
@@ -49,7 +48,8 @@
 				<button @click="participate" v-text="riend"></button>
 			</p>
 			<p class="collage-success-info-bottom">
-				<span :class="{spanActive1:isspan1}">邀请好友参团 </span> <span :class="{spanActive2:isspan2}">拼团成功分别发货</span> > <span>人数不足自动退款</span></p>
+				<span :class="{spanActive1:isspan1}">邀请好友参团 </span> > <span :class="{spanActive2:isspan2}">拼团成功分别发货</span>
+				> <span>人数不足自动退款</span></p>
 		</div>
 		<div class="xinxi" v-if="infoProduct">
 			<p>
@@ -239,6 +239,8 @@
 								}
 							}
 						});
+					} else if (this.staffId && this.riend == "邀请好友参团") {
+						this.showshareIt = true
 					}
 				}
 			}
@@ -249,31 +251,31 @@
 				this.show = false;
 				this.marginBottom = "0px";
 			} else {
+				var Request = new Object();
+				Request = this.GetRequest();
+				let code = Request["code"];
 				this.show = true;
+				if (!code) {
+					var url = window.location.href;
+					window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collageShare/2018082515385111/1182&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+				}
 			}
 
-			var Request = new Object();
-			Request = this.GetRequest();
-			let code = Request["code"];
-			if (code) {
-				var params = {
-					url: window.location.href,
-					code: code
-				}
-				this.getweixinSign(params).then(res => {
-					console.log(res)
-					if (res.code == 100000) {
-						this.timestamp = res.data.timestamp;
-						this.nonceStr = res.data.nonceStr;
-						this.signature = res.data.signature
-					}
-				})
-			} else if (!code) {
-				var url = window.location.href;
-				// window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collageShare/2018082515385111/1182&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-			}
-			console.log(wx)
+			// if (code) {
+			// 	var params = {
+			// 		url: window.location.href,
+			// 		code: code
+			// 	}
+			// 	this.getweixinSign(params).then(res => {
+			// 		console.log(res)
+			// 		if (res.code == 100000) {
+			// 			this.timestamp = res.data.timestamp;
+			// 			this.nonceStr = res.data.nonceStr;
+			// 			this.signature = res.data.signature
+			// 		}
+			// 	})
+			// } else 
+
 			var that = this;
 			var url = window.location.href;
 			wx.config({
@@ -290,7 +292,7 @@
 					title: "极味生鲜", // 分享标题
 					link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					// link: url + '#/...', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-					imgUrl:"http://jiweishengxian.oss-cn-qingdao.aliyuncs.com/picture/20180806/384554611533522458355.png", // 分享图标
+					imgUrl: "http://jiweishengxian.oss-cn-qingdao.aliyuncs.com/picture/20180806/384554611533522458355.png", // 分享图标
 					success() {
 						alert('分享朋友圈成功')
 						// 用户确认分享后执行的回调函数
@@ -319,7 +321,6 @@
 
 			});
 			wx.error(function (res) {
-				console.log(res)
 				// config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
 			});
 		},
