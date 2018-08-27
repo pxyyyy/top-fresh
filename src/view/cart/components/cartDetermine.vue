@@ -623,13 +623,13 @@
 			var Request = new Object();
 			Request = this.GetRequest();
 			this.code = Request["code"];
-			// if (!this.code) {
-			// 	this.isBack = false;
-			// 	var url = `http://shop.jiweishengxian.com/cartDetermine/${this.$route.params.orderId}`;
-			// 	window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-			// } else {
-			// 	this.isBack = true
-			// }
+			if (!this.code) {
+				this.isBack = false;
+				var url = `http://shop.jiweishengxian.com/cartDetermine/${this.$route.params.orderId}`;
+				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+			} else {
+				this.isBack = true
+			}
 			var staffWechat = this.getCookie("staffWechat");
 
 			if (this.code && !staffWechat) {
