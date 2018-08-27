@@ -1,8 +1,8 @@
 /*
  * @Author: By.zhangTeng
  * @Date: 2018-06-04 15:27:53
- * @Last Modified by: By.zhangTeng
- * @Last Modified time: 2018-06-05 15:07:25
+ * @Last Modified by: ZT.zhangTeng
+ * @Last Modified time: 2018-08-18 12:06:30
  */
 import API from '../../../api/API.js'
 const api = new API();
@@ -45,11 +45,8 @@ export default {
     addCart(token, staffId, productId, productNum) {
       return api.get(`fresh_show/prCar/addProCar?productId=${productId}&staffId=${staffId}&token=${token}&productNum=${productNum}`)
         .then(res => {
-          console.log(res.data)
-          if (res.data.code == 100000) {
-            return res.data.data;
-          }
-
+		  console.log(res.data)
+		  return res.data
         })
         .catch(function (error) {
           console.log(error);

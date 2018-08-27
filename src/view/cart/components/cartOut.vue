@@ -87,13 +87,12 @@ export default {
     pushHistory() {
       var state = {
         title: "title",
-        url: "#"
+        url: ""
       };
-      window.history.pushState(state, "title", "#");
-    },
+      window.history.pushState(state, "title", "");
+	},
     // 获取cook
     getCookie(name) {
-      console.log(this);
       var arr,
         reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
       if ((arr = document.cookie.match(reg))) {

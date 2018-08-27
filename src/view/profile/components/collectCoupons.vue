@@ -33,6 +33,7 @@
     </div>
   </div>
 </template>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 
 <script>
 import coupon from "../service/coupon";
@@ -96,6 +97,55 @@ export default {
     },
     shareItClick() {
       this.showshareIt = false;
+      $(function() {
+        var timestamp = $("#timestamp").val();//时间戳
+        var nonceStr = $("#noncestr").val();//随机串
+        var signature = $("#signature").val();//签名
+        wx.config({
+          debug : false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          appId : 'wx365ff8d24bc6fd9f', // 必填，公众号的唯一标识
+          timestamp : timestamp, // 必填，生成签名的时间戳
+          nonceStr : nonceStr, // 必填，生成签名的随机串
+          signature : signature,// 必填，签名，见附录1
+          jsApiList : [ 'scanQRCode','onMenuShareAppMessage','onMenuShareTimeline' ]
+          // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
+
+        wx.ready(function(){
+          // wx.hideOptionMenu();
+          wx.onMenuShareTimeline({
+            title: this.product.productName,
+            link: `http://192.168.10.119:8080/collectCoupons/${this.$route.params.id}?staffid=${this.getCookie('staffId')}`,
+            imgUrl: this.product.proImgs[0].imgUrl,
+            success: function () {
+              // 用户确认分享后执行的回调函数
+              alert('分享到朋友圈成功');
+            },
+            cancel: function () {
+              // 用户取消分享后执行的回调函数
+              alert('你没有分享到朋友圈');
+            }
+          });
+          wx.onMenuShareAppMessage({
+            title: this.product.productName,
+            desc: this.product.productInfo,
+            link: `http://192.168.10.119:8080/collectCoupons/${this.$route.params.id}?staffid=${this.getCookie('staffId')}`,
+            imgUrl: this.product.proImgs[0].imgUrl,
+            trigger: function (res) {
+              // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+            },
+            success: function (res) {
+              alert('分享给朋友成功');
+            },
+            cancel: function (res) {
+              alert('你没有分享给朋友');
+            },
+            fail: function (res) {
+              alert(JSON.stringify(res));
+            }
+          });
+        });
+      });
     },
     verificationCode() {
       const TIME_COUNT = 60;
@@ -114,7 +164,6 @@ export default {
           let time = setInterval(() => {
             this.total--;
             this.content = this.total + "s后重新发送";
-            console.log(11);
             if (this.total == 0) {
               this.content = "重新发送验证码";
               this.total = 10;

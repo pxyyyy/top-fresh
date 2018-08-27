@@ -10,7 +10,9 @@
   border: 0;
   vertical-align: middle;
 }
-
+.swiper-wrapper{
+	height: auto !important;
+}
 .details .van-tabs__nav--card .van-tab.van-tab--active {
   background: #fff !important;
   color: #e2c083 !important;
@@ -74,6 +76,11 @@
         <img v-lazy="image.imgUrl" class="img">
       </swiper-slide>
     </swiper>
+    <div v-else>
+      <div class="Crop">
+        <img src="../../assets/img/loading.png" class="img">
+      </div>
+    </div>
     <div class="discript">
       <p class="title">{{product.productName}}</p>
       <p class="subtitle">{{product.productInfo}}</p>
@@ -110,7 +117,7 @@
           <span style="color:#e2c083 ">—</span> {{product.productEndDate}}</span>
       </p>
     </div>
-    <div class="details" :style="{marginBottom:marginBottom}">
+    <div class="details" :style="{paddingBottom:marginBottom}">
       <van-tabs type="card" v-model="active">
         <van-tab v-for="item in ordersList" :title="item.text" :key="item.id">
           <div class="details_content" v-html="product.productImg" v-if="item.id == 1"></div>
@@ -170,7 +177,7 @@
       <van-goods-action-mini-btn icon="cart" text="购物车" @click="toCart" />
       <van-goods-action-mini-btn icon="chat" text="客服" v-if="this.$route.query.from == 'ios' || this.$route.query.from == 'android'" />
       <van-goods-action-big-btn text="加入购物车" @click="openCart" />
-      <van-goods-action-big-btn text="立即购买" primary @click="openPay(product.productId)" />
+      <van-goods-action-big-btn text="立即购买" primary @click="openPay()" />
     </van-goods-action>
     <van-actionsheet v-model="show1" title="选择数量" style="color:#b7b4b4" class="selectNum">
       <p style="display:fixed">
@@ -185,6 +192,7 @@
 <script>
 import img from "../../assets/img/介绍.png";
 import { Dialog, Rate } from "vant";
+import { Toast } from "vant";
 import traceabilityVue from "../traceability/traceability.vue";
 import productInfo from "./service/product.js";
 import defaultavatar from "../../assets/img/defaultavatar.png";
@@ -198,7 +206,7 @@ export default {
       pictureCorridor: false,
       cartLictPic: require("../../assets/img/组7@2x.png"),
       valuationPic: require("../../assets/img/评价DEMO.png"),
-      marginBottom: "50px",
+      marginBottom: "100px",
       show: false,
       show1: false,
       show2: false,
@@ -251,7 +259,6 @@ export default {
             type: "1"
           },
           data => {
-            console.log("success");
           }
         );
       }
@@ -276,7 +283,7 @@ export default {
         return false;
       }
     },
-    openPay(num) {
+    openPay() {
       // 个人信息{
       this.getStaffInfo({
         staffId: this.getCookie("staffId"),
@@ -289,19 +296,9 @@ export default {
       });
       var istoken = this.isToken();
       if (istoken) {
-
-        var id = this.$route.params.id;
-        this.addOrder(this.token, this.staffId, num, this.number).then(res => {
-          if (res.code == 100003) {
-            Dialog.alert({
-              title: "购买失败",
-              message: res.message
-            }).then(() => {
-            });
-          }else {
-          this.$router.push(`/cartDetermine/${res.data[0].orderId}`);
-          }
-        });
+        let productArr =  JSON.stringify([this.product]);
+        sessionStorage.productArr = productArr;
+        this.$router.push(`/cartDetermine`);
       } else {
         Dialog.alert({
           title: "提示",
@@ -324,12 +321,21 @@ export default {
         }
       });
       this.addCart(this.token, this.staffId, id, this.number).then(res => {
-        Dialog.alert({
-          title: "提示",
-          message: "添加成功"
-        }).then(() => {
-          this.$router.push(`/cart?number=` + this.number); // on close
-        });
+        if(res.code==100000){
+			Dialog.alert({
+				title: "提示",
+				message: "添加成功"
+			}).then(() => {
+				this.$router.push(`/cart?number=` + this.number); // on close
+			});
+		}else{
+			Dialog.alert({
+				title: "提示",
+				message: res.message
+			}).then(() => {
+
+			});
+		}
       });
     },
     openCart(type) {
@@ -368,11 +374,11 @@ export default {
             type: "0"
           },
           data => {
-            console.log("success");
           }
         );
       }
       this.swipePic = item;
+      console.log(this.swipePic,'swipePic')
       this.picIndex = index;
       this.pictureCorridor = true;
     },
@@ -385,7 +391,7 @@ export default {
             productId: `${productId}`
           },
           data => {
-            console.log("success");
+
           }
         );
       } else {

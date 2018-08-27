@@ -113,7 +113,6 @@ export default {
         });
       } else {
         this.getCoupon(this.staffId, this.token, 1).then(res => {
-          console.log(res);
           this.coupon1 = res;
         });
       }

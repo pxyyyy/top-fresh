@@ -68,7 +68,6 @@ export default {
               title: `${activeId.title}`
             },
             data => {
-              console.log("success");
             }
           );
         } else {
@@ -111,7 +110,6 @@ export default {
               title: `${activeId.title}`
             },
             data => {
-              console.log("success");
             }
           );
         } else {
@@ -129,7 +127,6 @@ export default {
               title: `${activeId.title}`
             },
             data => {
-              console.log("success");
             }
           );
         } else {
@@ -146,7 +143,6 @@ export default {
               title: `${activeId.title}`
             },
             data => {
-              console.log("success");
             }
           );
         } else {
@@ -154,49 +150,6 @@ export default {
         }
       }
     }
-    //   let from = this.$route.query.from;
-    //   if (from == "IOS" || from == "Android") {
-    //     this.$bridge.callHandler(
-    //       "goActiveInfoVC",
-    //       {
-    //         activeid: activeId
-    //       },
-    //       data => {
-    //         console.log("success");
-    //       }
-    //     );
-    //   } else {
-    //     this.$router.push(
-    //       // `/eventList?id=`+activeId
-    //       `eventList?id=${activeId.id}`
-    //     );
-    //   }
-    // goYouhuiquanVC() {
-    //   let from = this.$route.query.from;
-    //   if (from == "IOS" || from == "Android") {
-    //     this.$bridge.callHandler("goYouhuiquanVC", data => {
-    //       console.log("success");
-    //     });
-    //   } else {
-    //     this.$router.push(
-    //       `/myCoupon`
-    //       // link
-    //     );
-    //   }
-    // },
-    // goPintuanGoodsVC() {
-    //   let from = this.$route.query.from;
-    //   if (from == "IOS" || from == "Android") {
-    //     this.$bridge.callHandler("goPintuanGoodsVC", data => {
-    //       console.log("success");
-    //     });
-    //   } else {
-    //     this.$router.push(
-    //       `/teamwork`
-    //       // link
-    //     );
-    //   }
-    // }
   },
   computed: {
     viewWeight: function() {

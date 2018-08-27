@@ -66,7 +66,6 @@ export default {
   },
   mounted() {
     let from = this.$route.query.from;
-    console.log("from", from);
     if (from == "IOS") {
       this.isClient = true;
       this.marginTop = "0";

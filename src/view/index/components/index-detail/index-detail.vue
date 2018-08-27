@@ -7,6 +7,7 @@
 }
 .wrapper img {
   width: 100%;
+  margin-bottom: 50px;
 }
 .wrapper {
   margin-bottom: 45px;

@@ -28,7 +28,6 @@ export default {
         pageSize: 7
       }).then(res => {
         this.list = res;
-        console.log(this.list[0].productImg);
       });
     }
   },
@@ -50,7 +49,6 @@ export default {
           "goGoodInfoVC",
           { productId: id.productId },
           data => {
-            console.log("success");
           }
         );
       } else if (from == "Android") {
@@ -58,7 +56,6 @@ export default {
           "goGoodInfoVC",
           { productId: id.productId },
           data => {
-            console.log("success");
           }
         );
       } else {

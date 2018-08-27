@@ -19,6 +19,17 @@ export default {
 				console.log(err)
 			});
 		},
+    //第三方登录
+    thirdLogin(json) {
+      return api.post(`fresh_show/staffC/thirdLogin`, json)
+        .then(res => {
+          console.log(res.data);
+          return res.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
 		getproducts(index) {
 			return api.get(`fresh_show/homePage/selectProByType?pType=${index}`).then((res) => {
 				if (res.data.code == 100000 && res.data.message == 'success') {

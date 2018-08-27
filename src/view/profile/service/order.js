@@ -1,6 +1,6 @@
 /*
- * @Author: By.zhangTeng 
- * @Date: 2018-06-04 15:27:53 
+ * @Author: By.zhangTeng
+ * @Date: 2018-06-04 15:27:53
  * @Last Modified by: tarn.tianrun
  * @Last Modified time: 2018-08-11 11:32:53
  */
@@ -118,6 +118,19 @@ export default {
           console.log(error);
         });
 	},
+    //商品详情
+    getProductInfo(id) {
+      return api.get(`fresh_show/pro/selectProDetaiById?productId=${id}`)
+        .then(res => {
+          if (res.data.code == 100000) {
+            return res.data.data;
+          }
+
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
 	handleDeleteRoll(id, token, staffId){
 		return api.get(`fresh_show/orderTail/deleteTi?odId=${id}&token=${token}&staffId=${staffId}`)
         .then(res => {

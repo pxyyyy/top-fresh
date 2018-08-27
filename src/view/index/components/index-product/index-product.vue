@@ -86,11 +86,9 @@ export default {
       let from = this.$route.query.from;
       if (from == "IOS") {
         this.$bridge.callHandler("goGoodListVC", { name: this.name }, data => {
-          console.log("success");
         });
       } else if (from == "Android") {
         this.$bridge.callHandler("goGoodListVC", { name: this.name }, data => {
-          console.log("success");
         });
       } else {
         this.$router.push(`/goodsList/${this.active}`);
@@ -103,7 +101,6 @@ export default {
           "goGoodInfoVC",
           { productId: productId },
           data => {
-            console.log("success");
           }
         );
       } else if (from == "Android") {
@@ -111,7 +108,6 @@ export default {
           "goGoodInfoVC",
           { productId: productId },
           data => {
-            console.log("success");
           }
         );
       } else {

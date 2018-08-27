@@ -47,7 +47,6 @@ export default {
               type: 1
             },
             data => {
-              console.log("success");
             }
           );
         } else {
@@ -63,7 +62,6 @@ export default {
       } else if (activeId.acType == 2) {
         if (from == "IOS" || from == "Android") {
           this.$bridge.callHandler("goActiveInfoVC", data => {
-            console.log("success");
           });
         } else {
           if (this.getCookie("token")) {
@@ -84,7 +82,6 @@ export default {
               type: 3
             },
             data => {
-              console.log("success");
             }
           );
         } else {
@@ -101,7 +98,6 @@ export default {
               type: 4
             },
             data => {
-              console.log("success");
             }
           );
         } else {
@@ -116,7 +112,6 @@ export default {
               type: 5
             },
             data => {
-              console.log("success");
             }
           );
         } else {

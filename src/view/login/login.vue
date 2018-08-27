@@ -37,17 +37,6 @@
 				<div class="container" :style='{"height":viewHeight}'>
 					<div class="title1">请您输入验证码</div>
 					<div class="subtitle">验证码已发送至+86 {{phone}}</div>
-					<!-- <div class="security-code-wrap">
-						<label for="code">
-							<ul class="security-code-container">
-								<li class="field-wrap" v-for="(item, index) in number" :key="index">
-								<i class="char-field">{{value[index] || placeholder}}</i>
-								</li>
-							</ul>
-						</label>
-						<input ref="input" class="input-code" @keyup="handleInput($event)" v-model="value" id="code" name="code" type="tel" :maxlength="number"
-						 autocorrect="off" autocomplete="off" autocapitalize="off">
-					</div> -->
 					<security-code class="security-code" v-model="value" theme="line" :length="6"></security-code>
 					<div class="time color" v-show="show" @click="reset">重新获取验证码</div>
 					<div class="time" v-show="!show">{{count}}秒后可重新获取</div>
@@ -90,11 +79,6 @@
 				popup: "请输入手机号",
 				d2: ""
 			};
-		},
-		watch: {
-			login: function () {
-				console.log(this.login);
-			}
 		},
 		components: {
 			SecurityCode
@@ -141,14 +125,8 @@
 					this.show = false;
 					this.timeout();
 					let dd = Encrypt(this.phone);
-					console.log(dd);
 					this.d2 = dd;
-					console.log(this.d2);
-					// 解密
-					// let ss = Decrypt(this.d2);
-					// console.log(ss);
 					this.getCode(this.d2).then(res => {
-						console.log(res);
 					});
 				}
 			},
@@ -157,7 +135,6 @@
 				this.show = false;
 				this.timeout();
 				this.getCode(this.d2).then(res => {
-					console.log(res);
 				});
 			},
 			sureStep: function () {
@@ -170,8 +147,10 @@
 					}).then(res => {
 						if (res.code == 100000) {
 							this.setCookie("token", res.data[0].staffToken);
+							this.setCookie("staffWechat", res.data[0].staffWechat);
 							this.setCookie("staffId", res.data[0].staffId);
-							this.$router.go(-1);
+							// this.$router.go(-1);
+							window.location.href = "http://shop.jiweishengxian.com"
 						} else {
 							Toast(res.message);
 						}
@@ -181,11 +160,12 @@
 						codePhone: this.d2,
 						codeValue: this.value
 					}).then(res => {
-						console.log(res.data.code);
 						if (res.code == 100000) {
 							this.setCookie("token", res.data[0].staffToken);
 							this.setCookie("staffId", res.data[0].staffId);
+							this.setCookie("staffWechat", res.data[0].staffWechat);
 							window.location.href = "http://shop.jiweishengxian.com"
+							// window.location.href = "http://192.168.10.158:8080"
 						} else {
 							Toast(res.message);
 						}
@@ -230,24 +210,24 @@
 			}
 		},
 		beforeMount() {
-			document.title = "登陆"
+			document.title = "登陆";
 			this.GetRequest;
 			var Request = new Object();
 			Request = this.GetRequest();
 			let code = Request["code"];
-			console.log(code);
 			if (code) {
 				this.getOpenId({
 					type: 3,
 					code
 				}).then(res => {
 					this.weChat = res.data.staffWechat;
+					this.setCookie("staffWechat", res.data.staffWechat);
 					if (!res.data.staffId) {
 						Toast("请绑定手机号~");
 					} else {
 						this.setCookie("token", res.data.staffToken);
 						this.setCookie("staffId", res.data.staffId);
-						window.location.href = sessionStorage.link;
+						window.location.href = "http://shop.jiweishengxian.com"
 					}
 				});
 			}

@@ -32,7 +32,6 @@ export default {
   beforeMount() {
     document.title = "顺丰快递";
     this.code = this.$route.params.name + "," + this.$route.params.number;
-    console.log(this.code);
     let dd = Encrypt(this.code);
     this.d2 = dd;
     this.kuaidiCode({

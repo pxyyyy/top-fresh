@@ -39,7 +39,7 @@ import { Toast } from "vant";
 export default {
   data() {
     return {
-      value: 1,
+      value: 5,
       src: "",
       imgList: [],
       text: ""

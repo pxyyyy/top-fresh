@@ -131,7 +131,7 @@
                       <div class="van-card__desc cart-card__desc" v-else>现货</div>
                     </div>
                     <div class="van-card__row">
-                      <div class="cart-card__price">¥{{item.carProductPprice}}.00</div>
+                      <div class="cart-card__price">¥{{item.carProductPprice}}</div>
                     </div>
                   </div>
                   <div class="van-card__footer">
@@ -152,7 +152,7 @@
         </div>
         <div data-v-7f845944="" class="van-cell__value">
           <span data-v-7f845944="">合计：
-            <span class="cart-info__price" v-text=" '￥' + totalPrice + '.00'"></span>
+            <span class="cart-info__price" v-text=" '￥' + totalPrice"></span>
           </span>
           <van-button size="small" class="cart-info__btn" @click="goDetails">结算</van-button>
         </div>
@@ -176,6 +176,7 @@ export default {
       select: true,
       checked: false,
       checkedGoods: [],
+      productId: [],
       goods: [],
       Clearing: true,
       orderId: "",
@@ -265,26 +266,37 @@ export default {
     },
     // 结算
     goDetails: async function() {
+      let arr = [];
+      this.goods.forEach(x =>{
+        this.checkedGoods.forEach(y =>{
+          if (x.carId === y) {
+            arr.push(x)
+          }
+        });
+      });
+      let productArr = JSON.stringify([...arr]);
       let carIds = JSON.stringify([...this.checkedGoods]);
       carIds = carIds.split("[")[1].split("]")[0];
       if (this.checkedGoods == "") {
         Toast("请选择订单商品");
-      } else {
-        await this.carToOrder({
-          carIds,
-          staffId: this.staffId,
-          token: this.token
-        }).then(res => {
-          if (res.data.code == 100003) {
-            Toast("卡券和现货不能一起购买");
-          } else {
-            this.orderId = res.data.data;
-            sessionStorage.money = "";
-            sessionStorage.scId = "";
-            console.log(this.orderId,'orderId')
-            this.$router.push(`cartDetermine/${this.orderId}`);
+      } else if(arr.length > 1){
+        arr.forEach((x, i) =>{
+          if(i !== 0){
+            const { carPtype } = arr[i];
+            const { carPtype: preCarPtype } = arr[i - 1];
+            if(carPtype !== preCarPtype) {
+              Toast('礼券和现货不能同时结算')
+            }else{
+              sessionStorage.productArr = productArr;
+              sessionStorage.carPrice = this.totalPrice;
+              this.$router.push(`/cartDetermine`);
+            }
           }
         });
+      }else {
+        sessionStorage.productArr = productArr;
+        sessionStorage.carPrice = this.totalPrice;
+        this.$router.push(`/cartDetermine`);
       }
     }
   },

@@ -7,8 +7,8 @@
 	}
 
 	.van-icon__info {
-		background:red !important;
-		font-size: 15px !important;
+		background:#e2bf85 !important;
+		font-size: 13px !important;
 	}
 </style>
 <template>
@@ -216,16 +216,15 @@
 				this.$router.push("/Orders");
 			},
 			secondLevel(index) {
-				console.log(index)
 				switch (index) {
 					case 0:
 						this.$router.push("/cartAddress");
 						break;
 					case 1:
-						this.$router.push("/LadingRoll");
+						this.$router.push("/MyCollage");
+						// this.$router.push("/LadingRoll");
 						break;
 					case 2:
-						// this.$router.push("/MyCollage");
 						window.location.href = "tel:400-010-5777";
 						break;
 					case 3:
@@ -243,7 +242,7 @@
 				this.$router.push(`/LadingRoll`);
 			}
 		},
-		beforeMount() {
+		mounted() {
 			sessionStorage.link = window.location.href;
 			document.title = "个人";
 			this.selectProByType().then(res => {
@@ -271,15 +270,6 @@
 				pageSize: 7
 			}).then(res => {
 				this.myLadingNum = res.data.length;
-			});
-			this.selectMyLadingByStaffId({
-				token: this.getCookie("token"),
-				staffId: this.getCookie("staffId"),
-				state: "3",
-				pageNum: this.pageNum,
-				pageSize: 7
-			}).then(res => {
-				this.myLadingNum += res.data.length;
 			});
 		}
 	};

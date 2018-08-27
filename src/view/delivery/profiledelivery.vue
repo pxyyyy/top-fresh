@@ -128,7 +128,6 @@ export default {
             type: "0"
           },
           data => {
-            console.log("success");
           }
         );
       } else {

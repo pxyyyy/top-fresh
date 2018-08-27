@@ -51,7 +51,6 @@ export default {
         )
         .then(response => {
           this.userPic = response.data.data;
-          console.log(this.userPic);
         });
     },
     // 获取cook

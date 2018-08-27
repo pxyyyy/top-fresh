@@ -78,11 +78,6 @@
 				d2: ""
 			};
 		},
-		watch: {
-			login: function () {
-				console.log(this.login);
-			}
-		},
 		methods: {
 			shutdown() {
 				this.$router.push("/");
@@ -101,14 +96,9 @@
 					this.show = false;
 					this.timeout();
 					let dd = Encrypt(this.phone);
-					console.log(dd);
 					this.d2 = dd;
-					console.log(this.d2);
 					// 解密
-					// let ss = Decrypt(this.d2);
-					// console.log(ss);
 					this.getCode(this.d2).then(res => {
-						console.log(res);
 					});
 				}
 			},
@@ -117,7 +107,6 @@
 				this.show = false;
 				this.timeout();
 				this.getCode(this.d2).then(res => {
-					console.log(res);
 				});
 			},
 			sureStep: function () {
@@ -161,16 +150,10 @@
 			}
 		},
 		mounted() {
-			console.log(this.$route)
 			var phone=this.$route.query.phone
-			console.log(phone)
 			if(phone != undefined){
-				console.log(phone)
 				this.phone=phone;
 			}
-			console.log(this.phone)
-
-			
 		},
 		
 	};

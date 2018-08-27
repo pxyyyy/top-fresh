@@ -14,6 +14,18 @@ export default {
           console.log(error);
         });
     },
+    // 新的确认订单
+    newAddOrder(json) {
+      return api.post('fresh_show/order/newAddOrder', json)
+        .then(res => {
+          if (res.data.code == 100000) {
+            return res.data.data;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     fetchList(staffId, token) {
       return api.get(`fresh_show/prCar/selectProCarList?staffId=${staffId}&token=${token}`).then((res) => {
         const data = res.data;
@@ -177,7 +189,17 @@ export default {
       }).catch((err) => {
         console.log(err)
       });
-    },
+	},
+	// 绑定微信
+    updateOpenId(json) {
+		return api.post(`fresh_show/staff/updateOpenId`, json)
+		  .then(res => {
+			return res.data;
+		  })
+		  .catch(function (error) {
+			console.log(error);
+		  });
+	  },
     // 订单详情
     selectOrderPrimaryKey(json) {
       return api.post('fresh_show/order/selectOrderPrimaryKey', json).then((res) => {

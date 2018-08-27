@@ -37,7 +37,6 @@
 			var Request = new Object();
 			Request = this.GetRequest();
 			let code = Request["code"];
-			console.log(code);
 			if (code) {
 				this.getOpenId({
 					type: 3,
