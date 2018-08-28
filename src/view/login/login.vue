@@ -222,7 +222,7 @@
 			}
 		},
 		beforeMount() {
-			document.title = "登陆";
+			document.title = "登录";
 			this.GetRequest;
 			var that = this
 			var Request = new Object();

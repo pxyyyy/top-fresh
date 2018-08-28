@@ -27,7 +27,7 @@
   <!-- 商品详情 页面-->
   <div>
     <!-- 商品主图  有赞轮播组件-->
-    <swiper :options="swiperOption">
+    <swiper :options="swiperOption" :style="{marginTop:marginTop}">
       <swiper-slide v-for="(image, index) in info.proImgs" :key="index">
         <img v-lazy="image.imgUrl" class="img" />
       </swiper-slide>
@@ -93,9 +93,11 @@ export default {
     return {
       swiperOption: {
         loop: true,
-        effect: "fade"
+        effect: "fade",
       },
-      info: ""
+      info: "",
+      marginTop: "0"
+
     };
   },
   beforeMount() {
@@ -104,6 +106,13 @@ export default {
     }).then(res => {
       this.info = res.data;
     });
+
+  },
+  mounted() {
+    let from = this.$route.query.from;
+    if (from == "IOS") {
+      this.marginTop = "-15px";
+    }
   },
   methods: {
     // 获取cook
