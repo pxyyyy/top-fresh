@@ -55,7 +55,7 @@
       </div>
     </div>
     <div class="wait">
-      <van-button size="mini" class='info-button'>等待发货</van-button>
+      <span class='info-button'>等待发货</span>
     </div>
     <!-- 继续选购 -->
     <div class="keepOn">

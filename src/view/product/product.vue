@@ -2,9 +2,7 @@
 @import "./product.less";
 </style>
 <style>
-.details_content {
-  padding-bottom: 50px;
-}
+
 .details_content img {
   width: 100%;
   border: 0;
@@ -120,7 +118,11 @@
     <div class="details" :style="{paddingBottom:marginBottom}">
       <van-tabs type="card" v-model="active">
         <van-tab v-for="item in ordersList" :title="item.text" :key="item.id">
-          <div class="details_content" v-html="product.productImg" v-if="item.id == 1"></div>
+          <div class="details_content" v-if="item.id == 1&&product.productImg == ''">
+            <img src="../../assets/img/leary.png" />
+          </div>
+          <div class="details_content" v-html="product.productImg" v-if="item.id == 1">
+          </div>
           <div class="evaluation" v-if="item.id == 2">
             <div class="evaluation-img" v-if="pinglunNum == 0">
               <img src="../../assets/img/leary.png" />
@@ -206,7 +208,7 @@ export default {
       pictureCorridor: false,
       cartLictPic: require("../../assets/img/组7@2x.png"),
       valuationPic: require("../../assets/img/评价DEMO.png"),
-      marginBottom: "100px",
+      marginBottom: "50px",
       show: false,
       show1: false,
       show2: false,
@@ -468,6 +470,7 @@ export default {
     await this.getProductInfo(id) //获取列表
       .then(res => {
         this.product = res;
+        console.log(this.product,'product')
         this.ordersList[1].text = `评价(${this.product.productPinglunnum})`;
         document.title = `${this.product.productName}`;
         this.pinglunNum = this.product.productPinglunnum;

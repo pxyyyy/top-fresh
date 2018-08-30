@@ -9,7 +9,7 @@
     </div>
     <div class="exercise-active">
 
-      
+
       <!-- <div class="left" @click="goActiveInfo(activities[0])">
         <img v-if="activities" :src="activities[0].imgUrl" alt="">
       </div>

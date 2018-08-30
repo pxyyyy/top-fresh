@@ -26,15 +26,15 @@
 						<img src="../../../assets/icon/确认订单地址@2x.png" alt="">
 					</van-col>
 					<van-col span="20">
-						<p class="addwrap">
+						<p class="addwrap" v-if="showadress">
 							<!-- <span>收货人: </span> -->
-							<span class="adname" v-if="cartList">收货人: {{cartList[0].adName}}</span>
-							<span class="adphone" v-if="cartList">{{cartList[0].adPhone}}</span>
+							<span class="adname">收货人: {{cartList[0].adName}}</span>
+							<span class="adphone">{{cartList[0].adPhone}}</span>
 						</p>
 						<p style="margin-top:5px;">
 							<!-- <span>收货地址: </span> -->
-							<span class="userAddress" v-if="cartList">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
-							<span class="userAddress" v-else>请设置收件信息</span>
+							<span class="userAddress" v-if="showadress">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
+							<span class="userAddress" v-if="showadress === false">请设置收件信息</span>
 						</p>
 					</van-col>
 				</van-row>
@@ -290,6 +290,7 @@
 				imgUrl: "",
 				showMail: false,
 				showProduct: false,
+        showadress: false,
 				buyNow: false,
 				number: '',
 				proNum: '',
@@ -661,15 +662,18 @@
 					// }
 					// console.log(this.adress,'adress')
 					if (res.length > 0) {
-						this.cartList = res.filter((item, index, arr) => {
+            this.showadress = true;
+            this.cartList = res.filter((item, index, arr) => {
 							return item.adIsdefault == "1";
 						});
-					} else if (res.length === 0) {
-						this.cartList = null
+					} else if (res.length == 0) {
+            this.showadress = false;
+            this.cartList[0] = null
 					}
 					this.adress = JSON.parse(this.adress);
 					if (this.adress) {
-						this.cartList = this.adress;
+            this.showadress = true;
+            this.cartList = this.adress;
 					}
 
 				});

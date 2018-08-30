@@ -2,7 +2,7 @@
 @import "./collageDetail.less";
 </style>
 <style>
-.details_content img {
+.detail img {
   width: 100%;
   border: 0;
   vertical-align: middle;
@@ -56,12 +56,15 @@
     </div>
     <div class="details">
       <p class="details_title">---- 商品详情 ----</p>
-      <div class="details_content" v-html="infoOne.productImg">
+      <div class="detail"  v-if="infoOne.productImg == ''">
+        <img src="../../assets/img/leary.png"/>
+      </div>
+      <div class="detail" v-else v-html="infoOne.productImg">
       </div>
     </div>
     <!-- 商品图文详情 -->
-    <van-row>
-      <van-col span="12">
+    <van-row style="border-top:1px solid #e5e5e5">
+      <van-col span="12" style="border-right:1px solid #e5e5e5">
         <van-button bottom-action @click="aloneBy(infoOne.productId)">单独购买 ￥{{infoOne.productOprice}}</van-button>
       </van-col>
       <van-col span="12">

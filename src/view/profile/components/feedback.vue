@@ -55,8 +55,7 @@ export default {
 
       }).then(res => {
         if (res.code == 100000) {
-          Dialog.confirm({
-            title: "意见反馈",
+          Dialog.alert({
             message: "感谢您的建议，我们会及时查看并联系您，祝您生活愉快！"
           })
             .then(() => {
@@ -73,9 +72,6 @@ export default {
                   this.$router.go(-1);
                 }
             })
-            .catch(() => {
-              // on cancel
-            });
         } else {
         }
       });
