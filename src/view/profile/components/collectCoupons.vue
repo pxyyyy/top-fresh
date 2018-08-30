@@ -210,7 +210,7 @@
 			if (!code) {
 				var url = window.location.href;
 				var id = this.$route.params.id, stid = this.$route.params.startUser
-				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxiang.com/collectCoupons/${this.$route.params.id}?staffid=${this.getCookie('staffId')}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collectCoupons/${this.$route.params.id}?staffid=${this.getCookie('staffId')}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
 			}
 
 			// if (code) {
@@ -226,7 +226,7 @@
 			// 			this.signature = res.data.signature
 			// 		}
 			// 	})
-			// } else 
+			// } else
 
 			var that = this;
 			var url = window.location.href;

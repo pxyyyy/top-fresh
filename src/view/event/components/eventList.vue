@@ -4,7 +4,11 @@
 <style>
 .item-img img {
   width: 100%;
+  display: block;
 }
+  .item-img a {
+    display: block;
+  }
 </style>
 
 <template>
@@ -64,6 +68,7 @@ export default {
       acId: this.$route.params.id
     }).then(res => {
       this.contentHtml = res.data[0].acImg;
+      console.log(this.contentHtml,'html')
       this.title = res.data[0].acTitle;
     });
     if (this.$route.query.from) {
