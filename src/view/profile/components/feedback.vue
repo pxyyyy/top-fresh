@@ -56,6 +56,7 @@ export default {
       }).then(res => {
         if (res.code == 100000) {
           Dialog.alert({
+            title: '提示',
             message: "感谢您的建议，我们会及时查看并联系您，祝您生活愉快！"
           })
             .then(() => {

@@ -20,9 +20,9 @@
 		</swiper>
 		<!-- 商品详细信息 -->
 		<div class="discript" v-if="infoProduct">
-			<p class="title">{{infoProduct.productName}}</p>
+			<p class="title">{{infoProduct.product.productName}}{{infoProduct.product.productDetail}}</p>
 			<p class="priceaa">
-				<span class="collage" style="font-size:36px;">
+				<span class="collage" style="font-size:14px;">
 					￥{{infoProduct.pingMoney}}/{{infoProduct.product.productUnit}}
 				</span>
 				<span class="alone">
@@ -41,6 +41,9 @@
 				</li>
 			</ul>
 			<p class="collage-success-info-success">
+        还差
+        <span style="color: red">{{infoProduct.lackPeopleNum}}</span>
+        人，
 				结束时间
 				<span class="time">{{infoProduct.endTime}}</span>
 			</p>
@@ -275,7 +278,7 @@
 			// 			this.signature = res.data.signature
 			// 		}
 			// 	})
-			// } else 
+			// } else
 
 			var that = this;
 			var url = window.location.href;

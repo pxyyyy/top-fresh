@@ -16,12 +16,20 @@
 			</div>
 			<div class="bg-s">
 				<div class="product-bottom">
-					<p> <input type="number" placeholder="请输入手机号" v-model="phone"> </p>
-					<p><input type="number" placeholder="请输入验证码" @keyup="hideKeyboard" v-model="verificationCodenumber"></p>
-					<p @click="verificationCode">
-						<span>{{content}}</span>
-					</p>
-					<button @click="immediately">立即领取</button>
+					<van-row>
+            <van-cell-group style="border-radius: 5px">
+              <van-field style="padding-left: 10px" v-model="phone" center clearable placeholder="请输入手机号">
+                <van-button @click="verificationCode" v-if="phone.length === 11" slot="button" size="small" type="primary" style="background-color: white;
+                 border-color: #e2bf85; color: #e2bf85">{{content}}</van-button>
+                <van-button v-if="phone.length !== 11" slot="button" size="small" type="primary" style=" background-color: darkgray;color: white;
+                 border-color: darkgray;" disable>{{content}}</van-button>
+              </van-field>
+            </van-cell-group>
+          </van-row>
+          <p>
+            <input style="border-radius: 5px" type="number" class="test" placeholder="请输入验证码" @keyup="hideKeyboard" v-model="verificationCodenumber"/>
+          </p>
+					<button @click="immediately" class="buttons">立即领取</button>
 				</div>
 			</div>
 		</div>
@@ -50,6 +58,7 @@
 				phone: "",
 				d2: "",
 				codeValue: "",
+        showButton: false,
 				showshareIt: false
 			};
 		},
@@ -208,10 +217,10 @@
 			let code = Request["code"];
 			this.show = true;
 			if (!code) {
-				var url = window.location.href;
-				var id = this.$route.params.id, stid = this.$route.params.startUser
-				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collectCoupons/${this.$route.params.id}?staffid=${this.getCookie('staffId')}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-			}
+        var url = window.location.href;
+        var id = this.$route.params.id, stid = this.$route.params.startUser
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collectCoupons/${this.$route.params.id}?staffid=${this.getCookie('staffId')}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+      }
 
 			// if (code) {
 			// 	var params = {
@@ -323,29 +332,47 @@
 			background: url(../../../assets/img/GiftcardBg.png) no-repeat center;
 		}
 		.product-bottom {
-			width: 300px;
+			width: 350px;
 			height: auto;
 			text-align: center;
 			margin: 0 auto;
-			input {
-				text-align: center;
-				margin: 5px;
-				padding: 5px;
-			}
+      .test {
+        text-align: center;
+        width: 100%;
+        margin: 5px 0;
+        padding: 5px 0;
+      }
+      .button {
+        width: 90%;
+        margin: 5px 0;
+        padding: 5px 0;
+        height: 31px;
+      }
 			span {
 				font-size: 12px;
 				color: #fff;
 				display: inline-block;
 				margin: 30px 0;
 			}
-			button {
+			.buttons {
 				width: 150px;
 				height: 40px;
 				background: yellow;
 			}
 		}
 	}
-
+  .van-cell {
+    padding: 0;
+    border-radius: 5px;
+    height: 31px;
+  }
+  .van-hairline--top-bottom::after {
+    border-width: 0 ;
+  }
+  .van-button--primary {
+    background-color: darkgrey;
+    border-color: darkgrey;
+  }
 	.shareIt {
 		position: fixed;
 		top: 0;
