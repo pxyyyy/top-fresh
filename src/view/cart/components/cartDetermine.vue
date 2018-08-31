@@ -20,21 +20,21 @@
 	<div>
 		<div class="cart_min">
 			<!-- 收货地址 -->
-			<div class="address" @click="goAddress()">
+			<div class="address">
 				<van-row class="address-content">
 					<van-col span="2" class="address-left">
 						<img src="../../../assets/icon/确认订单地址@2x.png" alt="">
 					</van-col>
 					<van-col span="20">
-						<p class="addwrap" v-if="showadress">
+						<p class="addwrap" v-if="showadress" @click="goAddress()">
 							<!-- <span>收货人: </span> -->
 							<span class="adname">收货人: {{cartList[0].adName}}</span>
 							<span class="adphone">{{cartList[0].adPhone}}</span>
 						</p>
 						<p style="margin-top:5px;">
 							<!-- <span>收货地址: </span> -->
-							<span class="userAddress" v-if="showadress">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
-							<span class="userAddress" v-if="showadress === false">请设置收件信息</span>
+							<span class="userAddress" v-if="showadress" @click="goAddress()">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
+							<span class="userAddress" @click="goEditing()" v-if="showadress === false">请设置收件信息</span>
 						</p>
 					</van-col>
 				</van-row>
@@ -304,6 +304,7 @@
 				orderScore: '',
 				orderScoremoney: '',
 				types: '',
+        type: 0,
 				adress: sessionStorage.getItem('adress'),
 				// carIds: '',
 				// adId: '',
@@ -560,6 +561,9 @@
 					name: "cartAddress"
 				});
 			},
+      goEditing: function () {
+        this.$router.push(`/cartAddressEditing/${this.type}`);
+      },
 			returnCart: function () {
 				this.away = true;
 			},
