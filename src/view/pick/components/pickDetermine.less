@@ -17,13 +17,14 @@
   width: 100%;
   background: #efeff7;
   padding-bottom: 150px;
-  margin-top: 45px;
 }
 .address {
   background: #fff;
-  margin: 5px 0;
+  margin: 0 0 5px 0;
   padding: 3px 8px;
   .address-content {
+    display: flex;
+    align-items: center;
     background: #fff;
     font-size: 13px;
     padding: 13px 0;
@@ -34,12 +35,29 @@
     img {
       width: 20px;
       height: 20px;
-      margin-top: 18px;
+      margin-left: 5px;
+      //   margin-top: 18px;
     }
     span {
-      float: right;
+      float: left;
+    }
+    .addwrap{
+      overflow: hidden;
+      span{
+        float: left;
+      }
+      .adname{
+        margin-left: 10px;
+      }
+      .adphone{
+        float: right;
+        margin-left: 15px;
+      }
     }
   }
+}
+.userAddress{
+  margin-left: 10px;
 }
 .item {
   overflow: hidden;
@@ -66,8 +84,7 @@
       font-size: 12px;
       background: #e8e8e8;
       width: 110px;
-      text-align: center;
-      height: 16px;
+      text-align: left;
     }
     .item-button {
       margin-top: 10px;

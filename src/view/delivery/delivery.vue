@@ -25,12 +25,12 @@
 			<p class="title">{{info.productName}}</p>
 			<p class="subtitle">{{info.productInfo}}</p>
 			<p class="price" v-if="info.productDiscount"  style="font-size:36px;">
-				<span>&yen;{{info.productPrice}}/{{info.productUnit}}只</span>
+				<span>&yen;{{info.productPrice}}/{{info.productUnit}}</span>
 				<span class="old">&yen;{{info.productOprice}}</span>
 				<span class="discount">{{info.productDiscount}}折</span>
 			</p>
 			<p class="price" v-else  style="font-size:36px;">
-				<span>&yen;{{info.productOprice}}/{{info.productUnit}}只</span>
+				<span>&yen;{{info.productOprice}}/{{info.productUnit}}</span>
 			</p>
 		</div>
 		<div class="xinxi">
@@ -61,8 +61,10 @@
 		<div class="details">
 			<p class="details_title">---- 商品详情 ----</p>
 			<div class="details_content">
-				<div class="d-content">
-					<img src="//img30.360buyimg.com/popWaterMark/jfs/t19498/108/2431894716/126463/a3756bf0/5af28a62Ne2cd4e4e.jpg">
+        <div class="d-content" v-if="info.productImg == ''">
+          <img src="../../assets/img/leary.png"/>
+        </div>
+				<div class="d-content" v-else v-html="info.productImg">
 				</div>
 			</div>
 		</div>

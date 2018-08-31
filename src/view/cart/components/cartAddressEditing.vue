@@ -114,12 +114,11 @@ export default {
       }
     },
     async save() {
-      var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
       if (this.from.adName == "") {
         Toast( "请输入姓名");
       }
-      if (!myreg.test(this.from.adPhone)) {
-        Toast("请输入真实号码");
+      if (this.from.adPhone == "") {
+        Toast("请输入号码");
         return
       }
       if (this.from.area == "") {
@@ -130,7 +129,7 @@ export default {
       }
       if (
         this.from.adName != "" &&
-        !myreg.test(this.from.adPhone) === false &&
+        this.from.adPhone != "" &&
         this.from.area != "" &&
         this.from.adAddressInfo != ""
       ) {

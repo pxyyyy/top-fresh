@@ -129,7 +129,7 @@
 			}
 		},
 		beforeMount() {
-			sessionStorage.setItem('isAddressTop', true)
+			sessionStorage.setItem('isAddressTop', true);
 			this.getAddress(this.staffId, this.token).then(res => {
 				this.selectStaffAddressList = res;
 			});
