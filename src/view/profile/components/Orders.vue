@@ -65,7 +65,6 @@
                     <span @click="cancel(order.orderId)">取消订单</span>
                     <!--<button @click.stop="payment(order.orderId, item.odProductId)">立即付款</button>-->
                     <button @click.stop="payment(order.orderId)">立即付款</button>
-
                   </p>
                 </div>
               </li>
@@ -239,6 +238,7 @@ export default {
     },
     // 取消订单
     cancel(id) {
+      var that = this;
       Dialog.confirm({
         title: "取消订单",
         message: "您确认取消订单吗"
@@ -249,6 +249,9 @@ export default {
             token: this.getCookie("token"),
             orderId: id
           }).then(res => {
+            that.pageNum = 0;
+            that.orders = [];
+            that.onLoad1();
             Toast("取消成功");
           });
         })
@@ -315,7 +318,7 @@ export default {
         .then(res => {
         this.loading1 = false;
         this.code = res.code;
-		this.orders = this.orders.concat(res.data);
+		    this.orders = this.orders.concat(res.data);
         if (res.data == "") {
           this.finished1 = true;
         }

@@ -6,7 +6,7 @@
 
 <template>
   <div>
-    <div class="gy">
+    <div class="gy" :style="{marginBottom:marginBottom}">
       <!-- <div v-for="(product,index) in giftCard" :key="index" class="list" @click="toProductInfo(product.id)">
                 <img :src='product.imgUrl ? product.imgUrl : "../../../assets/img/product.png"' alt="" class="img">
             </div> -->
@@ -27,6 +27,7 @@ export default {
   data() {
     return {
       giftCard: null,
+      marginBottom: '0',
       list: [
         {
           id: 100001,
@@ -76,6 +77,13 @@ export default {
       .then(res => {
         this.giftCard = res;
       });
-  }
+  },
+  mounted() {
+    let from = this.$route.query.from;
+
+    if (from == "Android") {
+      this.marginBottom = "-50px";
+    }
+  },
 };
 </script>
