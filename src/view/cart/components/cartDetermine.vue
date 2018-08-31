@@ -190,7 +190,7 @@
 						</p>
 					</div>
 				</div>
-				<div class="selects">
+				<div class="selects" style="padding-bottom: 5px">
 					<div>
 						<p>积分优惠</p>
 						<p class="black" v-if="checked">
@@ -201,18 +201,18 @@
 						</p>
 					</div>
 				</div>
-				<div class='payment'>
-					<p>付款方式：</p>
-					<van-row>
-						<van-col span="24">
-							<div :class="{wx: true ,wxactive: wx }" @click='wxActive'>
-								<img :src="wxPic" alt="">
-								<p>微信支付</p>
-							</div>
-						</van-col>
-					</van-row>
-				</div>
-			</div>
+      </div>
+      <div class='payment'>
+        <p>付款方式：</p>
+        <van-row>
+          <van-col span="24">
+            <div :class="{wx: true ,wxactive: wx }" @click='wxActive'>
+              <img :src="wxPic" alt="">
+              <p>微信支付</p>
+            </div>
+          </van-col>
+        </van-row>
+      </div>
 			<div class="cart-foot">
 				<p>付款 :
 					<span v-if="orderAllmoney < 0">

@@ -136,7 +136,8 @@
 				},
 				infoProductUser: [],
 				Url: "",
-				info: []
+				info: [],
+        isBack: true,
 			};
 		},
 		methods: {
@@ -160,6 +161,13 @@
 					return null;
 				}
 			},
+      pushHistory() {
+        var state = {
+          title: "拼团详情",
+          url: ""
+        };
+        window.history.pushState(state, state.title, state.url);
+      },
 			openCart(type) {
 				this.show1 = true;
 				this.type = type;
@@ -249,6 +257,13 @@
 			}
 		},
 		mounted() {
+      this.pushHistory();
+      let that = this;
+      window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
+        if (that.isBack) {
+          window.location.href = `/`
+        }
+      }, false);
 			let from = this.$route.query.from;
 			if (from == "IOS" || from == "Android") {
 				this.show = false;
@@ -259,10 +274,13 @@
 				let code = Request["code"];
 				this.show = true;
 				if (!code) {
+          this.isBack = false;
 					var url = window.location.href;
 					var id = this.$route.params.id, stid = this.$route.params.startUser
 					window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collageShare/${id}/${stid}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-				}
+				} else {
+          this.isBack = true
+        }
 			}
 
 			// if (code) {
@@ -279,9 +297,7 @@
 			// 		}
 			// 	})
 			// } else
-
-			var that = this;
-			var url = window.location.href;
+      var url = window.location.href;
 			wx.config({
 				debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 				appId: 'wx365ff8d24bc6fd9f', // 必填，企业号的唯一标识，此处填写企业号corpid
