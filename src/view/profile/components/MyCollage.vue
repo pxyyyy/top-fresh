@@ -19,7 +19,7 @@
             </p>
           </div>
         </div>
-        <div class="MyCollage-bottom">
+        <div class="MyCollage-bottom" v-model="loading">
            <p class="MyCollage-bottom-state" v-if="item.status == 2">拼团中</p>
           <p class="MyCollage-bottom-state" v-else-if="item.status == 3">拼团失败</p>
           <p class="MyCollage-bottom-state" v-else-if="item.status == 4">拼团成功</p>
@@ -45,7 +45,8 @@ export default {
   data() {
     return {
       MyCollage: "",
-      learyShow: false
+      learyShow: false,
+      loading: false
     };
   },
   methods: {
@@ -61,10 +62,12 @@ export default {
             this.getCookie("token")
           ).then(res => {
             Toast("取消拼团成功,钱将原价返回");
+            this.loading = true;
             this.getTogetherOrderInfo({
               staffId:this.getCookie('staffId'),
               token:this.getCookie('token')
             }).then(res => {
+              this.loading = false;
               this.MyCollage = res;
               if (this.MyCollage == "") {
                 this.learyShow = true;

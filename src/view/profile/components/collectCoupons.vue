@@ -332,10 +332,10 @@
 			background: url(../../../assets/img/GiftcardBg.png) no-repeat center;
 		}
 		.product-bottom {
-			width: 350px;
 			height: auto;
 			text-align: center;
-			margin: 0 auto;
+      margin: auto 17px;
+      padding: 10px 0;
       .test {
         text-align: center;
         width: 100%;
