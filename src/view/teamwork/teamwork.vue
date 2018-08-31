@@ -15,7 +15,7 @@
           <p class="teamwork-info-bottom">
             ￥{{item.priceTogether}}
             <span @click="alone">单买价￥{{item.originalPrice}}</span>
-            <button v-if="item.canPay == 1" style="background:#ccc;">不可购买</button>
+            <button v-if="item.canPay == 1" style="background:#ccc;">已开团</button>
             <button @click="goCollage(item.id,item.productId)" v-else>去开团</button>
           </p>
         </div>

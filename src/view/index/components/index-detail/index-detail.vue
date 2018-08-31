@@ -13,9 +13,6 @@
   padding: 0 10px;
   background: #fff;
 }
-  .wrapper img:last-child {
-    margin-bottom: 45px;
-  }
 </style>
 <template>
   <div>
@@ -23,7 +20,7 @@
       <p>关于我们</p>
       <span>给您更好的信赖</span>
     </div>
-    <div class="wrapper" :style="{marginBottom:marginBottom}" v-html="content">
+    <div class="wrapper" :style="{paddingBottom:paddingBottom,marginBottom:marginBottom}" v-html="content">
     </div>
     <!-- <div class="d-content"><img v-lazy="IntroducePic"></div>-->
     <!-- <div class="d-video">
@@ -57,14 +54,16 @@ export default {
         poster:
           "http://1251412368.vod2.myqcloud.com/vodtransgzp1251412368/4564972818913582665/coverBySnapshot/1515240294_3336859391.100_0.jpg"
       },
-      marginBottom: "0"
+      paddingBottom: "50px",
+      marginBottom:'0'
     };
   },
   beforeMount() {},
   mounted() {
     let from = this.$route.query.from;
-    if (from == "IOS") {
-      this.marginBottom = "50px";
+    if (from == "IOS" || from == "Android") {
+      this.paddingBottom = "0";
+      this.marginBottom = '0'
     }
   },
   methods: {}
