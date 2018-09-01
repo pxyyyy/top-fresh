@@ -155,14 +155,11 @@
 			const staffId = this.getCookie("staffId");
 			const token = this.getCookie("token");
 			var id=this.$route.params.id;
-			console.log(this.$route.params.id)
 			this.getAddress(staffId, token).then(res => {
-				console.log(res)
 				for(var i=0;i<res.length;i++){
 					if(id == res[i].adId){
 						this.from=res[i];
 						this.from.area=res[i].adAddress
-						console.log(this.from)
 					}
 				}
 			});

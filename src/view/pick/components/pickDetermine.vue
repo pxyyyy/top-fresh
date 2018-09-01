@@ -65,7 +65,7 @@ import MailingTwoPic from "../../../assets/img/volume-two.png";
 import ActiveMailingOnePic from "../../../assets/img/active-volume-one.png";
 import ActiveMailingTwoPic from "../../../assets/img/active-volume-two.png";
 import service from "../service/index.js";
-import { Toast } from "vant";
+import { Dialog, Toast } from "vant";
 export default {
   mixins: [service],
   data() {
@@ -114,16 +114,15 @@ export default {
       this.MailingTwoPic = ActiveMailingTwoPic;
     },
     goEditing: function () {
-      this.isBack = false;
       this.$router.push(`/cartAddressEditing/${this.type}`);
     },
     goDetails: function() {
       this.Payment = true;
       if(this.cartList[0] == null) {
         Dialog.confirm({
-          message: "是否录入地址信息？"
+          title: "请输入地址",
+          confirmButtonText: "立即录入"
         }).then(() => {
-          this.isBack = false;
           this.$router.push(`/cartAddressEditing/${this.type}`);
         }).catch(
 

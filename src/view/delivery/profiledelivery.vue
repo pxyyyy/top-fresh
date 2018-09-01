@@ -75,7 +75,10 @@
     <div class="details">
       <p class="details_title">---- 商品详情 ----</p>
       <div class="details_content">
-        <div class="d-content" v-html="info.productImg">
+        <div class="d-content" v-if="info.productImg == ''">
+          <img src="../../assets/img/leary.png"/>
+        </div>
+        <div class="d-content" v-else v-html="info.productImg">
         </div>
       </div>
     </div>

@@ -11,18 +11,21 @@
     <!--返回弹出-->
     <div>
       <!-- 收货地址 -->
-      <div class="address" @click="goAddress()">
+      <div class="address">
         <van-row class="address-content">
           <van-col span="2" class="address-left">
             <img src="../../../assets/img/cartDeteemine.png" alt="">
           </van-col>
-          <van-col span="20">
-            <p>收货人:
-              <i v-if="cartList[0]">{{cartList[0].adPhone}}</i>
-              <span v-if="cartList[0]">{{cartList[0].adName}}</span>
+          <van-col span="20" @click="goAddress()">
+            <p class="addwrap" v-if="showadress">
+              <!-- <span>收货人: </span> -->
+              <span class="adname">收货人: {{cartList[0].adName}}</span>
+              <span class="adphone">{{cartList[0].adPhone}}</span>
             </p>
-            <p style="margin-top:5px;">收货地址:
-              <span v-if="cartList[0]">{{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
+            <p style="margin-top:5px;">
+              <!-- <span>收货地址: </span> -->
+              <span class="userAddress" v-if="showadress" @click="goAddress()">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
+              <span class="userAddress" v-if="showadress === false" @click="goEditing">请设置收件信息</span>
             </p>
           </van-col>
           <van-col span="2" class="address-right">
@@ -40,7 +43,7 @@
               <p class="item-desc">{{infoList.productInfo}}</p>
               <p class="item-button">
                 <strong class="money">￥{{infoList.productOprice}}</strong>
-                <span>x{{infoList.productNum}}</span>
+                <span>x1</span>
               </p>
             </div>
           </li>
@@ -79,7 +82,9 @@ export default {
       cartList: [{}],
       infoList: [],
       staffId: this.getCookie("staffId"),
-      token: this.getCookie("token")
+      token: this.getCookie("token"),
+      showadress: false,
+      type: 0,
     };
   },
   methods: {
@@ -128,6 +133,9 @@ export default {
         name: "cartAddress"
       });
     },
+    goEditing: function () {
+      this.$router.push(`/cartAddressEditing/${this.type}`);
+    },
     returnCart: function() {
       this.away = true;
     },
@@ -147,9 +155,20 @@ export default {
     const token = this.getCookie("token");
     try {
       await this.getAddress(staffId, token).then(res => {
-        this.cartList = res.filter((item, index, arr) => {
-          return item.adIsdefault == "1";
-        });
+        if (res.length > 0) {
+          this.showadress = true;
+          this.cartList = res.filter((item, index, arr) => {
+            return item.adIsdefault == "1";
+          });
+        } else if (res.length == 0) {
+          this.showadress = false;
+          this.cartList[0] = null
+        }
+        this.adress = JSON.parse(this.adress);
+        if (this.adress) {
+          this.showadress = true;
+          this.cartList = this.adress;
+        }
       });
     } catch (error) {}
     // 订单详情
