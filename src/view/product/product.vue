@@ -302,13 +302,7 @@ export default {
       //   let productArr =  JSON.stringify([this.product]);
       //   sessionStorage.productArr = productArr;
       //   this.$router.push(`/cartDetermine`);
-      // } else {
-      //   Dialog.alert({
-      //     title: "提示",
-      //     message: "亲,游客模式,如需购买,请先登录"
-      //   }).then(() => {
-      //     this.$router.push(`/login`); // on close
-      //   });
+      // }
         var id = this.$route.params.id;
         this.addOrder(this.token, this.staffId, num, this.number).then(res => {
           if (res.code == 100003) {
@@ -320,13 +314,6 @@ export default {
           }else {
           this.$router.push(`/cartDetermine/${res.data[0].orderId}`);
           }
-        });
-      } else {
-        Dialog.alert({
-          title: "提示",
-          message: "亲,游客模式,如需购买,请先登录"
-        }).then(() => {
-          this.$router.push(`/login`); // on close
         });
       }
     },
@@ -365,26 +352,12 @@ export default {
       if (istoken) {
         this.show1 = true;
         this.type = type;
-      } else {
-        Dialog.alert({
-          title: "提示",
-          message: "亲,游客模式,请先登录"
-        }).then(() => {
-          this.$router.push(`/login`); // on close
-        });
       }
     },
     toCart() {
       var istoken = this.isToken();
       if (istoken) {
         this.$router.push(`/cart?number=` + this.number);
-      } else {
-        Dialog.alert({
-          title: "提示",
-          message: "亲，如需购买，请先登录"
-        }).then(() => {
-          this.$router.push(`/login`); // on close
-        });
       }
     },
     goEvaluation(item, index) {
@@ -400,7 +373,6 @@ export default {
         );
       }
       this.swipePic = item;
-      console.log(this.swipePic,'swipePic')
       this.picIndex = index;
       this.pictureCorridor = true;
     },

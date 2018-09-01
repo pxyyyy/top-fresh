@@ -17,12 +17,36 @@
   </div>
 </template>
 <script>
-export default {
+  import { Dialog } from "vant";
+
+  export default {
   data() {
-    return {};
+    return {
+      staffId: this.getCookie("staffId"),
+      token: this.getCookie("token"),
+    };
   },
   beforeMount() {},
   methods: {
+    // 获取cook
+    getCookie(name) {
+      var arr,
+        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+      if ((arr = document.cookie.match(reg))) {
+        return unescape(arr[2]);
+      } else {
+        return null;
+      }
+    },
+    // 判断用户是否登录
+    isToken() {
+      var token = this.getCookie("token");
+      if (token) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     Traceability() {
       let from = this.$route.query.from;
       if (from == "IOS") {
@@ -70,16 +94,28 @@ export default {
       }
     },
     goPickupVC() {
-      let from = this.$route.query.from;
-      if (from == "IOS") {
-        this.$bridge.callHandler("goPickupVC", data => {
-        });
-      } else if (from == "Android") {
-        this.$bridge.callHandler("goPickupVC", data => {
-        });
+      var istoken = this.isToken();
+      if (istoken) {
+        let from = this.$route.query.from;
+        if (from == "IOS") {
+          this.$bridge.callHandler("goPickupVC", data => {
+          });
+        } else if (from == "Android") {
+          this.$bridge.callHandler("goPickupVC", data => {
+          });
+        } else {
+          this.$router.push(`/pick`);
+        }
       } else {
-        this.$router.push(`/pick`);
+        Dialog.confirm({
+          title: "提示",
+          message: "请先登录您的账户",
+          confirmButtonText: "去登陆"
+        }).then(() => {
+          this.$router.push(`/login`);
+        }).catch()
       }
+
     },
     goGoodOriginVC() {
       let from = this.$route.query.from;

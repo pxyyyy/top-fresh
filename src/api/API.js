@@ -2,6 +2,7 @@ import axios from 'axios'
 import qs from 'qs';
 import { Toast } from "vant";
 import { router } from '../router/index';
+import { Dialog } from "vant";
 
 // axios.defaults.baseURL = 'http://192.168.10.196:8080'; //公司
 axios.defaults.baseURL = 'http:///39.106.31.12:8080/'; //正式
@@ -36,14 +37,19 @@ class API {
 				})
 			}).then(res => {
 				if (res.data.code == 100002) {
-					alert("登录失效");
-					var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
-					if (keys) {
-						for (var i = keys.length; i--;)
-							document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
-					}
-					window.location.href = "http://shop.jiweishengxian.com/login"
-				} else {
+          Dialog.confirm({
+            title: "提示",
+            message: "请先登录您的账户",
+            confirmButtonText: "去登陆"
+          }).then(() => {
+            var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+            if (keys) {
+              for (var i = keys.length; i--;)
+                document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+            }
+            window.location.href = "http://shop.jiweishengxian.com/login"
+          }).catch()
+        } else {
 					resolve(res)
 				}
 			}).catch(res => {
@@ -52,7 +58,7 @@ class API {
 		})
 	};
 	post = function (url, params) {
-		var that = this
+		var that = this;
 		return new Promise((resolve, reject) => {
 			axios({
 				method: 'post',
@@ -64,15 +70,21 @@ class API {
 			})
 				.then(res => {
 					if (res.code == 100002) {
-						alert("登录失效");
-						var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
-						if (keys) {
-							for (var i = keys.length; i--;)
-								document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
-						}
-						sessionStorage.setItem('history',router.history.current.path)
-						// console.log(router.history.current.path,'123')
-						window.location.href = "http://shop.jiweishengxian.com/login"
+            Dialog.confirm({
+              title: "提示",
+              message: "请先登录您的账户",
+              confirmButtonText: "去登陆"
+            }).then(() => {
+              var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+              if (keys) {
+                for (var i = keys.length; i--;)
+                  document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+              }
+              sessionStorage.setItem('history',router.history.current.path)
+              // console.log(router.history.current.path,'123')
+              window.location.href = "http://shop.jiweishengxian.com/login"
+            }).catch()
+
 					} else {
 						resolve(res)
 					}
