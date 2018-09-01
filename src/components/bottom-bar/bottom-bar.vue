@@ -64,12 +64,12 @@ export default {
       if (path == "cart" || path == "profile") {
         var token = this.getCookie("staffId") || "";
         if (token == "" || token == undefined || token == null) {
-          Dialog.alert({
-            title: "提示",
-            message: "亲，请先登录"
-          }).then(() => {
-            this.$router.push(`/login`); // on close
-          });
+          // Dialog.alert({
+          //   title: "提示",
+          //   message: "亲，请先登录"
+          // }).then(() => {
+          //   this.$router.push(`/login`); // on close
+          // });
         } else {
           return `/${path}`;
         }

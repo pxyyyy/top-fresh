@@ -11,21 +11,36 @@
     <!--返回弹出-->
     <div>
       <!-- 收货地址 -->
-      <div class="address">
+      <div class="address" v-if="showadress" @click="goAddress()">
         <van-row class="address-content">
           <van-col span="2" class="address-left">
             <img src="../../../assets/img/cartDeteemine.png" alt="">
           </van-col>
-          <van-col span="20" @click="goAddress()">
-            <p class="addwrap" v-if="showadress">
+          <van-col span="20">
+            <p class="addwrap" >
               <!-- <span>收货人: </span> -->
               <span class="adname">收货人: {{cartList[0].adName}}</span>
               <span class="adphone">{{cartList[0].adPhone}}</span>
             </p>
             <p style="margin-top:5px;">
               <!-- <span>收货地址: </span> -->
-              <span class="userAddress" v-if="showadress" @click="goAddress()">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
+              <span class="userAddress">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
               <span class="userAddress" v-if="showadress === false" @click="goEditing">请设置收件信息</span>
+            </p>
+          </van-col>
+          <van-col span="2" class="address-right">
+            <img src="../../../assets/img/Arrow.png" alt="">
+          </van-col>
+        </van-row>
+      </div>
+      <div class="address" v-if="showadress === false" @click="goEditing">
+        <van-row class="address-content">
+          <van-col span="2" class="address-left">
+            <img src="../../../assets/img/cartDeteemine.png" alt="">
+          </van-col>
+          <van-col span="20">
+            <p style="margin-top:5px;">
+              <span class="userAddress" >请设置收件信息</span>
             </p>
           </van-col>
           <van-col span="2" class="address-right">
@@ -115,18 +130,25 @@ export default {
     },
     goDetails: function() {
       this.Payment = true;
-      this.saveMyLading({
-        staffId: this.staffId,
-        token: this.token,
-        odId: this.$route.params.odId,
-        adId: this.cartList[0].adId
-      }).then(res => {
-        if (this.cartList[0].adName) {
+      if(this.cartList[0] == null) {
+        Dialog.confirm({
+          title: "请输入地址",
+          confirmButtonText: "立即录入"
+        }).then(() => {
+          this.$router.push(`/cartAddressEditing/${this.type}`);
+        }).catch(
+
+        )
+      }else{
+        this.saveMyLading({
+          staffId: this.staffId,
+          token: this.token,
+          odId: this.$route.params.odId,
+          adId: this.cartList[0].adId
+        }).then(res => {
           this.$router.push(`/cartOut/${res.data[0]}`);
-        } else {
-          Toast("请选择收货地址~");
-        }
-      });
+        });
+      }
     },
     goAddress: function() {
       this.$router.push({
@@ -156,16 +178,20 @@ export default {
     try {
       await this.getAddress(staffId, token).then(res => {
         if (res.length > 0) {
-          this.showadress = true;
           this.cartList = res.filter((item, index, arr) => {
             return item.adIsdefault == "1";
           });
+          if (this.cartList.length == 0) {
+            this.showadress = false;
+          }else {
+            this.showadress = true;
+          }
         } else if (res.length == 0) {
           this.showadress = false;
-          this.cartList[0] = null
+          this.cartList = null
         }
         this.adress = JSON.parse(this.adress);
-        if (this.adress) {
+        if (this.adress !== null) {
           this.showadress = true;
           this.cartList = this.adress;
         }

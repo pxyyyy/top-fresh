@@ -20,25 +20,36 @@
 	<div>
 		<div class="cart_min">
 			<!-- 收货地址 -->
-			<div class="address">
+			<div class="address" v-if="showadress" @click="goAddress()">
 				<van-row class="address-content">
 					<van-col span="2" class="address-left">
 						<img src="../../../assets/icon/确认订单地址@2x.png" alt="">
 					</van-col>
 					<van-col span="20">
-						<p class="addwrap" v-if="showadress" @click="goAddress()">
+						<p class="addwrap">
 							<!-- <span>收货人: </span> -->
 							<span class="adname">收货人: {{cartList[0].adName}}</span>
 							<span class="adphone">{{cartList[0].adPhone}}</span>
 						</p>
 						<p style="margin-top:5px;">
 							<!-- <span>收货地址: </span> -->
-							<span class="userAddress" v-if="showadress" @click="goAddress()">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
-							<span class="userAddress" v-if="showadress === false" @click="goEditing()">请设置收件信息</span>
+							<span class="userAddress">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
 						</p>
 					</van-col>
-				</van-row>
+        </van-row>
 			</div>
+      <div class="address" v-if="showadress === false" @click="goEditing()">
+        <van-row class="address-content">
+          <van-col span="2" class="address-left">
+            <img src="../../../assets/icon/确认订单地址@2x.png" alt="">
+          </van-col>
+          <van-col span="20">
+            <van-col span="20">
+              <span class="userAddress">请设置收件信息</span>
+            </van-col>
+          </van-col>
+        </van-row>
+      </div>
 			<!-- 商品详情 -->
 			<div>
 				<ul v-for="item in infoList" :key="item.odProductId" v-if="infoList">
@@ -674,21 +685,24 @@
 					//   this.showAdress = true;
 					// }
 					// console.log(this.adress,'adress')
-					if (res.length > 0) {
-            this.showadress = true;
+          if (res.length > 0) {
             this.cartList = res.filter((item, index, arr) => {
-							return item.adIsdefault == "1";
-						});
-					} else if (res.length == 0) {
+              return item.adIsdefault == "1";
+            });
+            if (this.cartList.length == 0) {
+              this.showadress = false;
+            }else {
+              this.showadress = true;
+            }
+          } else if (res.length == 0) {
             this.showadress = false;
             this.cartList = null
-					}
-					this.adress = JSON.parse(this.adress);
-					if (this.adress) {
+          }
+          this.adress = JSON.parse(this.adress);
+          if (this.adress !== null) {
             this.showadress = true;
             this.cartList = this.adress;
-					}
-
+          }
 				});
 			//订单详情
 			this.selectOrderPrimaryKey({
