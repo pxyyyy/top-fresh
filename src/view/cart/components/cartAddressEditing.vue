@@ -43,9 +43,12 @@
           <van-area :area-list="areaList" v-if="Area" class="Area" @cancel="Area=false" @confirm="determine" />
 		</div>
 		<div class="Placeholder">
-			<div class="address-footer" @click="save">
-				保存
+			<div class="address-footer" @click="save" v-if="this.$route.params.type == 0">
+				保存并使用
 			</div>
+      <div class="address-footer" @click="save" v-else>
+        保存
+      </div>
 		</div>
       </div>
     </div>

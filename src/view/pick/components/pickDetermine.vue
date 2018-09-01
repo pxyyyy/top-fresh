@@ -24,7 +24,7 @@
             <p style="margin-top:5px;">
               <!-- <span>收货地址: </span> -->
               <span class="userAddress" v-if="showadress" @click="goAddress()">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
-              <span class="userAddress" @click="goEditing()" v-if="showadress === false">请设置收件信息</span>
+              <span class="userAddress" v-if="showadress === false" @click="goEditing">请设置收件信息</span>
             </p>
           </van-col>
           <van-col span="2" class="address-right">
@@ -113,10 +113,21 @@ export default {
       this.MailingOnePic = MailingOnePic;
       this.MailingTwoPic = ActiveMailingTwoPic;
     },
+    goEditing: function () {
+      this.isBack = false;
+      this.$router.push(`/cartAddressEditing/${this.type}`);
+    },
     goDetails: function() {
       this.Payment = true;
       if(this.cartList[0] == null) {
-        Toast("请选择收货地址~");
+        Dialog.confirm({
+          message: "是否录入地址信息？"
+        }).then(() => {
+          this.isBack = false;
+          this.$router.push(`/cartAddressEditing/${this.type}`);
+        }).catch(
+
+        )
       }else{
         this.saveLading({
           staffId: this.staffId,
@@ -135,9 +146,6 @@ export default {
       this.$router.push({
         name: "cartAddress"
       });
-    },
-    goEditing: function () {
-      this.$router.push(`/cartAddressEditing/${this.type}`);
     },
     returnCart: function() {
       this.away = true;

@@ -39,7 +39,7 @@
       <p class="titlebug">{{info.productName}}</p>
       <p class="subtitlebug">{{info.productInfo}}</p>
       <p class="pricebug" v-if="info.productDiscount"  style="font-size:36px;">
-        <span>&yen;{{info.productPrice}}/{{info.productUnit}}只</span>
+        <span>&yen;{{info.productPrice}}/{{info.productUnit}}</span>
         <span class="old">&yen;{{info.productOprice}}</span>
         <span class="discount">{{info.productDiscount}}折</span>
       </p>
@@ -105,6 +105,7 @@ export default {
       productId: this.$route.params.odProductId
     }).then(res => {
       this.info = res.data;
+      console.log(this.info,'inof')
     });
 
   },
