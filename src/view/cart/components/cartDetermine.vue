@@ -34,7 +34,7 @@
 						<p style="margin-top:5px;">
 							<!-- <span>收货地址: </span> -->
 							<span class="userAddress" v-if="showadress" @click="goAddress()">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
-							<span class="userAddress" @click="goEditing()" v-if="showadress === false">请设置收件信息</span>
+							<span class="userAddress" v-if="showadress === false" @click="goEditing()">请设置收件信息</span>
 						</p>
 					</van-col>
 				</van-row>
@@ -455,10 +455,21 @@
 				this.MailingTwoPic = MailingTwoPic;
 				this.MailingText = "虚拟提货券";
 			},
+      goEditing: function () {
+        this.isBack = false;
+        this.$router.push(`/cartAddressEditing/${this.type}`);
+      },
 			goDetails: function () {
 				var staffWechat = this.getCookie("staffWechat");
 				if (this.cartList === null) {
-					Toast("请选择收货地址");
+          Dialog.confirm({
+            message: "是否录入地址信息"
+          }).then(() => {
+            this.isBack = false;
+            this.$router.push(`/cartAddressEditing/${this.type}`);
+          }).catch(
+
+          )
 				} else if (
 					this.MailingText == "请选择" &&
 					this.showMail === true
@@ -561,9 +572,6 @@
 					name: "cartAddress"
 				});
 			},
-      goEditing: function () {
-        this.$router.push(`/cartAddressEditing/${this.type}`);
-      },
 			returnCart: function () {
 				this.away = true;
 			},
@@ -628,13 +636,13 @@
 			var Request = new Object();
 			Request = this.GetRequest();
 			this.code = Request["code"];
-			if (!this.code) {
-				this.isBack = false;
-				var url = `http://shop.jiweishengxian.com/cartDetermine/${this.$route.params.orderId}`;
-				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-			} else {
-				this.isBack = true
-			}
+			// if (!this.code) {
+			// 	this.isBack = false;
+			// 	var url = `http://shop.jiweishengxian.com/cartDetermine/${this.$route.params.orderId}`;
+			// 	window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+			// } else {
+			// 	this.isBack = true
+			// }
 			var staffWechat = this.getCookie("staffWechat");
 
 			if (this.code && !staffWechat) {
@@ -672,7 +680,7 @@
 						});
 					} else if (res.length == 0) {
             this.showadress = false;
-            this.cartList[0] = null
+            this.cartList = null
 					}
 					this.adress = JSON.parse(this.adress);
 					if (this.adress) {
