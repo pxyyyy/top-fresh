@@ -40,7 +40,7 @@ class API {
           Dialog.confirm({
             title: "提示",
             message: "请先登录您的账户",
-            confirmButtonText: "去登陆"
+            confirmButtonText: "去登录"
           }).then(() => {
             var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
             if (keys) {
@@ -73,7 +73,7 @@ class API {
             Dialog.confirm({
               title: "提示",
               message: "请先登录您的账户",
-              confirmButtonText: "去登陆"
+              confirmButtonText: "去登录"
             }).then(() => {
               var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
               if (keys) {

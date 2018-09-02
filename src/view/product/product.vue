@@ -315,6 +315,14 @@ export default {
           this.$router.push(`/cartDetermine/${res.data[0].orderId}`);
           }
         });
+      }else {
+        Dialog.confirm({
+          title: "提示",
+          message: "请先登录您的账户",
+          confirmButtonText: "去登录"
+        }).then(() => {
+          this.$router.push(`/login`);
+        }).catch()
       }
     },
     async toCart1() {

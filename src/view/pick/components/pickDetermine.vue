@@ -92,7 +92,7 @@ export default {
       away: false,
       showadress: false,
       adress: sessionStorage.getItem('adress'),
-      cartList: [{}],
+      cartList: null,
       infoList: [],
       type: 0,
       staffId: this.getCookie("staffId"),
