@@ -130,7 +130,7 @@ export default {
     },
     goDetails: function() {
       this.Payment = true;
-      if(this.cartList[0] == null) {
+      if(this.cartList == null) {
         Dialog.confirm({
           title: "请输入地址",
           confirmButtonText: "立即录入"
