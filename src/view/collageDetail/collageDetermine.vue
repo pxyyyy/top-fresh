@@ -170,7 +170,9 @@ export default {
       PaymentType: "微信支付",
       offer: sessionStorage.getItem("teamworkMoney"),
       jmoney: "",
-      code: ""
+      code: "",
+      isBack: true,
+
     };
   },
   methods: {
@@ -188,6 +190,7 @@ export default {
     },
     // 代金券
     usingaVouchers() {
+      this.isBack = false;
       this.$router.push(`/teamworkcoupon/${this.info.priceTogether}`);
     },
     // 获取cook
@@ -235,6 +238,7 @@ export default {
       });
     },
     goAddress: function() {
+      this.isBack = false;
       this.$router.push({
         name: "cartAddress"
       });
@@ -286,7 +290,14 @@ export default {
       } else {
         return null;
       }
-    }
+    },
+    pushHistory() {
+      var state = {
+        title: "确认订单",
+        url: ""
+      };
+      window.history.pushState(state, state.title, state.url);
+    },
   },
   // 优惠的价格
   computed: {
@@ -313,14 +324,24 @@ export default {
     }
   },
   async beforeMount() {
+    this.pushHistory();
+    let that = this;
+    window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
+      if (that.isBack) {
+        window.location.href = `/`
+      }
+    }, false);
     document.title = "确认订单";
     this.GetRequest;
     var Request = new Object();
     Request = this.GetRequest();
     this.code = Request["code"];
     if (!this.code) {
+      this.isBack = false;
       var url = window.location.href;
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
+    }else {
+      this.isBack = true
     }
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");
