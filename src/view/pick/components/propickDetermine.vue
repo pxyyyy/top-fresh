@@ -94,7 +94,7 @@ export default {
       MailingActiveTwo: false,
       Payment: false,
       away: false,
-      cartList: [{}],
+      cartList: null,
       infoList: [],
       staffId: this.getCookie("staffId"),
       token: this.getCookie("token"),
