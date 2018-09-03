@@ -333,7 +333,7 @@ export default {
     let that = this;
     window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
       if (that.isBack) {
-        this.$route.push(`${this.path}`);
+        window.location.href =  `http://shop.jiweishengxian.com${this.path}`;
       }
     }, false);
     document.title = "确认订单";
