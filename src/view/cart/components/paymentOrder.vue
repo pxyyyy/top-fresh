@@ -64,13 +64,11 @@
       },
 
       mounted() {
+        this.pushHistory();
         let that = this;
         window.addEventListener("popstate", function(e) {  //回调函数中实现需要的功能
-          console.log(that.isBack);
-          console.log(that.isBack == false);
-          alert("我监听到了浏览器的返回按钮事件啦");
           if(that.isBack){
-            window.location.href = `/`
+            this.$router.go(-1);
           }
         }, false);
         document.title = "支付订单";
@@ -83,7 +81,6 @@
           var url = `http://shop.jiweishengxian.com/paymentOrder/${
             this.$route.params.orderId
             }`;
-
           window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
         }else{
           this.isBack=true
@@ -124,7 +121,13 @@
 
       },
       methods: {
-
+        pushHistory() {
+          var state = {
+            title: "确认订单",
+            url: ""
+          };
+          window.history.pushState(state, state.title, state.url);
+        },
         GetRequest() {
           var url = location.search; //获取url中"?"符后的字串
           var theRequest = new Object();
@@ -181,7 +184,7 @@
         		function (re) {
         			if (re.err_msg == "get_brand_wcpay_request:ok") {
         				window.location.href = `http://shop.jiweishengxian.com/cartOut/${orderId}`;
-        			}
+              }
         		}
         	);
         });

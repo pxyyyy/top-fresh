@@ -6,7 +6,7 @@
 		<div class="bg-bottom">
 			<div class="wrap-text">
 				<div class="product-img">
-					<img :src="product.productIcon + '?x-oss-process=image/crop,x_0,y_0,h_120,g_center'" alt="">
+					<img :src="product.productIcon" alt="">
 				</div>
 				<div class="product-title">
 					<h3>{{product.productName}}</h3>
@@ -19,14 +19,14 @@
 					<van-row>
             <van-cell-group style="border-radius: 5px">
               <van-field style="padding-left: 10px" v-model="phone" center clearable placeholder="请输入手机号">
-                <van-button @click="verificationCode" v-if="phone.length === 11" slot="button" size="small" type="primary" style="background-color: white;
-                 border-color: #e2bf85; color: #e2bf85">{{content}}</van-button>
-                <van-button v-if="phone.length !== 11" slot="button" size="small" type="primary" style=" background-color: darkgray;color: white;
-                 border-color: darkgray;" disable>{{content}}</van-button>
+                <van-button @click="verificationCode" slot="button" size="small" type="primary" style="background-color: white;border-color: white;
+                border-left-color: grey; padding-left: 10px; color: #e2bf85">{{content}}</van-button>
+                <!--<van-button v-if="phone.length !== 11" slot="button" size="small" type="primary" style=" background-color: darkgray;color: white;-->
+                 <!--border-color: darkgray;" disable>{{content}}</van-button>-->
               </van-field>
             </van-cell-group>
           </van-row>
-          <p>
+          <p style="padding-bottom: 20px">
             <input style="border-radius: 5px" type="number" class="test" placeholder="请输入验证码" @keyup="hideKeyboard" v-model="verificationCodenumber"/>
           </p>
 					<button @click="immediately" class="buttons">立即领取</button>
@@ -59,8 +59,10 @@
 				d2: "",
 				codeValue: "",
         showButton: false,
-				showshareIt: false
-			};
+				showshareIt: false,
+        isBack: false
+
+      };
 		},
 		methods: {
 			immediately() {
@@ -82,7 +84,7 @@
 							Toast("领取成功");
 							setTimeout(() => {
 								window.location.href = "http://shop.jiweishengxian.com";
-							}, 2000);
+              }, 2000);
 						} else {
 							Toast(res.message);
 						}
@@ -104,8 +106,16 @@
 					this.$refs.input.blur(); // android隐藏键盘
 				}
 			},
+      pushHistory() {
+        var state = {
+          title: "提货券领取",
+          url: ""
+        };
+        window.history.pushState(state, state.title, state.url);
+      },
 			shareItClick() {
 				this.showshareIt = false;
+
 				//   $(function() {
 				//     var timestamp = $("#timestamp").val();//时间戳
 				//     var nonceStr = $("#noncestr").val();//随机串
@@ -211,15 +221,40 @@
 			}
 		},
 		mounted() {
+		  const{ isShare } = this.$route.params;
+      if ( isShare == 'false' ){
+        //包含isShare
+        this.showshareIt = false;
+      }else {
+        this.showshareIt = true;
+      }
+      this.pushHistory();
+      let that = this;
+      window.addEventListener("popstate", function(e) {  //回调函数中实现需要的功能
+        if(that.isBack){
+          if(isShare == 'false' ){
+            //包含
+            this.showshareIt = false;
+            wx.closeWindow();
+          }else{
+            this.$router.push(`/LadingRoll`);
+            this.showshareIt = false;
+          }
+        }
+      }, false);
+      document.title = "提货券领取";
 
 			var Request = new Object();
 			Request = this.GetRequest();
 			let code = Request["code"];
 			this.show = true;
 			if (!code) {
+        this.isBack=true;
         var url = window.location.href;
         var id = this.$route.params.id, stid = this.$route.params.startUser
-        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collectCoupons/${this.$route.params.id}?staffid=${this.getCookie('staffId')}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collectCoupons/${this.$route.params.id}?isShare=false}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+      }else{
+        this.isBack=true
       }
 
 			// if (code) {
@@ -236,9 +271,7 @@
 			// 		}
 			// 	})
 			// } else
-
-			var that = this;
-			var url = window.location.href;
+      var url = window.location.href;
 			wx.config({
 				debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 				appId: 'wx365ff8d24bc6fd9f', // 必填，企业号的唯一标识，此处填写企业号corpid
@@ -254,7 +287,7 @@
 					link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					// link: url + '#/...', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					imgUrl: "http://jiweishengxian.oss-cn-qingdao.aliyuncs.com/picture/20180806/384554611533522458355.png", // 分享图标
-					success() {
+          success() {
 						alert('分享朋友圈成功')
 						// 用户确认分享后执行的回调函数
 					},
@@ -269,7 +302,7 @@
 					link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					// link: url + '#/...', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					imgUrl: "http://jiweishengxian.oss-cn-qingdao.aliyuncs.com/picture/20180806/384554611533522458355.png", // 分享图标
-					// type: 'video', // 分享类型,music、video或link，不填默认为link
+          // type: 'video', // 分享类型,music、video或link，不填默认为link
 					// dataUrl: this.details.videoUrl, // 如果type是music或video，则要提供数据链接，默认为空
 					success: function () {
 						alert('分享给朋友成功')
@@ -284,7 +317,8 @@
 			wx.error(function (res) {
 				// config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
 			});
-		},
+      this.showshareIt = true;
+    },
 	};
 </script>
 
@@ -299,7 +333,7 @@
 		.bg-top {
 			img {
 				width: 100%;
-				margin-top: 100px;
+				margin-top: 40px;
 			}
 		}
 		.bg-bottom {
@@ -314,16 +348,17 @@
 		.wrap-text {
 			padding-top: 20px;
 			.product-img {
-				width: 300px;
-				margin: 0 auto;
+        text-align: center;
+        margin: 0 auto;
+        padding: 10px 10px;
 				img {
-					width: 300px;
-					height: 150px;
+					width: 96%;
+          border-radius: 10px;
+          height: 150px;
 				}
 			}
 			.product-title {
 				text-align: center;
-				height: 130px;
 			}
 		}
 		.bg-s {
@@ -335,7 +370,7 @@
 			height: auto;
 			text-align: center;
       margin: auto 17px;
-      padding: 10px 0;
+      padding: 25px 0;
       .test {
         text-align: center;
         width: 100%;
@@ -355,8 +390,9 @@
 				margin: 30px 0;
 			}
 			.buttons {
-				width: 150px;
-				height: 40px;
+				width: 100%;
+				margin: 5px 0;
+        padding: 5px 0;
 				background: yellow;
 			}
 		}

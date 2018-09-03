@@ -17,19 +17,21 @@
   <div>
     <!--地址列表-->
     <div class="address-group">
-      <div class="address" v-for="item in selectStaffAddressList" :key="item.staffId" @click=Mailing(item)>
-        <div class="address-top">
-          <div class="address-top-left" @click="callback(item)">
-            收货人
-            <span>{{item.adName}}</span>
+      <div class="address" v-for="item in selectStaffAddressList" :key="item.staffId">
+        <div @click=Mailing(item)>
+          <div class="address-top" >
+            <div class="address-top-left">
+              收货人
+              <span>{{item.adName}}</span>
+            </div>
+            <div class="address-top-right">
+              {{item.adPhone}}
+            </div>
           </div>
-          <div class="address-top-right" @click="callback(item)">
-            {{item.adPhone}}
+          <div class="address-content">
+            收货地址:
+            <span>{{item.adAddress}}，{{item.adAddressInfo}}</span>
           </div>
-        </div>
-        <div class="address-content" @click="callback(item)">
-          收货地址:
-          <span>{{item.adAddress}}，{{item.adAddressInfo}}</span>
         </div>
         <div class="address-bottom">
           <van-radio-group v-model="radio" class="address-bottom-radio">
@@ -68,13 +70,6 @@ export default {
     };
   },
   methods: {
-    callback(item) {
-      let arr = [];
-      arr.push(item);
-      const result = JSON.stringify(arr);
-      sessionStorage.adress = result;
-      this.$router.go(-1);
-    },
     Mailing(item) {
       Dialog.confirm({
         title: "邮寄实体卡",

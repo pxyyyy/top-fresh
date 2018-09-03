@@ -328,6 +328,7 @@
 				orderId: "",
 				jmoney: "",
 				orderCode: "",
+        path: sessionStorage.getItem('path')
 			};
 		},
 		// 优惠的价格
@@ -628,7 +629,8 @@
 						function (re) {
 							if (re.err_msg == "get_brand_wcpay_request:ok") {
 								window.location.href = `http://shop.jiweishengxian.com/cartOut/${orderId}`;
-							}
+
+              }
 						}
 					);
 				});
@@ -640,10 +642,10 @@
 			let that = this;
 			window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
 				if (that.isBack) {
-					window.location.href = `/`
-				}
+          this.$route.push(`${this.path}`);
+        }
 			}, false);
-			document.title = "确认订单";
+      document.title = "确认订单";
 			this.GetRequest;
 			var Request = new Object();
 			Request = this.GetRequest();
@@ -651,7 +653,7 @@
 			if (!this.code) {
 				this.isBack = false;
 				var url = `http://shop.jiweishengxian.com/cartDetermine/${this.$route.params.orderId}`;
-				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
 			} else {
 				this.isBack = true
 			}
@@ -695,6 +697,8 @@
               this.showadress = true;
             }
           } else if (res.length == 0) {
+            sessionStorage.removeItem('adress');
+            this.adress = null;
             this.showadress = false;
             this.cartList = null
           }

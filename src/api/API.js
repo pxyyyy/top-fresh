@@ -5,7 +5,9 @@ import { router } from '../router/index';
 import { Dialog } from "vant";
 
 // axios.defaults.baseURL = 'http://192.168.10.196:8080'; //公司
-axios.defaults.baseURL = 'http:///39.106.31.12:8080/'; //正式
+axios.defaults.baseURL = 'http://39.106.31.12:8080'; //正式
+// axios.defaults.baseURL = 'http://39.107.126.201:8080'; //测试
+
 // axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 let cancel, promiseArr = {};
 const CancelToken = axios.CancelToken;
