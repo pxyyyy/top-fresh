@@ -237,8 +237,8 @@
             this.showshareIt = false;
             wx.closeWindow();
           }else{
-            this.$router.push(`/LadingRoll`);
             this.showshareIt = false;
+            window.location.href =  `http://shop.jiweishengxian.com/LadingRoll`;
           }
         }
       }, false);
