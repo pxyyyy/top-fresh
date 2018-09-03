@@ -262,8 +262,9 @@
       this.pushHistory();
       let that = this;
       window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
+        var path = sessionStorage.getItem('path');
         if (that.isBack) {
-          window.location.href =  `http://shop.jiweishengxian.com${this.path}`;
+          window.location.href =  `http://shop.jiweishengxian.com${path}`;
         }
       }, false);
 			let from = this.$route.query.from;

@@ -638,11 +638,12 @@
 		},
 
 		mounted() {
-			this.pushHistory();
+      this.pushHistory();
 			let that = this;
 			window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
+        var path = sessionStorage.getItem('path');
 				if (that.isBack) {
-          window.location.href =  `http://shop.jiweishengxian.com${this.path}`;
+          window.location.href =  `http://shop.jiweishengxian.com${path}`;
         }
 			}, false);
       document.title = "确认订单";
@@ -651,7 +652,7 @@
 			Request = this.GetRequest();
 			this.code = Request["code"];
 			if (!this.code) {
-				this.isBack = false;
+				this.isBack = true;
 				var url = `http://shop.jiweishengxian.com/cartDetermine/${this.$route.params.orderId}`;
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
 			} else {

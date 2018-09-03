@@ -77,7 +77,7 @@
         Request = this.GetRequest();
         this.code = Request["code"];
         if (!this.code) {
-          this.isBack=false;
+          this.isBack=true;
           var url = `http://shop.jiweishengxian.com/paymentOrder/${
             this.$route.params.orderId
             }`;
