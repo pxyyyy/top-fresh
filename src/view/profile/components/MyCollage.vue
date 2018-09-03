@@ -84,6 +84,7 @@ export default {
       this.$store.commit("setcurrentActiveName", json);
     },
     goInfo(detailCode, startUser) {
+      sessionStorage.path = this.$route.path;
       this.$router.push(`/collageShare/${detailCode}/${startUser}`);
     },
     // 获取cook

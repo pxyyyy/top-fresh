@@ -141,7 +141,7 @@
 					if (res.code == 100000) {
 						Toast("绑定成功");
 						window.location.href = "http://shop.jiweishengxian.com/profile";
-					} else {
+          } else {
 					}
 				});
 			}

@@ -166,7 +166,9 @@ export default {
       PaymentType: "微信支付",
       offer: sessionStorage.getItem("teamworkMoney"),
       jmoney: "",
-      code: ""
+      isBack: true,
+      code: "",
+      path: sessionStorage.getItem('path')
     };
   },
   methods: {
@@ -244,6 +246,13 @@ export default {
     want: function() {
       this.away = false;
     },
+    pushHistory() {
+      var state = {
+        title: "确认订单",
+        url: ""
+      };
+      window.history.pushState(state, state.title, state.url);
+    },
     async gocartOut() {
       await this.weixinPay2({
         staffId: this.getCookie("staffId"),
@@ -309,14 +318,24 @@ export default {
     }
   },
   async beforeMount() {
+    this.pushHistory();
+    let that = this;
+    window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
+      if (that.isBack) {
+        this.$route.push(`${this.path}`);
+      }
+    }, false);
     document.title = "确认订单";
     this.GetRequest;
     var Request = new Object();
     Request = this.GetRequest();
     this.code = Request["code"];
     if (!this.code) {
+      this.isBack = false;
       var url = window.location.href;
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
+    }else {
+      this.isBack = true
     }
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");

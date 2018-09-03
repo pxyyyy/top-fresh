@@ -28,10 +28,15 @@
         <!--是否邮寄提货券弹出-->
         <div style="padding-top:30px;background:#fff;">
           <div class="select">
+            <div class="border-top border-bottom" style="padding:2px 0;">
+              <p>提货成功后将以电子提货券的形式发放到我的提货券中</p>
+            </div>
+          </div>
+          <div class="select">
             <div class="" style="padding:2px 0;" @click='usingaVouchers'>
               <p>使用代金券</p>
               <p v-if="this.offer">
-                -{{this.offer}}元
+                  -{{this.offer}}元
                 <span class="iconfont arrow-icon">&#xe66b;</span>
               </p>
               <p v-else>
@@ -172,7 +177,7 @@ export default {
       jmoney: "",
       code: "",
       isBack: true,
-
+      path: sessionStorage.getItem('path')
     };
   },
   methods: {
@@ -328,7 +333,7 @@ export default {
     let that = this;
     window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
       if (that.isBack) {
-        window.location.href = `/`
+        this.$route.push(`${this.path}`);
       }
     }, false);
     document.title = "确认订单";

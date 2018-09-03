@@ -138,6 +138,7 @@
 				Url: "",
 				info: [],
         isBack: true,
+        path: sessionStorage.getItem('path')
 			};
 		},
 		methods: {
@@ -242,8 +243,9 @@
 												message: "亲,你已经参加过此类团购"
 											}).then(() => {
 												window.location.href = "http://shop.jiweishengxian.com";
-											});
+                      });
 										} else {
+										  sessionStorage.path = this.$route.path
 											this.$router.push(`/collageDetermineOther/${result.data[0]}`);
 										}
 									});
@@ -261,7 +263,7 @@
       let that = this;
       window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
         if (that.isBack) {
-          window.location.href = `/`
+          this.$route.push(`${this.path}`);
         }
       }, false);
 			let from = this.$route.query.from;
@@ -269,7 +271,7 @@
 				this.show = false;
 				this.marginBottom = "0px";
 			} else {
-				var Request = new Object();
+        var Request = new Object();
 				Request = this.GetRequest();
 				let code = Request["code"];
 				this.show = true;
@@ -277,7 +279,7 @@
           this.isBack = false;
 					var url = window.location.href;
 					var id = this.$route.params.id, stid = this.$route.params.startUser
-					window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collageShare/${id}/${stid}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+					// window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collageShare/${id}/${stid}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
 				} else {
           this.isBack = true
         }
@@ -313,7 +315,8 @@
 					link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					// link: url + '#/...', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					imgUrl: "http://jiweishengxian.oss-cn-qingdao.aliyuncs.com/picture/20180806/384554611533522458355.png", // 分享图标
-					success() {
+
+          success() {
 						alert('分享朋友圈成功')
 						// 用户确认分享后执行的回调函数
 					},
@@ -328,7 +331,7 @@
 					link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					// link: url + '#/...', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					imgUrl: "http://jiweishengxian.oss-cn-qingdao.aliyuncs.com/picture/20180806/384554611533522458355.png", // 分享图标
-					// type: 'video', // 分享类型,music、video或link，不填默认为link
+          // type: 'video', // 分享类型,music、video或link，不填默认为link
 					// dataUrl: this.details.videoUrl, // 如果type是music或video，则要提供数据链接，默认为空
 					success: function () {
 						alert('分享给朋友成功')

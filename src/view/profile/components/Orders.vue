@@ -275,6 +275,7 @@ export default {
     },
     // payment(id,productId) {
       payment(id) {
+        sessionStorage.path = this.$route.path;
         this.$router.push(`/cartDetermine/${id}`);
       //
       //   const arr = [];

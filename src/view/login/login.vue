@@ -87,7 +87,7 @@
 			transferWeChat() {
 				window.location.href =
 					"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http%3a%2f%2fshop.jiweishengxian.com%2flogin&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-			},
+      },
 			GetRequest() {
 				var url = location.search; //获取url中"?"符后的字串
 				var theRequest = new Object();
@@ -175,9 +175,8 @@
 								that.$router.push(sessionStorage.getItem('history'))
 							}else{
 								window.location.href = "http://shop.jiweishengxian.com"
-
 							}
-							// window.location.href = "http://192.168.10.158:8080"
+
 						} else {
 							Toast(res.message);
 						}
@@ -244,8 +243,7 @@
 								that.$router.push(sessionStorage.getItem('history'))
 							}else{
 								window.location.href = "http://shop.jiweishengxian.com"
-
-							}
+            }
 					}
 				});
 			}

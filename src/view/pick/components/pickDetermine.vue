@@ -146,6 +146,7 @@ export default {
           odId: this.infoList.odId,
           adId: this.cartList[0].adId
         }).then(res => {
+          sessionStorage.removeItem('adress');
           this.$router.push(`/cartOut/${res}`);
         });
       }
@@ -188,6 +189,8 @@ export default {
             this.showadress = true;
           }
         } else if (res.length == 0) {
+          sessionStorage.removeItem('adress');
+          this.adress = null;
           this.showadress = false;
           this.cartList = null
         }

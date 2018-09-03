@@ -162,6 +162,7 @@ export default {
           this.id = res[0];
         });
         sessionStorage.teamworkMoney = "";
+        sessionStorage.path = this.$route.path;
         this.$router.push(`/collageDetermine/${this.id}`);
       }
     }
