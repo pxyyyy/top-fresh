@@ -150,8 +150,6 @@ export default {
         });
       }
 
-
-
     },
     goAddress: function() {
       this.$router.push({

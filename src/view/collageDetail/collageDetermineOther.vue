@@ -318,26 +318,27 @@ export default {
     }
   },
   async beforeMount() {
+    this.pushHistory();
+    let that = this;
+    window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
+      var path = sessionStorage.getItem('path');
+      if (that.isBack) {
+        window.location.href = `/`
+      }
+    }, false);
     document.title = "确认订单";
     this.GetRequest;
     var Request = new Object();
     Request = this.GetRequest();
     this.code = Request["code"];
     if (!this.code) {
-      this.isBack = true;
+      this.isBack = false;
       var url = window.location.href;
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
     }else {
-      this.isBack = false
+      this.isBack = true
     }
-    this.pushHistory();
-    let that = this;
-    window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
-      var path = sessionStorage.getItem('path');
-      if (that.isBack) {
-        window.location.href =  `/`;
-      }
-    }, false);
+
     const staffId = this.getCookie("staffId");
     const token = this.getCookie("token");
     await this.getTogetherOrderInfo22({
