@@ -96,7 +96,8 @@ export default {
       infoList: [],
       type: 0,
       staffId: this.getCookie("staffId"),
-      token: this.getCookie("token")
+      token: this.getCookie("token"),
+
     };
   },
   methods: {
@@ -136,9 +137,7 @@ export default {
           confirmButtonText: "立即录入"
         }).then(() => {
           this.$router.push(`/cartAddressEditing/${this.type}`);
-        }).catch(
-
-        )
+        }).catch()
       }else{
         this.saveLading({
           staffId: this.staffId,

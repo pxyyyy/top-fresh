@@ -4,10 +4,10 @@
 <template>
 	<div>
 		<van-cell-group>
-			<van-cell is-link v-for="(item,index) in FeaturesList" :key="item.id" @click="binding(index)">
+			<van-cell is-link @click="binding()">
 				<template slot="title">
 					<p class="van-cell-text">
-						{{item.text}}
+            {{text}}
 					</p>
 				</template>
 			</van-cell>
@@ -29,12 +29,14 @@
 		data() {
 			return {
 				staffPhone: "",
-				FeaturesList: [
-					{
-						id: "001",
-						text: "绑定微信账号"
-					},
-				]
+				// FeaturesList: [
+				// 	{
+				// 		id: "001",
+				// 		text: "绑定微信账号"
+				// 	},
+				// ]
+        text: "--",
+        ueseInfo:""
 			};
 		},
 		methods: {
@@ -60,8 +62,8 @@
 				}
 				return theRequest;
 			},
-			binding(index) {
-				if (this.FeaturesList[index].text == "绑定微信账号") {
+			binding() {
+				if (this.ueseInfo.staffWechat) {
 					var link = window.location.href;
 					window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${link}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
 				} else {
@@ -114,17 +116,7 @@
 				}, 1000);
 			}
 		},
-		beforeMount() {
-			this.getStaffInfo({
-				staffId: this.getCookie("staffId"),
-				token: this.getCookie("token")
-			}).then(res => {
-				this.ueseInfo = res.data;
-				if (this.ueseInfo.staffWechat) {
-					this.FeaturesList[0].text = "解绑微信账号";
-				}
-			});
-		},
+
 		mounted() {
 			document.title = "设置";
 			this.GetRequest;
@@ -145,6 +137,20 @@
 					}
 				});
 			}
-		}
+		},
+
+    created() {
+      this.getStaffInfo({
+        staffId: this.getCookie("staffId"),
+        token: this.getCookie("token")
+      }).then(res => {
+        this.ueseInfo = res.data;
+        if (this.ueseInfo.staffWechat) {
+          this.text = "解绑微信账号";
+        }else {
+          this.text = "绑定微信号"
+        }
+      });
+    },
 	};
 </script>

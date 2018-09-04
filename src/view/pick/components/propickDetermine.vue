@@ -25,7 +25,6 @@
             <p style="margin-top:5px;">
               <!-- <span>收货地址: </span> -->
               <span class="userAddress">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
-              <span class="userAddress" v-if="showadress === false" @click="goEditing">请设置收件信息</span>
             </p>
           </van-col>
           <van-col span="2" class="address-right">
@@ -81,7 +80,7 @@ import MailingTwoPic from "../../../assets/img/volume-two.png";
 import ActiveMailingOnePic from "../../../assets/img/active-volume-one.png";
 import ActiveMailingTwoPic from "../../../assets/img/active-volume-two.png";
 import service from "../service/index.js";
-import { Toast } from "vant";
+import { Toast,Dialog } from "vant";
 export default {
   mixins: [service],
   data() {
@@ -130,14 +129,13 @@ export default {
     },
     goDetails: function() {
       this.Payment = true;
-      if(this.cartList == null) {
+      if (this.cartList == null) {
         Dialog.confirm({
           title: "请输入地址",
           confirmButtonText: "立即录入"
         }).then(() => {
           this.$router.push(`/cartAddressEditing/${this.type}`);
         }).catch(
-
         )
       }else{
         this.saveMyLading({
@@ -150,6 +148,8 @@ export default {
           this.$router.push(`/cartOut/${res.data[0]}`);
         });
       }
+
+
     },
     goAddress: function() {
       this.$router.push({

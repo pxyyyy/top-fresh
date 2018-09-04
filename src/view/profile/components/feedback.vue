@@ -46,21 +46,29 @@ export default {
     },
     save() {
       let from = this.$route.query.from;
-      this.addFeedback({
-        staffId: this.getCookie("staffId"),
-        token: this.getCookie("token"),
-        feedbackStaffid: this.getCookie("staffId"),
-        feedbackContent: this.text,
-        feedbackBeizhu: this.mailbox
+      if ( this.text == '' ) {
+        Dialog.alert({
+          title: '提示',
+          message: "请输入您诚恳的意见。"
+        }).then(() =>{
 
-      }).then(res => {
-        if (res.code == 100000) {
-          Dialog.alert({
-            title: '提示',
-            message: "感谢您的建议，我们会及时查看并联系您，祝您生活愉快！"
-          })
-            .then(() => {
-            if (from == "IOS" || from == "Android") {
+        })
+      }else{
+        this.addFeedback({
+          staffId: this.getCookie("staffId"),
+          token: this.getCookie("token"),
+          feedbackStaffid: this.getCookie("staffId"),
+          feedbackContent: this.text,
+          feedbackBeizhu: this.mailbox
+
+        }).then(res => {
+          if (res.code == 100000) {
+            Dialog.alert({
+              title: '提示',
+              message: "感谢您的建议，我们会及时查看并联系您，祝您生活愉快！"
+            })
+              .then(() => {
+                if (from == "IOS" || from == "Android") {
                   this.$bridge.callHandler(
                     "closePage",
                     {
@@ -72,10 +80,12 @@ export default {
                 }else{
                   this.$router.go(-1);
                 }
-            })
-        } else {
-        }
-      });
+              })
+          } else {
+          }
+        });
+      }
+
       //   this.$router.go(-1);
     }
   }

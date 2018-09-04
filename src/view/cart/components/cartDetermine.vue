@@ -328,7 +328,8 @@
 				orderId: "",
 				jmoney: "",
 				orderCode: "",
-        path: sessionStorage.getItem('path')
+        path: sessionStorage.getItem('path'),
+				email: sessionStorage.getItem('email')
 			};
 		},
 		// 优惠的价格
@@ -416,31 +417,30 @@
 				this.Mailing = true;
 			},
 			usingaVouchers() {
-				sessionStorage.computedMoney = this.orderAllmoney;
+        this.isBack = false;
+        sessionStorage.email = this.MailingText;
+        sessionStorage.computedMoney = this.orderAllmoney;
 				if (this.offer) {
 					Dialog.confirm({
 						title: '是否重新选择优惠券',
 						confirmButtonText: '重新选择',
 						cancelButtonText: '取消选择'
 					}).then(() => {
-						this.isBack = false;
 						this.$router.push(`/coupon/${this.$route.params.orderId}/0`);
 					}).catch(() => {
 						this.offer = null;
 					})
 				} else {
-					this.isBack = false;
 					this.$router.push(`/coupon/${this.$route.params.orderId}/0`);
 				}
-
-
-			},
+      },
 			// 邮寄提货券确定点击
 			determine() {
 				if (this.MailingText == "请选择") {
 					this.MailingText = "邮件提货券";
 				}
 				this.Mailing = false;
+				console.log(this.MailingText,'text')
 			},
 			// 付款图标点击
 			wxActive() {
@@ -481,7 +481,6 @@
             this.isBack = false;
             this.$router.push(`/cartAddressEditing/${this.type}`);
           }).catch(
-
           )
 				} else if (
 					this.MailingText == "请选择" &&
@@ -638,26 +637,28 @@
 		},
 
 		mounted() {
-      this.pushHistory();
-			let that = this;
-			window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
-        var path = sessionStorage.getItem('path');
-				if (that.isBack) {
-          window.location.href =  `http://shop.jiweishengxian.com${path}`;
-        }
-			}, false);
       document.title = "确认订单";
 			this.GetRequest;
 			var Request = new Object();
 			Request = this.GetRequest();
 			this.code = Request["code"];
-			if (!this.code) {
+
+			if (!this.code ) {
 				this.isBack = true;
 				var url = `http://shop.jiweishengxian.com/cartDetermine/${this.$route.params.orderId}`;
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-			} else {
-				this.isBack = true
+      } else {
+				this.isBack = false
 			}
+      this.pushHistory();
+      let that = this;
+      window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
+        var path = sessionStorage.getItem('path');
+        sessionStorage.removeItem('email');
+        if (that.isBack) {
+          window.location.href =  `/`;
+        }
+      }, false);
 			var staffWechat = this.getCookie("staffWechat");
 
 			if (this.code && !staffWechat) {
@@ -708,6 +709,10 @@
             this.showadress = true;
             this.cartList = this.adress;
           }
+          if(this.email !== null) {
+            this.MailingText = this.email;
+          }
+
 				});
 			//订单详情
 			this.selectOrderPrimaryKey({
