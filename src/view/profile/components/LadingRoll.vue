@@ -198,18 +198,8 @@
 				this.$router.push(`/LadingRollGive/${id}`);
 			},
 			gocartAddress(id) {
-        const staffId = this.getCookie("staffId");
-        const token = this.getCookie("token");
-        this.getAddress(staffId, token)
-          .then(res => {
-            this.selectStaffAddressList = res;
-          });
-        if(!this.selectStaffAddressList) {
-          this.$router.push(`/cartAddressEditing/${this.type}`);
-        }else{
-          this.$router.push(`/yjcartAddress/${id}`);
-        }
-			},
+        this.$router.push(`/yjcartAddress/${id}`);
+      },
 			deleteRoll(id) {
 				var that = this;
 				Dialog.confirm({
