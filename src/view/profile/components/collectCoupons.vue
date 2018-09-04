@@ -251,8 +251,7 @@
             wx.closeWindow();
           }else{
             this.showshareIt = false;
-            // window.location.href =  `http://shop.jiweishengxian.com/LadingRoll`;
-            that.$router.go(-2)
+            window.location.href =  `/`;
           }
         }
       }, false);

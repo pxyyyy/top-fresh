@@ -417,6 +417,7 @@
 				this.Mailing = true;
 			},
 			usingaVouchers() {
+        this.isBack = false;
         sessionStorage.email = this.MailingText;
         sessionStorage.computedMoney = this.orderAllmoney;
 				if (this.offer) {
@@ -432,9 +433,7 @@
 				} else {
 					this.$router.push(`/coupon/${this.$route.params.orderId}/0`);
 				}
-
-
-			},
+      },
 			// 邮寄提货券确定点击
 			determine() {
 				if (this.MailingText == "请选择") {
@@ -644,11 +643,11 @@
 			Request = this.GetRequest();
 			this.code = Request["code"];
 
-			if (!this.code) {
+			if (!this.code ) {
 				this.isBack = true;
 				var url = `http://shop.jiweishengxian.com/cartDetermine/${this.$route.params.orderId}`;
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-			} else {
+      } else {
 				this.isBack = false
 			}
       this.pushHistory();
@@ -657,8 +656,7 @@
         var path = sessionStorage.getItem('path');
         sessionStorage.removeItem('email');
         if (that.isBack) {
-          // window.location.href =  `http://shop.jiweishengxian.com${path}`;
-          that.$router.go(-2);
+          window.location.href =  `/`;
         }
       }, false);
 			var staffWechat = this.getCookie("staffWechat");

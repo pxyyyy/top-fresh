@@ -349,8 +349,7 @@ export default {
       sessionStorage.removeItem('email');
       var path = sessionStorage.getItem('path');
       if (that.isBack) {
-        // window.location.href =  `http://shop.jiweishengxian.com${path}`;
-        that.$router.go(-2);
+        window.location.href =  `/`;
       }
     }, false);
     const staffId = this.getCookie("staffId");

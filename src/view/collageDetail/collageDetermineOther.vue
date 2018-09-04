@@ -335,8 +335,7 @@ export default {
     window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
       var path = sessionStorage.getItem('path');
       if (that.isBack) {
-        // window.location.href =  `http://shop.jiweishengxian.com${path}`;
-        that.$router.go(-2)
+        window.location.href =  `/`;
       }
     }, false);
     const staffId = this.getCookie("staffId");
