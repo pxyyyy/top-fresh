@@ -137,9 +137,7 @@ export default {
           confirmButtonText: "立即录入"
         }).then(() => {
           this.$router.push(`/cartAddressEditing/${this.type}`);
-        }).catch(
-
-        )
+        }).catch()
       }else{
         this.saveLading({
           staffId: this.staffId,

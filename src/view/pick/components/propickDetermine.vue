@@ -80,7 +80,7 @@ import MailingTwoPic from "../../../assets/img/volume-two.png";
 import ActiveMailingOnePic from "../../../assets/img/active-volume-one.png";
 import ActiveMailingTwoPic from "../../../assets/img/active-volume-two.png";
 import service from "../service/index.js";
-import { Toast } from "vant";
+import { Toast,Dialog } from "vant";
 export default {
   mixins: [service],
   data() {
@@ -129,17 +129,16 @@ export default {
     },
     goDetails: function() {
       this.Payment = true;
-      if (this.cartList === null || this.cartList.length == 0) {
+      if (this.cartList == null) {
         Dialog.confirm({
           title: "请输入地址",
           confirmButtonText: "立即录入"
         }).then(() => {
           this.$router.push(`/cartAddressEditing/${this.type}`);
         }).catch(
-
         )
-      }
-      this.saveMyLading({
+      }else{
+        this.saveMyLading({
           staffId: this.staffId,
           token: this.token,
           odId: this.$route.params.odId,
@@ -148,6 +147,8 @@ export default {
           sessionStorage.removeItem('adress');
           this.$router.push(`/cartOut/${res.data[0]}`);
         });
+      }
+
 
     },
     goAddress: function() {
