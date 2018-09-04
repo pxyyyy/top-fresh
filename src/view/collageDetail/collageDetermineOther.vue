@@ -324,11 +324,11 @@ export default {
     Request = this.GetRequest();
     this.code = Request["code"];
     if (!this.code) {
-      this.isBack = false;
+      this.isBack = true;
       var url = window.location.href;
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
     }else {
-      this.isBack = true
+      this.isBack = false
     }
     this.pushHistory();
     let that = this;

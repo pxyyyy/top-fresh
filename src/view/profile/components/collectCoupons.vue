@@ -234,12 +234,12 @@
 			let code = Request["code"];
 			this.show = true;
 			if (!code) {
-        this.isBack=false;
+        this.isBack=true;
         var url = window.location.href;
         var id = this.$route.params.id, stid = this.$route.params.startUser
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collectCoupons/${this.$route.params.id}?isShare=false}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
       }else{
-        this.isBack=true;
+        this.isBack=false;
       }
       this.pushHistory();
       let that = this;
