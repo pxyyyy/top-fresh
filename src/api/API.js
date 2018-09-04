@@ -26,7 +26,7 @@ axios.interceptors.response.use(response => {
 	Toast('服务内部错误');
 	return Promise.reject(error)
 });
-var _this = this
+var _this = this;
 class API {
 	get = function (url, params) {
 		return new Promise((resolve, reject) => {

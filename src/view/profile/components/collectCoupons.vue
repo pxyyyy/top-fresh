@@ -60,7 +60,7 @@
 				codeValue: "",
         showButton: false,
 				showshareIt: false,
-        isBack: false
+        isBack: true
 
       };
 		},
@@ -228,34 +228,34 @@
       }else {
         this.showshareIt = true;
       }
-      this.pushHistory();
-      let that = this;
-      window.addEventListener("popstate", function(e) {  //回调函数中实现需要的功能
-        if(that.isBack){
-          if(isShare == 'false' ){
-            //包含
-            this.showshareIt = false;
-            wx.closeWindow();
-          }else{
-            this.showshareIt = false;
-            window.location.href =  `http://shop.jiweishengxian.com/LadingRoll`;
-          }
-        }
-      }, false);
       document.title = "提货券领取";
-
-			var Request = new Object();
+      var Request = new Object();
 			Request = this.GetRequest();
 			let code = Request["code"];
 			this.show = true;
 			if (!code) {
-        this.isBack=true;
+        this.isBack=false;
         var url = window.location.href;
         var id = this.$route.params.id, stid = this.$route.params.startUser
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collectCoupons/${this.$route.params.id}?isShare=false}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
       }else{
-        this.isBack=true
+        this.isBack=true;
       }
+      this.pushHistory();
+      let that = this;
+      window.addEventListener("popstate", function(e) {  //回调函数中实现需要的功能
+        if(that.isBack){
+          if ( isShare == 'false' ){
+            //包含isShare
+            this.showshareIt = false;
+            wx.closeWindow();
+          }else{
+            this.showshareIt = false;
+            // window.location.href =  `http://shop.jiweishengxian.com/LadingRoll`;
+            that.$router.go(-2)
+          }
+        }
+      }, false);
 
 			// if (code) {
 			// 	var params = {
@@ -307,6 +307,7 @@
 					success: function () {
 						alert('分享给朋友成功')
 						// 用户确认分享后执行的回调函数
+
 					},
 					cancel: function () {
 						// 用户取消分享后执行的回调函数
@@ -317,7 +318,6 @@
 			wx.error(function (res) {
 				// config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
 			});
-      this.showshareIt = true;
     },
 	};
 </script>
@@ -393,6 +393,7 @@
 				width: 100%;
 				margin: 5px 0;
         padding: 5px 0;
+        border-radius: 5px;
 				background: yellow;
 			}
 		}

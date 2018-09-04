@@ -124,8 +124,11 @@
 				loading: false,
 				finished: false,
 				loading2: false,
-				finished2: false
-			};
+				finished2: false,
+        selectStaffAddressList: [],
+        type: 0
+
+      };
 		},
 		methods: {
 			copyLink(odId) {
@@ -195,10 +198,20 @@
 				this.$router.push(`/LadingRollGive/${id}`);
 			},
 			gocartAddress(id) {
-				this.$router.push(`/yjcartAddress/${id}`);
+        const staffId = this.getCookie("staffId");
+        const token = this.getCookie("token");
+        this.getAddress(staffId, token)
+          .then(res => {
+            this.selectStaffAddressList = res;
+          });
+        if(!this.selectStaffAddressList) {
+          this.$router.push(`/cartAddressEditing/${this.type}`);
+        }else{
+          this.$router.push(`/yjcartAddress/${id}`);
+        }
 			},
 			deleteRoll(id) {
-				var that = this
+				var that = this;
 				Dialog.confirm({
 					title: '确认操作',
 					message: '是否确认删除此条数据？'

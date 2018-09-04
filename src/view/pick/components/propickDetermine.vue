@@ -25,7 +25,6 @@
             <p style="margin-top:5px;">
               <!-- <span>收货地址: </span> -->
               <span class="userAddress">收货地址: {{cartList[0].adAddress}} {{cartList[0].adAddressInfo}}</span>
-              <span class="userAddress" v-if="showadress === false" @click="goEditing">请设置收件信息</span>
             </p>
           </van-col>
           <van-col span="2" class="address-right">
@@ -130,7 +129,7 @@ export default {
     },
     goDetails: function() {
       this.Payment = true;
-      if(this.cartList == null) {
+      if (this.cartList === null || this.cartList.length == 0) {
         Dialog.confirm({
           title: "请输入地址",
           confirmButtonText: "立即录入"
@@ -139,8 +138,8 @@ export default {
         }).catch(
 
         )
-      }else{
-        this.saveMyLading({
+      }
+      this.saveMyLading({
           staffId: this.staffId,
           token: this.token,
           odId: this.$route.params.odId,
@@ -149,7 +148,7 @@ export default {
           sessionStorage.removeItem('adress');
           this.$router.push(`/cartOut/${res.data[0]}`);
         });
-      }
+
     },
     goAddress: function() {
       this.$router.push({

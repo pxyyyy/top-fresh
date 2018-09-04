@@ -125,7 +125,8 @@ export default {
       coupon1: null,
       token: this.getCookie("token"),
       staffId: this.getCookie("staffId"),
-      allmoney: sessionStorage.getItem('computedMoney')
+      allmoney: sessionStorage.getItem('computedMoney'),
+      email: sessionStorage.getItem('email')
     };
   },
   methods: {
@@ -134,6 +135,7 @@ export default {
       // 优惠券价格保存
       sessionStorage.money = money;
       sessionStorage.scId = scId;
+      sessionStorage.email = this.email;
       this.$router.push(`/cartDetermine/${this.$route.params.id}`);
     },
     returnProfile() {

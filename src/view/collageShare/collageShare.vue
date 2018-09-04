@@ -259,14 +259,6 @@
 			}
 		},
 		mounted() {
-      this.pushHistory();
-      let that = this;
-      window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
-        var path = sessionStorage.getItem('path');
-        if (that.isBack) {
-          window.location.href =  `http://shop.jiweishengxian.com${path}`;
-        }
-      }, false);
 			let from = this.$route.query.from;
 			if (from == "IOS" || from == "Android") {
 				this.show = false;
@@ -284,6 +276,15 @@
 				} else {
           this.isBack = true
         }
+        this.pushHistory();
+        let that = this;
+        window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
+          var path = sessionStorage.getItem('path');
+          if (that.isBack) {
+            // window.location.href =  `http://shop.jiweishengxian.com${path}`;
+            that.$router.go(-2)
+          }
+        }, false);
 			}
 
 			// if (code) {
@@ -361,21 +362,28 @@
 			}).then(res => {
 				this.infoProduct = res;
 				this.infoProductUser = res.user;
+				const { status } = res.together;
+				if(status == 1) {
+				  this.riend = '立即参团'
+        }else if (status == 2) {
+				  this.riend = '邀请好友参团'
+        }else if ( status == 3) {
+				  this.riend ='拼团失败'
+        }else if (status == 4) {
+				  this.riend = '拼团成功'
+        }else if (status == 5) {
+				  this.riend = '取消拼团'
+        }
 				this.startUser = res.startUser;
 				if (from == "IOS" || from == "Android") {
-					this.showshareIt = false;
-					this.riend = "邀请好友参团";
+          this.showshareIt = false;
 				} else {
 					for (let item in this.infoProductUser) {
 						if (this.getCookie("staffId") == this.infoProductUser[item].staffId) {
 							this.showshareIt = true;
-							this.riend = "邀请好友参团";
-						} else {
-							this.riend = "立即参团";
 						}
 					}
 					if (this.infoProductUser.length == this.infoProduct.successPeopleNum) {
-						this.riend = "拼团成功";
 						this.showshareIt = false;
 						this.isspan1 = false;
 						this.isspan2 = true;

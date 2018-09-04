@@ -96,7 +96,8 @@ export default {
       infoList: [],
       type: 0,
       staffId: this.getCookie("staffId"),
-      token: this.getCookie("token")
+      token: this.getCookie("token"),
+
     };
   },
   methods: {

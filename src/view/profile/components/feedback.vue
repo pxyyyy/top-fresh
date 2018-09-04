@@ -46,6 +46,14 @@ export default {
     },
     save() {
       let from = this.$route.query.from;
+      if ( this.text == '' ) {
+        Dialog.alert({
+          title: '提示',
+          message: "请输入您诚恳的意见。"
+        }).then(() =>{
+
+        })
+      }
       this.addFeedback({
         staffId: this.getCookie("staffId"),
         token: this.getCookie("token"),
