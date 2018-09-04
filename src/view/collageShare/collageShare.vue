@@ -259,6 +259,14 @@
 			}
 		},
 		mounted() {
+      this.pushHistory();
+      let that = this;
+      window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
+        var path = sessionStorage.getItem('path');
+        if (that.isBack) {
+          window.location.href = `/`
+        }
+      }, false);
 			let from = this.$route.query.from;
 			if (from == "IOS" || from == "Android") {
 				this.show = false;
@@ -269,21 +277,14 @@
 				let code = Request["code"];
 				this.show = true;
 				if (!code) {
-          this.isBack = true;
+          this.isBack = false;
 					var url = window.location.href;
 					var id = this.$route.params.id, stid = this.$route.params.startUser
 					window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collageShare/${id}/${stid}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
 				} else {
-          this.isBack = false
+          this.isBack = true
         }
-        this.pushHistory();
-        let that = this;
-        window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
-          var path = sessionStorage.getItem('path');
-          if (that.isBack) {
-            window.location.href =  `/`;
-          }
-        }, false);
+
 			}
 
 			// if (code) {

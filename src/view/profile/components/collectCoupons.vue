@@ -221,25 +221,13 @@
 			}
 		},
 		mounted() {
+
 		  const{ isShare } = this.$route.params;
       if ( isShare == 'false' ){
         //包含isShare
         this.showshareIt = false;
       }else {
         this.showshareIt = true;
-      }
-      document.title = "提货券领取";
-      var Request = new Object();
-			Request = this.GetRequest();
-			let code = Request["code"];
-			this.show = true;
-			if (!code) {
-        this.isBack=true;
-        var url = window.location.href;
-        var id = this.$route.params.id, stid = this.$route.params.startUser
-        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collectCoupons/${this.$route.params.id}?isShare=false}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-      }else{
-        this.isBack=false;
       }
       this.pushHistory();
       let that = this;
@@ -251,10 +239,24 @@
             wx.closeWindow();
           }else{
             this.showshareIt = false;
-            window.location.href =  `/`;
+            window.location.href = `/`
           }
         }
       }, false);
+      document.title = "提货券领取";
+      var Request = new Object();
+			Request = this.GetRequest();
+			let code = Request["code"];
+			this.show = true;
+			if (!code) {
+        this.isBack=false;
+        var url = window.location.href;
+        var id = this.$route.params.id, stid = this.$route.params.startUser
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=http://shop.jiweishengxian.com/collectCoupons/${this.$route.params.id}?isShare=false}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+      }else{
+        this.isBack=true;
+      }
+
 
 			// if (code) {
 			// 	var params = {
