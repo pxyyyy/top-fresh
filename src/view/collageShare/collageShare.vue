@@ -385,20 +385,22 @@
 				// 	}
           let isJoin = this.infoProductUser.find(item => item.staffId === this.staffId)
 
-          if(isJoin){
-					  this.showshareIt = true
+          if (this.infoProduct.successPeopleNum == 0) {
+            this.riend = '活动结束'
+          }else if(isJoin){
+            this.showshareIt = true
             this.riend = "邀请好友参团"
-          }else{
-            if ( status == 3) {
-              this.riend ='拼团失败'
-            }else if (status == 4) {
-              this.riend = '拼团成功'
-            }else if (status == 5) {
-              this.riend = '取消拼团'
-            } else{
-              this.riend = '立即参团'
+          } else{
+              if ( status == 3) {
+                this.riend ='拼团失败'
+              }else if (status == 4) {
+                this.riend = '拼团成功'
+              }else if (status == 5) {
+                this.riend = '取消拼团'
+              } else{
+                this.riend = '立即参团'
+              }
             }
-          }
 
 					if (this.infoProductUser.length == this.infoProduct.successPeopleNum) {
 						this.showshareIt = false;

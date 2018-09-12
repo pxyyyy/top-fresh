@@ -168,7 +168,9 @@ export default {
       jmoney: "",
       isBack: true,
       code: "",
-      path: sessionStorage.getItem('path')
+      path: sessionStorage.getItem('path'),
+      email: sessionStorage.getItem('email')
+
     };
   },
   methods: {
@@ -186,6 +188,9 @@ export default {
     },
     // 代金券
     usingaVouchers() {
+      this.isBack = false;
+      sessionStorage.email = this.MailingText;
+      sessionStorage.path = this.$route.path;
       this.$router.push(`/teamworkcoupon/${this.info.priceTogether}`);
     },
     // 获取cook
@@ -323,7 +328,8 @@ export default {
     window.addEventListener("popstate", function (e) {  //回调函数中实现需要的功能
       var path = sessionStorage.getItem('path');
       if (that.isBack) {
-        window.location.href = `/`
+        window.location.href = `/`;
+        sessionStorage.removeItem('email');
       }
     }, false);
     document.title = "确认订单";
@@ -347,6 +353,9 @@ export default {
       id: this.$route.params.id
     }).then(res => {
       this.info = res.data;
+      if(this.email !== null) {
+        this.MailingText = this.email;
+      }
     });
     // 积分
     this.getScoreByMoney({

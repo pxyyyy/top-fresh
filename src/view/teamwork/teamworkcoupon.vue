@@ -88,7 +88,8 @@ export default {
       coupon: null,
       coupon1: null,
       token: this.getCookie("token"),
-      staffId: this.getCookie("staffId")
+      staffId: this.getCookie("staffId"),
+      path: sessionStorage.getItem('path')
     };
   },
   methods: {
@@ -96,7 +97,8 @@ export default {
     useaCoupon(money) {
       // 优惠券价格保存
       sessionStorage.teamworkMoney = money;
-      this.$router.go(-1);
+      // this.$router.go(-1);
+      this.$router.push(this.path);
     },
     returnProfile() {
       this.$router.go(-1);
