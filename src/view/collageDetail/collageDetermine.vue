@@ -5,6 +5,10 @@
 .Cell .van-icon {
   position: absolute;
 }
+.van-dialog__confirm,
+.van-dialog__confirm:active {
+  color: #e2bf85
+}
 </style>
 <template>
   <div>

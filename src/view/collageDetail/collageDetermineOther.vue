@@ -5,6 +5,10 @@
 .Cell .van-icon {
   position: absolute;
 }
+.van-dialog__confirm,
+.van-dialog__confirm:active {
+  color: #e2bf85
+}
 </style>
 <template>
   <div>
@@ -139,6 +143,8 @@ import MailingTwoPic from "../../assets/img/volume-two.png";
 import ActiveMailingOnePic from "../../assets/img/active-volume-one.png";
 import ActiveMailingTwoPic from "../../assets/img/active-volume-two.png";
 import service from "./service/order.js";
+import { Dialog } from 'vant';
+
 export default {
   mixins: [service],
   data() {
@@ -191,7 +197,19 @@ export default {
       this.isBack = false;
       sessionStorage.email = this.MailingText;
       sessionStorage.path = this.$route.path;
-      this.$router.push(`/teamworkcoupon/${this.info.priceTogether}`);
+      if (this.offer) {
+        Dialog.confirm({
+          title: '是否重新选择优惠券',
+          confirmButtonText: '重新选择',
+          cancelButtonText: '取消选择'
+        }).then(() => {
+          this.$router.push(`/teamworkcoupon/${this.info.priceTogether}`);
+        }).catch(() => {
+          this.offer = null;
+        })
+      } else {
+        this.$router.push(`/teamworkcoupon/${this.info.priceTogether}`);
+      }
     },
     // 获取cook
     getCookie(name) {
