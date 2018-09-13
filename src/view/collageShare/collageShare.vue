@@ -383,8 +383,7 @@
             //   }
             // }
 				// 	}
-          let isJoin = this.infoProductUser.find(item => item.staffId === this.staffId)
-
+          let isJoin = this.infoProductUser.find(item => item.staffId == this.staffId)
           if (this.infoProduct.successPeopleNum == 0) {
             this.riend = '活动结束'
           }else if(isJoin){
