@@ -94,27 +94,17 @@
       }
     },
     goPickupVC() {
-      var istoken = this.isToken();
-      if (istoken) {
-        let from = this.$route.query.from;
-        if (from == "IOS") {
-          this.$bridge.callHandler("goPickupVC", data => {
-          });
-        } else if (from == "Android") {
-          this.$bridge.callHandler("goPickupVC", data => {
-          });
-        } else {
-          this.$router.push(`/pick`);
-        }
+      let from = this.$route.query.from;
+      if (from == "IOS") {
+        this.$bridge.callHandler("goPickupVC", data => {
+        });
+      } else if (from == "Android") {
+        this.$bridge.callHandler("goPickupVC", data => {
+        });
       } else {
-        Dialog.confirm({
-          title: "提示",
-          message: "请先登录您的账户",
-          confirmButtonText: "去登录"
-        }).then(() => {
-          this.$router.push(`/login`);
-        }).catch()
+        this.$router.push(`/pick`);
       }
+
 
     },
     goGoodOriginVC() {
