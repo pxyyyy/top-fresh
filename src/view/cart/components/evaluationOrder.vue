@@ -10,25 +10,25 @@
           </textarea>
         </van-col>
       </van-row>
-      <div class="btnsave-wrapper" @click="release" style="padding: 40px;">
-        <van-button type="primary" class="btnsave" style="width: 100%;">保存</van-button>
-      </div>
       <van-row style="padding: 0 50px;">
-        <!-- <van-col span="6" style="text-align:left;">
-          <div style="width:60px;height:60px;border:1px dashed #c7c7c7; margin:3px 0;     display: flex;    justify-content: center;    align-items: center;">
+       <van-col span="6" style="text-align:left;">
+          <div style="width:60px;height:60px;border:1px dashed #c7c7c7; margin:3px 0;     display: flex;    justify-content: center;    align-items: center;" v-if="imgList.length < 9">
             <van-uploader :after-read="onRead">
               <van-icon name="photograph" />
             </van-uploader>
           </div>
-        </van-col> -->
+        </van-col>
         <!-- 评价 -->
-        <!-- <van-col span="6" style="text-align:left;" v-for="(item,index) in imgList" :key="index">
+        <van-col span="6" style="text-align:left;" v-for="(item,index) in imgList" :key="index">
           <div class="piclist">
             <img :src="item.src" alt="user image">
             <span @click="delPic(index)">x</span>
           </div>
-        </van-col> -->
+        </van-col>
       </van-row>
+      <div class="btnsave-wrapper" @click="release" style="padding: 40px;">
+        <van-button type="primary" class="btnsave" style="width: 100%;">保存</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -52,11 +52,14 @@ export default {
     },
     // 发布
     release() {
+      let  arr = this.imgList.map(item => item.src);
+      let img = arr.join(',');
       this.addEvaluation({
         staffId: this.getCookie("staffId"),
         token: this.getCookie("token"),
         orderId: this.$route.params.id,
         evaluationStaffid: this.getCookie("staffId"),
+        producturl: img,
         evaluationContent: this.text,
         evaluationPraiseNum: this.value //星
       }).then(res => {
@@ -91,7 +94,7 @@ export default {
       };
       axios
         .post(
-          `http://192.168.10.141:8080/fresh_show/User/uploadAll?staffId=${this.getCookie(
+          `http://39.106.31.12:8080/fresh_show/User/uploadAll?staffId=${this.getCookie(
             "staffId"
           )}&token=${this.getCookie("token")}&type=4`,
           param,
