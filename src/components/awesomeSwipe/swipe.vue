@@ -45,17 +45,6 @@ export default {
     };
   },
   methods: {
-    goSwiperLink() {},
-    // 获取cook
-    getCookie(name) {
-      var arr,
-        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-      if ((arr = document.cookie.match(reg))) {
-        return unescape(arr[2]);
-      } else {
-        return null;
-      }
-    },
     toTeacher(activeId) {
       let from = this.$route.query.from;
       if (activeId.type == 1) {

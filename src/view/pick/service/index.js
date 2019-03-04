@@ -86,6 +86,16 @@ export default {
           console.log(error);
         });
     },
+    // 个人信息
+    getStaffInfo(json) {
+      return api.post(`fresh_show/staff/getStaffInfo`, json)
+        .then(res => {
+          return res.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     // 我的提货券--立刻提货
     saveMyLading(json) {
       return api.post(`fresh_show/orderTail/saveMyLading`, json)

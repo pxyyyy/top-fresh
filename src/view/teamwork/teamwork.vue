@@ -15,8 +15,8 @@
           <p class="teamwork-info-bottom">
             ￥{{item.priceTogether}}
             <span @click="alone">单买价￥{{item.originalPrice}}</span>
-            <button v-if="item.canPay == 1" style="background:#ccc;">已开团</button>
-            <button @click="goCollage(item.id,item.productId)" v-else>去开团</button>
+            <button v-if="item.canPay == 1" style="background-color: #ccc" @click="goCollage(item.id,item.productId,item.canPay)">已开团</button>
+            <button @click="goCollage(item.id,item.productId,item.canPay)" v-else>去开团</button>
           </p>
         </div>
       </div>
@@ -43,7 +43,8 @@ export default {
   methods: {
     alone() {
     },
-    goCollage(id, productId) {
+    goCollage(id, productId, canPay) {
+      sessionStorage.setItem('canPay',canPay);
       this.$router.push(`/collageDetail/${id}/${productId}`);
     },
     last() {

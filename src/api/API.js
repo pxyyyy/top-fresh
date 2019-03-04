@@ -38,7 +38,20 @@ class API {
 					cancel = c
 				})
 			}).then(res => {
-				if (res.data.code == 100002) {
+				if (res.code == 100002) {
+          Dialog.confirm({
+            title: "提示",
+            message: "请先登录您的账户",
+            confirmButtonText: "去登录"
+          }).then(() => {
+            var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+            if (keys) {
+              for (var i = keys.length; i--;)
+                document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+            }
+            window.location.href = "http://shop.jiweishengxian.com/login"
+          }).catch()
+        }else if (res.data.code == 100002) {
           Dialog.confirm({
             title: "提示",
             message: "请先登录您的账户",
@@ -71,7 +84,7 @@ class API {
 				})
 			})
 				.then(res => {
-					if (res.code == 100002) {
+					 if (res.code == 100002) {
             Dialog.confirm({
               title: "提示",
               message: "请先登录您的账户",

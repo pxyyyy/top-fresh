@@ -60,22 +60,6 @@ export default {
     }
   },
   methods: {
-    toSecond(path) {
-      if (path == "cart" || path == "profile") {
-        var token = this.getCookie("staffId") || "";
-        if (token == "" || token == undefined || token == null) {
-          Dialog.confirm({
-            title: "提示",
-            message: "请先登录您的账户",
-            confirmButtonText: "去登录"
-          }).then(() => {
-            this.$router.push(`/login`);
-          }).catch()
-        } else {
-          return `/${path}`;
-        }
-      }
-    },
     // 获取cook
     getCookie(name) {
       var arr,
@@ -86,12 +70,6 @@ export default {
         return null;
       }
     },
-    isActivty(path) {
-      this.router = path;
-      this.$router.push({
-        name: path
-      });
-    }
   }
 };
 </script>

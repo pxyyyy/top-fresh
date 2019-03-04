@@ -5,6 +5,7 @@
 .detail img {
   width: 100%;
   border: 0;
+  margin-bottom: 50px;
   vertical-align: middle;
 }
 </style>
@@ -14,7 +15,7 @@
     <!-- 商品主图  有赞轮播组件-->
     <swiper :options="swiperOption" :class="{marginIos:ismarginIos}">
       <swiper-slide v-for="(image, index) in infoOne.proImgs" :key="index">
-        <img v-lazy="image.imgUrl" class="img"  />
+        <img v-lazy="image.imgUrl" class="img"/>
       </swiper-slide>
     </swiper>
     <!-- 商品详细信息 -->
@@ -68,7 +69,8 @@
         <van-button bottom-action @click="aloneBy(infoOne.productId)">单独购买 ￥{{infoOne.productOprice}}</van-button>
       </van-col>
       <van-col span="12">
-        <van-button type="primary" bottom-action @click="collage('1232321')">{{infoTwo.successPeopleNum}}人成团 ￥{{infoTwo.priceTogether}}</van-button>
+        <van-button type="primary" bottom-action style="background-color: #ddd" v-if="this.$route.query.canPay == '1'||canPay == '1'" disable>{{infoTwo.successPeopleNum}}人成团 ￥{{infoTwo.priceTogether}}</van-button>
+        <van-button type="primary" bottom-action @click="collage('1232321')" v-else>{{infoTwo.successPeopleNum}}人成团 ￥{{infoTwo.priceTogether}}</van-button>
       </van-col>
     </van-row>
   </div>
@@ -85,15 +87,22 @@ export default {
       number: 1,
       show: false,
       show1: false,
+      canPay: sessionStorage.getItem('canPay'),
       type: "",
       ismarginIos:false,
       swiperOption: {
+        // 园点配置
+        pagination: ".swiper-pagination",
+        // 循环切换
         loop: true,
-        effect: "fade"
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true
+        }
       },
       infoOne: "",
       infoTwo: "",
-      id: ""
+      id: "",
     };
   },
   methods: {
@@ -116,6 +125,7 @@ export default {
             id: id
           },
           data => {
+
           }
         );
       } else if (from == "Android") {

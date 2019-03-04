@@ -30,7 +30,7 @@
   </div>
 </template>
 <script>
-import { Toast } from "vant";
+import { Toast, Dialog } from "vant";
 import service from "./service/index.js";
 export default {
   name: "pick",
@@ -44,10 +44,15 @@ export default {
     };
   },
   mounted() {
+    this.getStaffInfo({
+      staffId: this.getCookie("staffId"),
+      token: this.getCookie("token")
+    });
     document.title = "礼卡提货";
     this.selectProByType().then(res => {
       this.list = res.data;
     });
+
   },
   methods: {
     // 获取cook
@@ -60,25 +65,40 @@ export default {
         return null;
       }
     },
-    goDetails: function() {
-      if (this.value == "") {
-        Toast("请输入卡号");
-      } else if (this.password == "") {
-        Toast("请输入提货码");
+    // 判断用户是否登录
+    isToken() {
+      var token = this.getCookie("token");
+      if (token) {
+        return true;
       } else {
-        this.getLadingDetail({
-          staffId: this.getCookie("staffId"),
-          token: this.getCookie("token"),
-          card: this.value,
-          hidecard: this.password
-        }).then(res => {
-          if (res.code == 100003) {
-            Toast("未查询到卡券");
-          } else {
-            this.$router.push(`/delivery/${this.value}/${this.password}`);
-          }
-        });
+        return false;
       }
+    },
+    goDetails: function() {
+      this.getStaffInfo({
+        staffId: this.getCookie("staffId"),
+        token: this.getCookie("token")
+      }).then(()=>{
+        if (this.value == "") {
+          Toast("请输入卡号");
+        } else if (this.password == "") {
+          Toast("请输入提货码");
+        } else {
+          this.getLadingDetail({
+            staffId: this.getCookie("staffId"),
+            token: this.getCookie("token"),
+            card: this.value,
+            hidecard: this.password
+          }).then(res => {
+            if (res.code == 100003) {
+              Toast("未查询到卡券");
+            } else {
+              this.$router.push(`/delivery/${this.value}/${this.password}`);
+            }
+          });
+        }}
+      )
+
     },
     toProductInfo(productId) {
       this.$router.push(`/product/${productId}`);

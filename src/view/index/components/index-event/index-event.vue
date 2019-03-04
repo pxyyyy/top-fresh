@@ -38,15 +38,15 @@
         return null;
       }
     },
-    // 判断用户是否登录
-    isToken() {
-      var token = this.getCookie("token");
-      if (token) {
-        return true;
-      } else {
-        return false;
-      }
-    },
+    // // 判断用户是否登录
+    // isToken() {
+    //   var token = this.getCookie("token");
+    //   if (token) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // },
     Traceability() {
       let from = this.$route.query.from;
       if (from == "IOS") {
@@ -94,8 +94,8 @@
       }
     },
     goPickupVC() {
-      var istoken = this.isToken();
-      if (istoken) {
+      // var istoken = this.isToken();
+      // if (istoken) {
         let from = this.$route.query.from;
         if (from == "IOS") {
           this.$bridge.callHandler("goPickupVC", data => {
@@ -106,15 +106,15 @@
         } else {
           this.$router.push(`/pick`);
         }
-      } else {
-        Dialog.confirm({
-          title: "提示",
-          message: "请先登录您的账户",
-          confirmButtonText: "去登录"
-        }).then(() => {
-          this.$router.push(`/login`);
-        }).catch()
-      }
+      // } else {
+      //   Dialog.confirm({
+      //     title: "提示",
+      //     message: "请先登录您的账户",
+      //     confirmButtonText: "去登录"
+      //   }).then(() => {
+      //     this.$router.push(`/login`);
+      //   }).catch()
+      // }
 
     },
     goGoodOriginVC() {

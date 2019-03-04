@@ -363,10 +363,13 @@
 				this.infoProduct = res;
 				this.infoProductUser = res.user;
 				const { status } = res.together;
-				if(status == 1) {
-				  this.riend = '立即参团'
-        }else if (status == 2) {
-				  this.riend = '邀请好友参团'
+				if (status == 2) {
+          if (this.staffId == this.$route.params.startUser) {
+              this.showshareIt = true;
+              this.riend = "邀请好友参团";
+            } else {
+              this.riend = "立即参团";
+            }
         }else if ( status == 3) {
 				  this.riend ='拼团失败'
         }else if (status == 4) {
@@ -389,12 +392,6 @@
 						this.isspan2 = true;
 					}
 				}
-				// if (this.staffId == this.$route.params.startUser) {
-				//   this.showshareIt = true;
-				//   this.riend = "邀请好友参团";
-				// } else {
-				//   this.riend = "立即参团";
-				// }
 			});
 		}
 	};

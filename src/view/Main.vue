@@ -9,15 +9,6 @@
 		<van-icon name="pending-evaluate" slot="right" />
 	</van-nav-bar> -->
     <div class="index-nav-bar" v-if="!isClient">
-      <!-- <div class="index-nav-bar__left" v-if="!currentRoute && !eventRouter">
-        <img v-lazy="logoPic" height="15">
-      </div> -->
-      <!-- <div class="index-nav-bar__title" v-if="currentRoute">
-        <span>购物车</span>
-      </div> -->
-      <!-- <div class="index-nav-bar__title" v-if="eventRouter">
-        <span>活动</span>
-      </div> -->
     </div>
     <router-view :style="{marginTop:marginTop}"></router-view>
     <bottom v-if="!isClient"></bottom>
@@ -74,7 +65,6 @@ export default {
       this.marginTop = "0";
     }
   },
-  methods: {},
   components: {
     bottom
   }

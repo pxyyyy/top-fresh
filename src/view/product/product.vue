@@ -84,7 +84,7 @@
       <p class="subtitle">{{product.productInfo}}</p>
       <p class="price" v-if="product.productPrice">
         <span>&yen;{{product.productPrice}}/{{product.productUnit}}</span>
-        <span class="old">&yen;{{product.productOprice}}</span>
+        <span class="old" v-if="product.productIfoprice === '1'">&yen;{{product.productOprice}}</span>
       </p>
       <p class="price" v-else>
         <span>&yen;{{product.productOprice}}/{{product.productUnit}}只</span>
