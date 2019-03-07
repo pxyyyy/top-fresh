@@ -120,7 +120,7 @@ export default {
   mixins: [coupon, productInfo],
   data() {
     return {
-      active: 2,
+      active: 0,
       coupon: null,
       coupon1: null,
       token: this.getCookie("token"),
@@ -129,6 +129,13 @@ export default {
       email: sessionStorage.getItem('email')
     };
   },
+
+  beforeMount() {
+    document.title = "我的代金券";
+    sessionStorage.setItem('isAddressTop', true);
+    this.Unused(this.active);
+  },
+
   methods: {
     // 使用优惠券
     useaCoupon(money, scId) {
@@ -212,68 +219,6 @@ export default {
 			setTimeout(() => {
 				sessionStorage.removeItem('isAddressTop')
 			}, 1000)
-},
-  // async beforeMount() {
-  //
-  //   var id = this.$route.params.id;
-  //   await this.getProductInfo(id) //获取列表
-  //     .then(res => {
-  //       this.product = res;
-  //     });
-  //   sessionStorage.setItem('isAddressTop', true);
-  //     if (this.$route.params.type == 0) {
-  //       var allmoney = this.product.productPtype * this.product.productPrice;
-  //       this.getCoupnsListByOrderId({
-  //         token: this.token,
-  //         staffId: this.staffId,
-  //         allmoney: allmoney
-  //       }).then(res => {
-  //         this.coupon = res;
-  //       });
-  //     } else {
-  //       this.getCoupon(this.staffId, this.token, 0).then(res => {
-  //         this.coupon = res;
-  //       });
-  //     }
-  //   }
-  beforeMount() {
-    document.title = "我的代金券";
-    sessionStorage.setItem('isAddressTop', true)
-    if (this.$route.params.type == 0) {
-      this.getCoupnsListByOrderId({
-        token: this.token,
-        staffId: this.staffId,
-        allmoney: this.allmoney
-      }).then(res => {
-        this.coupon = res;
-        this.coupon.forEach(x =>{
-          if(x.coupons.useScope === 'ALL') {
-            x.coupons.useScope = '使用范围：全商品类代金券'
-          }else if (x.coupons.useScope === 'A1') {
-            x.coupons.useScope = '使用范围：礼品卡'
-          }else if(x.coupons.useScope === 'A2') {
-            x.coupons.useScope = '使用范围：现货'
-          }else{
-            x.coupons.useScope = '使用范围：其他'
-          }
-        })
-      });
-    } else {
-      this.getCoupon(this.staffId, this.token, 0).then(res => {
-        this.coupon = res;
-        this.coupon.forEach(x =>{
-          if(x.coupons.useScope === 'ALL') {
-            x.coupons.useScope = '使用范围：全商品类代金券'
-          }else if (x.coupons.useScope === 'A1') {
-            x.coupons.useScope = '使用范围：礼品卡'
-          }else if(x.coupons.useScope === 'A2') {
-            x.coupons.useScope = '使用范围：现货'
-          }else{
-            x.coupons.useScope = '使用范围：其他'
-          }
-        })
-      });
-    }
-  }
+}
 };
 </script>
