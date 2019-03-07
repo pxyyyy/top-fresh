@@ -9,7 +9,7 @@
   vertical-align: middle;
 }
 .swiper-wrapper{
-	height: auto !important;
+	height: 385px !important;
 }
 .details .van-tabs__nav--card .van-tab.van-tab--active {
   background: #fff !important;
