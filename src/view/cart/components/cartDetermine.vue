@@ -66,52 +66,6 @@
 					</li>
 				</ul>
 			</div>
-			<!--<div>-->
-			<!--<div v-if="showProduct">-->
-			<!--<ul v-for="item in productArr" :key="item.productId">-->
-			<!--<li class="item">-->
-			<!--<img :src="item.proImgs[0].imgUrl" alt="" class="item-img">-->
-			<!--<div class="item-info">-->
-			<!--<p class="item-title">{{item.productName}}</p>-->
-			<!--<p class="item-desc">{{item.productInfo}}</p>-->
-			<!--<p class="item-button">-->
-			<!--<strong class="money">￥{{item.productPrice}}</strong>-->
-			<!--<span>x{{1}}</span>-->
-			<!--</p>-->
-			<!--</div>-->
-			<!--</li>-->
-			<!--</ul>-->
-			<!--</div>-->
-			<!--<div v-if="buyNow">-->
-			<!--<ul v-for="item in productArr" :key="item.odProductId">-->
-			<!--<li class="item">-->
-			<!--<img :src="item.odProductIcon" alt="" class="item-img">-->
-			<!--<div class="item-info">-->
-			<!--<p class="item-title">{{item.odProductName}}</p>-->
-			<!--<p class="item-desc">{{item.odProductDes}}</p>-->
-			<!--<p class="item-button">-->
-			<!--<strong class="money">￥{{item.odProductPprice}}</strong>-->
-			<!--<span>x{{item.odProductNum}}</span>-->
-			<!--</p>-->
-			<!--</div>-->
-			<!--</li>-->
-			<!--</ul>-->
-			<!--</div>-->
-			<!--<div v-if="car">-->
-			<!--<ul v-for="item in productArr" :key="item.carProductId">-->
-			<!--<li class="item">-->
-			<!--<img :src="item.carProductIcon" alt="" class="item-img">-->
-			<!--<div class="item-info">-->
-			<!--<p class="item-title">{{item.carProductName}}</p>-->
-			<!--<p class="item-desc">{{item.carProductDes}}</p>-->
-			<!--<p class="item-button">-->
-			<!--<strong class="money">￥{{item.carProductPprice}}</strong>-->
-			<!--<span>x{{item.carProductNum}}</span>-->
-			<!--</p>-->
-			<!--</div>-->
-			<!--</li>-->
-			<!--</ul>-->
-			<!--</div>-->
 			<!--是否邮寄提货券弹出-->
 			<van-popup v-model="Mailing">
 				<van-row class="Mailing">
@@ -167,7 +121,7 @@
 							<span class="iconfont arrow-icon">&#xe66b;</span>
 						</p>
 						<p v-else>
-							<span v-text="offerText"></span>
+							<span>无可用代金券</span>
 							<span class="iconfont arrow-icon">&#xe66b;</span>
 						</p>
 					</div>
@@ -270,7 +224,6 @@
 			return {
 				imageURL: FeaturesIcon5,
 				checked: false,
-				offerText: "选择代金券",
 				zfb: false,
 				wx: true,
 				yl: false,
@@ -285,13 +238,12 @@
 				Payment: false,
 				away: false,
 				cartList: null,
-				// infoList: sessionStorage.getItem("infoList"),
 				infoList: [],
 				datas: '',
 				PaymentType: "微信支付",
 				MailingText: "请选择",
 				MailingType: "",
-				offer: sessionStorage.getItem("money"),
+				offer: null,
 				scId: sessionStorage.getItem("scId"),
 				integralZero: "",
 				integralOne: "",
@@ -317,12 +269,6 @@
 				types: '',
         type: 0,
 				adress: sessionStorage.getItem('adress'),
-				// carIds: '',
-				// adId: '',
-				// car: false,
-				// allmoney: null,
-				// showAdress: false,
-				// adress: false
 				integral: "",
 				userInfo: "",
 				orderId: "",
@@ -332,28 +278,6 @@
 				email: sessionStorage.getItem('email')
 			};
 		},
-		// 优惠的价格
-		// computed: {
-		// 	orderAllmoney() {
-		// 		if (this.checked) {
-		// 			if (sessionStorage.getItem("money")) {
-		// 				return (
-		// 					this.allPrice -
-		// 					sessionStorage.getItem("money") -
-		// 					this.integralOne
-		// 				);
-		// 			} else {
-		// 				return this.allPrice - this.integralOne;
-		// 			}
-		// 		} else {
-		// 			if (sessionStorage.getItem("money")) {
-		// 				return this.allPrice - sessionStorage.getItem("money");
-		// 			} else {
-		// 				return this.allPrice;
-		// 			}
-		// 		}
-		// 	}
-		// },
 		computed: {
 			orderAllmoney() {
 				if (this.checked) {
@@ -652,13 +576,13 @@
 			Request = this.GetRequest();
 			this.code = Request["code"];
 
-			if (!this.code ) {
-				this.isBack = false;
-				var url = `http://shop.jiweishengxian.com/cartDetermine/${this.$route.params.orderId}`;
-        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-      } else {
-				this.isBack = true
-			}
+		// 	if (!this.code ) {
+		// 		this.isBack = false;
+		// 		var url = `http://shop.jiweishengxian.com/cartDetermine/${this.$route.params.orderId}`;
+      //   window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx365ff8d24bc6fd9f&redirect_uri=${url}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
+      // } else {
+		// 		this.isBack = true
+		// 	}
 
 			var staffWechat = this.getCookie("staffWechat");
 
@@ -680,16 +604,6 @@
 			const token = this.getCookie("token");
 			this.getAddress(staffId, token)
 				.then(res => {
-					// this.cartList =  res.filter((item) => {
-					//        return item.adIsdefault == "1";
-					//   });
-					// if(this.cartList.length !== 0) {
-					// this.cartList = this.cartList[0];
-					// this.adress = true;
-					// }else {
-					//   this.showAdress = true;
-					// }
-					// console.log(this.adress,'adress')
           if (res.length > 0) {
             this.cartList = res.filter((item, index, arr) => {
               return item.adIsdefault == "1";
@@ -738,10 +652,16 @@
 					staffId: this.getCookie("staffId"),
 					allmoney: this.datas.orderAllmoney
 				}).then(res => {
-					if (!res) {
-						this.offerText = "无可用代金券";
-					}
-				});
+          if(sessionStorage.getItem("money")) {
+            this.offer = sessionStorage.getItem("money")
+          }else {
+            if (res.length > 0) {
+              this.offer = Math.max.apply(Math, res.map(function (content) {
+                return content.coupons.couponsValue
+              }))
+            }
+          }
+        });
 				this.infoList = res.orderdetails;
 				if (this.infoList[0].odPtypeId !== '2') {
 					this.showMail = true;
@@ -761,83 +681,5 @@
 
 
 		},
-		// async beforeMount() {
-
-		// this.productArr = JSON.parse(this.productArr);
-		// var allprice = 0;
-		// const number = [];
-		// const carProductId = [];
-		// const carIds = [];
-		// this.productArr.forEach(x =>{
-		//   if (x.productId) {
-		//     this.showProduct = true;
-		//     if(x.productPtype !== '2') {
-		//       this.showMail = true
-		//     }
-		//     this.number = '1';
-		//     this.allmoney =  this.productArr[0].productPrice;
-		//     allprice += parseFloat(x.productPrice);
-		//     this.type = this.productArr[0].productPtype;
-		//     this.productId =  this.productArr[0].productId;
-		//     this.allPrice = allprice;
-		//   } if (x.carProductId){
-		//     this.car = true;
-		//     if(x.carPtype !== '2') {
-		//       this.showMail = true
-		//     }
-		//     number.push(x.carProductNum) ;
-		//     carProductId.push(x.carProductId);
-		//     carIds.push(x.carId);
-		//     this.allmoney = JSON.parse(this.carPrice);
-		//     this.allPrice = JSON.parse(this.carPrice);
-		//     this.type = this.productArr[0].carPtype;
-		//   } if (x.odProductId) {
-		//     this.buyNow = true;
-		//     if(x.odPtypeId !== '2') {
-		//       this.showMail = true
-		//     }
-		//     this.number = this.productArr[0].odProductNum;
-		//     carProductId.push(x.odProductId);
-		//     this.allmoney =  this.productArr[0].odProductPprice;
-		//     allprice += parseFloat(x.odProductPprice);
-		//     this.type = this.productArr[0].odPtypeId;
-		//     this.productId =  this.productArr[0].odProductId;
-		//     this.allPrice = this.number*this.allmoney ;
-		//   }
-		// });
-		//     if(number.length !== 0) {
-		//       this.number = number.join(",")
-		//     }
-		//     if(carProductId.length !== 0) {
-		//       this.productId = carProductId.join(",")
-		//     }
-		//     if(carIds.length !== 0) {
-		//       this.carIds = carIds.join(",")
-		//     }
-
-		// this.getCoupnsListByOrderId({
-		//   token: this.getCookie("token"),
-		//   staffId: this.getCookie("staffId"),
-		//   allmoney: this.allmoney
-		// }).then(res => {
-		//   if (!res) {
-		//     this.offerText = "无可用代金券";
-		//   }
-		// });
-		//   // 积分
-		//   this.getScoreByOrderId({
-		//     token: this.getCookie("token"),
-		//     staffId: this.getCookie("staffId"),
-		//     allmoney: this.allmoney
-		//   }).then(res => {
-		//     this.integralZero = res.data[0];
-		//     this.integralOne = res.data[1];
-		//   });
-		// }
-
-
-
-
-
 	};
 </script>
