@@ -2,14 +2,13 @@
 @import "./product.less";
 </style>
 <style>
-
 .details_content img {
   width: 100%;
   border: 0;
   vertical-align: middle;
 }
 .swiper-wrapper{
-	height: 385px !important;
+	height: auto !important;
 }
 .details .van-tabs__nav--card .van-tab.van-tab--active {
   background: #fff !important;
